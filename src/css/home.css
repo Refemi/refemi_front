@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+
+/* Home */
+.margin-description {
+  margin: 5rem 10rem 5rem 10rem;
+}
+.refemi {
+  font-family: "Antique Book Cover";
+  font-size: 1.7rem;
+}
+.line-height {
+  line-height: 2rem;
+}
+.text-title-like {
+  font-size: 1.2rem;
+}
+.important {
+  color: #0808a3;
+}
+.box-home {
+  border-radius: 1rem;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  min-width: 10rem;
+  min-height: 10rem;
+  max-width: 15rem;
+  max-height: 15rem;
+}
+
+/* Numbers counters */
+.numbers {
+  font-family: "Open Sans", sans-serif;
+}
