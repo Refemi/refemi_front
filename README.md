@@ -20,7 +20,10 @@ As of today, the team includes:
 ## CONTACT
 If you are interested in joining the project (for any type of role) or if you have any question/suggestion, please contact us at refemi.contact@gmail.com
 
+## LICENSE  
+This is an open source project. Learn more about our license [here](./LICENSE)
+
 ## TO COME...
 - tech stack details
 - how to run the project
-- link to license
+
