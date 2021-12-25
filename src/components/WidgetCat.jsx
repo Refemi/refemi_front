@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import '../css/widget.css'
+
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 
-const WidgetCat = props => {
+export default function WidgetCat({ subCategories = [] }) {
   const [isShown, setIsShown] = useState(true)
 
   return (
@@ -19,7 +20,7 @@ const WidgetCat = props => {
 
         {isShown && (
           <div className="flex borders">
-            {props.subCategories.map(subCategory =>
+            {subCategories.map(subCategory =>
               <a
                 key={subCategory.id}
                 href={`#${subCategory.name}`}
@@ -40,5 +41,3 @@ const WidgetCat = props => {
 WidgetCat.propTypes = {
   subCategories: PropTypes.array.isRequired
 }
-
-export default WidgetCat

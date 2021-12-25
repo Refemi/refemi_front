@@ -10,6 +10,22 @@ import AddReference from '../components/Dashboard/AddReference'
 
 import { UserCredentials } from '../App'
 
+const getAdminCounter = () => {
+  fetch('http://localhost:8000/counter/dashboard/admin', { headers: { 'x-access-token': token } })
+      .then(response => response.json())
+      .then(response => {
+        setContributions({
+          validated: response.approvedContributions,
+          pending: response.pendingContributions
+        })
+
+        setAllUsers({
+          nbOfContributors: response.totalContributors,
+          nbOfAdmins: response.totalAdmins
+        })
+      })
+}
+
 const Dashboard = () => {
   const history = useHistory()
   const { userCredentials, token, isLogged } = useContext(UserCredentials)
@@ -52,6 +68,9 @@ const Dashboard = () => {
     isLogged && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
+          {
+            // TODO Créer un composant pour le header du Dashboard
+          }
           <div className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
             <p>
               Bienvenue, {userCredentials.name}&nbsp;

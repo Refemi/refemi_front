@@ -1,33 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
+import http from '../services/http-common'
 
 import Counter from '../components/Counter'
 
 import '../css/home.css'
 import '../css/counter.css'
+
 import { BiCategoryAlt } from 'react-icons/bi'
 import { BsList } from 'react-icons/bs'
 import { AiFillPlusCircle } from 'react-icons/ai'
 
-const Home = () => {
+const getHomeCounters = async () => {
+  return await http.get('counter/homecounter')
+    .then(response => {
+      if (response.status === 200) {
+        return response.data
+      }
+    })
+    .then(data => ({
+        totalReferences: data.nbOfRefs,
+        totalContributors : data.nbOfContributors,
+        monthlyReferences: data.monthRefs
+      })
+    )
+}
+
+export default function Home () {
   const [totalRefs, setTotalRefs] = useState(0)
   const [totalContributors, setTotalContributors] = useState(0)
-  const [monthRefs, setMonthRefs] = useState(0)
-
-  const getGeneralData = () =>
-    fetch('http://localhost:8000/counter/homecounter')
-      .then(response => response.json())
-      .then(response => {
-        setTotalRefs(response.nbOfRefs)
-        setTotalContributors(response.nbOfContributors)
-        setMonthRefs(response.monthRefs)
-      })
+  const [monthRefs, setMonthRefs] = useState(0)    
 
   const history = useHistory()
 
+ 
   useEffect(() => {
-    getGeneralData()
-  }, [])
+    
+    const fetchData = async () => {
+      const { totalReferences, totalContributors, monthlyReferences } = await getHomeCounters()
+      setTotalRefs(totalReferences)
+      setTotalContributors(totalContributors)
+      setMonthRefs(monthlyReferences)
+    }
+
+    fetchData()
+  }, [setTotalRefs, setTotalContributors, setMonthRefs])
 
   const toCategories = () => history.push('/categories')
   const toThemes = () => history.push('/themes')
@@ -39,6 +56,9 @@ const Home = () => {
 
   return (
     <div className="margin-top20 main-text-color">
+      {
+        // FIXME A t-on vraiment besoin de la div qui suit ?
+      }
       <div className="">
         <div className="flex justify-around margin20">
           <div className="align-self-center box-home grey-bg text-white">
@@ -58,13 +78,13 @@ const Home = () => {
         </div>
         <div className="margin-description">
           <p className="text-justify line-height text-title-like text-center">
-            Qu&apos;est-ce que{' '}
+            Qu&apos;est-ce que&nbsp;
             <span className="refemi text-title-like">refemi</span> ?
           </p>
           <hr className="margin7" />
           <p className="text-justify line-height text-title-like">
             <span className="important refemi">
-              Une plateforme collaborative :{' '}
+              Une plateforme collaborative :&nbsp;
             </span>
             qui centralise des essais, des ouvrages théoriques, des romans, des
             documentaires, des films, des podcasts... pour vous permettre de
@@ -75,14 +95,14 @@ const Home = () => {
           <p className="text-justify line-height text-title-like">
             <span className="refemi important">
               Des ressources accessibles :
-            </span>{' '}
+            </span>&nbsp;
             refemi a été conçu comme un outil pour vous apporter du contenu, que
             vous soyez un.e expert.e dans un domaine à la recherche de travaux
-            pointus ou que vous débutiez votre cheminement.{' '}
+            pointus ou que vous débutiez votre cheminement.&nbsp;
           </p>
           <hr className="margin7" />
           <p className="text-justify line-height text-title-like">
-            <span className="important refemi">Une concept inclusif : </span>{' '}
+            <span className="important refemi">Une concept inclusif : </span>&nbsp;
             notre vocation est de présenter des œuvres appartenant à différents
             courants féministes, inscrites dans une temporalité large et en
             provenance du monde entier. Nous ne revendiquons pas d’affiliation à
@@ -134,5 +154,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home

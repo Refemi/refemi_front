@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import '../css/categories.css'
+
 import { AiOutlineFundProjectionScreen } from 'react-icons/ai'
 import {
   GiInjustice,
@@ -13,28 +14,29 @@ import {
 
 import { AllCategories } from '../App'
 
-const Categories = () => {
+function setIcon(categoryName) {
+  switch (categoryName) {
+    case 'Audiovisuel':
+      return <AiOutlineFundProjectionScreen size={100} />
+    case 'Juridique & Militantisme':
+      return <GiInjustice size={100} />
+    case 'Art & Jeunessse':
+      return <GiPaintBrush size={100} />
+    case 'Portraits & Vocabulaire':
+      return <GiPerson size={100} />
+    case 'Presse & Internet':
+      return <GiNewspaper size={100} />
+    case 'Lectures':
+      return <GiBookCover size={100} />
+    default:
+      return null
+  }
+}
+
+
+export default function Categories() {
   const { categories } = useContext(AllCategories)
   const history = useHistory()
-
-  const setIcon = categoryName => {
-    switch (categoryName) {
-      case 'Audiovisuel':
-        return <AiOutlineFundProjectionScreen size={100} />
-      case 'Juridique & Militantisme':
-        return <GiInjustice size={100} />
-      case 'Art & Jeunessse':
-        return <GiPaintBrush size={100} />
-      case 'Portraits & Vocabulaire':
-        return <GiPerson size={100} />
-      case 'Presse & Internet':
-        return <GiNewspaper size={100} />
-      case 'Lectures':
-        return <GiBookCover size={100} />
-      default:
-        return null
-    }
-  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -66,5 +68,3 @@ const Categories = () => {
     </div>
   )
 }
-
-export default Categories

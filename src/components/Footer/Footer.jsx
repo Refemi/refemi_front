@@ -4,7 +4,7 @@ import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai'
 
 import './Footer.css'
 
-const Footer = () => {
+export default function Footer () {
   return (
     <>
       <hr className="margin20" />
@@ -29,5 +29,3 @@ const Footer = () => {
     </>
   )
 }
-
-export default Footer

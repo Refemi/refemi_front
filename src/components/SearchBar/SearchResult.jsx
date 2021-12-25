@@ -5,21 +5,25 @@ import PropTypes from 'prop-types'
 import './SearchBar.css'
 import '../../css/forms.css'
 
-const SearchResult = function (props) {
-  const history = useHistory()
-  const [searchInfo, setSerchinfo] = useState([])
-
-  useEffect(() => {
-    let insert = props.answer.split(' ')
+const getSearchInfo = () => {
+  let insert = answer.split(' ')
     insert =
       insert.length === 1
         ? (insert = insert.join(''))
         : (insert = insert.join('<->'))
 
-    fetch(`http://localhost:8000/search?answer=${insert}`)
+    fetch(`${REACT_APP_API}/search?answer=${insert}`)
       .then(res => res.json())
       .then(res => setSerchinfo(res))
-  }, [props.answer])
+}
+
+export default function SearchResult ({ answer = '' }) {
+  const history = useHistory()
+  const [searchInfo, setSerchinfo] = useState([])
+
+  useEffect(() => {
+    
+  }, [answer])
 
   return (
     <div className="dataResult">

@@ -3,13 +3,13 @@ import { useHistory } from 'react-router'
 
 import '../css/references.css'
 
-const ListReferences = list => {
-  const history = useHistory()
+export default function ListReferences({ name = '', title = '', references = [] }) {
+  const history = useHistory() 
 
   return (
     <div>
-      <h2 className="margin10" id={list.name}>
-        {list.title}
+      <h2 className="margin10" id={name}>
+        {title}
       </h2>
 
       <div className="description-center text-center borders flex justify-around padding2rem line white-bg margin5">
@@ -18,7 +18,7 @@ const ListReferences = list => {
         <p className="reflist">Thèmes</p>
       </div>
 
-      {list.references
+      {references
         .sort(() => Math.random() > 0.5 ? 1 : -1)
         .map(reference =>
           <div
@@ -40,5 +40,3 @@ const ListReferences = list => {
     </div>
   )
 }
-
-export default ListReferences

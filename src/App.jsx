@@ -20,27 +20,38 @@ export const UserCredentials = createContext()
 export const AllCategories = createContext()
 export const AllThemes = createContext()
 
-const App = () => {
+async function getCategories() {
+  return await fetch(`${REACT_APP_API}/categories`)
+    .then(response => response.status === 200 && (response.data))
+    .then(data => data.categories)
+    .catch(error => {
+      // TODO Gérer l'erreur si le get ne récupère pas les thèmes
+    })
+}
+async function getThemes() {
+  return await fetch(`${REACT_APP_API}/themes`)
+    .then(response => response.status === 200 && (response.data))
+    .then(data => data.themes)
+    .catch(error => {
+      // TODO Gérer l'erreur si le get ne récupère pas les thèmes
+    })
+}
+
+export default function App () {
   const [userCredentials, setUserCredentials] = useState({})
   const [token, setToken] = useState(null)
   const [isLogged, setLogged] = useState(false)
   const [categories, setCategories] = useState([])
   const [themes, setThemes] = useState([])
 
-  const getCategories = () =>
-    fetch('http://localhost:8000/categories')
-      .then(response => response.json())
-      .then(response => setCategories(response.categories))
-
-  const getThemes = () =>
-    fetch('http://localhost:8000/themes')
-      .then(response => response.json())
-      .then(response => setThemes(response.themes))
-
   useEffect(() => {
-    getCategories()
-    getThemes()
-  }, [])
+
+    const fetchData = async () => {
+      setCategories(await getCategories())
+      setThemes(await getThemes())
+    }
+    fetchData()
+  }, [setCategories, setThemes])
 
   useEffect(() => {
     if (!isLogged) {
@@ -75,6 +86,7 @@ const App = () => {
               <Route exact path="/categories" component={Categories} />
               <Route path="/categories/:categoryName" component={References} />
               <Route exact path="/themes" component={Themes} />
+              <Route path="/themes/:themeName" component={References} />
               <Route exact path="/contact" component={Contact} />
               <Route exact path="/auth/:sign" component={Sign} />
               <Route exact path="/references">
@@ -91,5 +103,3 @@ const App = () => {
     </BrowserRouter>
   )
 }
-
-export default App
