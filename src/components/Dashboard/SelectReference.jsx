@@ -1,19 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react'
+import http from '../../services/http-common'
 
 import { AllCategories } from '../../App'
 
-const SelectReference = select => {
+const getSection = async (currentCategory) => {
+  http.get(`http://localhost:8000/categories/${currentCategory}`)
+    .then(response => {
+      if (response.status === 200) {
+        return response.data
+      }
+    })
+    .then(data => data.subCategories)
+}
+
+export default function SelectReference ({ setSubCategories }) {
   const { categories } = useContext(AllCategories)
   const [currentCategory, setCurrentCategory] = useState('')
 
   const handleChange = e => setCurrentCategory(e.target.value)
 
   useEffect(() => {
-    currentCategory !== '' &&
-      fetch(`http://localhost:8000/categories/${currentCategory}`)
-        .then(response => response.json())
-        .then(response => select.setSubCategories(response.subCategories))
-  }, [currentCategory, select])
+    const fetchData = async () => {
+      if (currentCategory !== '') {
+        setSubCategories(await getSection(currentCategory))
+      }
+    }
+    fetchData()
+  }, [currentCategory, setSubCategories])
 
   return (
     <>
@@ -58,5 +71,3 @@ const SelectReference = select => {
     </>
   )
 }
-
-export default SelectReference

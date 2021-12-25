@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import './Header.css'
 import { VscSearch } from 'react-icons/vsc'
 
-const Header = () => {
+export default function Header () {
   const history = useHistory()
 
   return (
@@ -27,5 +27,3 @@ const Header = () => {
     </header>
   )
 }
-
-export default Header

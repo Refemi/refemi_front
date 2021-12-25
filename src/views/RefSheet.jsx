@@ -4,20 +4,28 @@ import { useHistory } from 'react-router'
 
 import '../css/refsheet.css'
 
-const RefSheet = () => {
+const getReferenceById = async (id) => {
+  await fetch(`${REACT_APP_API}/references/${id}`)
+    .then(response => {
+      if (response.status == 200) {
+        return response.data
+      }
+    })
+    .then(data => data.reference[0])
+}
+
+export default function RefSheet () {
   const { id } = useParams()
-
   const history = useHistory()
-
   const [reference, setReference] = useState({})
-
   const handleClick = () => history.goBack()
 
   useEffect(() => {
-    fetch(`http://localhost:8000/references/${id}`)
-      .then(response => response.json())
-      .then(response => setReference(response.reference[0]))
-  }, [id])
+    const fetchData = async () => {
+      setReference(await getReferenceById(id))
+    }
+    fetchData()
+  }, [id, setReference])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -43,7 +51,7 @@ const RefSheet = () => {
         <p className="reference-detail">Discipline :{reference.field}</p>
         <p className="reference-detail">Pays :{reference.country}</p>
         <p className="reference-detail">
-          Thèmes :{' '}
+          Thèmes :&nbsp;
           { reference.themes && reference.themes.map(theme => <p key={theme.id}>{theme}</p>) }
         </p>
       </div>
@@ -64,5 +72,3 @@ const RefSheet = () => {
     </div>
   )
 }
-
-export default RefSheet

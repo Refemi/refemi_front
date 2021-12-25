@@ -8,12 +8,82 @@ import { UserCredentials } from '../App'
 // CSS
 import '../css/forms.css'
 
-/* const isValidEmail = email =>
-  /^(([^<>()[\]\\.,:\s@']+(\.[^<>()[\]\\.,:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    .test(email)
-*/
+const isValidEmail = (email) => {
+  const regex = new RegExp(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/)
+  return regex.text(email)
+}
 
-const Sign = function () {
+const signUp = (data) => {
+  return fetch(`${REACT_APP_API}/register`, {
+    name: data.name,
+    mail: data.mail,
+    password: data.password
+  })
+    .then(response => response.status !== 201 && history.push('/auth/signin'))
+}
+const signIn = (data) => {
+  return fetch(`${REACT_APP_API}/login`, {
+    mail: data.mail,
+    password: data.password
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': true
+    },
+    credentials: 'same-origin',
+  })
+    .then(response => {
+      if (response.status === 200) {
+        return response
+      }
+    })
+    .then(response => {
+      if (response.accessToken === null || response.accessToken === undefined) {
+        return
+      }
+
+      setUserCredentials({
+        name: response.name,
+        mail: response.mail,
+        role: response.role
+      })
+
+      setToken(response.accessToken)
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          name: response.name,
+          mail: response.mail,
+          role: response.role
+        })
+      )
+
+      localStorage.setItem('token', response.accessToken)
+      setLogged(true)
+    })
+    .catch(error => console.log(error))
+}
+const onSubmit = (data) => {
+  switch (sign) {
+    case 'signin':
+      signIn(data)
+      break
+    case 'signup':
+      signUp(data)
+      break
+    default:
+      console.log('Erreur')
+  }
+}
+
+/* const formError = () => {
+return ' Une erreur est survenue'
+} */
+
+
+export default function Sign () {
   const { userCredentials, setUserCredentials, setToken, isLogged, setLogged } = useContext(UserCredentials)
 
   const { sign } = useParams()
@@ -39,77 +109,6 @@ const Sign = function () {
 
     return isValid
   } */
-
-  const signUp = data =>
-    fetch('http://localhost:8000/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: data.name,
-        mail: data.mail,
-        password: data.password
-      })
-    }).then(response => response.status !== 201 && history.push('/auth/signin'))
-
-  const signIn = data =>
-    fetch('http://localhost:8000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Headers': true
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        mail: data.mail,
-        password: data.password
-      })
-    })
-      .then(response => response.status === 200 && response.json())
-      .then(response => {
-        if (response.accessToken === null || response.accessToken === undefined) {
-          return
-        }
-
-        setUserCredentials({
-          name: response.name,
-          mail: response.mail,
-          role: response.role
-        })
-
-        setToken(response.accessToken)
-
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            name: response.name,
-            mail: response.mail,
-            role: response.role
-          })
-        )
-
-        localStorage.setItem('token', response.accessToken)
-        setLogged(true)
-        console.log('yes')
-      })
-      .catch(error => console.log(error))
-
-  /* const formError = () => {
-    return ' Une erreur est survenue'
-  } */
-
-  const onSubmit = data => {
-    switch (sign) {
-      case 'signin':
-        signIn(data)
-        break
-      case 'signup':
-        signUp(data)
-        break
-      default:
-        console.log('Erreur')
-    }
-  }
 
   useEffect(() => {
     switch (sign) {
@@ -146,7 +145,7 @@ const Sign = function () {
     <div className="flex flex-column align-center margin-top20">
       <p>Envie de collaborer et de proposer de nouvelles références ?</p>
       <p className="margin-bottom10">
-        Devenez contributeur.ice en{' '}
+        Devenez contributeur·ice en&nbsp;
         {sign === 'signin'
           ? 'vous connectant'
           : sign === 'signup'
@@ -227,5 +226,3 @@ const Sign = function () {
     </div>
   )
 }
-
-export default Sign
