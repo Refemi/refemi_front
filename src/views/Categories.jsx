@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import '../css/categories.css'
 
+// React icons
 import { AiOutlineFundProjectionScreen } from 'react-icons/ai'
 import {
   GiInjustice,
@@ -12,9 +13,10 @@ import {
   GiBookCover
 } from 'react-icons/gi'
 
+// Context
 import { AllCategories } from '../App'
 
-function setIcon(categoryName) {
+const setIcon = (categoryName) => { // Show icon depending on category
   switch (categoryName) {
     case 'Audiovisuel':
       return <AiOutlineFundProjectionScreen size={100} />
@@ -34,7 +36,7 @@ function setIcon(categoryName) {
 }
 
 
-export default function Categories() {
+export default function Categories () {
   const { categories } = useContext(AllCategories)
   const history = useHistory()
 

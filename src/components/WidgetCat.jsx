@@ -5,7 +5,9 @@ import '../css/widget.css'
 
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 
-export default function WidgetCat({ subCategories = [] }) {
+export default function WidgetCat ({ categories, sections }) {
+  // TO DO: create a condition to show sections if widget appears in themes or countries
+
   const [isShown, setIsShown] = useState(true)
 
   return (
@@ -20,14 +22,14 @@ export default function WidgetCat({ subCategories = [] }) {
 
         {isShown && (
           <div className="flex borders">
-            {subCategories.map(subCategory =>
+            {categories.map(category =>
               <a
-                key={subCategory.id}
-                href={`#${subCategory.name}`}
+                key={category.id}
+                href={`#${category.name}`}
                 className="link-no-decoration main-text-color widget-link"
               >
-                <button key={subCategory.id} className="widget-btn pointer">
-                  {subCategory.label}
+                <button key={category.id} className="widget-btn pointer">
+                  {category.label}
                 </button>
               </a>
             )}

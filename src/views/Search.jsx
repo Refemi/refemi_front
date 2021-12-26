@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import SearchResult from './SearchResult'
+import SearchResult from '../components/SearchBar/SearchResult'
 
-import './SearchBar.css'
+import '../components/SearchBar/SearchBar.css'
 
 import { IoIosClose } from 'react-icons/io'
 
-const Search = () => {
+export default function Search () {
   const [search, setSearch] = useState('')
 
   const inputSearch = e => setSearch(e.target.value)
@@ -31,5 +31,3 @@ const Search = () => {
     </div>
   )
 }
-
-export default Search

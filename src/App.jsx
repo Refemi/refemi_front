@@ -1,6 +1,8 @@
 import React, { useState, createContext, useEffect } from 'react'
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom'
-
+import http from './services/http-common'
+import handleResponse from './utils/handleResponse'
+// Views
 import Home from './views/Home'
 import Contact from './views/Contact'
 import Sign from './views/Sign'
@@ -9,62 +11,70 @@ import Categories from './views/Categories'
 import References from './views/References'
 import RefSheet from './views/RefSheet'
 import Dashboard from './views/Dashboard'
+import Search from './views/Search'
 
+// Components
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-import Search from './components/SearchBar/Search'
 
 import './App.css'
 
+// Contexts
 export const UserCredentials = createContext()
 export const AllCategories = createContext()
 export const AllThemes = createContext()
 
-async function getCategories() {
-  return await fetch(`${REACT_APP_API}/categories`)
+// Functions
+const getSections = async () => { // Get sections to spread in context AllCategories
+  return await http.get(`categories`)
     .then(response => response.status === 200 && (response.data))
     .then(data => data.categories)
     .catch(error => {
-      // TODO Gérer l'erreur si le get ne récupère pas les thèmes
+      // TODO : display the error in a dedicated location
     })
 }
-async function getThemes() {
-  return await fetch(`${REACT_APP_API}/themes`)
-    .then(response => response.status === 200 && (response.data))
+const getThemes = async () => { // Get themes to spread in context AllThemes
+  return await http.get(`themes`)
+    .then(response => {
+      // TODO see the behavior of this function
+      return handleResponse(response, 200)
+    })
     .then(data => data.themes)
     .catch(error => {
-      // TODO Gérer l'erreur si le get ne récupère pas les thèmes
+      // TODO : display the error in a dedicated location
     })
 }
 
 export default function App () {
   const [userCredentials, setUserCredentials] = useState({})
   const [token, setToken] = useState(null)
-  const [isLogged, setLogged] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [categories, setCategories] = useState([])
   const [themes, setThemes] = useState([])
 
   useEffect(() => {
 
     const fetchData = async () => {
-      setCategories(await getCategories())
+      setCategories(await getSections())
       setThemes(await getThemes())
     }
     fetchData()
   }, [setCategories, setThemes])
 
   useEffect(() => {
-    if (!isLogged) {
+    if (!isLoggedIn) {
       const tokenStorage = localStorage.getItem('token')
+      // TODO : check if tokenStorage is not exprired
+      
       const userStorage = localStorage.getItem('user')
 
       if (tokenStorage && userStorage) {
         setToken(tokenStorage)
         setUserCredentials(JSON.parse(userStorage))
-        setLogged(true)
+        setIsLoggedIn(true)
       }
     }
-  }, [isLogged])
+  }, [isLoggedIn])
 
   return (
     <BrowserRouter>
@@ -75,8 +85,8 @@ export default function App () {
             setUserCredentials,
             token,
             setToken,
-            isLogged,
-            setLogged
+            isLoggedIn: isLoggedIn,
+            setLoggedIn: setIsLoggedIn
           }}
         >
           <Header />

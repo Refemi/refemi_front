@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
+import http from '../services/http-common'
+import handleResponse from '../utils/handleResponse'
 
 import '../css/dashboard.css'
 import '../css/counter.css'
@@ -10,9 +12,9 @@ import AddReference from '../components/Dashboard/AddReference'
 
 import { UserCredentials } from '../App'
 
-const getAdminCounter = () => {
-  fetch('http://localhost:8000/counter/dashboard/admin', { headers: { 'x-access-token': token } })
-      .then(response => response.json())
+const getAdminCounter = (token) => {
+  http.get('counter/dashboard/admin', { headers: { 'x-access-token': token } })
+      .then(response => handleResponse(response, 200))
       .then(response => {
         setContributions({
           validated: response.approvedContributions,
@@ -25,8 +27,16 @@ const getAdminCounter = () => {
         })
       })
 }
+const getContributorCount = async (token) => {
+  http.get('counter/dashboard/contributor', { headers: { 'x-access-token': token } })
+    .then(response => response.json())
+    .then(response => ({
+      validated: response.approvedContributions,
+      pending: response.pendingContributions
+    }))
+}
 
-const Dashboard = () => {
+export default function Dashboard () {
   const history = useHistory()
   const { userCredentials, token, isLogged } = useContext(UserCredentials)
   const [showNewRef, setShowNewRef] = useState(false)
@@ -34,28 +44,15 @@ const Dashboard = () => {
   const [contributions, setContributions] = useState({ validated: 0, pending: 0 })
 
   useEffect(() => {
-    !isLogged
-      ? history.push('/auth/signin')
-      : userCredentials.role > 1
-        ? fetch('http://localhost:8000/counter/dashboard/admin', { headers: { 'x-access-token': token } })
-          .then(response => response.json())
-          .then(response => {
-            setContributions({
-              validated: response.approvedContributions,
-              pending: response.pendingContributions
-            })
-
-            setAllUsers({
-              nbOfContributors: response.totalContributors,
-              nbOfAdmins: response.totalAdmins
-            })
-          })
-        : fetch('http://localhost:8000/counter/dashboard/contributor', { headers: { 'x-access-token': token } })
-          .then(response => response.json())
-          .then(response => setContributions({
-            validated: response.approvedContributions,
-            pending: response.pendingContributions
-          }))
+    if (!isLogged) {
+      history.push('/auth/signin')
+    } else {
+      if (userCredentials.role > 1) {
+        // TODO Récupérer les informations pour les users avec un rôle au dessus du simple contributeur
+      } else {
+        // TODO Récupérer les infiormations pour les simples users
+      }
+    }
   }, [isLogged, token, userCredentials])
 
   useEffect(() => {
@@ -69,56 +66,9 @@ const Dashboard = () => {
       <div className="flex justify-center margin-top10">
         <div className="width80">
           {
-            // TODO Créer un composant pour le header du Dashboard
+            // TODO Créer un composant pour le header du Dashboard avec le code ci-dessous
           }
-          <div className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
-            <p>
-              Bienvenue, {userCredentials.name}&nbsp;
-              <span
-                className="pointer white-hover"
-                onClick={ () => history.push('/auth/signout') }
-              >
-                Déconnexion
-              </span>
-            </p>
-
-            <div className="flex justify-between">
-              <Counter
-                label="contributions validées"
-                value={contributions.validated}
-                className="white-bg"
-              />
-
-              <Counter
-                label="contributions en attente"
-                value={contributions.pending}
-              />
-
-              {userCredentials.role === 3 && (
-                <div className="flex justify-around">
-                  <Counter
-                    label="contributeurs"
-                    value={
-                      allUsers.nbOfContributors ? allUsers.nbOfContributors : 0
-                    }
-                  />
-
-                  <Counter
-                    label="admins"
-                    value={allUsers.nbOfAdmins ? allUsers.nbOfAdmins : 0}
-                  />
-                </div>
-              )}
-
-              <div className="box justify-center align-center">
-                <AiFillPlusCircle
-                  onClick={ () => setShowNewRef(true) }
-                  size={32}
-                  className="pointer"
-                />
-              </div>
-            </div>
-          </div>
+          
           {showNewRef
             ? <AddReference changeIsClicked={changeIsClicked} />
             : <div className="dashboard dashboard-content borders">
@@ -160,5 +110,3 @@ const Dashboard = () => {
     )
   )
 }
-
-export default Dashboard

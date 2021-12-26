@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+// Components
 import FormReference from './FormReference'
 import SelectReference from './SelectReference'
 
-const NewRef = props => {
+export default function AddReference (props) {
   const [currentForm, setCurrentForm] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [subCategories, setSubCategories] = useState([])
@@ -13,7 +14,7 @@ const NewRef = props => {
 
   useEffect(() => {
     !showForm && setCurrentForm('')
-  }, [showForm])
+  }, [showForm, setCurrentForm])
 
   useEffect(() => {
     currentForm !== '' ? setShowForm(true) : setShowForm(false)
@@ -50,8 +51,6 @@ const NewRef = props => {
   )
 }
 
-NewRef.propTypes = {
+AddReference.propTypes = {
   changeIsClicked: PropTypes.func.isRequired
 }
-
-export default NewRef

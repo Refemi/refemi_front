@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import PropTypes from 'prop-types'
+import http from '../../services/http-common'
 
 import './SearchBar.css'
 import '../../css/forms.css'
@@ -12,17 +13,22 @@ const getSearchInfo = () => {
         ? (insert = insert.join(''))
         : (insert = insert.join('<->'))
 
-    fetch(`${REACT_APP_API}/search?answer=${insert}`)
+    http.get(`${REACT_APP_API}/search?answer=${insert}`)
       .then(res => res.json())
-      .then(res => setSerchinfo(res))
+      .then(res => res)
 }
 
 export default function SearchResult ({ answer = '' }) {
   const history = useHistory()
-  const [searchInfo, setSerchinfo] = useState([])
+  const [searchInfo, setSearchInfo] = useState([])
 
   useEffect(() => {
     
+    const fetchData = async () => {
+      getSearchInfo(await setSearchInfo(getSearchInfo()))
+    }
+
+    fetchData()
   }, [answer])
 
   return (
@@ -46,5 +52,3 @@ export default function SearchResult ({ answer = '' }) {
 SearchResult.propTypes = {
   answer: PropTypes.string.isRequired
 }
-
-export default SearchResult

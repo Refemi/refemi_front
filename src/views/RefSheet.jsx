@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useHistory } from 'react-router'
-
+import http from '../services/http-common'
 import '../css/refsheet.css'
 
 const getReferenceById = async (id) => {
-  await fetch(`${REACT_APP_API}/references/${id}`)
+  return await http.get(`${REACT_APP_API}/references/${id}`)
     .then(response => {
       if (response.status == 200) {
         return response.data
