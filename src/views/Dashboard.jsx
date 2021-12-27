@@ -6,8 +6,7 @@ import handleResponse from "../utils/handleResponse";
 import "../css/dashboard.css";
 import "../css/counter.css";
 
-import { AiFillPlusCircle } from "react-icons/ai";
-import Counter from "../components/Counter";
+import HeaderDashboard from '../components/Dashboard/HeaderDashboard'
 import AddReference from "../components/Dashboard/AddReference";
 
 import { UserCredentials } from "../App";
@@ -37,8 +36,7 @@ export default function Dashboard() {
   };
 
   const getAdminCounter = (token) => {
-    http
-      .get("counter/dashboard/admin", { headers: { "x-access-token": token } })
+    http.get("counter/dashboard/admin", { headers: { "x-access-token": token } })
       .then((response) => handleResponse(response, 200))
       .then((response) => {
         setContributions({
@@ -80,9 +78,12 @@ export default function Dashboard() {
     isLoggedIn && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
-          {
-            // TODO Créer un composant pour le header du Dashboard avec le code ci-dessous
-          }
+          <HeaderDashboard
+            user={{ name: userCredentials.name, role: userCredentials.role }}
+            contributions={contributions}
+            users={allUsers}
+            setShowNewRef={setShowNewRef}
+          />
 
           {showNewRef ? (
             <AddReference changeIsClicked={changeIsClicked} />
