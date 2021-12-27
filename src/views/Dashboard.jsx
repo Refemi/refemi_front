@@ -6,8 +6,8 @@ import handleResponse from "../utils/handleResponse";
 import "../css/dashboard.css";
 import "../css/counter.css";
 
-import HeaderDashboard from '../components/Dashboard/HeaderDashboard'
-import AddReference from "../components/Dashboard/AddReference";
+/* import HeaderDashboard from '../components/Dashboard/HeaderDashboard'
+ */import AddReference from "../components/Dashboard/AddReference";
 
 import { UserCredentials } from "../App";
 
@@ -78,12 +78,12 @@ export default function Dashboard() {
     isLoggedIn && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
-          <HeaderDashboard
+          {/* <HeaderDashboard
             user={{ name: userCredentials.name, role: userCredentials.role }}
             contributions={contributions}
             users={allUsers}
             setShowNewRef={setShowNewRef}
-          />
+          /> */}
 
           {showNewRef ? (
             <AddReference changeIsClicked={changeIsClicked} />

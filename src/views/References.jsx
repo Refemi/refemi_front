@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import http from "../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,9 +10,6 @@ import Button from "../components/Button/Button";
 
 import "../css/categories.css";
 import "../css/references.css";
-
-// Context
-import { AllSections } from "../App";
 
 const getCategories = async (categoryName) => {
   return await http
@@ -62,8 +59,6 @@ const findCategoriesInThemeReferences = async (references) => {
 
 export default function References() {
   const { categoryName, themeName } = useParams();
-  const { sections } = useContext(AllSections);
-  const history = useHistory();
 
   const [references, setReferences] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -71,28 +66,26 @@ export default function References() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const fetchData = async () => {
-    if (categoryName !== undefined) {
-      setCategories(await getCategories(categoryName));
-      setReferences(await getReferencesByCategory(categoryName));
-    } else if (themeName !== undefined) {
-      setReferences(await getReferencesByThemes(themeName));
-      setCategories(
-        await findCategoriesInThemeReferences(references, themeName)
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (categoryName !== undefined) {
+        setCategories(await getCategories(categoryName));
+        setReferences(await getReferencesByCategory(categoryName));
+      } else if (themeName !== undefined) {
+        setReferences(await getReferencesByThemes(themeName));
+      }
+    };
+    fetchData()
+  }, [categoryName, themeName]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      setCategories(await findCategoriesInThemeReferences(references)
       );
     }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log("references", references);
-    console.log("categories", categories);
-    console.log(themeName);
-  }, [references, categories]);
+    fetchData()
+  }, [references])
 
   return (
     <div
@@ -137,7 +130,6 @@ export default function References() {
                   title={category}
                   name={category}
                   references={references}
-                  theme={themeName}
                 />
               )
           )}
