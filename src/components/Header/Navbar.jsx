@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const [dropDown, setDropDown] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const { isLogged } = useContext(UserCredentials);
+  const { isLoggedIn } = useContext(UserCredentials);
 
   const showMenu = (e) => {
     e.preventDefault();
@@ -71,7 +71,11 @@ const Navbar = () => {
           <li className="nav-item">
             <button
               id="connection"
-              onClick={() => history.push("/auth/:signin")}
+              onClick={
+                !isLoggedIn
+                  ? () => history.push("/auth/signin")
+                  : () => history.push("/dashboard")
+              }
               className="btn-nav pointer"
             >
               Mon compte
@@ -87,7 +91,7 @@ const Navbar = () => {
               Contact
             </button>
           </li>
-          {isLogged && (
+          {isLoggedIn && (
             <button
               className="btn pointer"
               onClick={() => history.push("/auth/signout")}
