@@ -6,8 +6,9 @@ import handleResponse from "../utils/handleResponse";
 import "../css/dashboard.css";
 import "../css/counter.css";
 
-/* import HeaderDashboard from '../components/Dashboard/HeaderDashboard'
- */import AddReference from "../components/Dashboard/AddReference";
+import HeaderDashboard from '../components/Dashboard/ContentDashboard/HeaderDashboard'
+import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
+import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 
 import { UserCredentials } from "../App";
 
@@ -45,8 +46,8 @@ export default function Dashboard() {
         });
 
         setAllUsers({
-          nbOfContributors: response.totalContributors,
-          nbOfAdmins: response.totalAdmins,
+          totalContributors: response.totalContributors,
+          totalAdmins: response.totalAdmins,
         });
       });
   };
@@ -56,17 +57,12 @@ export default function Dashboard() {
       history.push("/auth/signin");
     } else {
       if (userCredentials.role > 1) {
-        // TODO Récupérer les informations pour les users avec un rôle au dessus du simple contributeur
+        getAdminCounter(token)
       } else {
-        // TODO Récupérer les infiormations pour les simples users
+        getContributorCount(token)
       }
     }
-  }, [isLoggedIn, token, userCredentials]);
-
-  useEffect(() => {
-    getContributorCount(token);
-    getAdminCounter(token);
-  }, [token]);
+  }, [isLoggedIn, token, userCredentials, history]);
 
   useEffect(() => {
     window.scrollY > 0 && window.scrollTo(0, 0);
@@ -78,58 +74,17 @@ export default function Dashboard() {
     isLoggedIn && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
-          {/* <HeaderDashboard
-            user={{ name: userCredentials.name, role: userCredentials.role }}
+          <HeaderDashboard
+            currentUser={{ name: userCredentials.name, role: userCredentials.role }}
             contributions={contributions}
             users={allUsers}
             setShowNewRef={setShowNewRef}
-          /> */}
+          />
 
-          {showNewRef ? (
-            <AddReference changeIsClicked={changeIsClicked} />
-          ) : (
-            <div className="dashboard dashboard-content borders">
-              <div className="margin-bottom">
-                {userCredentials.role === "contributor" &&
-                  userCredentials.validatedContributions.length > 0 && (
-                    <div>
-                      <p className="dashboard-title">
-                        Contributions validées :
-                      </p>
-                      {userCredentials.validatedContributions.map(
-                        (contribution, index) => (
-                          <div key={index}>{contribution}</div>
-                        )
-                      )}
-                      <hr className="margin7" />
-                    </div>
-                  )}
-              </div>
-
-              <div>
-                {userCredentials.role === "contributor" &&
-                  userCredentials.pendingContributions.length > 0 && (
-                    <div>
-                      <p className="dashboard-title">
-                        Contributions en attente de validation :
-                      </p>
-
-                      {userCredentials.pendingContributions.map(
-                        (contribution, index) => (
-                          <div key={index}>{contribution}</div>
-                        )
-                      )}
-                      <hr className="margin7" />
-                    </div>
-                  )}
-
-                <div>
-                  <p className="dashboard-title">Contributions validées :</p>
-                  {/* Ici récupérer la liste de toutes les contributions des contributeurs en attente de validation */}
-                </div>
-              </div>
-            </div>
-          )}
+          {showNewRef
+            ? <AddReference changeIsClicked={changeIsClicked} />
+            : <MainDashboard currentUser={userCredentials} contributions={contributions} />
+          }
         </div>
       </div>
     )

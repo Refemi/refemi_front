@@ -101,8 +101,7 @@ export default function References() {
       />
 
       <h1 id={uuidv4()}>
-        {themeName.charAt(0).toUpperCase() +
-          themeName.slice(1).replace(/-/g, " ")}
+        {themeName}
       </h1>
 
       {categories && !themeName
