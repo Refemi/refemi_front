@@ -42,7 +42,7 @@ export default function AddReference (props) {
           <FormReference category={currentForm} subCategories={subCategories} />
         </div>
         : <SelectReference
-          handleChange={handleChange}
+          handleChangeForm={handleChange}
           setSubCategories={setSubCategories}
           subCategories={subCategories}
         />

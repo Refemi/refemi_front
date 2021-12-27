@@ -4,7 +4,7 @@ import http from '../../services/http-common'
 import { AllCategories } from '../../App'
 
 const getSection = async (currentCategory) => {
-  http.get(`http://localhost:8000/categories/${currentCategory}`)
+  http.get(`categories/${currentCategory}`)
     .then(response => {
       if (response.status === 200) {
         return response.data
@@ -13,7 +13,7 @@ const getSection = async (currentCategory) => {
     .then(data => data.subCategories)
 }
 
-export default function SelectReference ({ setSubCategories }) {
+export default function SelectReference ({ subCategories, handleChangeForm, setSubCategories }) {
   const { categories } = useContext(AllCategories)
   const [currentCategory, setCurrentCategory] = useState('')
 
@@ -49,18 +49,18 @@ export default function SelectReference ({ setSubCategories }) {
         )}
       </select>
 
-      {!!currentCategory && select.subCategories.length > 0 && (
+      {!!currentCategory && subCategories.length > 0 && (
         <>
           <label className="margin5 required">Choisir une catégorie</label>
           <select
             id="subcategories-select"
             defaultValue="default"
-            onChange={select.handleChange}
+            onChange={handleChangeForm}
             className="borders padding2rem select margin5"
           >
             <option value="default" disabled hidden />
 
-            {select.subCategories.map(subCategory =>
+            {subCategories.map(subCategory =>
               <option key={subCategory.id} value={subCategory.name}>
                 {subCategory.label}
               </option>
