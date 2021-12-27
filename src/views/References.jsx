@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 // Components
 import ListReferences from "../components/ListReferences";
 import WidgetCat from "../components/WidgetCat";
+import Button from "../components/Button/Button";
 
 import "../css/categories.css";
 import "../css/references.css";
@@ -45,7 +46,7 @@ const getReferencesByThemes = async (themeName) => {
     .then((data) => data.references);
 };
 
-const findCategoriesInThemeReferences = (references) => {
+const findCategoriesInThemeReferences = async (references) => {
   const themeCategories = references.reduce(
     (categories, reference) => {
       if (!categories.includes(reference.category)) {
@@ -56,7 +57,7 @@ const findCategoriesInThemeReferences = (references) => {
     [""]
   );
   themeCategories.shift();
-  return themeCategories;
+  return await themeCategories;
 };
 
 export default function References() {
@@ -67,23 +68,25 @@ export default function References() {
   const [references, setReferences] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const fetchData = async () => {
     if (categoryName !== undefined) {
       setCategories(await getCategories(categoryName));
       setReferences(await getReferencesByCategory(categoryName));
     } else if (themeName !== undefined) {
       setReferences(await getReferencesByThemes(themeName));
-      setCategories(findCategoriesInThemeReferences(references, themeName));
+      setCategories(
+        await findCategoriesInThemeReferences(references, themeName)
+      );
     }
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     fetchData();
-  }, [themeName, categoryName, setCategories, setReferences]);
+  }, []);
 
   useEffect(() => {
     console.log("references", references);
@@ -98,12 +101,16 @@ export default function References() {
     >
       <WidgetCat categories={categories} />
 
-      <button
+      <Button
         className="align-self-right send-btn darkblue-bg text-white"
-        onClick={() => history.goBack()}
-      >
-        Retour
-      </button>
+        path="/themes"
+        label="Retour"
+      />
+
+      <h1 id={uuidv4()}>
+        {themeName.charAt(0).toUpperCase() +
+          themeName.slice(1).replace(/-/g, " ")}
+      </h1>
 
       {categories && !themeName
         ? categories.map(
@@ -125,19 +132,13 @@ export default function References() {
             (category) =>
               references.filter((reference) => reference.category === category)
                 .length >= 0 && (
-                <>
-                  <h1 id={uuidv4()}>
-                    {themeName.charAt(0).toUpperCase() +
-                      themeName.slice(1).replace(/-/g, " ")}
-                  </h1>
-                  <ListReferences
-                    key={uuidv4()}
-                    title={category}
-                    name={category}
-                    references={references}
-                    theme={themeName}
-                  />
-                </>
+                <ListReferences
+                  key={uuidv4()}
+                  title={category}
+                  name={category}
+                  references={references}
+                  theme={themeName}
+                />
               )
           )}
     </div>
