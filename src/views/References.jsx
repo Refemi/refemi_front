@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import http from "../services/http-common";
+import { v4 as uuidv4 } from "uuid";
 
 // Components
 import ListReferences from "../components/ListReferences";
@@ -33,6 +34,31 @@ const getReferencesByCategory = async (categoryName) => {
     .then((data) => data.references);
 };
 
+const getReferencesByThemes = async (themeName) => {
+  return await http
+    .get(`references/theme/${themeName}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => data.references);
+};
+
+const findCategoriesInThemeReferences = (references) => {
+  const themeCategories = references.reduce(
+    (categories, reference) => {
+      if (!categories.includes(reference.category)) {
+        categories.push(reference.category);
+      }
+      return categories;
+    },
+    [""]
+  );
+  themeCategories.shift();
+  return themeCategories;
+};
+
 export default function References() {
   const { categoryName, themeName } = useParams();
   const { sections } = useContext(AllSections);
@@ -41,21 +67,29 @@ export default function References() {
   const [references, setReferences] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (categoryName !== undefined) {
-        setCategories(await getCategories(categoryName));
-        setReferences(await getReferencesByCategory(categoryName));
-      } else if (themeName !== undefined) {
-        console.log("faire les fonctions pour récupérer les themes");
-      }
-    };
-    fetchData();
-  }, [categoryName, setCategories, setReferences]);
+  const fetchData = async () => {
+    if (categoryName !== undefined) {
+      setCategories(await getCategories(categoryName));
+      setReferences(await getReferencesByCategory(categoryName));
+    } else if (themeName !== undefined) {
+      setReferences(await getReferencesByThemes(themeName));
+      setCategories(findCategoriesInThemeReferences(references, themeName));
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [themeName, categoryName, setCategories, setReferences]);
+
+  useEffect(() => {
+    console.log("references", references);
+    console.log("categories", categories);
+    console.log(themeName);
+  }, [references, categories]);
 
   return (
     <div
@@ -71,20 +105,41 @@ export default function References() {
         Retour
       </button>
 
-      {categories.map(
-        (category) =>
-          references.filter((reference) => reference.category === category.name)
-            .length > 0 && (
-            <ListReferences
-              key={category.id}
-              title={category.label}
-              name={category.name}
-              references={references.filter(
+      {categories && !themeName
+        ? categories.map(
+            (category) =>
+              references.filter(
                 (reference) => reference.category === category.name
-              )}
-            />
+              ).length > 0 && (
+                <ListReferences
+                  key={uuidv4()}
+                  title={category.label}
+                  name={category.name}
+                  references={references.filter(
+                    (reference) => reference.category === category.name
+                  )}
+                />
+              )
           )
-      )}
+        : categories.map(
+            (category) =>
+              references.filter((reference) => reference.category === category)
+                .length >= 0 && (
+                <>
+                  <h1 id={uuidv4()}>
+                    {themeName.charAt(0).toUpperCase() +
+                      themeName.slice(1).replace(/-/g, " ")}
+                  </h1>
+                  <ListReferences
+                    key={uuidv4()}
+                    title={category}
+                    name={category}
+                    references={references}
+                    theme={themeName}
+                  />
+                </>
+              )
+          )}
     </div>
   );
 }

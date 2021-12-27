@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
 import "../css/widget.css";
 
@@ -24,12 +25,12 @@ export default function WidgetCat({ categories }) {
           <div className="flex borders">
             {categories.map((category) => (
               <a
-                key={category.id}
-                href={`#${category.name}`}
+                key={uuidv4()}
+                href={`#${category.name ? category.name : category}`}
                 className="link-no-decoration main-text-color widget-link"
               >
                 <button key={category.id} className="widget-btn pointer">
-                  {category.label}
+                  {category.label ? category.label : category}
                 </button>
               </a>
             ))}

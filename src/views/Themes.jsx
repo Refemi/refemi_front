@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import "../css/themes.css";
 
@@ -12,7 +12,6 @@ import { AllThemes } from "../App";
 // COMPONENT
 export default function Themes() {
   const { themes } = useContext(AllThemes);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -25,8 +24,7 @@ export default function Themes() {
       <p className="margin-bottom5">
         Cliquez sur un thème pour afficher les références associées
       </p>
-      <Button label="Retour" path={() => history.goBack()} />{" "}
-      {/* TO DO: Double check if this works properly */}
+      <Button label="Retour" path="/" />
       <div className="flex justify-center">
         <div className="flex flex-wrap borders justify-between square margin10">
           {themes
