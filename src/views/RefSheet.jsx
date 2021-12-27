@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router'
-import http from '../services/http-common'
-import '../css/refsheet.css'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router";
+import http from "../services/http-common";
+import "../css/refsheet.css";
 
 const getReferenceById = async (id) => {
-  return await http.get(`${REACT_APP_API}/references/${id}`)
-    .then(response => {
+  return await http
+    .get(`/references/${id}`)
+    .then((response) => {
       if (response.status == 200) {
-        return response.data
+        return response.data;
       }
     })
-    .then(data => data.reference[0])
-}
+    .then((data) => data.reference[0]);
+};
 
-export default function RefSheet () {
-  const { id } = useParams()
-  const history = useHistory()
-  const [reference, setReference] = useState({})
-  const handleClick = () => history.goBack()
+export default function RefSheet() {
+  const { id } = useParams();
+  const history = useHistory();
+  const [reference, setReference] = useState({});
+  const handleClick = () => history.goBack();
 
   useEffect(() => {
     const fetchData = async () => {
-      setReference(await getReferenceById(id))
-    }
-    fetchData()
-  }, [id, setReference])
+      setReference(await getReferenceById(id));
+    };
+    fetchData();
+  }, [id, setReference]);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex flex-column align-center grey-opacity borders margin30">
@@ -52,7 +53,8 @@ export default function RefSheet () {
         <p className="reference-detail">Pays :{reference.country}</p>
         <p className="reference-detail">
           Thèmes :&nbsp;
-          { reference.themes && reference.themes.map(theme => <p key={theme.id}>{theme}</p>) }
+          {reference.themes &&
+            reference.themes.map((theme) => <p key={theme.id}>{theme}</p>)}
         </p>
       </div>
 
@@ -70,5 +72,5 @@ export default function RefSheet () {
         Retour
       </button>
     </div>
-  )
+  );
 }

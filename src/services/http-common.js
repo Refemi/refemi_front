@@ -7,5 +7,3 @@ export default axios.create({
     "Content-type": "application/json",
   },
 });
-
-console.log(process.env.REACT_APP_API);

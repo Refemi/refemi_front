@@ -20,7 +20,7 @@ const isEmailValid = (email) => {
   return ' Une erreur est survenue'
 } */
 
-export default function Sign() {
+export default function Connection() {
   const { userCredentials, setUserCredentials, setToken, isLogged, setLogged } =
     useContext(UserCredentials);
 

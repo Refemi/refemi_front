@@ -1,32 +1,34 @@
-import React, { useContext, useEffect, useState } from 'react'
-import http from '../../services/http-common'
+import React, { useContext, useEffect, useState } from "react";
+// Get API address
+import http from "../../services/http-common";
 
-import { AllCategories } from '../../App'
+// Context
+import { AllSections } from "../../App";
 
 const getSection = async (currentCategory) => {
   http.get(`categories/${currentCategory}`)
     .then(response => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       }
     })
-    .then(data => data.subCategories)
-}
+    .then((data) => data.subCategories);
+};
 
-export default function SelectReference ({ subCategories, handleChangeForm, setSubCategories }) {
-  const { categories } = useContext(AllCategories)
-  const [currentCategory, setCurrentCategory] = useState('')
+export default function SelectReference({ setSubCategories }) {
+  const { categories } = useContext(AllSections);
+  const [currentCategory, setCurrentCategory] = useState("");
 
-  const handleChange = e => setCurrentCategory(e.target.value)
+  const handleChange = (e) => setCurrentCategory(e.target.value);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (currentCategory !== '') {
-        setSubCategories(await getSection(currentCategory))
+      if (currentCategory !== "") {
+        setSubCategories(await getSection(currentCategory));
       }
-    }
-    fetchData()
-  }, [currentCategory, setSubCategories])
+    };
+    fetchData();
+  }, [currentCategory, setSubCategories]);
 
   return (
     <>
@@ -42,11 +44,11 @@ export default function SelectReference ({ subCategories, handleChangeForm, setS
       >
         <option value="default" disabled hidden />
 
-        {categories.map(category =>
+        {categories.map((category) => (
           <option key={category.id} value={category.name}>
             {category.label}
           </option>
-        )}
+        ))}
       </select>
 
       {!!currentCategory && subCategories.length > 0 && (
@@ -64,10 +66,10 @@ export default function SelectReference ({ subCategories, handleChangeForm, setS
               <option key={subCategory.id} value={subCategory.name}>
                 {subCategory.label}
               </option>
-            )}
+            ))}
           </select>
         </>
       )}
     </>
-  )
+  );
 }
