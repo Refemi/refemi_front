@@ -91,8 +91,8 @@ export default function App() {
             setUserCredentials,
             token,
             setToken,
-            isLoggedIn: isLoggedIn,
-            setLoggedIn: setIsLoggedIn,
+            isLoggedIn,
+            setIsLoggedIn,
           }}
         >
           <Header />
@@ -104,7 +104,7 @@ export default function App() {
               <Route exact path="/themes" component={Themes} />
               <Route path="/themes/:themeName" component={References} />
               <Route exact path="/contact" component={Contact} />
-              <Route path="/auth/:sign" component={Connection} />{" "}
+              <Route path="/auth/:sign" component={Connection} />
               {/* TO DO: give proper route name to backend */}
               <Route exact path="/references">
                 <Redirect to="/" />

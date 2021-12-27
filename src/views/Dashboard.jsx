@@ -12,21 +12,9 @@ import AddReference from "../components/Dashboard/AddReference";
 
 import { UserCredentials } from "../App";
 
-const getContributorCount = async (token) => {
-  http
-    .get("counter/dashboard/contributor", {
-      headers: { "x-access-token": token },
-    })
-    .then((response) => response.json())
-    .then((response) => ({
-      validated: response.approvedContributions,
-      pending: response.pendingContributions,
-    }));
-};
-
 export default function Dashboard() {
   const history = useHistory();
-  const { userCredentials, token, isLogged } = useContext(UserCredentials);
+  const { userCredentials, token, isLoggedIn } = useContext(UserCredentials);
   const [showNewRef, setShowNewRef] = useState(false);
   const [allUsers, setAllUsers] = useState({
     nbOfContributors: 0,
@@ -36,6 +24,17 @@ export default function Dashboard() {
     validated: 0,
     pending: 0,
   });
+
+  const getContributorCount = (token) => {
+    http
+      .get("counter/dashboard/contributor", {
+        headers: { "x-access-token": token },
+      })
+      .then((response) => ({
+        validated: response.approvedContributions,
+        pending: response.pendingContributions,
+      }));
+  };
 
   const getAdminCounter = (token) => {
     http
@@ -55,7 +54,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!isLogged) {
+    if (!isLoggedIn) {
       history.push("/auth/signin");
     } else {
       if (userCredentials.role > 1) {
@@ -64,7 +63,12 @@ export default function Dashboard() {
         // TODO Récupérer les infiormations pour les simples users
       }
     }
-  }, [isLogged, token, userCredentials]);
+  }, [isLoggedIn, token, userCredentials]);
+
+  useEffect(() => {
+    getContributorCount(token);
+    getAdminCounter(token);
+  }, [token]);
 
   useEffect(() => {
     window.scrollY > 0 && window.scrollTo(0, 0);
@@ -73,7 +77,7 @@ export default function Dashboard() {
   const changeIsClicked = () => setShowNewRef(!showNewRef);
 
   return (
-    isLogged && (
+    isLoggedIn && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
           {

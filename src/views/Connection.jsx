@@ -21,8 +21,13 @@ const isEmailValid = (email) => {
 } */
 
 export default function Connection() {
-  const { userCredentials, setUserCredentials, setToken, isLogged, setLogged } =
-    useContext(UserCredentials);
+  const {
+    userCredentials,
+    setUserCredentials,
+    setToken,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useContext(UserCredentials);
 
   const { sign } = useParams();
   const history = useHistory();
@@ -107,7 +112,7 @@ export default function Connection() {
         );
 
         localStorage.setItem("token", response.data.accessToken);
-        setLogged(true);
+        setIsLoggedIn(true);
       })
       .catch((error) => console.log(error));
   };
@@ -127,7 +132,7 @@ export default function Connection() {
     switch (sign) {
       case "signin":
       case "signup":
-        isLogged && history.push("/dashboard");
+        isLoggedIn && history.push("/dashboard");
         break;
       case "signout":
         userCredentials.accessToken === null
@@ -135,7 +140,7 @@ export default function Connection() {
           : localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        setLogged(false);
+        setIsLoggedIn(false);
         setUserCredentials({
           name: "",
           mail: "",
@@ -148,7 +153,14 @@ export default function Connection() {
       default:
         history.push("/");
     }
-  }, [history, isLogged, sign, userCredentials, setLogged, setUserCredentials]);
+  }, [
+    history,
+    isLoggedIn,
+    sign,
+    userCredentials,
+    setIsLoggedIn,
+    setUserCredentials,
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
