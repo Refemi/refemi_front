@@ -9,9 +9,9 @@ import { convertToHTML } from 'draft-convert'
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-import switchForm from '../../utils/switchOptions'
+import switchForm from '../../../utils/switchOptions'
 
-import { UserCredentials } from '../../App'
+import { UserCredentials } from '../../../App'
 
 const FormReference = props => {
   const { token } = useContext(UserCredentials)

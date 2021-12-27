@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 // Get API address
-import http from "../../services/http-common";
+import http from "../../../services/http-common";
 
 // Context
-import { AllSections } from "../../App";
+import { AllSections } from "../../../App";
 
 const getSection = async (currentCategory) => {
   http
