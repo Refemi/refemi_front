@@ -1,17 +1,17 @@
-import React from 'react'
-import { useHistory } from 'react-router'
+import React from "react";
+import { useHistory } from "react-router";
 
-import '../../css/themes.css'
+import "../../css/themes.css";
 
-export default function Button (label = '', path = null) {
-  const history = useHistory()
-  
+export default function Button({ label = "", path = null }) {
+  const history = useHistory();
+
   return (
     <button
       className="margin-top10 margin-end10 pointer send-btn darkblue-bg text-white align-self-right"
-      onClick={ path !== null && ( () => history.push(path)) }
+      onClick={path !== null && (() => history.push(path))}
     >
       {label}
     </button>
-  )
+  );
 }

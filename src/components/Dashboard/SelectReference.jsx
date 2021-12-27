@@ -6,8 +6,9 @@ import http from "../../services/http-common";
 import { AllSections } from "../../App";
 
 const getSection = async (currentCategory) => {
-  http.get(`categories/${currentCategory}`)
-    .then(response => {
+  http
+    .get(`categories/${currentCategory}`)
+    .then((response) => {
       if (response.status === 200) {
         return response.data;
       }
@@ -15,7 +16,11 @@ const getSection = async (currentCategory) => {
     .then((data) => data.subCategories);
 };
 
-export default function SelectReference({ setSubCategories }) {
+export default function SelectReference({
+  subCategories,
+  handleChangeForm,
+  setSubCategories,
+}) {
   const { categories } = useContext(AllSections);
   const [currentCategory, setCurrentCategory] = useState("");
 
@@ -62,7 +67,7 @@ export default function SelectReference({ setSubCategories }) {
           >
             <option value="default" disabled hidden />
 
-            {subCategories.map(subCategory =>
+            {subCategories.map((subCategory) => (
               <option key={subCategory.id} value={subCategory.name}>
                 {subCategory.label}
               </option>

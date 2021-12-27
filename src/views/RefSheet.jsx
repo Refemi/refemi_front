@@ -4,8 +4,8 @@ import { useHistory } from "react-router";
 import http from "../services/http-common";
 import "../css/refsheet.css";
 
-const getReferenceById = async (id) => {
-  return await http
+const getReferenceById = (id) => {
+  return http
     .get(`/references/${id}`)
     .then((response) => {
       if (response.status == 200) {

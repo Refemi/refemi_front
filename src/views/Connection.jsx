@@ -35,7 +35,7 @@ export default function Connection() {
 
   const signUp = (data) => {
     return http
-      .post(`${REACT_APP_API}/register`, {
+      .post(`/register`, {
         name: data.name,
         mail: data.mail,
         password: data.password,
@@ -62,7 +62,7 @@ export default function Connection() {
   const signIn = (data) => {
     return http
       .post(
-        `${REACT_APP_API}/login`,
+        `/login`,
         {
           mail: data.mail,
           password: data.password,

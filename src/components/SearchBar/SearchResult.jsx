@@ -6,17 +6,14 @@ import http from "../../services/http-common";
 import "./SearchBar.css";
 import "../../css/forms.css";
 
-const getSearchInfo = () => {
+const getSearchInfo = (answer) => {
   let insert = answer.split(" ");
   insert =
     insert.length === 1
       ? (insert = insert.join(""))
       : (insert = insert.join("<->"));
 
-  http
-    .get(`/search?answer=${insert}`)
-    .then((res) => res.json())
-    .then((res) => res);
+  http.get(`/search?answer=${insert}`).then((res) => res);
 };
 
 export default function SearchResult({ answer = "" }) {

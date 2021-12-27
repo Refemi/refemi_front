@@ -35,7 +35,7 @@ const getReferencesByCategory = async (categoryName) => {
 
 export default function References() {
   const { categoryName, themeName } = useParams();
-  const sections = useContext(AllSections);
+  const { sections } = useContext(AllSections);
   const history = useHistory();
 
   const [references, setReferences] = useState([]);
@@ -62,7 +62,7 @@ export default function References() {
       style={{ width: "80%", margin: "20vh auto" }}
       className="flex flex-column borders padding5 position-relative"
     >
-      {categoryName && <WidgetCat subCategories={(categories, sections)} />}
+      <WidgetCat categories={categories} />
 
       <button
         className="align-self-right send-btn darkblue-bg text-white"

@@ -5,7 +5,7 @@ import handleResponse from "./utils/handleResponse";
 // Views
 import Home from "./views/Home";
 import Contact from "./views/Contact";
-import Sign from "./views/Connexion";
+import Connection from "./views/Connection";
 import Themes from "./views/Themes";
 import Categories from "./views/Categories";
 import References from "./views/References";
@@ -104,7 +104,7 @@ export default function App() {
               <Route exact path="/themes" component={Themes} />
               <Route path="/themes/:themeName" component={References} />
               <Route exact path="/contact" component={Contact} />
-              <Route exact path="/auth/:sign" component={Connexions} />{" "}
+              <Route path="/auth/:sign" component={Connection} />{" "}
               {/* TO DO: give proper route name to backend */}
               <Route exact path="/references">
                 <Redirect to="/" />

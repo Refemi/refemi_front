@@ -1,28 +1,28 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-import '../css/widget.css'
+import "../css/widget.css";
 
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-export default function WidgetCat ({ categories, sections }) {
+export default function WidgetCat({ categories }) {
   // TO DO: create a condition to show sections if widget appears in themes or countries
 
-  const [isShown, setIsShown] = useState(true)
+  const [isShown, setIsShown] = useState(true);
 
   return (
     <div className="position-relative">
       <div className="widget borders flex">
         <button
           className="show-btn margin5"
-          onClick={ () => setIsShown(!isShown) }
+          onClick={() => setIsShown(!isShown)}
         >
           {isShown ? <IoIosArrowBack /> : <IoIosArrowForward />}
         </button>
 
         {isShown && (
           <div className="flex borders">
-            {categories.map(category =>
+            {categories.map((category) => (
               <a
                 key={category.id}
                 href={`#${category.name}`}
@@ -32,14 +32,14 @@ export default function WidgetCat ({ categories, sections }) {
                   {category.label}
                 </button>
               </a>
-            )}
+            ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
 WidgetCat.propTypes = {
-  subCategories: PropTypes.array.isRequired
-}
+  categories: PropTypes.array.isRequired,
+};

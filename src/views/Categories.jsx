@@ -37,7 +37,7 @@ const setIcon = (categoryName) => {
 };
 
 export default function Categories() {
-  const { categories } = useContext(AllSections);
+  const { sections } = useContext(AllSections);
   const history = useHistory();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function Categories() {
       className="flex flex-wrap justify-center margin-top10"
       style={{ marginLeft: "auto", marginRight: "auto" }}
     >
-      {categories.map((category, index) => (
+      {sections.map((category, index) => (
         <div
           key={category.id}
           className="cat-box position-relative margin10 alternate-bg borders pointer"
