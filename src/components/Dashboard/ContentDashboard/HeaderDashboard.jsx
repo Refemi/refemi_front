@@ -1,23 +1,23 @@
 import React from "react"
+import { useHistory } from "react-router"
 
-export default function Header (
-  userName = '',
-  userRole = 0,
-  contributionValidated = 0,
-  contributionPendings = 0,
-  totalContributors = 0,
-  totalAdmin = 0
-) {
+import Counter from "../../Counter"
+
+import { AiFillPlusCircle } from "react-icons/ai"
+
+export default function Header ({ currentUser, contributions, users, setShowNewRef }) {
+
+  const history = useHistory()
 
   return (
     <div className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
       <p>
-        Bienvenue, {userName}&nbsp;
+        Bienvenue, {currentUser.name}&nbsp;
         <span
           className="pointer white-hover"
           onClick={ () => history.push('/auth/signout') }
         >
-          Déconnexion
+          (Déconnexion)
         </span>
       </p>
 
@@ -33,18 +33,16 @@ export default function Header (
           value={contributions.pending}
         />
 
-        {userRole === 3 && (
+        {currentUser.role === 3 && (
           <div className="flex justify-around">
             <Counter
               label="contributeurs"
-              value={
-                allUsers.nbOfContributors ? allUsers.nbOfContributors : 0
-              }
+              value={users.totalContributors ? users.totalContributors : 0}
             />
 
             <Counter
               label="admins"
-              value={allUsers.nbOfAdmins ? allUsers.nbOfAdmins : 0}
+              value={users.nbOfAdmins ? users.nbOfAdmins : 0}
             />
           </div>
         )}
