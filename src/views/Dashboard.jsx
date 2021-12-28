@@ -95,21 +95,21 @@ export default function Dashboard() {
 
   return (
     isLoggedIn && (
-      <div className="flex justify-center margin-top10">
-        <div className="width80">
-          <HeaderDashboard
-            currentUser={{ name: userCredentials.name, role: userCredentials.role }}
-            contributions={contributions}
-            users={allUsers}
-            setShowNewRef={setShowNewRef}
-          />
+      <main className="margin-top10">
+        <section className="flex justify-center flex-column">
+        <HeaderDashboard
+          currentUser={{ name: userCredentials.name, role: userCredentials.role }}
+          contributions={contributions}
+          users={allUsers}
+          setShowNewRef={setShowNewRef}
+        />
 
-          {showNewRef
-            ? <AddReference changeIsClicked={changeIsClicked} />
-            : <MainDashboard contributions={contributions} users={userCredentials.role >= roles.MODERATOR ? allUsers : {}} />
+        {showNewRef
+          ? <AddReference changeIsClicked={changeIsClicked} />
+          : <MainDashboard contributions={contributions} users={userCredentials.role >= roles.MODERATOR ? allUsers : {}} />
           }
-        </div>
-      </div>
+        </section>
+      </main>
     )
   );
 }

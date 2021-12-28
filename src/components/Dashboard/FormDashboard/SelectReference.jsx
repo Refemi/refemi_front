@@ -39,7 +39,7 @@ export default function SelectReference({
   }, [currentCategory, setSubCategories]);
 
   return (
-    <>
+    <form>
       <label className="margin5 required" htmlFor="categories-select">
         Choisir une rubrique
       </label>
@@ -60,7 +60,7 @@ export default function SelectReference({
       </select>
 
       {!!currentCategory && subCategories.length > 0 && (
-        <>
+        <fieldset>
           <label className="margin5 required">Choisir une catégorie</label>
           <select
             id="subcategories-select"
@@ -76,8 +76,8 @@ export default function SelectReference({
               </option>
             ))}
           </select>
-        </>
+        </fieldset>
       )}
-    </>
+    </form>
   );
 }

@@ -60,32 +60,31 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="margin-top20 main-text-color">
+    <main className="margin-top20 main-text-color">
       {
         // FIXME A t-on vraiment besoin de la div qui suit ? => Maybe not. I'll clean that when refactoring branch is merged with develop and I start SEO improving
       }
-      <div className="">
-        <div className="flex justify-around margin20">
-          <div className="align-self-center box-home grey-bg text-white">
+        <section className="flex justify-around margin20">
+          <h2 className="align-self-center box-home grey-bg text-white">
             <Counter value={totalRefs} />
             <p className="box-legend">Références</p>
-          </div>
+          </h2>
 
-          <div className="align-self-center box-home darkblue-bg text-white">
+          <h2 className="align-self-center box-home darkblue-bg text-white">
             <Counter value={totalContributors} />
             <p className="box-legend">Contributeurs</p>
-          </div>
+          </h2>
 
-          <div className="align-self-center box-home aqua-bg text-white">
+          <h2 className="align-self-center box-home aqua-bg text-white">
             <Counter value={monthRefs} />
             <p className="box-legend">entrées ce mois</p>
-          </div>
-        </div>
-        <div className="margin-description">
-          <p className="text-justify line-height text-title-like text-center">
+          </h2>
+        </section>
+        <section className="margin-description">
+          <h3 className="text-justify line-height text-title-like text-center">
             Qu&apos;est-ce que&nbsp;
             <span className="refemi text-title-like">refemi</span> ?
-          </p>
+          </h3>
           <hr className="margin7" />
           <p className="text-justify line-height text-title-like">
             <span className="important refemi">
@@ -122,40 +121,39 @@ export default function Home() {
           </p>
 
           <p className="text-center">Margaux et Laura</p>
-        </div>
-        <div className="flex justify-around">
+        </section>
+        <section className="flex justify-around">
           <button
             className="align-self-center cat-btn pointer"
             onClick={toCategories}
           >
-            <div className="box align-self-center box-home grey-bg-opacity text-white position-relative">
+            <span className="box align-self-center box-home grey-bg-opacity text-white position-relative">
               <BiCategoryAlt className="position-absolute top" size={100} />
-            </div>
+            </span>
 
-            <p className="box-legend ">Catégories</p>
+            <h4 className="box-legend ">Catégories</h4>
           </button>
 
           <button
             className="align-self-center cat-btn pointer"
             onClick={toThemes}
           >
-            <div className="box align-self-center box-home darkblue-bg-opacity text-white position-relative">
+            <span className="box align-self-center box-home darkblue-bg-opacity text-white position-relative">
               <BsList className="position-absolute top" size={100} />
-            </div>
-            <p className="box-legend">Thèmes</p>
+            </span>
+            <h4 className="box-legend">Thèmes</h4>
           </button>
 
           <button
             className="align-self-center cat-btn pointer"
             onClick={toLogin}
           >
-            <div className="box align-self-center box-home aqua-bg-opacity text-white position-relative ">
+            <span className="box align-self-center box-home aqua-bg-opacity text-white position-relative">
               <AiFillPlusCircle className="position-absolute top" size={100} />
-            </div>
-            <p className="box-legend">Suggérer une référence</p>
+            </span>
+            <h4 className="box-legend">Suggérer une référence</h4>
           </button>
-        </div>
-      </div>
-    </div>
+        </section>
+    </main>
   );
 }

@@ -12,36 +12,36 @@ export default function ListReferences({
   const history = useHistory();
 
   return (
-    <div>
+    <section className="position-relative">
       <h2 className="margin10" id={name}>
         {title.charAt(0).toUpperCase() + title.slice(1).replace(/-/g, " ")}{" "}
         {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
       </h2>
 
-      <div className="description-center text-center borders flex justify-around padding2rem line white-bg margin5">
+      <article className="description-center text-center borders flex justify-around padding2rem line white-bg margin5">
         <p className="reflist">Nom / Titre</p>
         <p className="reflist">Pays</p>
         <p className="reflist">Thèmes</p>
-      </div>
+      </article>
 
       {references
         .sort(() => (Math.random() > 0.5 ? 1 : -1))
         .map((reference) => (
-          <div
+          <article
             key={reference.id}
             id={reference.id}
             className="description-center text-center borders flex justify-between padding2rem line description white-bg pointer margin5"
             onClick={() => history.push(`/references/${reference.id}`)}
           >
-            <div className="reflist-div">{reference.name}</div>
-            <div className="reflist-div">{reference.country}</div>
-            <div className="reflist-div scrollbar">
+            <h3 className="reflist-div">{reference.name}</h3>
+            <p className="reflist-div">{reference.country}</p>
+            <span className="reflist-div scrollbar">
               {reference.themes.map((theme, index) => (
-                <p key={index}>{theme}</p>
+                <h4 key={index}>{theme}</h4>
               ))}
-            </div>
-          </div>
+            </span>
+          </article>
         ))}
-    </div>
+    </section>
   );
 }

@@ -14,6 +14,14 @@
   min-height: 50vh;
 }
 
+li {
+  list-style-type: none;
+}
+
+fieldset {
+  border: none;
+}
+
 /* Général */
 .main-text-color {
   color: #313232;

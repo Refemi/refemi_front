@@ -45,19 +45,18 @@ export default function Categories() {
   }, []);
 
   return (
-    <div
-      className="flex flex-wrap justify-center margin-top10"
-      style={{ marginLeft: "auto", marginRight: "auto" }}
-    >
-      {sections.map((category, index) => (
-        <div
+    <main
+      className="margin-top10"
+      style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <ul className="flex flex-wrap justify-center ">
+        {sections.map((category, index) => (
+        <li
           key={category.id}
           className="cat-box position-relative margin10 alternate-bg borders pointer"
-          onClick={() => history.push(`/categories/${category.name}`)}
-        >
-          <div key={index} className="position-absolute-icon icon">
+          onClick={() => history.push(`/categories/${category.name}`)}>
+          <span key={index} className="position-absolute-icon icon">
             {setIcon(category.label)}
-          </div>
+          </span>
           <p
             key={category.id}
             className="cat-description description-center text-center borders align-self-center"
@@ -65,8 +64,10 @@ export default function Categories() {
           >
             {category.label.toUpperCase()}
           </p>
-        </div>
+        </li>
       ))}
-    </div>
+        </ul>
+
+    </main>
   );
 }

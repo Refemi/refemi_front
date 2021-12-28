@@ -98,7 +98,7 @@ export default function References() {
   }, [references, themeName])
 
   return (
-    <div
+    <main
       style={{ width: "80%", margin: "20vh auto" }}
       className="flex flex-column borders padding5 position-relative"
     >
@@ -138,6 +138,6 @@ export default function References() {
                 />
               )
           )}
-    </div>
+    </main>
   );
 }

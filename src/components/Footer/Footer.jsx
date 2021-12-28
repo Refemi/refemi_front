@@ -6,26 +6,24 @@ import './Footer.css'
 // COMPONENT
 export default function Footer () {
   return (
-    <>
-      <hr className="margin20" />
-      <footer className="flex justify-around">
-        <div>
-          <h5>Réseaux</h5>
+      <footer className="flex justify-around margin20">
+      <hr />
+        <section>
+          <h4>Réseaux</h4>
 
-          <div id="network">
+          <article id="network">
             <AiFillFacebook size={48} className="color" />
             <AiFillInstagram size={48} className="color" />
-          </div>
-        </div>
-        <div>
-          <h5>Copyrights</h5>
+          </article>
+        </section>
+        <section>
+          <h4>Copyrights</h4>
           <ul>
             <li>
               Développé par <span className="refemi">refemi</span>
             </li>
           </ul>
-        </div>
+        </section>
       </footer>
-    </>
   )
 }

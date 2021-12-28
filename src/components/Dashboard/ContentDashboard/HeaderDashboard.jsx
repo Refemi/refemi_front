@@ -10,7 +10,7 @@ export default function Header ({ currentUser, contributions, users, setShowNewR
   const history = useHistory()
 
   return (
-    <div className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
+    <header className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
       <p>
         Bienvenue, {currentUser.name}&nbsp;
         <span
@@ -21,7 +21,7 @@ export default function Header ({ currentUser, contributions, users, setShowNewR
         </span>
       </p>
 
-      <div className="flex justify-between">
+      <article className="flex justify-between">
         <Counter
           label="contributions validées"
           value={contributions.validated}
@@ -54,7 +54,7 @@ export default function Header ({ currentUser, contributions, users, setShowNewR
             className="pointer"
           />
         </div>
-      </div>
-    </div>
+      </article>
+    </header>
   )
 }
