@@ -7,14 +7,20 @@ import "./SearchBar.css";
 import "../../css/forms.css";
 
 // Get what user types in search input and format it to be processed by backend
-const getSearchInfo = (answer) => {
+const getSearchInfo = async (answer) => {
   let insert = answer.split(" ");
   insert =
     insert.length === 1
       ? (insert = insert.join(""))
       : (insert = insert.join("<->"));
 
-  http.get(`/search?answer=${insert}`).then((res) => res);
+  return await http.get(`search?answer=${insert}`)
+    .then(res => {
+      if (res.status === 200) {
+        return res.data;
+      }
+    })
+    .then(data => data.search);
 };
 
 // COMPONENT
@@ -25,7 +31,7 @@ export default function SearchResult({ answer = "" }) {
   // Waits for the input info to be processed before sending it to state
   useEffect(() => {
     const fetchData = async () => {
-      getSearchInfo(await setSearchInfo(getSearchInfo()));
+      setSearchInfo(await getSearchInfo(answer));
     };
 
     fetchData();

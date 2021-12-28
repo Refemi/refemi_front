@@ -21,10 +21,10 @@ const getHomeCounters = async () => {
         return response.data;
       }
     })
-    .then((data) => ({
-      totalReferences: data.nbOfRefs,
-      totalContributors: data.nbOfContributors,
-      monthlyReferences: data.monthRefs,
+    .then(({ totalReferences, totalContributors, monthlyReferences}) => ({
+      totalReferences,
+      totalContributors,
+      monthlyReferences 
     }));
 };
 
@@ -46,6 +46,7 @@ export default function Home() {
     const fetchData = async () => {
       const { totalReferences, totalContributors, monthlyReferences } =
         await getHomeCounters();
+      console.log(await getHomeCounters())
       setTotalRefs(totalReferences);
       setTotalContributors(totalContributors);
       setMonthRefs(monthlyReferences);
