@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import "../../css/themes.css";
 
+// COMPONENT
 export default function Button({ label = "", path = null }) {
   const history = useHistory();
 

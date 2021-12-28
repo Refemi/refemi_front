@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 
 import "../css/references.css";
 
+// COMPONENT
 export default function ListReferences({
   name = "",
   title = "",

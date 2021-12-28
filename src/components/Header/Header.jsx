@@ -1,11 +1,13 @@
 import React from 'react'
 import { useHistory } from 'react-router'
+import { VscSearch } from 'react-icons/vsc'
 
+// Component
 import Navbar from './Navbar'
 
 import './Header.css'
-import { VscSearch } from 'react-icons/vsc'
 
+// COMPONENT
 export default function Header () {
   const history = useHistory()
 

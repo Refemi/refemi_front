@@ -2,18 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
-
 import { Editor } from 'react-draft-wysiwyg'
 import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import { convertToHTML } from 'draft-convert'
-
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
+// JS
 import switchForm from '../../../utils/switchOptions'
 
+// Context
 import { UserCredentials } from '../../../App'
 
-const FormReference = props => {
+// COMPONENT
+export default function FormReference ({category, subCategories}) {
   const { token } = useContext(UserCredentials)
   const [content, setContent] = useState('')
   const [editorState, setEditorState] = useState()
@@ -34,7 +35,7 @@ const FormReference = props => {
     formState: { errors }
   } = useForm()
 
-  const currentsubCategory = props.subCategories.find(subCategory => subCategory.name === props.category)
+  const currentsubCategory = subCategories.find(subCategory => subCategory.name === category)
 
   const onSubmit = data => {
     fetch('http://localhost:8000/references', {
@@ -56,6 +57,7 @@ const FormReference = props => {
     setIsSent(true)
   }
 
+  // Get countries list from external API
   const getCountries = () => {
     fetch('https://restcountries.com/v3.1/all')
       .then(response => response.json())
@@ -171,4 +173,4 @@ FormReference.propTypes = {
   category: PropTypes.string.isRequired
 }
 
-export default FormReference
+

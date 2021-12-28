@@ -1,5 +1,6 @@
 import React from 'react'
 
+// COMPONENT
 export default function MainDashboard({ currentUser, contributions }) {
     return (
       <div className="dashboard dashboard-content borders">

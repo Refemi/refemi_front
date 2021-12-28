@@ -1,9 +1,9 @@
 import React from 'react'
-
 import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai'
 
 import './Footer.css'
 
+// COMPONENT
 export default function Footer () {
   return (
     <>

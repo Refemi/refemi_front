@@ -1,12 +1,12 @@
 import React from "react"
 import { useHistory } from "react-router"
-
-import Counter from "../../Counter"
-
 import { AiFillPlusCircle } from "react-icons/ai"
 
-export default function Header ({ currentUser, contributions, users, setShowNewRef }) {
+// Components
+import Counter from "../../Counter"
 
+// COMPONENT
+export default function Header ({ currentUser, contributions, users, setShowNewRef }) {
   const history = useHistory()
 
   return (

@@ -8,7 +8,7 @@ const getReferenceById = (id) => {
   return http
     .get(`/references/${id}`)
     .then((response) => {
-      if (response.status == 200) {
+      if (response.status === 200) {
         return response.data;
       }
     })
@@ -19,9 +19,10 @@ export default function RefSheet() {
   const { id } = useParams();
   const history = useHistory();
   const [reference, setReference] = useState({});
-  const handleClick = () => history.goBack();
+  const handleClick = () => history.goBack(); // TODO: we need to make sure that in all cases it does get you to the previous page. Sometimes goBack() can be tricky
 
   useEffect(() => {
+    // Get the reference that the user clicked
     const fetchData = async () => {
       setReference(await getReferenceById(id));
     };

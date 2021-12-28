@@ -6,6 +6,7 @@ import http from "../../services/http-common";
 import "./SearchBar.css";
 import "../../css/forms.css";
 
+// Get what user types in search input and format it to be processed by backend
 const getSearchInfo = (answer) => {
   let insert = answer.split(" ");
   insert =
@@ -16,10 +17,12 @@ const getSearchInfo = (answer) => {
   http.get(`/search?answer=${insert}`).then((res) => res);
 };
 
+// COMPONENT
 export default function SearchResult({ answer = "" }) {
   const history = useHistory();
   const [searchInfo, setSearchInfo] = useState([]);
 
+  // Waits for the input info to be processed before sending it to state
   useEffect(() => {
     const fetchData = async () => {
       getSearchInfo(await setSearchInfo(getSearchInfo()));

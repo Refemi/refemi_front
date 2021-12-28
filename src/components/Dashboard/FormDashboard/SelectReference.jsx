@@ -5,6 +5,7 @@ import http from "../../../services/http-common";
 // Context
 import { AllSections } from "../../../App";
 
+// TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
 const getSection = async (currentCategory) => {
   http
     .get(`categories/${currentCategory}`)
@@ -16,6 +17,7 @@ const getSection = async (currentCategory) => {
     .then((data) => data.subCategories);
 };
 
+// COMPONENT
 export default function SelectReference({
   subCategories,
   handleChangeForm,
@@ -26,6 +28,7 @@ export default function SelectReference({
 
   const handleChange = (e) => setCurrentCategory(e.target.value);
 
+  // Sets up a category when it's saved from click
   useEffect(() => {
     const fetchData = async () => {
       if (currentCategory !== "") {

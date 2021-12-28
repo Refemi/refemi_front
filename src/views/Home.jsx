@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import http from "../services/http-common";
+import { BiCategoryAlt } from "react-icons/bi";
+import { BsList } from "react-icons/bs";
+import { AiFillPlusCircle } from "react-icons/ai";
 
+// Components
 import Counter from "../components/Counter";
 
 import "../css/home.css";
 import "../css/counter.css";
 
-import { BiCategoryAlt } from "react-icons/bi";
-import { BsList } from "react-icons/bs";
-import { AiFillPlusCircle } from "react-icons/ai";
-
+// Get counters for homepage
+// TODO: wouldn't it be better to write a general algorithm that counts stuff and that we could use for: all references, validated/pending references in dashboards rather than calling server? We could then also use this bit of code to show the number of results on search page, but also everytime we display a list of references. And we'd call server only for: number of contributorsa and monthly references?
 const getHomeCounters = async () => {
   return await http
     .get("counter/homecounter")
@@ -26,13 +28,20 @@ const getHomeCounters = async () => {
     }));
 };
 
+// COMPONENT
 export default function Home() {
   const [totalRefs, setTotalRefs] = useState(0);
   const [totalContributors, setTotalContributors] = useState(0);
   const [monthRefs, setMonthRefs] = useState(0);
 
   const history = useHistory();
+  
+  // Are variables necessery for that?
+  const toCategories = () => history.push("/categories");
+  const toThemes = () => history.push("/themes");
+  const toLogin = () => history.push("/auth/signin");
 
+  // Waits for data to be ready before distributong it in state so that when the page loads it gets all needed data
   useEffect(() => {
     const fetchData = async () => {
       const { totalReferences, totalContributors, monthlyReferences } =
@@ -45,9 +54,6 @@ export default function Home() {
     fetchData();
   }, [setTotalRefs, setTotalContributors, setMonthRefs]);
 
-  const toCategories = () => history.push("/categories");
-  const toThemes = () => history.push("/themes");
-  const toLogin = () => history.push("/auth/signin");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -56,7 +62,7 @@ export default function Home() {
   return (
     <div className="margin-top20 main-text-color">
       {
-        // FIXME A t-on vraiment besoin de la div qui suit ?
+        // FIXME A t-on vraiment besoin de la div qui suit ? => Maybe not. I'll clean that when refactoring branch is merged with develop and I start SEO improving
       }
       <div className="">
         <div className="flex justify-around margin20">

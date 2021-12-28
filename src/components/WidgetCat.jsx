@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import "../css/widget.css";
 
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-
+// COMPONENT
 export default function WidgetCat({ categories }) {
-  // TO DO: create a condition to show sections if widget appears in themes or countries
-
   const [isShown, setIsShown] = useState(true);
+  // TODO: Turn this into a fixed sidebar
 
   return (
     <div className="position-relative">

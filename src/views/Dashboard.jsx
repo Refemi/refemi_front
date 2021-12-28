@@ -1,17 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import http from "../services/http-common";
+
+// JS
 import handleResponse from "../utils/handleResponse";
 
-import "../css/dashboard.css";
-import "../css/counter.css";
-
+// Components
 import HeaderDashboard from '../components/Dashboard/ContentDashboard/HeaderDashboard'
 import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
 import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 
+// Context
 import { UserCredentials } from "../App";
 
+import "../css/dashboard.css";
+import "../css/counter.css";
+
+// COMPONENT
 export default function Dashboard() {
   const history = useHistory();
   const { userCredentials, token, isLoggedIn } = useContext(UserCredentials);
@@ -24,7 +29,12 @@ export default function Dashboard() {
     validated: 0,
     pending: 0,
   });
+  
+  // TODO: do we really need a variable for that?
+  const changeIsClicked = () => setShowNewRef(!showNewRef);
 
+  // Gets the number of contributions (validated/pending) depending on the contributor
+  // TO DO: if the list is displayed, we could use the counting algorithm mentioned in HOME view to feed these counters. It'd save API calls?
   const getContributorCount = (token) => {
     http
       .get("counter/dashboard/contributor", {
@@ -36,6 +46,8 @@ export default function Dashboard() {
       }));
   };
 
+  // Gets the number of contributions (validated/pending) depending on the admin + number of contributors and number of admins
+  // TODO: same remark than above: maybe we'd need to call API only for number of admins (we already have the number of contributors in HOME view, we just need to spread it to here)
   const getAdminCounter = (token) => {
     http.get("counter/dashboard/admin", { headers: { "x-access-token": token } })
       .then((response) => handleResponse(response, 200))
@@ -52,6 +64,7 @@ export default function Dashboard() {
       });
   };
 
+  // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
     if (!isLoggedIn) {
       history.push("/auth/signin");
@@ -68,7 +81,6 @@ export default function Dashboard() {
     window.scrollY > 0 && window.scrollTo(0, 0);
   }, []);
 
-  const changeIsClicked = () => setShowNewRef(!showNewRef);
 
   return (
     isLoggedIn && (

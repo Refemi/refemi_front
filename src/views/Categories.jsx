@@ -1,9 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
-import "../css/categories.css";
-
-// React icons
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import {
   GiInjustice,
@@ -16,8 +12,11 @@ import {
 // Context
 import { AllSections } from "../App";
 
+import "../css/categories.css";
+
+
+// Show icon depending on category
 const setIcon = (categoryName) => {
-  // Show icon depending on category
   switch (categoryName) {
     case "Audiovisuel":
       return <AiOutlineFundProjectionScreen size={100} />;
@@ -36,6 +35,7 @@ const setIcon = (categoryName) => {
   }
 };
 
+// COMPONENT
 export default function Categories() {
   const { sections } = useContext(AllSections);
   const history = useHistory();

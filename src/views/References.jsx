@@ -11,6 +11,7 @@ import Button from "../components/Button/Button";
 import "../css/categories.css";
 import "../css/references.css";
 
+// Gets categories (correspond to subcategories in DB at the moment)
 const getCategories = async (categoryName) => {
   return await http
     .get(`categories/${categoryName}`)
@@ -21,6 +22,8 @@ const getCategories = async (categoryName) => {
     })
     .then((data) => data.subCategories); // TODO :  update when backend gives categories instead of subcategories
 };
+
+// Gets the references sorted by category
 const getReferencesByCategory = async (categoryName) => {
   return await http
     .get(`references/category/${categoryName}`)
@@ -32,6 +35,7 @@ const getReferencesByCategory = async (categoryName) => {
     .then((data) => data.references);
 };
 
+// Gets the references sorted by theme
 const getReferencesByThemes = async (themeName) => {
   return await http
     .get(`references/theme/${themeName}`)
@@ -43,6 +47,8 @@ const getReferencesByThemes = async (themeName) => {
     .then((data) => data.references);
 };
 
+// Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.
+// TODO: the dependency array for now has an empty string that I happen to have to shift before returning my new array. It would be best if we didn't need to do that (not urgent)
 const findCategoriesInThemeReferences = async (references) => {
   const themeCategories = references.reduce(
     (categories, reference) => {
@@ -57,9 +63,9 @@ const findCategoriesInThemeReferences = async (references) => {
   return await themeCategories;
 };
 
+// COMOPNENT
 export default function References() {
   const { categoryName, themeName } = useParams();
-
   const [references, setReferences] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -67,6 +73,7 @@ export default function References() {
     window.scrollTo(0, 0);
   }, []);
   
+  // Get references for Categories page OR Themes page, waiting to have the clicked category/theme before showing data
   useEffect(() => {
     const fetchData = async () => {
       if (categoryName !== undefined) {
@@ -79,6 +86,7 @@ export default function References() {
     fetchData()
   }, [categoryName, themeName]);
   
+  // Get the references for Themes page only once the references are ready. Otherwise, it doesn't render the data when the page loads.
   useEffect(() => {
     if (themeName !== undefined) {
       const fetchData = async () => {
@@ -87,7 +95,7 @@ export default function References() {
       }
       fetchData()
     }
-  }, [references])
+  }, [references, themeName])
 
   return (
     <div
