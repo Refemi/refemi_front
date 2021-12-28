@@ -1,5 +1,4 @@
 import React from "react"
-import Counter from "../Counter"
 import { useHistory } from "react-router"
 
 import Counter from "../../Counter"

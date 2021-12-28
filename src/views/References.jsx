@@ -80,11 +80,13 @@ export default function References() {
   }, [categoryName, themeName]);
   
   useEffect(() => {
-    const fetchData = async () => {
-      setCategories(await findCategoriesInThemeReferences(references)
-      );
+    if (themeName !== undefined) {
+      const fetchData = async () => {
+        setCategories(await findCategoriesInThemeReferences(references)
+        );
+      }
+      fetchData()
     }
-    fetchData()
   }, [references])
 
   return (
@@ -100,11 +102,7 @@ export default function References() {
         label="Retour"
       />
 
-      <h1 id={uuidv4()}>
-        {themeName}
-      </h1>
-
-      {categories && !themeName
+      {!themeName
         ? categories.map(
             (category) =>
               references.filter(
