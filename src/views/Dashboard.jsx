@@ -1,145 +1,115 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
-import '../css/dashboard.css'
-import '../css/counter.css'
+// JS
+import http from "../services/http-common";
+import handleResponse from "../utils/handleResponse";
+import roles from "../utils/roles";
 
-import { AiFillPlusCircle } from 'react-icons/ai'
-import Counter from '../components/Counter'
-import AddReference from '../components/Dashboard/AddReference'
+// Components
+import HeaderDashboard from '../components/Dashboard/ContentDashboard/HeaderDashboard'
+import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
+import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 
-import { UserCredentials } from '../App'
+// Context
+import { UserCredentials } from "../App";
 
-const Dashboard = () => {
-  const history = useHistory()
-  const { userCredentials, token, isLogged } = useContext(UserCredentials)
-  const [showNewRef, setShowNewRef] = useState(false)
-  const [allUsers, setAllUsers] = useState({ nbOfContributors: 0, nbOfAdmins: 0 })
-  const [contributions, setContributions] = useState({ validated: 0, pending: 0 })
+import "../css/dashboard.css";
+import "../css/counter.css";
+
+// COMPONENT
+const getContributorCounters = async (token) => {
+  return await http.get("counter/dashboard/contributor", {
+    headers: { "x-access-token": token },
+  })
+    .then(response => {
+      if (response.status === 200) {
+        return response.data
+      }
+    })
+    .then(data => ({
+      contributions: {
+        validated: data.approvedContributions,
+        pending: data.pendingContributions
+      }
+    }));
+};
+const getAdminCounters = async (token) => {
+  http.get("counter/dashboard/admin", { headers: { "x-access-token": token } })
+    .then((response) => handleResponse(response, 200))
+    .then((response) => ({
+      contributions : {
+        validated: response.approvedContributions,
+        pending: response.pendingContributions,
+      },
+      users: {
+        totalContributors: response.totalContributors,
+        totalAdmins: response.totalAdmins,
+      }
+    }))
+};
+
+export default function Dashboard() {
+  const history = useHistory();
+  const { userCredentials, token, isLoggedIn } = useContext(UserCredentials);
+  const [showNewRef, setShowNewRef] = useState(false);
+  const [allUsers, setAllUsers] = useState({
+    totalContributors: 0,
+    totalAdmins: 0,
+  });
+  const [contributions, setContributions] = useState({
+    validated: 0,
+    pending: 0,
+  });
+  
+  // TODO: do we really need a variable for that?
+  const changeIsClicked = () => setShowNewRef(!showNewRef);
+
+
+  // If user is authentified, then counters are loaded depending on their role
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push("/auth/signin");
+    } else {
+
+      // Data retrieval based on role, contributor or larger
+      const fetchData = async () => {
+        if (userCredentials.role > roles.CONTRIBUTOR) {
+          const { contributions, users } = await getAdminCounters(token)
+          setContributions(contributions)
+          setAllUsers(users)
+        } else {
+          const { contributions } = await getContributorCounters(token)
+          setContributions(contributions)
+        }
+      }
+
+      fetchData()
+    }
+  }, [isLoggedIn, token, userCredentials, history, setContributions, setAllUsers]);
 
   useEffect(() => {
-    !isLogged
-      ? history.push('/auth/signin')
-      : userCredentials.role > 1
-        ? fetch('http://localhost:8000/counter/dashboard/admin', { headers: { 'x-access-token': token } })
-          .then(response => response.json())
-          .then(response => {
-            setContributions({
-              validated: response.approvedContributions,
-              pending: response.pendingContributions
-            })
+    window.scrollY > 0 && window.scrollTo(0, 0);
+  }, []);
 
-            setAllUsers({
-              nbOfContributors: response.totalContributors,
-              nbOfAdmins: response.totalAdmins
-            })
-          })
-        : fetch('http://localhost:8000/counter/dashboard/contributor', { headers: { 'x-access-token': token } })
-          .then(response => response.json())
-          .then(response => setContributions({
-            validated: response.approvedContributions,
-            pending: response.pendingContributions
-          }))
-  }, [isLogged, token, userCredentials])
-
-  useEffect(() => {
-    window.scrollY > 0 && window.scrollTo(0, 0)
-  }, [])
-
-  const changeIsClicked = () => setShowNewRef(!showNewRef)
 
   return (
-    isLogged && (
+    isLoggedIn && (
       <div className="flex justify-center margin-top10">
         <div className="width80">
-          <div className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
-            <p>
-              Bienvenue, {userCredentials.name}&nbsp;
-              <span
-                className="pointer white-hover"
-                onClick={ () => history.push('/auth/signout') }
-              >
-                Déconnexion
-              </span>
-            </p>
+          <HeaderDashboard
+            currentUser={{ name: userCredentials.name, role: userCredentials.role }}
+            contributions={contributions}
+            users={allUsers}
+            setShowNewRef={setShowNewRef}
+          />
 
-            <div className="flex justify-between">
-              <Counter
-                label="contributions validées"
-                value={contributions.validated}
-                className="white-bg"
-              />
-
-              <Counter
-                label="contributions en attente"
-                value={contributions.pending}
-              />
-
-              {userCredentials.role === 3 && (
-                <div className="flex justify-around">
-                  <Counter
-                    label="contributeurs"
-                    value={
-                      allUsers.nbOfContributors ? allUsers.nbOfContributors : 0
-                    }
-                  />
-
-                  <Counter
-                    label="admins"
-                    value={allUsers.nbOfAdmins ? allUsers.nbOfAdmins : 0}
-                  />
-                </div>
-              )}
-
-              <div className="box justify-center align-center">
-                <AiFillPlusCircle
-                  onClick={ () => setShowNewRef(true) }
-                  size={32}
-                  className="pointer"
-                />
-              </div>
-            </div>
-          </div>
           {showNewRef
             ? <AddReference changeIsClicked={changeIsClicked} />
-            : <div className="dashboard dashboard-content borders">
-                  <div className="margin-bottom">
-                    {userCredentials.role === 'contributor' && userCredentials.validatedContributions.length > 0 && (
-                      <div>
-                        <p className="dashboard-title">Contributions validées :</p>
-                        {userCredentials.validatedContributions.map((contribution, index) =>
-                          <div key={index}>{contribution}</div>
-                        )}
-                        <hr className="margin7" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    {userCredentials.role === 'contributor' && userCredentials.pendingContributions.length > 0 && (
-                      <div>
-                        <p className="dashboard-title">
-                          Contributions en attente de validation :
-                        </p>
-
-                        {userCredentials.pendingContributions.map((contribution, index) =>
-                          <div key={index}>{contribution}</div>
-                        )}
-                        <hr className="margin7" />
-                      </div>
-                    )}
-
-                    <div>
-                      <p className="dashboard-title">Contributions validées :</p>
-                      {/* Ici récupérer la liste de toutes les contributions des contributeurs en attente de validation */}
-                    </div>
-                  </div>
-              </div>
+            : <MainDashboard contributions={contributions} users={userCredentials.role >= roles.MODERATOR ? allUsers : {}} />
           }
         </div>
       </div>
     )
-  )
+  );
 }
-
-export default Dashboard

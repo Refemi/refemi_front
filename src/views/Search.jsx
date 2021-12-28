@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
-import SearchResult from './SearchResult'
-
-import './SearchBar.css'
-
 import { IoIosClose } from 'react-icons/io'
 
-const Search = () => {
+import '../components/SearchBar/SearchBar.css'
+
+// Components
+import SearchResult from '../components/SearchBar/SearchResult'
+
+// COMPONENT
+export default function Search () {
   const [search, setSearch] = useState('')
 
+  // get what user typed
   const inputSearch = e => setSearch(e.target.value)
+  // clear what user typed (for cross in input)
   const clearInput = () => setSearch('')
+
+  // TODO: watch out the cross in the input. It goes everywhere. It needs to be in absolute position relative to a div that has in it just the input and the cross.
 
   return (
     <div className="search margin-top20 flex flex-column align-center">
@@ -31,5 +37,3 @@ const Search = () => {
     </div>
   )
 }
-
-export default Search

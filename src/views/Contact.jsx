@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../css/contact.css'
 import '../css/forms.css'
 
-const Contact = () => {
+export default function Contact () {
   const [status, setStatus] = useState('Envoyer')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -92,5 +92,3 @@ const Contact = () => {
     </div>
   )
 }
-
-export default Contact

@@ -1,44 +1,69 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router'
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+import http from "../services/http-common";
+import { BiCategoryAlt } from "react-icons/bi";
+import { BsList } from "react-icons/bs";
+import { AiFillPlusCircle } from "react-icons/ai";
 
-import Counter from '../components/Counter'
+// Components
+import Counter from "../components/Counter";
 
-import '../css/home.css'
-import '../css/counter.css'
-import { BiCategoryAlt } from 'react-icons/bi'
-import { BsList } from 'react-icons/bs'
-import { AiFillPlusCircle } from 'react-icons/ai'
+import "../css/home.css";
+import "../css/counter.css";
 
-const Home = () => {
-  const [totalRefs, setTotalRefs] = useState(0)
-  const [totalContributors, setTotalContributors] = useState(0)
-  const [monthRefs, setMonthRefs] = useState(0)
+// Get counters for homepage
+// TODO: wouldn't it be better to write a general algorithm that counts stuff and that we could use for: all references, validated/pending references in dashboards rather than calling server? We could then also use this bit of code to show the number of results on search page, but also everytime we display a list of references. And we'd call server only for: number of contributorsa and monthly references?
+const getHomeCounters = async () => {
+  return await http
+    .get("counter/homecounter")
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => ({
+      totalReferences: data.nbOfRefs,
+      totalContributors: data.nbOfContributors,
+      monthlyReferences: data.monthRefs,
+    }));
+};
 
-  const getGeneralData = () =>
-    fetch('http://localhost:8000/counter/homecounter')
-      .then(response => response.json())
-      .then(response => {
-        setTotalRefs(response.nbOfRefs)
-        setTotalContributors(response.nbOfContributors)
-        setMonthRefs(response.monthRefs)
-      })
+// COMPONENT
+export default function Home() {
+  const [totalRefs, setTotalRefs] = useState(0);
+  const [totalContributors, setTotalContributors] = useState(0);
+  const [monthRefs, setMonthRefs] = useState(0);
 
-  const history = useHistory()
+  const history = useHistory();
+  
+  // Are variables necessery for that?
+  const toCategories = () => history.push("/categories");
+  const toThemes = () => history.push("/themes");
+  const toLogin = () => history.push("/auth/signin");
+
+  // Waits for data to be ready before distributong it in state so that when the page loads it gets all needed data
+  useEffect(() => {
+    const fetchData = async () => {
+      const { totalReferences, totalContributors, monthlyReferences } =
+        await getHomeCounters();
+      setTotalRefs(totalReferences);
+      setTotalContributors(totalContributors);
+      setMonthRefs(monthlyReferences);
+    };
+
+    fetchData();
+  }, [setTotalRefs, setTotalContributors, setMonthRefs]);
+
 
   useEffect(() => {
-    getGeneralData()
-  }, [])
-
-  const toCategories = () => history.push('/categories')
-  const toThemes = () => history.push('/themes')
-  const toLogin = () => history.push('/auth/signin')
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="margin-top20 main-text-color">
+      {
+        // FIXME A t-on vraiment besoin de la div qui suit ? => Maybe not. I'll clean that when refactoring branch is merged with develop and I start SEO improving
+      }
       <div className="">
         <div className="flex justify-around margin20">
           <div className="align-self-center box-home grey-bg text-white">
@@ -58,13 +83,13 @@ const Home = () => {
         </div>
         <div className="margin-description">
           <p className="text-justify line-height text-title-like text-center">
-            Qu&apos;est-ce que{' '}
+            Qu&apos;est-ce que&nbsp;
             <span className="refemi text-title-like">refemi</span> ?
           </p>
           <hr className="margin7" />
           <p className="text-justify line-height text-title-like">
             <span className="important refemi">
-              Une plateforme collaborative :{' '}
+              Une plateforme collaborative :&nbsp;
             </span>
             qui centralise des essais, des ouvrages théoriques, des romans, des
             documentaires, des films, des podcasts... pour vous permettre de
@@ -75,21 +100,21 @@ const Home = () => {
           <p className="text-justify line-height text-title-like">
             <span className="refemi important">
               Des ressources accessibles :
-            </span>{' '}
-            refemi a été conçu comme un outil pour vous apporter du contenu, que
-            vous soyez un.e expert.e dans un domaine à la recherche de travaux
-            pointus ou que vous débutiez votre cheminement.{' '}
+            </span>
+            &nbsp; refemi a été conçu comme un outil pour vous apporter du
+            contenu, que vous soyez un.e expert.e dans un domaine à la recherche
+            de travaux pointus ou que vous débutiez votre cheminement.&nbsp;
           </p>
           <hr className="margin7" />
           <p className="text-justify line-height text-title-like">
-            <span className="important refemi">Une concept inclusif : </span>{' '}
-            notre vocation est de présenter des œuvres appartenant à différents
-            courants féministes, inscrites dans une temporalité large et en
-            provenance du monde entier. Nous ne revendiquons pas d’affiliation à
-            un courant de pensée particulier. Notre travail consiste à vous
-            apporter des éléments pour approfondir vos réflexions et vos propres
-            recherches. Ce projet, bien qu’à notre initiative, est un projet
-            commun et ouvert à tous.tes.
+            <span className="important refemi">Une concept inclusif : </span>
+            &nbsp; notre vocation est de présenter des œuvres appartenant à
+            différents courants féministes, inscrites dans une temporalité large
+            et en provenance du monde entier. Nous ne revendiquons pas
+            d’affiliation à un courant de pensée particulier. Notre travail
+            consiste à vous apporter des éléments pour approfondir vos
+            réflexions et vos propres recherches. Ce projet, bien qu’à notre
+            initiative, est un projet commun et ouvert à tous.tes.
           </p>
           <hr className="margin10" />
           <p className="text-center">
@@ -132,7 +157,5 @@ const Home = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
-export default Home

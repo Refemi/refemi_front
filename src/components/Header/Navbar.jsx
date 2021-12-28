@@ -1,41 +1,41 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
-import './Navbar.css'
+import "./Navbar.css";
 
-import { UserCredentials } from '../../App'
+import { UserCredentials } from "../../App";
 
 const Navbar = () => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const [dropDown, setDropDown] = useState(false)
-  const [isClicked, setIsClicked] = useState(false)
-  const { isLogged } = useContext(UserCredentials)
+  const [dropDown, setDropDown] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const { isLoggedIn } = useContext(UserCredentials);
 
-  const showMenu = e => {
-    e.preventDefault()
-    setIsClicked(true)
-  }
-
-  useEffect(() => {
-    const closeMenu = e => {
-      e.preventDefault()
-      setIsClicked(false)
-      document.removeEventListener('click', closeMenu)
-    }
-
-    !!dropDown && document.addEventListener('click', closeMenu)
-  }, [dropDown])
+  const showMenu = (e) => {
+    e.preventDefault();
+    setIsClicked(true);
+  };
 
   useEffect(() => {
-    setDropDown(isClicked)
-  }, [isClicked])
+    const closeMenu = (e) => {
+      e.preventDefault();
+      setIsClicked(false);
+      document.removeEventListener("click", closeMenu);
+    };
+
+    !!dropDown && document.addEventListener("click", closeMenu);
+  }, [dropDown]);
+
+  useEffect(() => {
+    setDropDown(isClicked);
+  }, [isClicked]);
 
   return (
     <nav className="margin-bottom5">
       <div className="nav-container">
         <ul>
-          <li className="nav-item" style={{ position: 'relative' }}>
+          <li className="nav-item" style={{ position: "relative" }}>
             <button
               id="dropdown"
               onClick={showMenu}
@@ -44,12 +44,12 @@ const Navbar = () => {
               Références
             </button>
             {dropDown && (
-              <div style={{ position: 'absolute', left: '2vh' }}>
+              <div style={{ position: "absolute", left: "2vh" }}>
                 <button
                   className="btn-nav pointer"
-                  onClick={ () => {
-                    history.push('/categories')
-                    setDropDown(false)
+                  onClick={() => {
+                    history.push("/categories");
+                    setDropDown(false);
                   }}
                 >
                   Catégories
@@ -57,9 +57,9 @@ const Navbar = () => {
 
                 <button
                   className="btn-nav pointer"
-                  onClick={ () => {
-                    history.push('/themes')
-                    setDropDown(false)
+                  onClick={() => {
+                    history.push("/themes");
+                    setDropDown(false);
                   }}
                 >
                   Thèmes
@@ -70,7 +70,12 @@ const Navbar = () => {
 
           <li className="nav-item">
             <button
-              onClick={ () => history.push('/dashboard') }
+              id="connection"
+              onClick={
+                !isLoggedIn
+                  ? () => history.push("/auth/signin")
+                  : () => history.push("/dashboard")
+              }
               className="btn-nav pointer"
             >
               Mon compte
@@ -80,16 +85,16 @@ const Navbar = () => {
           <li className="nav-item">
             <button
               id="contact"
-              onClick={ () => history.push('/contact') }
+              onClick={() => history.push("/contact")}
               className="btn-nav pointer"
             >
               Contact
             </button>
           </li>
-          {isLogged && (
+          {isLoggedIn && (
             <button
               className="btn pointer"
-              onClick={ () => history.push('/auth/signout') }
+              onClick={() => history.push("/auth/signout")}
             >
               (Déconnexion)
             </button>
@@ -97,7 +102,7 @@ const Navbar = () => {
         </ul>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

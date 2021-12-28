@@ -1,27 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router";
+import http from "../services/http-common";
+import "../css/refsheet.css";
 
-import '../css/refsheet.css'
+const getReferenceById = (id) => {
+  return http
+    .get(`/references/${id}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => data.reference[0]);
+};
 
-const RefSheet = () => {
-  const { id } = useParams()
-
-  const history = useHistory()
-
-  const [reference, setReference] = useState({})
-
-  const handleClick = () => history.goBack()
+export default function RefSheet() {
+  const { id } = useParams();
+  const history = useHistory();
+  const [reference, setReference] = useState({});
+  const handleClick = () => history.goBack(); // TODO: we need to make sure that in all cases it does get you to the previous page. Sometimes goBack() can be tricky
 
   useEffect(() => {
-    fetch(`http://localhost:8000/references/${id}`)
-      .then(response => response.json())
-      .then(response => setReference(response.reference[0]))
-  }, [id])
+    // Get the reference that the user clicked
+    const fetchData = async () => {
+      setReference(await getReferenceById(id));
+    };
+    fetchData();
+  }, [id, setReference]);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex flex-column align-center grey-opacity borders margin30">
@@ -43,8 +53,9 @@ const RefSheet = () => {
         <p className="reference-detail">Discipline :{reference.field}</p>
         <p className="reference-detail">Pays :{reference.country}</p>
         <p className="reference-detail">
-          Thèmes :{' '}
-          { reference.themes && reference.themes.map(theme => <p key={theme.id}>{theme}</p>) }
+          Thèmes :&nbsp;
+          {reference.themes &&
+            reference.themes.map((theme) => <p key={theme.id}>{theme}</p>)}
         </p>
       </div>
 
@@ -62,7 +73,5 @@ const RefSheet = () => {
         Retour
       </button>
     </div>
-  )
+  );
 }
-
-export default RefSheet
