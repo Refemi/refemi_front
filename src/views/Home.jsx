@@ -44,9 +44,7 @@ export default function Home() {
   // Waits for data to be ready before distributong it in state so that when the page loads it gets all needed data
   useEffect(() => {
     const fetchData = async () => {
-      const { totalReferences, totalContributors, monthlyReferences } =
-        await getHomeCounters();
-      console.log(await getHomeCounters())
+      const { totalReferences, totalContributors, monthlyReferences } = await getHomeCounters();
       setTotalRefs(totalReferences);
       setTotalContributors(totalContributors);
       setMonthRefs(monthlyReferences);
