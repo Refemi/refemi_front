@@ -175,6 +175,6 @@ export default function FormReference({ category, categories }) {
 }
 
 FormReference.propTypes = {
-  subCategories: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
   category: PropTypes.string.isRequired,
 };

@@ -6,7 +6,16 @@ import http from "../../../services/http-common";
 import { AllSections } from "../../../App";
 
 // TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
-const getSection = async (currentSection) => {};
+const getSection = async (currentCategory) => {
+  return await http
+    .get(`categories/${currentCategory}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => data.subCategories);
+};
 
 // COMPONENT
 export default function SelectReference({
@@ -22,14 +31,10 @@ export default function SelectReference({
   // Sets up a category when it's saved from click
   useEffect(() => {
     if (currentSection !== "") {
-      http
-        .get(`categories/${currentSection}`)
-        .then((response) => {
-          if (response.status === 200) {
-            return response.data;
-          }
-        })
-        .then((data) => setCategories(data.subCategories));
+      const fetchData = async () => {
+        setCategories(await getSection(currentSection));
+      };
+      fetchData();
     }
   }, [currentSection, setCategories]);
 
