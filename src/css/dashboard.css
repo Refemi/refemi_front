@@ -1,0 +1,15 @@
+.dashboard {
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.margin-bottom {
+  margin-bottom: 0.3rem;
+}
+
+.grey-bg-opacity {
+  background-color: #8fc5bb80;
+}
+
+.dashboard-title {
+  margin-bottom: 0.5rem;
+}

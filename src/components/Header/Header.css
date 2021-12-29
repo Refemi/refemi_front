@@ -1,0 +1,54 @@
+header {
+  display: flex;
+  justify-content: space-around;
+}
+
+header > img {
+  width: 170px;
+  justify-self: center;
+}
+
+.logo {
+  position: relative;
+  margin: 1em;
+}
+
+.logo > a {
+  font-size: 3em;
+  font-family: "Antique Book Cover";
+  color: #2f3030;
+  text-decoration: none;
+}
+
+.logo > span {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.logo > span:nth-child(1) {
+  background-color: #8fc6bb;
+  bottom: 0;
+  right: 0;
+}
+
+.logo > span:nth-child(2) {
+  background-color: #0808a3;
+  bottom: 0em;
+  right: -1em;
+}
+
+.logo > span:nth-child(3) {
+  background-color: #0be3af;
+  bottom: 0;
+  right: -2em;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
