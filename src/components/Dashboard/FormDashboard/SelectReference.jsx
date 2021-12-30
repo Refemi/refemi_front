@@ -6,22 +6,17 @@ import http from "../../../services/http-common";
 import { AllSections } from "../../../App";
 
 // TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
-const getSection = async (currentCategory) => {
-  return await http
-    .get(`categories/${currentCategory}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((data) => data.subCategories);
-};
+
+const getCategories = async (currentSection) => {};
+
 
 // COMPONENT
 export default function SelectReference({
   categories,
   handleChangeForm,
-  setCategories,
+
+  setCategories = [],
+
 }) {
   const { sections } = useContext(AllSections);
   const [currentSection, setCurrentSection] = useState("");
@@ -31,12 +26,24 @@ export default function SelectReference({
   // Sets up a category when it's saved from click
   useEffect(() => {
     if (currentSection !== "") {
-      const fetchData = async () => {
-        setCategories(await getSection(currentSection));
-      };
-      fetchData();
+      http
+        .get(`categories/${currentSection}`)
+        .then((response) => {
+          if (response.status === 200) {
+            return response.data;
+          }
+        })
+        .then((data) => setCategories(data.subCategories));
     }
   }, [currentSection, setCategories]);
+
+  useEffect(() => {
+    console.log("currentSection", currentSection);
+  }, [currentSection]);
+
+  useEffect(() => {
+    console.log("categories", categories);
+  }, [categories]);
 
   return (
     <form>
@@ -59,8 +66,10 @@ export default function SelectReference({
         ))}
       </select>
 
+
       {!!currentSection && categories.length > 0 && (
         <fieldset>
+
           <label className="margin5 required">Choisir une catégorie</label>
           <select
             id="categories-select"
@@ -70,9 +79,11 @@ export default function SelectReference({
           >
             <option value="default" disabled hidden />
 
+
             {categories.map((subCategory) => (
               <option key={subCategory.id} value={subCategory.name}>
                 {subCategory.label}
+
               </option>
             ))}
           </select>
