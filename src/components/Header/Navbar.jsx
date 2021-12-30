@@ -32,20 +32,20 @@ const Navbar = () => {
   }, [isClicked]);
 
   return (
-    <nav className="margin-bottom5">
-      <ul className="nav-container">
+    <nav className="mb-2 is-flex">
+      <ul className="nav-container is-flex">
         <li className="nav-item" style={{ position: "relative" }}>
           <button
             id="dropdown"
             onClick={showMenu}
-            className="btn-nav pointer"
+            className="btn-nav pointer is-uppercase"
           >
             Références
           </button>
           {dropDown && (
             <section style={{ position: "absolute", left: "2vh" }}>
               <button
-                className="btn-nav pointer"
+                className="btn-nav pointer is-uppercase"
                 onClick={() => {
                   history.push("/categories");
                   setDropDown(false);
@@ -55,7 +55,7 @@ const Navbar = () => {
               </button>
 
               <button
-                className="btn-nav pointer"
+                className="btn-nav pointer is-uppercase"
                 onClick={() => {
                   history.push("/themes");
                   setDropDown(false);
@@ -75,7 +75,7 @@ const Navbar = () => {
                 ? () => history.push("/auth/signin")
                 : () => history.push("/dashboard")
             }
-            className="btn-nav pointer"
+            className="btn-nav pointer is-uppercase"
           >
             Mon compte
           </button>
@@ -85,14 +85,14 @@ const Navbar = () => {
           <button
             id="contact"
             onClick={() => history.push("/contact")}
-            className="btn-nav pointer"
+            className="btn-nav pointer is-uppercase"
           >
             Contact
           </button>
         </li>
         {isLoggedIn && (
           <button
-            className="btn pointer"
+            className="btn pointer is-uppercase"
             onClick={() => history.push("/auth/signout")}
           >
             (Déconnexion)

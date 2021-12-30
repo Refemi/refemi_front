@@ -21,7 +21,7 @@ export default function Themes() {
 
   return (
     <main className="margin-bottom20 text-center flex is-flex-direction-column">
-      <h2 className="margin-bottom5">
+      <h2 className="mb-2">
         Cliquez sur un thème pour afficher les références associées
       </h2>
       <Button label="Retour" path="/" />

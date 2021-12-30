@@ -19,9 +19,7 @@
 .margin-bottom30 {
   margin-bottom: 30vh;
 }
-.margin-bottom5 {
-  margin-bottom: 3vh;
-}
+
 .margin5 {
   margin: 1vh 1vw;
 }
@@ -53,9 +51,6 @@
 }
 
 /* Hover */
-.pointer {
-  cursor: pointer;
-}
 
 /* Line */
 

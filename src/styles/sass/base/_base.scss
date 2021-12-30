@@ -9,6 +9,10 @@
   scroll-behavior: smooth;
 }
 
+main {
+  margin-top: 8rem;
+}
+
 a {
   text-decoration: none;
 }
@@ -104,4 +108,8 @@ hr {
   color: #0808a3;
   background-color: white;
   border: 1px solid #0808a3;
+}
+
+.pointer {
+  cursor: pointer;
 }

@@ -5,19 +5,19 @@ import { VscSearch } from "react-icons/vsc";
 // Component
 import Navbar from "./Navbar";
 
-import "./Header.css";
-
 // COMPONENT
 export default function Header() {
   const history = useHistory();
 
   return (
-    <header className="navbar flex">
+    <header className="refemi-navbar is-flex is-justify-content-space-around">
       <span className="logo pointer">
         <span onClick={() => history.push("/categories")} />
         <span onClick={() => history.push("/themes")} />
         <span onClick={() => history.push("/dashboard")} />
-        <a href="/">refemi</a>
+        <a href="/" className="refemi">
+          refemi
+        </a>
       </span>
 
       <Navbar />

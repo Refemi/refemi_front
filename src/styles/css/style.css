@@ -7,6 +7,9 @@
   font-family: "Roboto", sans-serif;
   scroll-behavior: smooth; }
 
+main {
+  margin-top: 8rem; }
+
 a {
   text-decoration: none; }
 
@@ -99,12 +102,60 @@ hr {
   background-color: white;
   border: 1px solid #0808a3; }
 
+.pointer {
+  cursor: pointer; }
+
 .counter-box {
   width: 5rem;
   height: 5rem;
   margin: 2rem; }
-  .counter-box .counter-value {
-    font-family: "Open Sans", sans-serif; }
+
+.refemi-navbar {
+  color: #4a4a4a;
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  height: 8rem;
+  background-color: white;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 999; }
+  .refemi-navbar .logo {
+    position: relative;
+    margin: 1em; }
+    .refemi-navbar .logo span {
+      bottom: 2em;
+      right: 10px;
+      position: absolute;
+      width: 0.5rem;
+      height: 0.5rem; }
+    .refemi-navbar .logo span:nth-child(1) {
+      background-color: #8fc5bb;
+      right: 0; }
+    .refemi-navbar .logo span:nth-child(2) {
+      background-color: #0808a3;
+      right: -1em; }
+    .refemi-navbar .logo span:nth-child(3) {
+      background-color: #0be3af;
+      right: -2em; }
+    .refemi-navbar .logo a {
+      font-size: 3em;
+      color: #2f3030; }
+  .refemi-navbar .nav-container .nav-item {
+    margin: auto; }
+    .refemi-navbar .nav-container .nav-item .btn-nav {
+      padding: 3vh 1vw;
+      width: 10rem; }
+    .refemi-navbar .nav-container .nav-item .btn-nav:hover {
+      color: white; }
+    .refemi-navbar .nav-container .nav-item header li:nth-child(1) > button:hover {
+      background-color: #8fc6bb;
+      color: white; }
+    .refemi-navbar .nav-container .nav-item header li:nth-child(2) > button:hover {
+      background-color: #0808a3;
+      color: white; }
+    .refemi-navbar .nav-container .nav-item header li:nth-child(3) > button:hover {
+      background-color: #0ae2af;
+      color: white; }
 
 .home .box {
   border-radius: 1rem;
@@ -121,3 +172,6 @@ hr {
 .home .paragraph-container {
   width: 60%;
   margin: auto; }
+
+.home .counter-value {
+  font-family: "Open Sans", sans-serif; }
