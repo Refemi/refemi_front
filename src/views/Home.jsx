@@ -8,8 +8,6 @@ import { AiFillPlusCircle } from "react-icons/ai";
 // Components
 import Counter from "../components/Counter";
 
-import "../css/home.css";
-
 // Get counters for homepage
 // TODO: wouldn't it be better to write a general algorithm that counts stuff and that we could use for: all references, validated/pending references in dashboards rather than calling server? We could then also use this bit of code to show the number of results on search page, but also everytime we display a list of references. And we'd call server only for: number of contributorsa and monthly references?
 const getHomeCounters = async () => {
@@ -59,101 +57,116 @@ export default function Home() {
 
   return (
     <main className="main-text-color home">
-      {
-        // FIXME A t-on vraiment besoin de la div qui suit ? => Maybe not. I'll clean that when refactoring branch is merged with develop and I start SEO improving
-      }
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
-        <h2 className="is-align-self-center counter-box box grey-bg has-text-white">
+        <h2 className="is-align-self-center counter-box box grey-bg">
           <Counter value={totalRefs} />
           <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
             Références
           </p>
         </h2>
 
-        <h2 className="is-align-self-center counter-box box darkblue-bg has-text-white">
+        <h2 className="is-align-self-center counter-box box darkblue-bg">
           <Counter value={totalContributors} />
           <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
             Contributeurs
           </p>
         </h2>
 
-        <h2 className="is-align-self-center counter-box box aqua-bg has-text-white">
+        <h2 className="is-align-self-center counter-box box aqua-bg">
           <Counter value={monthRefs} />
           <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
             nouveautés
           </p>
         </h2>
       </section>
-      <section className="mt-6">
-        <h3 className="has-text-centered line-height is-size-5 text-center">
+      <section className="m-6">
+        <hr className="m-6" />
+        <h3 className="has-text-centered line-height is-size-4 text-center">
           Qu&apos;est-ce que&nbsp;
-          <span className="refemi is-size-5">refemi</span> ?
+          <span className="refemi is-size-3">refemi</span> ?
         </h3>
-        <hr className="margin7" />
-        <p className="has-text-justified line-height is-size-5">
-          <span className="important refemi">
-            Une plateforme collaborative :&nbsp;
-          </span>
-          qui centralise des essais, des ouvrages théoriques, des romans, des
-          documentaires, des films, des podcasts... pour vous permettre de vous
-          questionner, d’avancer et d’aiguiser votre esprit critique tout en
-          nourrissant votre curiosité.
-        </p>
-        <hr className="margin7" />
-        <p className="has-text-justified line-height text-title-like">
-          <span className="refemi important">Des ressources accessibles :</span>
-          &nbsp; refemi a été conçu comme un outil pour vous apporter du
-          contenu, que vous soyez un.e expert.e dans un domaine à la recherche
-          de travaux pointus ou que vous débutiez votre cheminement.&nbsp;
-        </p>
-        <hr className="margin7" />
-        <p className="has-text-justified line-height text-title-like">
-          <span className="important refemi">Une concept inclusif : </span>
-          &nbsp; notre vocation est de présenter des œuvres appartenant à
-          différents courants féministes, inscrites dans une temporalité large
-          et en provenance du monde entier. Nous ne revendiquons pas
-          d’affiliation à un courant de pensée particulier. Notre travail
-          consiste à vous apporter des éléments pour approfondir vos réflexions
-          et vos propres recherches. Ce projet, bien qu’à notre initiative, est
-          un projet commun et ouvert à tous.tes.
-        </p>
-        <hr className="margin10" />
-        <p className="text-center">
+        <hr className="m-6" />
+        <article className="has-text-justified is-size-5 paragraph-container">
+          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+            Une plateforme collaborative:
+          </h4>
+          <p className="m-4">
+            qui centralise des essais, des ouvrages théoriques, des romans, des
+            documentaires, des films, des podcasts... pour vous permettre de
+            vous questionner, d’avancer et d’aiguiser votre esprit critique tout
+            en nourrissant votre curiosité.
+          </p>
+        </article>
+        <hr className="m-6" />
+        <article className="has-text-justified is-size-5 paragraph-container">
+          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+            Des ressources accessibles :
+          </h4>
+          <p className="m-4">
+            refemi a été conçu comme un outil pour vous apporter du contenu, que
+            vous soyez un.e expert.e dans un domaine à la recherche de travaux
+            pointus ou que vous débutiez votre cheminement.
+          </p>
+        </article>
+        <hr className="m-6" />
+        <article className="has-text-justified is-size-5 paragraph-container">
+          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+            Une concept inclusif :
+          </h4>
+          <p className="m-4">
+            notre vocation est de présenter des œuvres appartenant à différents
+            courants féministes, inscrites dans une temporalité large et en
+            provenance du monde entier. Nous ne revendiquons pas d’affiliation à
+            un courant de pensée particulier. Notre travail consiste à vous
+            apporter des éléments pour approfondir vos réflexions et vos propres
+            recherches. Ce projet, bien qu’à notre initiative, est un projet
+            commun et ouvert à tous.tes.
+          </p>
+        </article>
+        <hr className="m-6" />
+        <p className="has-text-centered">
           Bienvenue sur <span className="refemi">refemi</span>,
+          <br />
+          Margaux et Laura
         </p>
-
-        <p className="text-center">Margaux et Laura</p>
+        <hr className="m-6" />
       </section>
-      <section className="flex is-justify-content-space-around">
+      <section className="is-flex is-justify-content-space-around">
         <button
           className="is-align-self-center cat-btn pointer"
           onClick={toCategories}
         >
-          <span className="box is-align-self-center box-home grey-bg-opacity text-white position-relative">
+          <span className="box is-align-self-center box-home grey-bg-opacity has-text-white is-relative">
             <BiCategoryAlt className="position-absolute top" size={100} />
           </span>
 
-          <h4 className="box-legend ">Catégories</h4>
+          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+            Catégories
+          </h4>
         </button>
 
         <button
           className="is-align-self-center cat-btn pointer"
           onClick={toThemes}
         >
-          <span className="box is-align-self-center box-home darkblue-bg-opacity text-white position-relative">
+          <span className="box is-align-self-center box-home darkblue-bg-opacity has-text-white is-relative">
             <BsList className="position-absolute top" size={100} />
           </span>
-          <h4 className="box-legend">Thèmes</h4>
+          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+            Thèmes
+          </h4>
         </button>
 
         <button
           className="is-align-self-center cat-btn pointer"
           onClick={toLogin}
         >
-          <span className="box is-align-self-center box-home aqua-bg-opacity text-white position-relative">
+          <span className="box is-align-self-center aqua-bg-opacity has-text-white is-relative">
             <AiFillPlusCircle className="position-absolute top" size={100} />
           </span>
-          <h4 className="box-legend">Suggérer une référence</h4>
+          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+            contribuer
+          </h4>
         </button>
       </section>
     </main>

@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
 * {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  scroll-behavior: smooth;
-  color: #313232; }
+  scroll-behavior: smooth; }
 
 a {
   text-decoration: none; }
@@ -22,27 +22,39 @@ hr {
   background-color: lightgray;
   height: 0.5px; }
 
+.darkblue-text {
+  color: #0808a3; }
+
 .darkblue-bg {
   background-color: #0808a3 !important; }
+
+.darkblue-bg-opacity {
+  background-color: #0808a380 !important; }
 
 .aqua-bg {
   background-color: #0be3af !important; }
 
+.aqua-bg-opacity {
+  background-color: #0be3af80 !important; }
+
 .grey-bg {
   background-color: #8fc5bb !important; }
 
+.grey-bg-opacity {
+  background-color: #8fc5bb80 !important; }
+
 .alternate-bg:nth-child(3n + 2),
 .darkblue-bg-opacity {
-  background-color: #0808a380; }
+  background-color: #0808a380 !important; }
 
 .alternate-bg:nth-child(3n + 1),
 .grey-bg-opacity,
 .grey-bg-opacity-cat {
-  background-color: #8fc5bb80; }
+  background-color: #8fc5bb80 !important; }
 
 .alternate-bg:nth-child(3n + 3),
 .aqua-bg-opacity {
-  background-color: #0be3af80; }
+  background-color: #0be3af80 !important; }
 
 .grey-bg-opacity:hover,
 .darkblue-bg-opacity:hover,
@@ -50,16 +62,42 @@ hr {
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3); }
 
 .grey-bg-opacity:hover {
-  background-color: #8fc5bb; }
+  background-color: #8fc5bb !important; }
 
 .darkblue-bg-opacity:hover {
-  background-color: #0808a3; }
+  background-color: #0808a3 !important; }
 
 .aqua-bg-opacity:hover {
-  background-color: #0be3af; }
+  background-color: #0be3af !important; }
 
 .white-bg {
-  background-color: white; }
+  background-color: white !important; }
+
+.refemi {
+  font-family: "Old Standard TT", serif; }
+
+/* Buttons */
+.cat-btn,
+.add-btn,
+.btn {
+  background-color: transparent;
+  border-color: transparent; }
+
+.btn {
+  font-size: 0.8rem; }
+
+.btn:hover {
+  color: #0808a3; }
+
+.send-btn {
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 1rem; }
+
+.send-btn:hover {
+  color: #0808a3;
+  background-color: white;
+  border: 1px solid #0808a3; }
 
 .counter-box {
   width: 5rem;
@@ -79,3 +117,7 @@ hr {
 
 .home .counters-container {
   height: 25rem; }
+
+.home .paragraph-container {
+  width: 60%;
+  margin: auto; }

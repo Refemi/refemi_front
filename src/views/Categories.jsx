@@ -52,7 +52,7 @@ export default function Categories() {
         {sections.map((category, index) => (
           <li
             key={category.id}
-            className="cat-box position-relative margin10 alternate-bg borders pointer"
+            className="cat-box position-relative m-6 alternate-bg borders pointer"
             onClick={() => history.push(`/categories/${category.name}`)}
           >
             <span key={index} className="position-absolute-icon icon">

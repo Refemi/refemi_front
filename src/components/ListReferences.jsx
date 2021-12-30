@@ -13,7 +13,7 @@ export default function ListReferences({
 
   return (
     <section className="position-relative">
-      <h2 className="margin10" id={name}>
+      <h2 className="m-6" id={name}>
         {title.charAt(0).toUpperCase() + title.slice(1).replace(/-/g, " ")}{" "}
         {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
       </h2>

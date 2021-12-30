@@ -42,7 +42,7 @@ export default function RefSheet() {
         Retour
       </button>
 
-      <div className="dashboard-content white-bg borders width80 margin10">
+      <div className="dashboard-content white-bg borders width80 m-6">
         <p className="reference-detail">
           <span className="refemi">Nom :</span> {reference.name}
         </p>
@@ -62,7 +62,7 @@ export default function RefSheet() {
       <img src={reference.image} alt={reference.name} />
 
       <div
-        className="dashboard-content white-bg borders width80 margin10"
+        className="dashboard-content white-bg borders width80 m-6"
         dangerouslySetInnerHTML={{ __html: reference.content }}
       />
 

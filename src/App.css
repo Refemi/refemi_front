@@ -25,12 +25,7 @@
 .margin5 {
   margin: 1vh 1vw;
 }
-.margin7 {
-  margin: 5vh 2vw;
-}
-.margin10 {
-  margin: 5vw 3vw;
-}
+
 .margin20 {
   margin: 15vh 3vw;
 }
@@ -52,36 +47,9 @@
 .padding5 {
   padding: 5vh 5vw;
 }
-.refemi {
-  font-family: "Antique Book Cover";
-  font-size: 1.7rem;
-}
+
 .white-hover:hover {
   color: white;
-}
-
-/* Buttons */
-.cat-btn,
-.add-btn,
-.btn {
-  background-color: transparent;
-  border-color: transparent;
-}
-.btn {
-  font-size: 0.8rem;
-}
-.btn:hover {
-  color: #0808a3;
-}
-.send-btn {
-  border: 1px solid white;
-  border-radius: 0.5rem;
-  padding: 1rem;
-}
-.send-btn:hover {
-  color: #0808a3;
-  background-color: white;
-  border: 1px solid #0808a3;
 }
 
 /* Hover */

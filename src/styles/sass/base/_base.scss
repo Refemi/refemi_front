@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
   scroll-behavior: smooth;
-  color: $dark-grey;
 }
 
 a {
@@ -25,27 +25,40 @@ hr {
   height: 0.5px;
 }
 
+.darkblue-text {
+  color: $dark-blue;
+}
+
 .darkblue-bg {
   background-color: $dark-blue !important;
+}
+.darkblue-bg-opacity {
+  background-color: $faded-dark-blue !important;
 }
 .aqua-bg {
   background-color: $aqua !important;
 }
+.aqua-bg-opacity {
+  background-color: $faded-aqua !important;
+}
 .grey-bg {
   background-color: $green-grey !important;
 }
+.grey-bg-opacity {
+  background-color: $faded-green-grey !important;
+}
 .alternate-bg:nth-child(3n + 2),
 .darkblue-bg-opacity {
-  background-color: $faded-dark-blue;
+  background-color: $faded-dark-blue !important;
 }
 .alternate-bg:nth-child(3n + 1),
 .grey-bg-opacity,
 .grey-bg-opacity-cat {
-  background-color: $faded-green-grey;
+  background-color: $faded-green-grey !important;
 }
 .alternate-bg:nth-child(3n + 3),
 .aqua-bg-opacity {
-  background-color: $faded-aqua;
+  background-color: $faded-aqua !important;
 }
 .grey-bg-opacity:hover,
 .darkblue-bg-opacity:hover,
@@ -53,14 +66,42 @@ hr {
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 }
 .grey-bg-opacity:hover {
-  background-color: $green-grey;
+  background-color: $green-grey !important;
 }
 .darkblue-bg-opacity:hover {
-  background-color: $dark-blue;
+  background-color: $dark-blue !important;
 }
 .aqua-bg-opacity:hover {
-  background-color: $aqua;
+  background-color: $aqua !important;
 }
 .white-bg {
-  background-color: $white;
+  background-color: $white !important;
+}
+
+.refemi {
+  font-family: $font-refemi;
+}
+
+/* Buttons */
+.cat-btn,
+.add-btn,
+.btn {
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn {
+  font-size: 0.8rem;
+}
+.btn:hover {
+  color: #0808a3;
+}
+.send-btn {
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.send-btn:hover {
+  color: #0808a3;
+  background-color: white;
+  border: 1px solid #0808a3;
 }

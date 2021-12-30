@@ -12,4 +12,13 @@
   .counters-container {
     height: 25rem;
   }
+
+  .paragraph-container {
+    width: 60%;
+    margin: auto;
+  }
+
+  .counter-value {
+    font-family: $font-open-sans;
+  }
 }

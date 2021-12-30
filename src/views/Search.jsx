@@ -28,7 +28,7 @@ export default function Search() {
         placeholder="Recherche"
         value={search}
         onChange={inputSearch}
-        className="borders form-input width80 margin10"
+        className="borders form-input width80 m-6"
       />
 
       <IoIosClose className="clearBtn" onClick={clearInput} />

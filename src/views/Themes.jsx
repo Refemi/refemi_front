@@ -26,7 +26,7 @@ export default function Themes() {
       </h2>
       <Button label="Retour" path="/" />
       <section className="flex is-justify-content-center">
-        <ul className="flex is-flex-wrap-wrap borders is-justify-content-space-between square margin10">
+        <ul className="flex is-flex-wrap-wrap borders is-justify-content-space-between square m-6">
           {themes
             .sort(() => (Math.random() > 0.5 ? 1 : -1))
             .map((theme) => (
