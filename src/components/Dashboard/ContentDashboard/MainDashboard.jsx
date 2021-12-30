@@ -24,7 +24,7 @@ export default function MainDashboard({ contributions }) {
     const { userCredentials } = useContext(UserCredentials)
 
     return (
-      <div className="dashboard dashboard-content borders">
+      <article className="dashboard dashboard-content borders">
         {contributions.validated === 0 && contributions.pending === 0
           && (<p>Aucune contribution validée</p>)
         }
@@ -33,6 +33,6 @@ export default function MainDashboard({ contributions }) {
           ? renderContributorDashboard(contributions)
           : null
         }
-      </div>
+      </article>
     )
 }

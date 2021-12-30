@@ -20,26 +20,26 @@ export default function Themes() {
   }, []);
 
   return (
-    <div className="margin-bottom20 text-center flex flex-column">
-      <p className="margin-bottom5">
+    <main className="margin-bottom20 text-center flex flex-column">
+      <h2 className="margin-bottom5">
         Cliquez sur un thème pour afficher les références associées
-      </p>
+      </h2>
       <Button label="Retour" path="/" />
-      <div className="flex justify-center">
-        <div className="flex flex-wrap borders justify-between square margin10">
+      <section className="flex justify-center">
+        <ul className="flex flex-wrap borders justify-between square margin10">
           {themes
             .sort(() => (Math.random() > 0.5 ? 1 : -1))
             .map((theme) => (
-              <p
+              <li
                 className="margin5 pointer theme"
                 key={theme.id}
                 onClick={() => history.push(`/themes/${theme.name}`)}
               >
-                {theme.label}
-              </p>
+                <h3>{theme.label}</h3>
+              </li>
             ))}
-        </div>
-      </div>
-    </div>
+        </ul>
+      </section>
+    </main>
   );
 }

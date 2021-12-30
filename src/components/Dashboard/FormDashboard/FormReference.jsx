@@ -101,8 +101,10 @@ export default function FormReference({ category, categories }) {
           onSubmit={handleSubmit(onSubmit)}
           className="borders flex flex-column align-center"
         >
-          <h3 className="margin10"> Catégorie :{currentCategory.label}</h3>
-          <div className="margin-input flex flex-column width80">
+
+          <h2 className="margin10"> Catégorie :{currentCategory.label}</h2>
+          <fieldset className="margin-input flex flex-column width80">
+
             <label htmlFor="reference_name" className="required">
               Nom / Titre
             </label>
@@ -114,9 +116,11 @@ export default function FormReference({ category, categories }) {
             {errors.reference_name && (
               <span className="error">Veuillez renseigner ce champ</span>
             )}
-          </div>
 
-          <div className="margin-input flex flex-column width80">
+          </fieldset>
+
+          <fieldset className="margin-input flex flex-column width80">
+
             <label htmlFor="reference_country_name" className="required">
               Pays d&apos;origine
             </label>
@@ -125,9 +129,11 @@ export default function FormReference({ category, categories }) {
               options={countries}
               className="form-input"
             />
-          </div>
 
-          <div className="margin-input flex flex-column width80">
+          </fieldset>
+
+          <fieldset className="margin-input flex flex-column width80">
+
             <label htmlFor="reference_name" className="required">
               Année
             </label>
@@ -136,9 +142,11 @@ export default function FormReference({ category, categories }) {
               className="form-input"
               {...register("reference_date", { required: true })}
             />
-          </div>
 
-          <div className="margin-input flex flex-column width80">
+          </fieldset>
+
+          <fieldset className="margin-input flex flex-column width80">
+
             <label htmlFor="reference-content" className="required">
               Contenu
             </label>
@@ -150,9 +158,11 @@ export default function FormReference({ category, categories }) {
               editorClassName="form-input"
               onEditorStateChange={handleEditorChange}
             />
-          </div>
 
-          <div className="margin-input flex flex-column width80">
+          </fieldset>
+
+          <fieldset className="margin-input flex flex-column width80">
+
             <label htmlFor="reference-image">Image</label>
             <input
               type="file"
@@ -161,15 +171,15 @@ export default function FormReference({ category, categories }) {
               id="reference-image"
               accept="image/png, image/jpeg"
             />
-          </div>
 
-          <div className="">
-            <input
-              type="submit"
-              value="Envoyer"
-              className="darkblue-bg send-btn text-white"
-            />
-          </div>
+          </fieldset>
+
+          <input
+            type="submit"
+            value="Envoyer"
+            className="darkblue-bg send-btn text-white"
+          />
+
         </form>
       )}
     </>

@@ -175,24 +175,23 @@ export default function Connection() {
   }, []);
 
   return (
-    <div className="flex flex-column align-center margin-top20">
-      <p>Envie de collaborer et de proposer de nouvelles références ?</p>
-      <p className="margin-bottom10">
+    <main className="flex flex-column align-center margin-top20">
+      <h2>Envie de collaborer et de proposer de nouvelles références ?</h2>
+      <h3 className="margin-bottom10">
         Devenez contributeur·ice en&nbsp;
         {sign === "signin"
           ? "vous connectant"
           : sign === "signup"
           ? "vous créant un compte"
           : null}
-      </p>
+      </h3>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="borders flex flex-column align-center margin-bottom10"
-        style={{ minWidth: "30vw" }}
-      >
+        style={{ minWidth: "30vw" }}>
         {sign === "signup" && (
-          <div className="margin-input flex flex-column width80">
+          <fieldset className="margin-input flex flex-column width80">
             <label>Nom</label>
             <input
               type="text"
@@ -200,10 +199,10 @@ export default function Connection() {
               className="form-input"
               {...register("name", { required: true })}
             />
-          </div>
+          </fieldset>
         )}
 
-        <div className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex flex-column width80">
           <label>Email</label>
           <input
             type="text"
@@ -212,9 +211,9 @@ export default function Connection() {
             className="form-input"
             {...register("mail", { required: true })}
           />
-        </div>
+        </fieldset>
 
-        <div className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex flex-column width80">
           <label>Mot de passe</label>
           <input
             type="password"
@@ -222,9 +221,9 @@ export default function Connection() {
             className="form-input"
             {...register("password", { required: true, minLength: 6 })}
           />
-        </div>
+        </fieldset>
         {sign === "signup" && (
-          <div className="margin-input flex flex-column width80">
+          <fieldset className="margin-input flex flex-column width80">
             <label>Confirmation du mot de passe</label>
             <input
               type="password"
@@ -235,30 +234,30 @@ export default function Connection() {
                 minLength: 6,
               })}
             />
-          </div>
+          </fieldset>
         )}
         {sign === "signup" ? (
-          <input
-            className="margin-bottom20 darkblue-bg send-btn text-white"
-            type="submit"
-            value="Créer un compte"
-          />
+          <button className="margin-bottom20 darkblue-bg send-btn text-white"
+          type="submit">
+            Créer un compte
+            </button>
         ) : (
-          <div className="flex justify-between">
-            <input
+          <fieldset className="flex justify-between">
+            <button
               className="darkblue-bg send-btn text-white pointer"
               type="submit"
-              value="Se connecter"
-            />
+            >
+              Se connecter
+            </button>
             <button
               className="darkblue-bg send-btn text-white pointer"
               onClick={() => history.push("/auth/signup")}
             >
               Créer un compte
             </button>
-          </div>
+          </fieldset>
         )}
       </form>
-    </div>
+    </main>
   );
 }

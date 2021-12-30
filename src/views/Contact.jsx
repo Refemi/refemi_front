@@ -37,15 +37,14 @@ export default function Contact () {
   }, [])
 
   return (
-    <div className="flex flex-column align-center margin-top20">
-      <p>Des remarques, des suggestions d&apos;améliorations, des questions ?</p>
+    <main className="flex flex-column align-center margin-top20">
+      <h2>Des remarques, des suggestions d&apos;améliorations, des questions sur <span className='refemi'>refemi</span> ?</h2>
       <p>Contactez-nous !</p>
 
       <form
         className="borders flex flex-column align-center width80"
-        onSubmit={handleSend}
-      >
-        <div className="margin-input flex flex-column width80">
+        onSubmit={handleSend}>
+        <fieldset className="margin-input flex flex-column width80">
           <label htmlFor="username">Nom</label>
           <input
             id="username"
@@ -55,9 +54,9 @@ export default function Contact () {
             className="form-input"
             required
           />
-        </div>
+        </fieldset>
 
-        <div className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex flex-column width80">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -67,9 +66,9 @@ export default function Contact () {
             className="form-input"
             required
           />
-        </div>
+        </fieldset>
 
-        <div className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex flex-column width80">
           <label htmlFor="message">Message</label>
           <textarea
             id="message"
@@ -80,7 +79,7 @@ export default function Contact () {
             className="form-input"
             required
           />
-        </div>
+        </fieldset>
 
         <button
           className="margin-bottom20 darkblue-bg text-white send-btn pointer"
@@ -89,6 +88,6 @@ export default function Contact () {
           {status}
         </button>
       </form>
-    </div>
+    </main>
   )
 }

@@ -11,8 +11,7 @@ export default function WidgetCat({ categories }) {
   // TODO: Turn this into a fixed sidebar
 
   return (
-    <div className="position-relative">
-      <div className="widget borders flex">
+      <section className="widget borders flex">
         <button
           className="show-btn margin5"
           onClick={() => setIsShown(!isShown)}
@@ -21,8 +20,9 @@ export default function WidgetCat({ categories }) {
         </button>
 
         {isShown && (
-          <div className="flex borders">
+          <ul className=" flex borders">
             {categories.map((category) => (
+              <li>
               <a
                 key={uuidv4()}
                 href={`#${category.name ? category.name : category}`}
@@ -32,11 +32,12 @@ export default function WidgetCat({ categories }) {
                   {category.label ? category.label : category}
                 </button>
               </a>
+
+              </li>
             ))}
-          </div>
+          </ul>
         )}
-      </div>
-    </div>
+      </section>
   );
 }
 

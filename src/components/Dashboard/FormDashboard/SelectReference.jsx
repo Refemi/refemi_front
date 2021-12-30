@@ -6,13 +6,17 @@ import http from "../../../services/http-common";
 import { AllSections } from "../../../App";
 
 // TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
+
 const getCategories = async (currentSection) => {};
+
 
 // COMPONENT
 export default function SelectReference({
   categories,
   handleChangeForm,
+
   setCategories = [],
+
 }) {
   const { sections } = useContext(AllSections);
   const [currentSection, setCurrentSection] = useState("");
@@ -42,7 +46,7 @@ export default function SelectReference({
   }, [categories]);
 
   return (
-    <>
+    <form>
       <label className="margin5 required" htmlFor="categories-select">
         Choisir une rubrique
       </label>
@@ -62,8 +66,10 @@ export default function SelectReference({
         ))}
       </select>
 
-      {currentSection && categories.length > 0 && (
-        <>
+
+      {!!currentSection && categories.length > 0 && (
+        <fieldset>
+
           <label className="margin5 required">Choisir une catégorie</label>
           <select
             id="categories-select"
@@ -73,14 +79,16 @@ export default function SelectReference({
           >
             <option value="default" disabled hidden />
 
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.label}
+
+            {categories.map((subCategory) => (
+              <option key={subCategory.id} value={subCategory.name}>
+                {subCategory.label}
+
               </option>
             ))}
           </select>
-        </>
+        </fieldset>
       )}
-    </>
+    </form>
   );
 }
