@@ -23,9 +23,9 @@ export default function AddReference({ changeIsClicked }) {
   }, [showForm, setCurrentForm]);
 
   return (
-    <section className="dashboard dashboard-content borders flex flex-column align-center">
+    <section className="dashboard dashboard-content borders flex is-flex-direction-column is-align-items-center">
       <button
-        className="margin-end10 pointer send-btn darkblue-bg text-white align-self-right"
+        className="margin-end10 pointer send-btn darkblue-bg text-white is-align-self-flex-end"
         onClick={() => changeIsClicked()}
       >
         Retour à mes contributions
@@ -34,19 +34,15 @@ export default function AddReference({ changeIsClicked }) {
       <p className="margin5 refemi">Soumettre une nouvelle contribution</p>
 
       {showForm ? (
-
-        <article className="flex flex-column width80">
-
+        <article className="flex is-flex-direction-column width80">
           <button
             onClick={() => setShowForm(false)}
-            className="margin-end10 pointer send-btn darkblue-bg text-white align-self-right"
+            className="margin-end10 pointer send-btn darkblue-bg text-white is-align-self-flex-end"
           >
             Retour aux rubriques
           </button>
           <FormReference category={currentForm} categories={categories} />
-
         </article>
-
       ) : (
         <SelectReference
           handleChangeForm={handleChange}
@@ -54,9 +50,7 @@ export default function AddReference({ changeIsClicked }) {
           categories={categories}
         />
       )}
-
     </section>
-
   );
 }
 

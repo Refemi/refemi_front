@@ -135,7 +135,7 @@ export default function Connection() {
     }
   };
 
-// Redirections and token management
+  // Redirections and token management
   useEffect(() => {
     switch (sign) {
       case "signin":
@@ -175,7 +175,7 @@ export default function Connection() {
   }, []);
 
   return (
-    <main className="flex flex-column align-center margin-top20">
+    <main className="flex is-flex-direction-column is-align-items-center margin-top20">
       <h2>Envie de collaborer et de proposer de nouvelles références ?</h2>
       <h3 className="margin-bottom10">
         Devenez contributeur·ice en&nbsp;
@@ -188,10 +188,11 @@ export default function Connection() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="borders flex flex-column align-center margin-bottom10"
-        style={{ minWidth: "30vw" }}>
+        className="borders flex is-flex-direction-column is-align-items-center margin-bottom10"
+        style={{ minWidth: "30vw" }}
+      >
         {sign === "signup" && (
-          <fieldset className="margin-input flex flex-column width80">
+          <fieldset className="margin-input flex is-flex-direction-column width80">
             <label>Nom</label>
             <input
               type="text"
@@ -202,7 +203,7 @@ export default function Connection() {
           </fieldset>
         )}
 
-        <fieldset className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex is-flex-direction-column width80">
           <label>Email</label>
           <input
             type="text"
@@ -213,7 +214,7 @@ export default function Connection() {
           />
         </fieldset>
 
-        <fieldset className="margin-input flex flex-column width80">
+        <fieldset className="margin-input flex is-flex-direction-column width80">
           <label>Mot de passe</label>
           <input
             type="password"
@@ -223,7 +224,7 @@ export default function Connection() {
           />
         </fieldset>
         {sign === "signup" && (
-          <fieldset className="margin-input flex flex-column width80">
+          <fieldset className="margin-input flex is-flex-direction-column width80">
             <label>Confirmation du mot de passe</label>
             <input
               type="password"
@@ -237,12 +238,14 @@ export default function Connection() {
           </fieldset>
         )}
         {sign === "signup" ? (
-          <button className="margin-bottom20 darkblue-bg send-btn text-white"
-          type="submit">
+          <button
+            className="margin-bottom20 darkblue-bg send-btn text-white"
+            type="submit"
+          >
             Créer un compte
-            </button>
+          </button>
         ) : (
-          <fieldset className="flex justify-between">
+          <fieldset className="flex is-justify-content-space-between">
             <button
               className="darkblue-bg send-btn text-white pointer"
               type="submit"

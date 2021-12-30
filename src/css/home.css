@@ -11,20 +11,9 @@
 .line-height {
   line-height: 2rem;
 }
-.text-title-like {
-  font-size: 1.2rem;
-}
+
 .important {
   color: #0808a3;
-}
-.box-home {
-  border-radius: 1rem;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-  min-width: 10rem;
-  min-height: 10rem;
-  max-width: 15rem;
-  max-height: 15rem;
 }
 
 /* Numbers counters */

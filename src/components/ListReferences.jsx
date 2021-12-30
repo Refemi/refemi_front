@@ -18,7 +18,7 @@ export default function ListReferences({
         {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
       </h2>
 
-      <article className="description-center text-center borders flex justify-around padding2rem line white-bg margin5">
+      <article className="description-center text-center borders flex is-justify-content-space-around padding2rem line white-bg margin5">
         <p className="reflist">Nom / Titre</p>
         <p className="reflist">Pays</p>
         <p className="reflist">Thèmes</p>
@@ -30,7 +30,7 @@ export default function ListReferences({
           <article
             key={reference.id}
             id={reference.id}
-            className="description-center text-center borders flex justify-between padding2rem line description white-bg pointer margin5"
+            className="description-center text-center borders flex is-justify-content-space-between padding2rem line description white-bg pointer margin5"
             onClick={() => history.push(`/references/${reference.id}`)}
           >
             <h3 className="reflist-div">{reference.name}</h3>

@@ -14,13 +14,14 @@ const getSearchInfo = async (answer) => {
       ? (insert = insert.join(""))
       : (insert = insert.join("<->"));
 
-  return await http.get(`search?answer=${insert}`)
-    .then(res => {
+  return await http
+    .get(`search?answer=${insert}`)
+    .then((res) => {
       if (res.status === 200) {
         return res.data;
       }
     })
-    .then(data => data.search);
+    .then((data) => data.search);
 };
 
 // COMPONENT
@@ -44,12 +45,12 @@ export default function SearchResult({ answer = "" }) {
           <div
             key={item.id}
             id={item.id}
-            className="description-center text-center borders flex justify-between padding2rem line description"
+            className="description-center text-center borders flex is-justify-content-space-between padding2rem line description"
             onClick={() => history.push(`/references/${item.id}`)}
           >
             <div className="reflist-div">{item.reference_name}</div>
             <div className="reflist-div">{item.reference_country_name}</div>
-            <div className="align-self-right reflist-div" />
+            <div className="is-align-self-flex-end reflist-div" />
           </div>
         ))}
     </div>

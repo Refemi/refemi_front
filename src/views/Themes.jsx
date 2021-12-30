@@ -20,13 +20,13 @@ export default function Themes() {
   }, []);
 
   return (
-    <main className="margin-bottom20 text-center flex flex-column">
+    <main className="margin-bottom20 text-center flex is-flex-direction-column">
       <h2 className="margin-bottom5">
         Cliquez sur un thème pour afficher les références associées
       </h2>
       <Button label="Retour" path="/" />
-      <section className="flex justify-center">
-        <ul className="flex flex-wrap borders justify-between square margin10">
+      <section className="flex is-justify-content-center">
+        <ul className="flex is-flex-wrap-wrap borders is-justify-content-space-between square margin10">
           {themes
             .sort(() => (Math.random() > 0.5 ? 1 : -1))
             .map((theme) => (

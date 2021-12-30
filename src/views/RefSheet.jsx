@@ -34,9 +34,9 @@ export default function RefSheet() {
   }, []);
 
   return (
-    <div className="flex flex-column align-center grey-opacity borders margin30">
+    <div className="flex is-flex-direction-column is-align-items-center grey-opacity borders margin30">
       <button
-        className="align-self-right send-btn darkblue-bg text-white"
+        className="is-align-self-flex-end send-btn darkblue-bg text-white"
         onClick={handleClick}
       >
         Retour
@@ -67,7 +67,7 @@ export default function RefSheet() {
       />
 
       <button
-        className="align-self-right send-btn darkblue-bg text-white"
+        className="is-align-self-flex-end send-btn darkblue-bg text-white"
         onClick={handleClick}
       >
         Retour

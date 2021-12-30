@@ -1,27 +1,32 @@
-import React from "react"
-import { useHistory } from "react-router"
-import { AiFillPlusCircle } from "react-icons/ai"
+import React from "react";
+import { useHistory } from "react-router";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 // Components
-import Counter from "../../Counter"
+import Counter from "../../Counter";
 
 // COMPONENT
-export default function Header ({ currentUser, contributions, users, setShowNewRef }) {
-  const history = useHistory()
+export default function Header({
+  currentUser,
+  contributions,
+  users,
+  setShowNewRef,
+}) {
+  const history = useHistory();
 
   return (
-    <header className="flex flex-column justify-around dashboard dashboard-content borders grey-bg-opacity-cat">
+    <header className="flex is-flex-direction-column is-justify-content-space-around dashboard dashboard-content borders grey-bg-opacity-cat">
       <p>
         Bienvenue, {currentUser.name}&nbsp;
         <span
           className="pointer white-hover"
-          onClick={ () => history.push('/auth/signout') }
+          onClick={() => history.push("/auth/signout")}
         >
           (Déconnexion)
         </span>
       </p>
 
-      <article className="flex justify-between">
+      <article className="flex is-justify-content-space-between">
         <Counter
           label="contributions validées"
           value={contributions.validated}
@@ -34,7 +39,7 @@ export default function Header ({ currentUser, contributions, users, setShowNewR
         />
 
         {currentUser.role === 3 && (
-          <div className="flex justify-around">
+          <div className="flex is-justify-content-space-around">
             <Counter
               label="contributeurs"
               value={users.totalContributors ? users.totalContributors : 0}
@@ -47,14 +52,14 @@ export default function Header ({ currentUser, contributions, users, setShowNewR
           </div>
         )}
 
-        <div className="box justify-center align-center">
+        <div className="box is-justify-content-center is-align-items-center">
           <AiFillPlusCircle
-            onClick={ () => setShowNewRef(true) }
+            onClick={() => setShowNewRef(true)}
             size={32}
             className="pointer"
           />
         </div>
       </article>
     </header>
-  )
+  );
 }

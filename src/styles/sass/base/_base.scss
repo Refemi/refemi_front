@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+  color: $dark-grey;
+}
+
+a {
+  text-decoration: none;
+}
+li {
+  list-style-type: none;
+}
+fieldset {
+  border: none;
+}
+hr {
+  border: none;
+  color: lightgray;
+  background-color: lightgray;
+  height: 0.5px;
+}
+
+.darkblue-bg {
+  background-color: $dark-blue !important;
+}
+.aqua-bg {
+  background-color: $aqua !important;
+}
+.grey-bg {
+  background-color: $green-grey !important;
+}
+.alternate-bg:nth-child(3n + 2),
+.darkblue-bg-opacity {
+  background-color: $faded-dark-blue;
+}
+.alternate-bg:nth-child(3n + 1),
+.grey-bg-opacity,
+.grey-bg-opacity-cat {
+  background-color: $faded-green-grey;
+}
+.alternate-bg:nth-child(3n + 3),
+.aqua-bg-opacity {
+  background-color: $faded-aqua;
+}
+.grey-bg-opacity:hover,
+.darkblue-bg-opacity:hover,
+.aqua-bg-opacity:hover {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+.grey-bg-opacity:hover {
+  background-color: $green-grey;
+}
+.darkblue-bg-opacity:hover {
+  background-color: $dark-blue;
+}
+.aqua-bg-opacity:hover {
+  background-color: $aqua;
+}
+.white-bg {
+  background-color: $white;
+}

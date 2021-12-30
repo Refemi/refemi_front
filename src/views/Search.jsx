@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import { IoIosClose } from 'react-icons/io'
+import React, { useState } from "react";
+import { IoIosClose } from "react-icons/io";
 
-import '../components/SearchBar/SearchBar.css'
+import "../components/SearchBar/SearchBar.css";
 
 // Components
-import SearchResult from '../components/SearchBar/SearchResult'
+import SearchResult from "../components/SearchBar/SearchResult";
 
 // COMPONENT
-export default function Search () {
-  const [search, setSearch] = useState('')
+export default function Search() {
+  const [search, setSearch] = useState("");
 
   // get what user typed
-  const inputSearch = e => setSearch(e.target.value)
+  const inputSearch = (e) => setSearch(e.target.value);
   // clear what user typed (for cross in input)
-  const clearInput = () => setSearch('')
+  const clearInput = () => setSearch("");
 
   // TODO: watch out the cross in the input. It goes everywhere. It needs to be in absolute position relative to a div that has in it just the input and the cross.
 
   return (
-    <div className="search margin-top20 flex flex-column align-center">
+    <div className="search margin-top20 flex is-flex-direction-column is-align-items-center">
       <p className="margin-top">
         Tapez votre mot-clé pour trouver la liste des références associées
       </p>
@@ -33,7 +33,7 @@ export default function Search () {
 
       <IoIosClose className="clearBtn" onClick={clearInput} />
 
-      { search === '' ? null : <SearchResult answer={search} /> }
+      {search === "" ? null : <SearchResult answer={search} />}
     </div>
-  )
+  );
 }

@@ -14,7 +14,6 @@ import { AllSections } from "../App";
 
 import "../css/categories.css";
 
-
 // Show icon depending on category
 const setIcon = (categoryName) => {
   switch (categoryName) {
@@ -47,27 +46,28 @@ export default function Categories() {
   return (
     <main
       className="margin-top10"
-      style={{ marginLeft: "auto", marginRight: "auto" }}>
-        <ul className="flex flex-wrap justify-center ">
+      style={{ marginLeft: "auto", marginRight: "auto" }}
+    >
+      <ul className="flex is-flex-wrap-wrap is-justify-content-center ">
         {sections.map((category, index) => (
-        <li
-          key={category.id}
-          className="cat-box position-relative margin10 alternate-bg borders pointer"
-          onClick={() => history.push(`/categories/${category.name}`)}>
-          <span key={index} className="position-absolute-icon icon">
-            {setIcon(category.label)}
-          </span>
-          <p
+          <li
             key={category.id}
-            className="cat-description description-center text-center borders align-self-center"
-            style={{ position: "absolute", left: "2rem", bottom: "-4vh" }}
+            className="cat-box position-relative margin10 alternate-bg borders pointer"
+            onClick={() => history.push(`/categories/${category.name}`)}
           >
-            {category.label.toUpperCase()}
-          </p>
-        </li>
-      ))}
-        </ul>
-
+            <span key={index} className="position-absolute-icon icon">
+              {setIcon(category.label)}
+            </span>
+            <p
+              key={category.id}
+              className="cat-description description-center text-center borders is-align-self-center"
+              style={{ position: "absolute", left: "2rem", bottom: "-4vh" }}
+            >
+              {category.label.toUpperCase()}
+            </p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
