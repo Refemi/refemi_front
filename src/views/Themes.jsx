@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import "../css/themes.css";
-
 // Component import
 import Button from "../components/Button/Button";
 
@@ -20,18 +18,18 @@ export default function Themes() {
   }, []);
 
   return (
-    <main className="margin-bottom20 text-center flex is-flex-direction-column">
-      <h2 className="mb-2">
+    <main className="mb-6 has-text-center is-flex is-flex-direction-column themes">
+      <h2 className="">
         Cliquez sur un thème pour afficher les références associées
       </h2>
       <Button label="Retour" path="/" />
-      <section className="flex is-justify-content-center">
-        <ul className="flex is-flex-wrap-wrap borders is-justify-content-space-between square m-6">
+      <section className="is-flex is-justify-content-center themes-container">
+        <ul className="is-flex is-flex-wrap-wrap borders is-justify-content-space-between">
           {themes
             .sort(() => (Math.random() > 0.5 ? 1 : -1))
             .map((theme) => (
               <li
-                className="margin5 pointer theme"
+                className="m-1 pointer theme"
                 key={theme.id}
                 onClick={() => history.push(`/themes/${theme.name}`)}
               >

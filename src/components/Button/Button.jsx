@@ -9,7 +9,7 @@ export default function Button({ label = "", path = null }) {
 
   return (
     <button
-      className="margin-top10 margin-end10 pointer send-btn darkblue-bg text-white is-align-self-flex-end"
+      className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end mr-6"
       onClick={path !== null && (() => history.push(path))}
     >
       {label}
