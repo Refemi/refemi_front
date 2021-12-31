@@ -19,15 +19,12 @@ li {
 fieldset {
   border: none; }
 
-hr {
-  border: none;
-  color: lightgray;
-  background-color: lightgray;
-  height: 0.5px; }
-
 /* COLORS */
 .darkblue-text {
   color: #0808a3; }
+
+.green-grey-text {
+  color: #8fc5bb; }
 
 .darkblue-bg {
   background-color: #0808a3 !important; }
@@ -140,7 +137,18 @@ button {
   @media (min-width: 1024px) {
     .counter-value {
       margin-left: -0.5rem;
-      font-size: 1.4rem; } }
+      font-size: 1.2rem; } }
+
+.footer {
+  background-color: white !important;
+  margin: 0; }
+  @media (min-width: 1024px) {
+    .footer {
+      margin: 0 3rem; } }
+  .footer .networks {
+    display: block; }
+  .footer-text {
+    font-size: 0.8rem; }
 
 .refemi-navbar {
   color: #4a4a4a;

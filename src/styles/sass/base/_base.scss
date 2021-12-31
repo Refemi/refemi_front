@@ -22,16 +22,13 @@ li {
 fieldset {
   border: none;
 }
-hr {
-  border: none;
-  color: lightgray;
-  background-color: lightgray;
-  height: 0.5px;
-}
 
 /* COLORS */
 .darkblue-text {
   color: $dark-blue;
+}
+.green-grey-text {
+  color: $green-grey;
 }
 .darkblue-bg {
   background-color: $dark-blue !important;

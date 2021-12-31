@@ -1,0 +1,15 @@
+.footer {
+  background-color: $white !important;
+  margin: 0;
+
+  @include tablet {
+    margin: 0 3rem;
+  }
+  .networks {
+    display: block;
+  }
+
+  &-text {
+    font-size: $font-08;
+  }
+}
