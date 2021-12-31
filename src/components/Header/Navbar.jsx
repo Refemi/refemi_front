@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { BsList } from "react-icons/bs";
 
 // Context
 import { UserCredentials } from "../../App";
@@ -10,6 +11,7 @@ const Navbar = () => {
 
   const [dropDown, setDropDown] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
   const { isLoggedIn } = useContext(UserCredentials);
 
   const showMenu = (e) => {
@@ -23,18 +25,30 @@ const Navbar = () => {
       setIsClicked(false);
       document.removeEventListener("click", closeMenu);
     };
-
     !!dropDown && document.addEventListener("click", closeMenu);
   }, [dropDown]);
+
+  useEffect(() => {
+    const navToggle = document.querySelector(".nav-toggle");
+    const links = document.querySelector(".nav-container");
+
+    navToggle.addEventListener("click", () => {
+      links.classList.toggle("show-links");
+    });
+  }, [isToggled]);
 
   useEffect(() => {
     setDropDown(isClicked);
   }, [isClicked]);
 
   return (
-    <nav className="is-flex">
-      <ul className="nav-container is-flex">
-        <li className="nav-item is-relative">
+    <nav className="nav-center is-relative">
+      <button className="nav-toggle" onClick={() => setIsToggled(!isToggled)}>
+        <BsList size={50} />
+      </button>
+
+      <ul className="nav-container">
+        <li className="nav-item">
           <button
             id="dropdown"
             onClick={showMenu}

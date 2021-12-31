@@ -36,7 +36,46 @@
     }
   }
 
+  .nav-center {
+    margin: auto 0;
+
+    .nav-toggle:hover {
+      color: $dark-blue;
+      transform: rotate(90deg);
+      transition: 0.5s;
+    }
+    .nav-toggle {
+      position: relative;
+      max-height: 50px;
+      width: 50px;
+      margin: auto;
+      background-color: transparent;
+      z-index: 99;
+
+      @include tablet {
+        display: none;
+      }
+    }
+  }
   .nav-container {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: -50px;
+    border-radius: $border-radius-1;
+    transition: 0.5s;
+
+    &.show-links {
+      display: block;
+      box-shadow: $down-box-shadow;
+    }
+
+    @include tablet {
+      position: unset;
+      top: unset;
+      left: unset;
+    }
+
     .nav-item {
       margin: auto;
       .btn-nav {
@@ -51,9 +90,14 @@
       }
 
       .dropdown-items {
-        box-shadow: $down-box-shadow;
+        display: flex;
+        flex-direction: column;
+        box-shadow: $medium-box-shadow;
         border-radius: $border-radius-1;
       }
+    }
+    @include tablet {
+      display: flex;
     }
   }
 

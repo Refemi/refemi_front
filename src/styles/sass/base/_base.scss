@@ -64,7 +64,7 @@ fieldset {
 .grey-bg-opacity:hover,
 .darkblue-bg-opacity:hover,
 .aqua-bg-opacity:hover {
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: $medium-box-shadow;
 }
 .grey-bg-opacity:hover {
   background-color: $green-grey !important;
@@ -91,20 +91,20 @@ fieldset {
   border-color: transparent;
 }
 .btn {
-  font-size: 0.8rem;
+  font-size: $font-08;
 }
 .btn:hover {
-  color: #0808a3;
+  color: $dark-blue;
 }
 .send-btn {
-  border: 1px solid white;
-  border-radius: 0.5rem;
+  border: 1px solid $white;
+  border-radius: $border-radius-half;
   padding: 1rem;
 }
 .send-btn:hover {
-  color: #0808a3;
-  background-color: white;
-  border: 1px solid #0808a3;
+  color: $dark-blue;
+  background-color: $white;
+  border: 1px solid $dark-blue;
 }
 button {
   border-radius: $border-radius-1;
