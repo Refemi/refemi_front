@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
+.refemi {
+  font-family: "Old Standard TT", serif; }
+
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -74,10 +78,7 @@ fieldset {
 .white-bg {
   background-color: white !important; }
 
-.refemi {
-  font-family: "Old Standard TT", serif; }
-
-/* Buttons */
+/* BUTTONS */
 .cat-btn,
 .add-btn,
 .btn {
@@ -117,6 +118,9 @@ button {
   @media (min-width: 1024px) {
     .position-absolute-icon {
       top: 1.6rem; } }
+  .position-absolute-icon.category-icon {
+    top: 4rem;
+    transform: translateX(43%); }
 
 .counter-box {
   width: 5rem;
@@ -297,3 +301,29 @@ button {
         width: 60%; } }
   .home .second-menu {
     margin: 3rem 0; }
+
+.categories {
+  margin: auto;
+  padding-top: 10rem; }
+  .categories .cat-box {
+    min-width: 20rem;
+    min-height: 15rem;
+    border-radius: 1rem; }
+  .categories .cat-box:hover {
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3); }
+  .categories .cat-box:nth-child(3n + 1):hover {
+    background-color: #8fc5bb; }
+  .categories .cat-box:nth-child(3n + 2):hover {
+    background-color: #0808a3; }
+  .categories .cat-box:nth-child(3n + 3):hover {
+    background-color: #0be3af; }
+  .categories .cat-description {
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    width: 14rem;
+    height: 4rem;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+    z-index: 99;
+    bottom: -15px;
+    left: 15%; }

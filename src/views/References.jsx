@@ -8,7 +8,6 @@ import ListReferences from "../components/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import Button from "../components/Button/Button";
 
-import "../css/categories.css";
 import "../css/references.css";
 
 // Gets categories (correspond to subcategories in DB at the moment)

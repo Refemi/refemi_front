@@ -1,18 +1,21 @@
+// FONTS
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
+.refemi {
+  font-family: $font-refemi;
+}
 
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
   scroll-behavior: smooth;
 }
-
 main {
   margin-top: 8rem;
 }
-
 a {
   text-decoration: none;
 }
@@ -79,11 +82,7 @@ fieldset {
   background-color: $white !important;
 }
 
-.refemi {
-  font-family: $font-refemi;
-}
-
-/* Buttons */
+/* BUTTONS */
 .cat-btn,
 .add-btn,
 .btn {
@@ -111,7 +110,6 @@ button {
   border: none;
   background-color: $white;
 }
-
 .pointer {
   cursor: pointer;
 }
@@ -125,5 +123,9 @@ button {
 
   @include tablet {
     top: 1.6rem;
+  }
+  &.category-icon {
+    top: 4rem;
+    transform: translateX(43%);
   }
 }

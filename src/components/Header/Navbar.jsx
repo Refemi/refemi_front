@@ -31,7 +31,6 @@ const Navbar = () => {
   useEffect(() => {
     const navToggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".nav-container");
-
     navToggle.addEventListener("click", () => {
       links.classList.toggle("show-links");
     });
