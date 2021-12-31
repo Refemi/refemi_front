@@ -10,16 +10,6 @@
 .cat-box:nth-child(3n + 3):hover {
   background-color: #0be3af;
 }
-.position-absolute {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.position-absolute-icon {
-  position: absolute;
-  left: 35%;
-  transform: translateY(50%);
-}
 .position-relative {
   position: relative;
 }

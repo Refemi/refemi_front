@@ -58,36 +58,36 @@ export default function Home() {
   return (
     <main className="main-text-color home">
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
-        <h2 className="is-align-self-center counter-box box grey-bg">
+        <h2 className="is-align-self-center counter-box box grey-bg-opacity">
           <Counter value={totalRefs} />
-          <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
             Références
           </p>
         </h2>
 
-        <h2 className="is-align-self-center counter-box box darkblue-bg">
+        <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
           <Counter value={totalContributors} />
-          <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
             Contributeurs
           </p>
         </h2>
 
-        <h2 className="is-align-self-center counter-box box aqua-bg">
+        <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
           <Counter value={monthRefs} />
-          <p className="is-align-self-center is-size-5 is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
             nouveautés
           </p>
         </h2>
       </section>
-      <section className="m-6">
-        <hr className="m-6" />
+      <section className="home-text">
+        <hr />
         <h3 className="has-text-centered line-height is-size-4 text-center">
           Qu&apos;est-ce que&nbsp;
           <span className="refemi is-size-3">refemi</span> ?
         </h3>
-        <hr className="m-6" />
+        <hr />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+          <h4 className="darkblue-text refemi has-text-centered">
             Une plateforme collaborative:
           </h4>
           <p className="m-4">
@@ -97,9 +97,9 @@ export default function Home() {
             en nourrissant votre curiosité.
           </p>
         </article>
-        <hr className="m-6" />
+        <hr />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+          <h4 className="darkblue-text refemi has-text-centered">
             Des ressources accessibles :
           </h4>
           <p className="m-4">
@@ -108,9 +108,9 @@ export default function Home() {
             pointus ou que vous débutiez votre cheminement.
           </p>
         </article>
-        <hr className="m-6" />
+        <hr />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="darkblue-text refemi has-text-centered is-size-3">
+          <h4 className="darkblue-text refemi has-text-centered">
             Une concept inclusif :
           </h4>
           <p className="m-4">
@@ -123,36 +123,30 @@ export default function Home() {
             commun et ouvert à tous.tes.
           </p>
         </article>
-        <hr className="m-6" />
+        <hr />
         <p className="has-text-centered">
           Bienvenue sur <span className="refemi">refemi</span>,
           <br />
           Margaux et Laura
         </p>
-        <hr className="m-6" />
+        <hr />
       </section>
-      <section className="is-flex is-justify-content-space-around">
-        <button
-          className="is-align-self-center cat-btn pointer"
-          onClick={toCategories}
-        >
-          <span className="box is-align-self-center box-home grey-bg-opacity has-text-white is-relative">
-            <BiCategoryAlt className="position-absolute top" size={100} />
+      <section className="is-flex is-justify-content-space-around second-menu">
+        <button className="cat-btn pointer" onClick={toCategories}>
+          <span className="box grey-bg-opacity has-text-white is-relative">
+            <BiCategoryAlt className="position-absolute-icon" size={100} />
           </span>
 
-          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+          <h4 className="is-uppercase has-text-centered counter-value">
             Catégories
           </h4>
         </button>
 
-        <button
-          className="is-align-self-center cat-btn pointer"
-          onClick={toThemes}
-        >
-          <span className="box is-align-self-center box-home darkblue-bg-opacity has-text-white is-relative">
-            <BsList className="position-absolute top" size={100} />
+        <button className="cat-btn pointer" onClick={toThemes}>
+          <span className="box darkblue-bg-opacity has-text-white is-relative">
+            <BsList className="position-absolute-icon" size={100} />
           </span>
-          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+          <h4 className="is-uppercase has-text-centered counter-value">
             Thèmes
           </h4>
         </button>
@@ -161,10 +155,10 @@ export default function Home() {
           className="is-align-self-center cat-btn pointer"
           onClick={toLogin}
         >
-          <span className="box is-align-self-center aqua-bg-opacity has-text-white is-relative">
-            <AiFillPlusCircle className="position-absolute top" size={100} />
+          <span className="box aqua-bg-opacity has-text-white is-relative">
+            <AiFillPlusCircle className="position-absolute-icon" size={100} />
           </span>
-          <h4 className="is-size-5 is-uppercase has-text-centered counter-value">
+          <h4 className="is-uppercase has-text-centered counter-value">
             contribuer
           </h4>
         </button>

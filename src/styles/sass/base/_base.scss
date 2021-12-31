@@ -29,10 +29,10 @@ hr {
   height: 0.5px;
 }
 
+/* COLORS */
 .darkblue-text {
   color: $dark-blue;
 }
-
 .darkblue-bg {
   background-color: $dark-blue !important;
 }
@@ -109,7 +109,24 @@ hr {
   background-color: white;
   border: 1px solid #0808a3;
 }
+button {
+  border-radius: $border-radius-1;
+  border: none;
+  background-color: $white;
+}
 
 .pointer {
   cursor: pointer;
+}
+
+/* GENERAL */
+.position-absolute-icon {
+  position: absolute;
+  transform: translateX(-50%);
+  width: 80%;
+  top: -0.8rem;
+
+  @include tablet {
+    top: 1.6rem;
+  }
 }

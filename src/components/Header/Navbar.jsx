@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import "./Navbar.css";
-
+// Context
 import { UserCredentials } from "../../App";
 
+// COMPONENT
 const Navbar = () => {
   const history = useHistory();
 
@@ -32,18 +32,21 @@ const Navbar = () => {
   }, [isClicked]);
 
   return (
-    <nav className="mb-2 is-flex">
+    <nav className="is-flex">
       <ul className="nav-container is-flex">
-        <li className="nav-item" style={{ position: "relative" }}>
+        <li className="nav-item is-relative">
           <button
             id="dropdown"
             onClick={showMenu}
-            className="btn-nav pointer is-uppercase"
+            className="dropdown-btn btn-nav pointer is-uppercase"
           >
             Références
           </button>
           {dropDown && (
-            <section style={{ position: "absolute", left: "2vh" }}>
+            <section
+              className="dropdown-items"
+              style={{ position: "absolute" }}
+            >
               <button
                 className="btn-nav pointer is-uppercase"
                 onClick={() => {
@@ -92,7 +95,7 @@ const Navbar = () => {
         </li>
         {isLoggedIn && (
           <button
-            className="btn pointer is-uppercase"
+            className="btn-nav pointer is-uppercase"
             onClick={() => history.push("/auth/signout")}
           >
             (Déconnexion)

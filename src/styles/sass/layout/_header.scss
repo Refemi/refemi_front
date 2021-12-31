@@ -5,7 +5,7 @@
   width: 100%;
   height: 8rem;
   background-color: $white;
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: $down-box-shadow;
   z-index: 999;
 
   .logo {
@@ -43,23 +43,45 @@
         padding: 3vh 1vw;
         width: 10rem;
       }
-      .btn-nav:hover {
+      .btn-nav:hover,
+      .dropdown-btn:hover {
         color: $white;
-      }
-      header li:nth-child(1) > button:hover {
-        background-color: #8fc6bb;
-        color: white;
+        box-shadow: $light-box-shadow;
+        transition: 0.5s;
       }
 
-      header li:nth-child(2) > button:hover {
-        background-color: #0808a3;
-        color: white;
+      .dropdown-items {
+        box-shadow: $down-box-shadow;
+        border-radius: $border-radius-1;
       }
+    }
+  }
 
-      header li:nth-child(3) > button:hover {
-        background-color: #0ae2af;
-        color: white;
-      }
+  .nav-item:nth-child(1) {
+    .dropdown-btn:hover {
+      background-color: $green-grey !important;
+      color: $white;
+    }
+
+    .btn-nav:nth-child(1):hover {
+      background-color: $dark-blue;
+      color: $white;
+    }
+    .btn-nav:nth-child(2):hover {
+      background-color: $aqua;
+      color: $white;
+    }
+  }
+  .nav-item:nth-child(2) {
+    .btn-nav:hover {
+      background-color: $dark-blue;
+      color: $white;
+    }
+  }
+  .nav-item:nth-child(3) {
+    .btn-nav:hover {
+      background-color: $aqua;
+      color: $white;
     }
   }
 }
