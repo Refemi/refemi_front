@@ -19,12 +19,13 @@ export default function Themes() {
 
   return (
     <main className="mb-6 has-text-center is-flex is-flex-direction-column themes">
-      <h2 className="">
+      <h2 className="has-text-centered my-6">
         Cliquez sur un thème pour afficher les références associées
       </h2>
+      
+      <section className="themes-container">
       <Button label="Retour" path="/" />
-      <section className="is-flex is-justify-content-center themes-container">
-        <ul className="is-flex is-flex-wrap-wrap borders is-justify-content-space-between">
+        <ul className="mt-6 is-flex is-flex-wrap-wrap borders is-justify-content-space-between">
           {themes
             .sort(() => (Math.random() > 0.5 ? 1 : -1))
             .map((theme) => (

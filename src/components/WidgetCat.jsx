@@ -22,13 +22,13 @@ export default function WidgetCat({ categories }) {
         {isShown && (
           <ul className=" flex borders">
             {categories.map((category) => (
-              <li>
+              <li key={uuidv4()}>
               <a
                 key={uuidv4()}
                 href={`#${category.name ? category.name : category}`}
                 className="link-no-decoration main-text-color widget-link"
               >
-                <button key={category.id} className="widget-btn pointer">
+                <button key={uuidv4()} className="widget-btn pointer">
                   {category.label ? category.label : category}
                 </button>
               </a>

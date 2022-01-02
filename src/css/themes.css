@@ -1,26 +1,2 @@
-.square {
-  padding: 2vh 1vw;
-  width: 70vw;
-  height: auto;
-}
-.theme:nth-child(7n + 2) {
-  color: #0808a3;
-}
-.theme:nth-child(7n + 3) {
-  font-size: 1.1rem;
-}
-.theme:nth-child(7n + 4) {
-  color: grey;
-}
-.theme:nth-child(7n + 5) {
-  font-size: 1.2rem;
-}
-.theme:nth-child(7n + 6) {
-  font-size: 1rem;
-}
-.theme:nth-child(7n + 7) {
-  color: #8fc5bb;
-}
-.theme:hover {
-  color: #0be3af;
-}
+
+

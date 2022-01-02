@@ -1,6 +1,34 @@
 .themes {
   &-container {
-    margin: auto;
     width: 80%;
+    margin: auto;
+  }
+
+  .theme:nth-child(7n + 2) {
+    color: $dark-blue;
+  }
+  .theme:nth-child(7n + 3) {
+    font-size: $font-10;
+  }
+  .theme:nth-child(7n + 4) {
+    color: $dark-grey;
+  }
+  .theme:nth-child(7n + 5) {
+    font-size: $font-12;
+  }
+  .theme:nth-child(7n + 6) {
+    font-size: $font-08;
+  }
+  .theme:nth-child(7n + 7) {
+    color: $green-grey;
+  }
+  .theme:hover {
+    color: $aqua;
+  }
+
+  .square {
+    padding: 2vh 1vw;
+    width: 70vw;
+    height: auto;
   }
 }

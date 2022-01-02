@@ -329,4 +329,31 @@ button {
     left: 15%; }
 
 .themes-container {
-  width: 90%; }
+  width: 80%;
+  margin: auto; }
+
+.themes .theme:nth-child(7n + 2) {
+  color: #0808a3; }
+
+.themes .theme:nth-child(7n + 3) {
+  font-size: 1rem; }
+
+.themes .theme:nth-child(7n + 4) {
+  color: #4a4a4a; }
+
+.themes .theme:nth-child(7n + 5) {
+  font-size: 1.2rem; }
+
+.themes .theme:nth-child(7n + 6) {
+  font-size: 0.8rem; }
+
+.themes .theme:nth-child(7n + 7) {
+  color: #8fc5bb; }
+
+.themes .theme:hover {
+  color: #0be3af; }
+
+.themes .square {
+  padding: 2vh 1vw;
+  width: 70vw;
+  height: auto; }
