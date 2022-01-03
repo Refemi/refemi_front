@@ -14,8 +14,6 @@ import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 // Context
 import { UserCredentials } from "../App";
 
-import "../css/dashboard.css";
-
 // COMPONENT
 const getContributorCounters = async (token) => {
   return await http
@@ -100,8 +98,8 @@ export default function Dashboard() {
 
   return (
     isLoggedIn && (
-      <main className="margin-top10">
-        <section className="flex is-justify-content-center is-flex-direction-column">
+      <main className="dashboard">
+        <section className="is-flex is-justify-content-center is-flex-direction-column">
           <HeaderDashboard
             currentUser={{
               name: userCredentials.name,

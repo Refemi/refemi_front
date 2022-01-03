@@ -15,44 +15,52 @@ export default function Header({
   const history = useHistory();
 
   return (
-    <header className="flex is-flex-direction-column is-justify-content-space-around dashboard dashboard-content borders grey-bg-opacity-cat">
-      <p>
+    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
+      <p className="pl-6 pt-6">
         Bienvenue, {currentUser.name}&nbsp;
-        <span
-          className="pointer white-hover"
-          onClick={() => history.push("/auth/signout")}
-        >
+        <span className="pointer" onClick={() => history.push("/auth/signout")}>
           (Déconnexion)
         </span>
       </p>
+      <h2 className="has-text-centered is-uppercase has-text-weight-bold">
+        Tableau des contributions
+      </h2>
+      <hr />
 
-      <article className="flex is-justify-content-space-between">
-        <Counter
-          label="contributions validées"
-          value={contributions.validated}
-          className="white-bg"
-        />
+      <article className="is-flex is-justify-content-space-between px-6 pb-6">
+        <div className="is-flex is-flex-direction-column is-align-items-center">
+          <Counter
+            label="contributions validées"
+            value={contributions.validated}
+          />
+          <p className="has-text-weight-bold">VALIDÉES</p>
+        </div>
 
-        <Counter
-          label="contributions en attente"
-          value={contributions.pending}
-        />
+        <div className="is-flex is-flex-direction-column is-align-items-center">
+          <Counter
+            label="contributions en attente"
+            value={contributions.pending}
+          />
+          <p className="has-text-weight-bold">EN ATTENTE</p>
+        </div>
 
         {currentUser.role === 3 && (
-          <div className="flex is-justify-content-space-around">
+          <div className="box counter-box is-flex is-justify-content-space-around">
             <Counter
               label="contributeurs"
               value={users.totalContributors ? users.totalContributors : 0}
             />
+            <p className="has-text-weight-bold">CONTRIBUTEURS</p>
 
             <Counter
               label="admins"
               value={users.nbOfAdmins ? users.nbOfAdmins : 0}
             />
+            <p className="has-text-weight-bold">ADMINS</p>
           </div>
         )}
 
-        <div className="box is-justify-content-center is-align-items-center">
+        <div className="box counter-box is-flex is-justify-content-center">
           <AiFillPlusCircle
             onClick={() => setShowNewRef(true)}
             size={32}

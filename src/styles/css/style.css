@@ -454,3 +454,10 @@ button {
     color: #0808a3;
     font-weight: bolder;
     font-size: 1.4rem; }
+
+.dashboard {
+  padding: 5rem; }
+  .dashboard-header {
+    background-color: #8fc5bb80; }
+  .dashboard .counter-value {
+    font-size: 0.8rem !important; }

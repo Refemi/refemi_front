@@ -1,0 +1,11 @@
+.dashboard {
+  padding: 5rem;
+
+  &-header {
+    background-color: $faded-green-grey;
+  }
+
+  .counter-value {
+    font-size: $font-08 !important;
+  }
+}
