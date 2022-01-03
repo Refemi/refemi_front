@@ -150,6 +150,30 @@ button {
     .counter-text {
       font-size: 1.2rem; } }
 
+.widget {
+  position: fixed;
+  width: 90vw;
+  top: 12%;
+  left: 0; }
+  .widget-btn {
+    min-width: 10rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: lightgray;
+    padding: 1rem; }
+    .widget-btn:hover {
+      background-color: white;
+      border: 1px solid #0808a3;
+      color: #0808a3; }
+  .widget .show-btn {
+    margin-left: 5rem;
+    min-width: 3rem;
+    height: 3rem;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    color: darkgrey;
+    font-weight: bold; }
+
 .footer {
   background-color: white !important;
   margin: 0; }

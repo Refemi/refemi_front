@@ -1,0 +1,30 @@
+.widget {
+  position: fixed;
+  width: 90vw;
+  top: 12%;
+  left: 0;
+
+  &-btn {
+    min-width: 10rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: lightgray;
+    padding: 1rem;
+
+    &:hover {
+      background-color: white;
+      border: 1px solid #0808a3;
+      color: #0808a3;
+    }
+  }
+
+  .show-btn {
+    margin-left: 5rem;
+    min-width: 3rem;
+    height: 3rem;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    color: darkgrey;
+    font-weight: bold;
+  }
+}

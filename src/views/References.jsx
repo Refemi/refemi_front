@@ -97,8 +97,8 @@ export default function References() {
 
   return (
     <main
-      style={{ width: "80%", margin: "20vh auto" }}
-      className="flex is-flex-direction-column borders padding5 position-relative"
+      style={{ width: "100%" }}
+      className="is-flex is-flex-direction-column borders padding5 is-relative"
     >
       <WidgetCat categories={categories} />
 
