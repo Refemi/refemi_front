@@ -5,7 +5,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 // COMPONENT
 export default function WidgetCat({ categories = [] }) {
-  const [isShown, setIsShown] = useState(true);
+  const [isShown, setIsShown] = useState(false);
   // TODO: Turn this into a fixed sidebar
 
   return (

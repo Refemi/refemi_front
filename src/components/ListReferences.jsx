@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-
-import "../css/references.css";
+import { v4 as uuidv4 } from "uuid";
 
 // COMPONENT
 export default function ListReferences({
@@ -12,34 +11,36 @@ export default function ListReferences({
   const history = useHistory();
 
   return (
-    <section className="position-relative">
-      <h2 className="m-6" id={name}>
+    <section>
+      <h2 className="m-6 category-title is-uppercase" id={name}>
         {title.charAt(0).toUpperCase() + title.slice(1).replace(/-/g, " ")}{" "}
         {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
       </h2>
 
-      <article className="description-center text-center borders flex is-justify-content-space-around padding2rem line white-bg margin5">
+      <article className="description-center has-text-center borders is-flex is-justify-content-space-between p-5 line white-bg m-3">
         <p className="reflist">Nom / Titre</p>
-        <p className="reflist">Pays</p>
-        <p className="reflist">Thèmes</p>
+        <p className="reflist is-hidden-mobile">Pays</p>
+        <p className="reflist is-hidden-mobile">Thèmes</p>
       </article>
 
       {references
         .sort(() => (Math.random() > 0.5 ? 1 : -1))
         .map((reference) => (
           <article
-            key={reference.id}
+            key={uuidv4()}
             id={reference.id}
-            className="description-center text-center borders flex is-justify-content-space-between padding2rem line description white-bg pointer margin5"
+            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between p-5 line m-3"
             onClick={() => history.push(`/references/${reference.id}`)}
           >
             <h3 className="reflist-div">{reference.name}</h3>
-            <p className="reflist-div">{reference.country}</p>
-            <span className="reflist-div scrollbar">
-              {reference.themes.map((theme, index) => (
-                <h4 key={index}>{theme}</h4>
-              ))}
-            </span>
+            <p className="reflist-div is-hidden-mobile">{reference.country}</p>
+            {reference.themes ? (
+              <span className="reflist-div scrollbar is-hidden-mobile">
+                {reference.themes.map((theme) => (
+                  <h4 key={uuidv4()}>{theme}</h4>
+                ))}
+              </span>
+            ) : null}
           </article>
         ))}
     </section>

@@ -154,7 +154,10 @@ button {
   position: fixed;
   width: 90vw;
   top: 12%;
-  left: 0; }
+  left: -50px; }
+  @media (min-width: 1024px) {
+    .widget {
+      left: 0; } }
   .widget-btn {
     min-width: 10rem;
     border: 1px solid white;
@@ -391,3 +394,33 @@ button {
   padding: 2vh 1vw;
   width: 70vw;
   height: auto; }
+
+.references {
+  padding: 4rem 1rem 1rem 1rem;
+  width: 100%; }
+  @media (min-width: 768px) {
+    .references {
+      padding: 4rem; } }
+  .references .description {
+    min-height: 2rem; }
+    .references .description-center {
+      box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
+      .references .description-center-reference {
+        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
+      .references .description-center-reference:hover {
+        background-color: #8fc5bb;
+        color: white; }
+  .references .reflist,
+  .references .reflist-div {
+    font-weight: bolder; }
+  .references .reflist {
+    color: lightgray; }
+  .references .scrollbar {
+    min-height: 60px;
+    overflow-y: scroll;
+    scrollbar-color: #4a4a4a;
+    scrollbar-width: thin; }
+  .references .category-title {
+    color: #0808a3;
+    font-weight: bolder;
+    font-size: 1.4rem; }

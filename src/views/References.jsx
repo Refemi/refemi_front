@@ -8,8 +8,6 @@ import ListReferences from "../components/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import Button from "../components/Button/Button";
 
-import "../css/references.css";
-
 // Gets categories (correspond to subcategories in DB at the moment)
 const getCategories = async (categoryName) => {
   return await http
@@ -72,6 +70,10 @@ export default function References() {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    console.log(references);
+  }, [references]);
+
   // Get references for Categories page OR Themes page, waiting to have the clicked category/theme before showing data
   useEffect(() => {
     const fetchData = async () => {
@@ -96,14 +98,11 @@ export default function References() {
   }, [references, themeName]);
 
   return (
-    <main
-      style={{ width: "100%" }}
-      className="is-flex is-flex-direction-column borders padding5 is-relative"
-    >
+    <main className="is-flex is-flex-direction-column borders references is-relative">
       <WidgetCat categories={categories} />
 
       <Button
-        className="is-align-self-flex-end send-btn darkblue-bg text-white"
+        className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
         path="/themes"
         label="Retour"
       />

@@ -2,7 +2,11 @@
   position: fixed;
   width: 90vw;
   top: 12%;
-  left: 0;
+  left: -50px;
+
+  @include tablet {
+    left: 0;
+  }
 
   &-btn {
     min-width: 10rem;
