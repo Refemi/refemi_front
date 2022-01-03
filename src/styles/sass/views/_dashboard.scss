@@ -1,6 +1,11 @@
 .dashboard {
   padding: 5rem;
 
+  &-content {
+    box-shadow: $light-box-shadow;
+    padding: 5vh;
+  }
+
   &-header {
     background-color: $faded-green-grey;
   }

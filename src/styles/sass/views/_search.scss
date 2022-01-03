@@ -1,0 +1,17 @@
+.search {
+  .search-input {
+    width: 80%;
+    margin: auto 0;
+  }
+
+  .clearBtn {
+    font-size: 2rem;
+    position: absolute;
+    top: 38%;
+    right: 12%;
+
+    @include tablet {
+      right: 10%;
+    }
+  }
+}

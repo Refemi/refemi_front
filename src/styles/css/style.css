@@ -458,9 +458,25 @@ button {
 
 .dashboard {
   padding: 5rem; }
+  .dashboard-content {
+    box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
+    padding: 5vh; }
   .dashboard-header {
     background-color: #8fc5bb80; }
   .dashboard .counter-value {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
     margin-bottom: 10rem; }
+
+.search .search-input {
+  width: 80%;
+  margin: auto 0; }
+
+.search .clearBtn {
+  font-size: 2rem;
+  position: absolute;
+  top: 38%;
+  right: 12%; }
+  @media (min-width: 1024px) {
+    .search .clearBtn {
+      right: 10%; } }

@@ -1,18 +1,6 @@
 .icon-navbar:hover {
   color: grey;
 }
-.search-input {
-  margin: auto 0;
-  position: relative;
-}
-
-.clearBtn {
-  font-size: 2rem;
-  position: absolute;
-  top: 45.3%;
-  right: 10%;
-  cursor: pointer;
-}
 
 .dataResult {
   margin-top: 5px;
