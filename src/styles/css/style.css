@@ -38,6 +38,8 @@ label {
 /* COLORS */
 .darkblue-text {
   color: #0808a3; }
+  .darkblue-text:hover {
+    color: #8fc5bb; }
 
 .green-grey-text {
   color: #8fc5bb; }
@@ -202,7 +204,8 @@ button {
   width: 100%;
   margin-bottom: 20rem;
   margin-top: 0;
-  padding-top: 1rem; }
+  padding-top: 1rem;
+  background-color: #8fc5bb80; }
   @media (min-width: 1024px) {
     .reference-content {
       width: 90%;

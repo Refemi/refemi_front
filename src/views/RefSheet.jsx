@@ -35,7 +35,7 @@ export default function RefSheet() {
 
   return (
     <main className="is-flex is-flex-direction-column is-align-items-center borders">
-      <div className="is-flex is-flex-direction-column is-align-items-center grey-bg-opacity reference-content mx-6 borders">
+      <div className="is-flex is-flex-direction-column is-align-items-center reference-content mx-6 borders">
         <button
           className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
           onClick={handleClick}
@@ -64,7 +64,19 @@ export default function RefSheet() {
             <span className="refemi">Thèmes :&nbsp;</span>
             {reference.themes &&
               reference.themes.map((theme) => (
-                <h4 className="has-text-weight-bold" key={uuidv4()}>
+                <h4
+                  className="has-text-weight-bold pointer darkblue-text"
+                  key={uuidv4()}
+                  onClick={() =>
+                    history.push(
+                      `/themes/${theme
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")}`
+                    )
+                  }
+                >
                   {theme}
                 </h4>
               ))}

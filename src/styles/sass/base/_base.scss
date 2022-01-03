@@ -41,6 +41,9 @@ label {
 /* COLORS */
 .darkblue-text {
   color: $dark-blue;
+  &:hover {
+    color: $green-grey;
+  }
 }
 .green-grey-text {
   color: $green-grey;
