@@ -1,0 +1,71 @@
+.home {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include tablet {
+    width: 80%;
+  }
+  &-text {
+    margin: 0;
+    @include tablet {
+      margin: 1rem;
+    }
+
+    h4 {
+      font-size: $font-12;
+      @include tablet {
+        font-size: $font-16;
+      }
+    }
+    p {
+      font-size: $font-10;
+      @include tablet {
+        font-size: $font-12;
+      }
+    }
+
+    hr {
+      margin: 1rem;
+      @include tablet {
+        margin: 2rem;
+      }
+    }
+  }
+  .box {
+    margin: auto;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    min-width: 4.5rem;
+    min-height: 4.5rem;
+    max-width: 4.5rem;
+    max-height: 4.5rem;
+
+    @include tablet {
+      min-width: 10rem;
+      min-height: 10rem;
+    }
+  }
+  .box:last-child {
+    margin-bottom: 1.5rem;
+  }
+  .counters-container {
+    height: 10rem;
+    @include tablet {
+      height: 15rem;
+    }
+  }
+
+  .paragraph-container {
+    margin: auto;
+    width: 80%;
+    @include tablet {
+      width: 60%;
+    }
+  }
+
+  .second-menu {
+    margin: 3rem 0;
+  }
+}

@@ -1,16 +1,10 @@
-import React from 'react'
-
-import '../css/counter.css'
+import React from "react";
 
 // COMPONENT
-export default function Counter({ label = '', value = ''}) {
-  return(
-    <div className="box justify-center align-center">
-      <p className="text-center number-counters">{value}</p>
-      {label
-        ? <p className="box-legend text-center">{label}</p>
-        : null
-      }
+export default function Counter({ value = "" }) {
+  return (
+    <div className="counter-box box is-flex is-justify-content-center is-align-items-center">
+      <p className="counter-value">{value}</p>
     </div>
-  )
+  );
 }

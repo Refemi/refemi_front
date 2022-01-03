@@ -17,7 +17,8 @@ import Search from "./views/Search";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
-import "./App.css";
+import "./styles/css/style.css";
+import "bulma/css/bulma.min.css";
 
 // Contexts
 export const UserCredentials = createContext();

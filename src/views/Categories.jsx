@@ -8,12 +8,10 @@ import {
   GiNewspaper,
   GiBookCover,
 } from "react-icons/gi";
+import { v4 as uuidv4 } from "uuid";
 
 // Context
 import { AllSections } from "../App";
-
-import "../css/categories.css";
-
 
 // Show icon depending on category
 const setIcon = (categoryName) => {
@@ -45,29 +43,30 @@ export default function Categories() {
   }, []);
 
   return (
-    <main
-      className="margin-top10"
-      style={{ marginLeft: "auto", marginRight: "auto" }}>
-        <ul className="flex flex-wrap justify-center ">
-        {sections.map((category, index) => (
-        <li
-          key={category.id}
-          className="cat-box position-relative margin10 alternate-bg borders pointer"
-          onClick={() => history.push(`/categories/${category.name}`)}>
-          <span key={index} className="position-absolute-icon icon">
-            {setIcon(category.label)}
-          </span>
-          <p
-            key={category.id}
-            className="cat-description description-center text-center borders align-self-center"
-            style={{ position: "absolute", left: "2rem", bottom: "-4vh" }}
+    <main className="categories">
+      <ul className="is-flex is-flex-wrap-wrap is-justify-content-center ">
+        {sections.map((category) => (
+          <li
+            key={uuidv4()}
+            className="cat-box is-relative m-6 alternate-bg pointer"
+            onClick={() => history.push(`/categories/${category.name}`)}
           >
-            {category.label.toUpperCase()}
-          </p>
-        </li>
-      ))}
-        </ul>
-
+            <span
+              key={uuidv4()}
+              className="position-absolute-icon category-icon has-text-white"
+            >
+              {setIcon(category.label)}
+            </span>
+            <p
+              key={uuidv4()}
+              className="cat-description description-center has-text-centered has-text-weight-bold"
+              style={{ position: "absolute" }}
+            >
+              {category.label.toUpperCase()}
+            </p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

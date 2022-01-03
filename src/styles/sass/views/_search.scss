@@ -1,0 +1,45 @@
+.search {
+  .search-input {
+    width: 80%;
+    margin: auto 0;
+  }
+
+  .clearBtn {
+    font-size: 2rem;
+    position: absolute;
+    top: 38%;
+    right: 12%;
+
+    @include tablet {
+      right: 10%;
+    }
+  }
+}
+
+.icon-navbar:hover {
+  color: $aqua;
+  transition: 0.5s;
+  width: 30px;
+  height: 30px;
+}
+
+/* TODO: To be updated when we use ListReference instead of this new redondant component */
+
+.dataResult {
+  width: 80%;
+  height: 20%;
+  overflow: hidden;
+}
+
+.line {
+  box-shadow: $light-box-shadow;
+}
+.description {
+  height: 3rem;
+}
+.description:hover {
+  background-color: #8fc5bb80;
+}
+.select {
+  width: 30%;
+}

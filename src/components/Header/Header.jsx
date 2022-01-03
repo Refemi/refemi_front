@@ -1,31 +1,31 @@
-import React from 'react'
-import { useHistory } from 'react-router'
-import { VscSearch } from 'react-icons/vsc'
+import React from "react";
+import { useHistory } from "react-router";
+import { VscSearch } from "react-icons/vsc";
 
 // Component
-import Navbar from './Navbar'
-
-import './Header.css'
+import Navbar from "./Navbar";
 
 // COMPONENT
-export default function Header () {
-  const history = useHistory()
+export default function Header() {
+  const history = useHistory();
 
   return (
-    <header className="navbar flex">
+    <header className="refemi-navbar is-flex is-justify-content-space-around">
       <span className="logo pointer">
-        <span onClick={ () => history.push('/categories') } />
-        <span onClick={ () => history.push('/themes') } />
-        <span onClick={ () => history.push('/dashboard') } />
-        <a href="/">refemi</a>
+        <span onClick={() => history.push("/categories")} />
+        <span onClick={() => history.push("/themes")} />
+        <span onClick={() => history.push("/dashboard")} />
+        <a href="/" className="refemi">
+          refemi
+        </a>
       </span>
 
       <Navbar />
       <VscSearch
-        className="icon-navbar align-self-center pointer"
+        className="icon-navbar is-align-self-center pointer"
         size={20}
-        onClick={ () => history.push('/search') }
+        onClick={() => history.push("/search")}
       />
     </header>
-  )
+  );
 }

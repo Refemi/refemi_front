@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { BsList } from "react-icons/bs";
 
-import "./Navbar.css";
-
+// Context
 import { UserCredentials } from "../../App";
 
+// COMPONENT
 const Navbar = () => {
   const history = useHistory();
 
   const [dropDown, setDropDown] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
   const { isLoggedIn } = useContext(UserCredentials);
 
   const showMenu = (e) => {
@@ -23,29 +25,43 @@ const Navbar = () => {
       setIsClicked(false);
       document.removeEventListener("click", closeMenu);
     };
-
     !!dropDown && document.addEventListener("click", closeMenu);
   }, [dropDown]);
+
+  useEffect(() => {
+    const navToggle = document.querySelector(".nav-toggle");
+    const links = document.querySelector(".nav-container");
+    navToggle.addEventListener("click", () => {
+      links.classList.toggle("show-links");
+    });
+  }, [isToggled]);
 
   useEffect(() => {
     setDropDown(isClicked);
   }, [isClicked]);
 
   return (
-    <nav className="margin-bottom5">
+    <nav className="nav-center is-relative">
+      <button className="nav-toggle" onClick={() => setIsToggled(!isToggled)}>
+        <BsList size={50} />
+      </button>
+
       <ul className="nav-container">
-        <li className="nav-item" style={{ position: "relative" }}>
+        <li className="nav-item">
           <button
             id="dropdown"
             onClick={showMenu}
-            className="btn-nav pointer"
+            className="dropdown-btn btn-nav pointer is-uppercase"
           >
             Références
           </button>
           {dropDown && (
-            <section style={{ position: "absolute", left: "2vh" }}>
+            <section
+              className="dropdown-items"
+              style={{ position: "absolute" }}
+            >
               <button
-                className="btn-nav pointer"
+                className="btn-nav pointer is-uppercase"
                 onClick={() => {
                   history.push("/categories");
                   setDropDown(false);
@@ -55,7 +71,7 @@ const Navbar = () => {
               </button>
 
               <button
-                className="btn-nav pointer"
+                className="btn-nav pointer is-uppercase"
                 onClick={() => {
                   history.push("/themes");
                   setDropDown(false);
@@ -75,7 +91,7 @@ const Navbar = () => {
                 ? () => history.push("/auth/signin")
                 : () => history.push("/dashboard")
             }
-            className="btn-nav pointer"
+            className="btn-nav pointer is-uppercase"
           >
             Mon compte
           </button>
@@ -85,14 +101,14 @@ const Navbar = () => {
           <button
             id="contact"
             onClick={() => history.push("/contact")}
-            className="btn-nav pointer"
+            className="btn-nav pointer is-uppercase"
           >
             Contact
           </button>
         </li>
         {isLoggedIn && (
           <button
-            className="btn pointer"
+            className="btn-nav pointer is-uppercase"
             onClick={() => history.push("/auth/signout")}
           >
             (Déconnexion)

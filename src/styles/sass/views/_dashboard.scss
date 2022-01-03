@@ -1,0 +1,20 @@
+.dashboard {
+  padding: 5rem;
+
+  &-content {
+    box-shadow: $light-box-shadow;
+    padding: 5vh;
+  }
+
+  &-header {
+    background-color: $faded-green-grey;
+  }
+
+  .counter-value {
+    font-size: $font-08 !important;
+  }
+
+  .form-content {
+    margin-bottom: 10rem;
+  }
+}

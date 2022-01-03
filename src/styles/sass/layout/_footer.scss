@@ -1,0 +1,19 @@
+.footer {
+  background-color: $white !important;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  max-height: 200px;
+  padding: 0 !important;
+
+  .networks {
+    display: block;
+  }
+
+  &-text {
+    font-size: $font-08;
+  }
+}

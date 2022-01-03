@@ -1,0 +1,154 @@
+// FONTS
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
+.refemi {
+  font-family: $font-refemi;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+}
+main {
+  margin-top: 8rem;
+  margin-bottom: 10rem;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style-type: none;
+}
+form {
+  width: 100%;
+}
+fieldset {
+  margin: 0.5rem 0 !important;
+  border: none;
+  width: 90%;
+  @include tablet {
+    width: 60%;
+  }
+}
+label {
+  margin-bottom: 0.4rem;
+}
+
+/* COLORS */
+.darkblue-text {
+  color: $dark-blue;
+}
+.green-grey-text {
+  color: $green-grey;
+}
+.darkblue-bg {
+  background-color: $dark-blue !important;
+}
+.darkblue-bg-opacity {
+  background-color: $faded-dark-blue !important;
+}
+.aqua-bg {
+  background-color: $aqua !important;
+}
+.aqua-bg-opacity {
+  background-color: $faded-aqua !important;
+}
+.grey-bg {
+  background-color: $green-grey !important;
+}
+.grey-bg-opacity {
+  background-color: $faded-green-grey !important;
+}
+.alternate-bg:nth-child(3n + 2),
+.darkblue-bg-opacity {
+  background-color: $faded-dark-blue !important;
+}
+.alternate-bg:nth-child(3n + 1),
+.grey-bg-opacity,
+.grey-bg-opacity-cat {
+  background-color: $faded-green-grey !important;
+}
+.alternate-bg:nth-child(3n + 3),
+.aqua-bg-opacity {
+  background-color: $faded-aqua !important;
+}
+.grey-bg-opacity:hover,
+.darkblue-bg-opacity:hover,
+.aqua-bg-opacity:hover {
+  box-shadow: $medium-box-shadow;
+}
+.grey-bg-opacity:hover {
+  background-color: $green-grey !important;
+}
+.darkblue-bg-opacity:hover {
+  background-color: $dark-blue !important;
+}
+.aqua-bg-opacity:hover {
+  background-color: $aqua !important;
+}
+.white-bg {
+  background-color: $white !important;
+}
+
+/* BUTTONS */
+.cat-btn,
+.add-btn,
+.btn {
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn {
+  font-size: $font-08;
+}
+.btn:hover {
+  color: $dark-blue;
+}
+.send-btn {
+  border: 1px solid $white;
+  border-radius: $border-radius-half;
+  padding: 1rem;
+}
+.send-btn:hover {
+  color: $dark-blue;
+  background-color: $white;
+  border: 1px solid $dark-blue;
+}
+button {
+  border-radius: $border-radius-1;
+  border: none;
+  background-color: $white;
+}
+.pointer {
+  cursor: pointer;
+}
+
+/* GENERAL */
+.position-absolute-icon {
+  position: absolute;
+  transform: translateX(-50%);
+  width: 80%;
+  top: -0.8rem;
+
+  @include tablet {
+    top: 1.6rem;
+  }
+  &.category-icon {
+    top: 4rem;
+    transform: translateX(43%);
+  }
+}
+
+.borders {
+  border-radius: 1em;
+}
+
+/* FORMS */
+.form-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: lightgray 0.2px solid;
+}

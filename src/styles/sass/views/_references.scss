@@ -1,0 +1,55 @@
+.references {
+  padding: 4rem 1rem 1rem 1rem;
+  width: 100%;
+  @include mobile {
+    padding: 4rem;
+  }
+
+  .description {
+    min-height: 2rem;
+    &-center {
+      box-shadow: $light-box-shadow;
+
+      &-reference {
+        box-shadow: $light-box-shadow;
+        padding: 1rem;
+
+        @include tablet {
+          padding: 1.5rem;
+        }
+      }
+      &-reference:hover {
+        background-color: $green-grey;
+        color: $white;
+      }
+    }
+  }
+
+  .reflist,
+  .reflist-div {
+    font-weight: bolder;
+  }
+  .reflist {
+    color: lightgray;
+  }
+  .reflist-div {
+    width: 100%;
+
+    @include tablet {
+      width: calc(100% / 3);
+    }
+  }
+
+  .scrollbar {
+    height: 60px;
+    overflow-y: scroll;
+    scrollbar-color: $dark-grey;
+    scrollbar-width: thin;
+  }
+
+  .category-title {
+    color: $dark-blue;
+    font-weight: bolder;
+    font-size: $font-14;
+  }
+}

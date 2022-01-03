@@ -7,9 +7,6 @@ import http from "../services/http-common";
 // Context
 import { UserCredentials } from "../App";
 
-// CSS
-import "../css/forms.css";
-
 // Regex to verify email validity
 const isEmailValid = (email) => {
   const regex = new RegExp(
@@ -135,7 +132,7 @@ export default function Connection() {
     }
   };
 
-// Redirections and token management
+  // Redirections and token management
   useEffect(() => {
     switch (sign) {
       case "signin":
@@ -175,23 +172,25 @@ export default function Connection() {
   }, []);
 
   return (
-    <main className="flex flex-column align-center margin-top20">
-      <h2>Envie de collaborer et de proposer de nouvelles références ?</h2>
-      <h3 className="margin-bottom10">
-        Devenez contributeur·ice en&nbsp;
+    <main className="is-flex is-flex-direction-column is-align-items-center">
+      <h2 className="mt-6 has-text-weight-bold has-text-centered mx-3">
+        Envie de collaborer et de proposer de nouvelles références ?
+      </h2>
+      <h3>
         {sign === "signin"
-          ? "vous connectant"
+          ? "Connectez-vous !"
           : sign === "signup"
-          ? "vous créant un compte"
+          ? "Devenez contributeur·ice vous créant un compte !"
           : null}
       </h3>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="borders flex flex-column align-center margin-bottom10"
-        style={{ minWidth: "30vw" }}>
+        className="borders is-flex is-flex-direction-column is-align-items-center"
+        style={{ minWidth: "30vw" }}
+      >
         {sign === "signup" && (
-          <fieldset className="margin-input flex flex-column width80">
+          <fieldset className="is-flex is-flex-direction-column ">
             <label>Nom</label>
             <input
               type="text"
@@ -202,7 +201,7 @@ export default function Connection() {
           </fieldset>
         )}
 
-        <fieldset className="margin-input flex flex-column width80">
+        <fieldset className="is-flex is-flex-direction-column ">
           <label>Email</label>
           <input
             type="text"
@@ -213,7 +212,7 @@ export default function Connection() {
           />
         </fieldset>
 
-        <fieldset className="margin-input flex flex-column width80">
+        <fieldset className="is-flex is-flex-direction-column ">
           <label>Mot de passe</label>
           <input
             type="password"
@@ -223,7 +222,7 @@ export default function Connection() {
           />
         </fieldset>
         {sign === "signup" && (
-          <fieldset className="margin-input flex flex-column width80">
+          <fieldset className="is-flex is-flex-direction-column ">
             <label>Confirmation du mot de passe</label>
             <input
               type="password"
@@ -237,20 +236,22 @@ export default function Connection() {
           </fieldset>
         )}
         {sign === "signup" ? (
-          <button className="margin-bottom20 darkblue-bg send-btn text-white"
-          type="submit">
+          <button
+            className="darkblue-bg send-btn has-text-white mt-6"
+            type="submit"
+          >
             Créer un compte
-            </button>
+          </button>
         ) : (
-          <fieldset className="flex justify-between">
+          <fieldset className="is-flex is-justify-content-space-between">
             <button
-              className="darkblue-bg send-btn text-white pointer"
+              className="darkblue-bg send-btn has-text-white pointer  mt-6"
               type="submit"
             >
               Se connecter
             </button>
             <button
-              className="darkblue-bg send-btn text-white pointer"
+              className="darkblue-bg send-btn has-text-white pointer mt-6"
               onClick={() => history.push("/auth/signup")}
             >
               Créer un compte

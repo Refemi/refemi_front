@@ -1,29 +1,29 @@
-import React from 'react'
-import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai'
-
-import './Footer.css'
+import React from "react";
+import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
 
 // COMPONENT
-export default function Footer () {
+export default function Footer() {
   return (
-      <footer className="flex justify-around margin20">
+    <footer className="px-6 footer">
       <hr />
-        <section>
-          <h4>Réseaux</h4>
+      <section className="is-flex is-justify-content-space-between ">
+        <article className="networks">
+          <p className="footer-text">Réseaux</p>
 
-          <article id="network">
-            <AiFillFacebook size={48} className="color" />
-            <AiFillInstagram size={48} className="color" />
-          </article>
-        </section>
-        <section>
-          <h4>Copyrights</h4>
+          <div id="network">
+            <AiFillFacebook size={48} className="green-grey-text" />
+            <AiFillInstagram size={48} className="green-grey-text" />
+          </div>
+        </article>
+        <article>
+          <p className="footer-text">Copyrights - 2022</p>
           <ul>
-            <li>
-              Développé par <span className="refemi">refemi</span>
+            <li className="footer-text">
+              Développé par ©<span className="refemi">refemi</span>
             </li>
           </ul>
-        </section>
-      </footer>
-  )
+        </article>
+      </section>
+    </footer>
+  );
 }

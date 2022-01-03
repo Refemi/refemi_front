@@ -1,4 +1,3 @@
-@import "test/test";
 // Abstract
 @import "abstract/variables";
 @import "abstract/mixins";
@@ -8,9 +7,19 @@
 @import "base/typography";
 
 // Components
+@import "sasscomponents/counter";
+@import "sasscomponents/widget";
+@import "sasscomponents/addReference";
+@import "sasscomponents/refSheet";
 
 // Layout
 @import "layout/footer";
 @import "layout/header";
 
 // Pages
+@import "views/home";
+@import "views/categories";
+@import "views/themes";
+@import "views/references";
+@import "views/dashboard";
+@import "views/search";

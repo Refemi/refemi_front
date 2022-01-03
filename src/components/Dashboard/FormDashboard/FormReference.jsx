@@ -89,7 +89,7 @@ export default function FormReference({ category, categories }) {
   return (
     <>
       {isSent ? (
-        <div className="margin20 text-justify">
+        <div className="has-text-justified">
           <p>
             Votre contribution a bien été envoyée et sera examinée par un.e
             modérateur.ice. Vous serez informé.e par email dès sa validation !
@@ -99,12 +99,10 @@ export default function FormReference({ category, categories }) {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="borders flex flex-column align-center"
+          className="borders is-flex is-flex-direction-column is-align-items-center"
         >
-
-          <h2 className="margin10"> Catégorie :{currentCategory.label}</h2>
-          <fieldset className="margin-input flex flex-column width80">
-
+          <h2 className="m-6">Catégorie actuelle : {currentCategory.label}</h2>
+          <fieldset className="is-flex is-flex-direction-column ">
             <label htmlFor="reference_name" className="required">
               Nom / Titre
             </label>
@@ -116,11 +114,9 @@ export default function FormReference({ category, categories }) {
             {errors.reference_name && (
               <span className="error">Veuillez renseigner ce champ</span>
             )}
-
           </fieldset>
 
-          <fieldset className="margin-input flex flex-column width80">
-
+          <fieldset className="is-flex is-flex-direction-column">
             <label htmlFor="reference_country_name" className="required">
               Pays d&apos;origine
             </label>
@@ -129,11 +125,9 @@ export default function FormReference({ category, categories }) {
               options={countries}
               className="form-input"
             />
-
           </fieldset>
 
-          <fieldset className="margin-input flex flex-column width80">
-
+          <fieldset className="is-flex is-flex-direction-column">
             <label htmlFor="reference_name" className="required">
               Année
             </label>
@@ -142,11 +136,9 @@ export default function FormReference({ category, categories }) {
               className="form-input"
               {...register("reference_date", { required: true })}
             />
-
           </fieldset>
 
-          <fieldset className="margin-input flex flex-column width80">
-
+          <fieldset className="is-flex is-flex-direction-column ">
             <label htmlFor="reference-content" className="required">
               Contenu
             </label>
@@ -158,11 +150,9 @@ export default function FormReference({ category, categories }) {
               editorClassName="form-input"
               onEditorStateChange={handleEditorChange}
             />
-
           </fieldset>
 
-          <fieldset className="margin-input flex flex-column width80">
-
+          <fieldset className="is-flex is-flex-direction-column">
             <label htmlFor="reference-image">Image</label>
             <input
               type="file"
@@ -171,15 +161,13 @@ export default function FormReference({ category, categories }) {
               id="reference-image"
               accept="image/png, image/jpeg"
             />
-
           </fieldset>
 
           <input
             type="submit"
             value="Envoyer"
-            className="darkblue-bg send-btn text-white"
+            className="darkblue-bg send-btn has-text-white mt-6"
           />
-
         </form>
       )}
     </>
