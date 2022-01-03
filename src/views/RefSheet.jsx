@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 import http from "../services/http-common";
 import { v4 as uuidv4 } from "uuid";
-import "../css/refsheet.css";
 
 const getReferenceById = async (id) => {
   return await http
@@ -36,7 +35,7 @@ export default function RefSheet() {
 
   return (
     <main className="is-flex is-flex-direction-column is-align-items-center borders">
-      <div className="is-flex is-flex-direction-column grey-bg-opacity reference-content p-6 mx-6 mt-6 borders">
+      <div className="is-flex is-flex-direction-column is-align-items-center grey-bg-opacity reference-content p-6 mx-6 mt-6 borders">
         <button
           className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
           onClick={handleClick}
@@ -44,24 +43,24 @@ export default function RefSheet() {
           Retour
         </button>
 
-        <article className="white-bg borders m-6 p-2">
-          <h2 className="reference-detail has-text-weight-bold">
-            <span className="refemi">Nom : </span> {reference.name}
+        <article className="white-bg borders m-6 p-2 reference-header">
+          <h2 className="reference-detail has-text-weight-bold has-text-centered is-size-3 mb-6">
+            {reference.name}
           </h2>
-          <p className="reference-detail">
+          <p className="my-3 ml-6">
             <span className="refemi">Date : </span> {reference.date}
           </p>
-          <h3 className="reference-detail">
+          <h3 className="my-3 ml-6">
             <span className="refemi">Auteur.ice / Réalisateur.ice : </span>{" "}
             {reference.author}
           </h3>
-          <p className="reference-detail">
+          <p className="my-3 ml-6">
             <span className="refemi">Discipline : </span> {reference.field}
           </p>
-          <p className="reference-detail">
+          <p className="my-3 ml-6">
             <span className="refemi">Pays : </span> {reference.country}
           </p>
-          <div className="reference-detail">
+          <div className="my-3 ml-6">
             <span className="refemi">Thèmes :&nbsp;</span>
             {reference.themes &&
               reference.themes.map((theme) => (
@@ -75,7 +74,7 @@ export default function RefSheet() {
         <img src={reference.image} alt={reference.name} />
 
         <div
-          className="dashboard-content white-bg borders  m-6"
+          className="reference-details dashboard-content white-bg borders  m-6"
           dangerouslySetInnerHTML={{ __html: reference.content }}
         />
 

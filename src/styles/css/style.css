@@ -200,6 +200,11 @@ button {
 .reference-content {
   width: 90%;
   margin-bottom: 20rem; }
+  .reference-content .reference-header {
+    width: 60%;
+    margin: auto; }
+  .reference-content .reference-details {
+    width: 80%; }
 
 .footer {
   background-color: white !important;
