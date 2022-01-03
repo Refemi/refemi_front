@@ -198,13 +198,39 @@ button {
     font-weight: bold; }
 
 .reference-content {
-  width: 90%;
-  margin-bottom: 20rem; }
-  .reference-content .reference-header {
-    width: 60%;
-    margin: auto; }
-  .reference-content .reference-details {
-    width: 80%; }
+  width: 100%;
+  margin-bottom: 20rem;
+  margin-top: 0;
+  padding-top: 1rem; }
+  @media (min-width: 1024px) {
+    .reference-content {
+      width: 90%;
+      margin-top: 3rem;
+      padding: 3rem; } }
+  .reference-content-header {
+    width: 100%;
+    margin-top: 20px; }
+    @media (min-width: 1024px) {
+      .reference-content-header {
+        width: 60%;
+        margin: auto; } }
+  .reference-content-info {
+    padding: 0; }
+    @media (min-width: 1024px) {
+      .reference-content-info {
+        padding-left: 3rem; } }
+  .reference-content-title {
+    font-size: 1rem; }
+    @media (min-width: 1024px) {
+      .reference-content-title {
+        font-size: 1.4rem; } }
+  .reference-content-details {
+    width: 100%;
+    padding: 1rem; }
+    @media (min-width: 1024px) {
+      .reference-content-details {
+        width: 90%;
+        padding: 3rem; } }
 
 .footer {
   background-color: white !important;
