@@ -19,7 +19,6 @@ import Footer from "./components/Footer/Footer";
 
 import "./styles/css/style.css";
 import "bulma/css/bulma.min.css";
-import "./App.css";
 
 // Contexts
 export const UserCredentials = createContext();
