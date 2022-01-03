@@ -12,6 +12,11 @@
 
       &-reference {
         box-shadow: $light-box-shadow;
+        padding: 1rem;
+
+        @include tablet {
+          padding: 1.5rem;
+        }
       }
       &-reference:hover {
         background-color: $green-grey;
@@ -27,9 +32,16 @@
   .reflist {
     color: lightgray;
   }
+  .reflist-div {
+    width: 100%;
+
+    @include tablet {
+      width: calc(100% / 3);
+    }
+  }
 
   .scrollbar {
-    min-height: 60px;
+    height: 60px;
     overflow-y: scroll;
     scrollbar-color: $dark-grey;
     scrollbar-width: thin;

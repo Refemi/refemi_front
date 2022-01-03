@@ -406,7 +406,11 @@ button {
     .references .description-center {
       box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
       .references .description-center-reference {
-        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
+        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
+        padding: 1rem; }
+        @media (min-width: 1024px) {
+          .references .description-center-reference {
+            padding: 1.5rem; } }
       .references .description-center-reference:hover {
         background-color: #8fc5bb;
         color: white; }
@@ -415,8 +419,13 @@ button {
     font-weight: bolder; }
   .references .reflist {
     color: lightgray; }
+  .references .reflist-div {
+    width: 100%; }
+    @media (min-width: 1024px) {
+      .references .reflist-div {
+        width: calc(100% / 3); } }
   .references .scrollbar {
-    min-height: 60px;
+    height: 60px;
     overflow-y: scroll;
     scrollbar-color: #4a4a4a;
     scrollbar-width: thin; }

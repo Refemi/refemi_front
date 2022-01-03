@@ -29,15 +29,19 @@ export default function ListReferences({
           <article
             key={uuidv4()}
             id={reference.id}
-            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between p-5 line m-3"
+            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3"
             onClick={() => history.push(`/references/${reference.id}`)}
           >
             <h3 className="reflist-div">{reference.name}</h3>
-            <p className="reflist-div is-hidden-mobile">{reference.country}</p>
+            <p className="reflist-div is-hidden-mobile has-text-centered">
+              {reference.country}
+            </p>
             {reference.themes ? (
-              <span className="reflist-div scrollbar is-hidden-mobile">
+              <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
                 {reference.themes.map((theme) => (
-                  <h4 key={uuidv4()}>{theme}</h4>
+                  <h4 className="ml-4" key={uuidv4()}>
+                    {theme}
+                  </h4>
                 ))}
               </span>
             ) : null}
