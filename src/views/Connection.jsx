@@ -75,7 +75,6 @@ export default function Connection() {
         },
         {
           headers: {
-            "Content-Type": "application/json",
             "Access-Control-Allow-Credentials": true,
             "Access-Control-Allow-Headers": true,
           },
@@ -84,35 +83,35 @@ export default function Connection() {
       )
       .then((response) => {
         if (response.status === 200) {
-          return response;
+          return response.data;
         }
       })
-      .then((response) => {
+      .then((data) => {
         if (
-          response.data.accessToken === null ||
-          response.data.accessToken === undefined
+          data.accessToken === null ||
+          data.accessToken === undefined
         ) {
           return;
         }
 
         setUserCredentials({
-          name: response.data.name,
-          mail: response.data.mail,
-          role: response.data.role,
+          name: data.userName,
+          mail: data.userEmail,
+          role: data.userRole,
         });
 
-        setToken(response.data.accessToken);
+        setToken(data.accessToken);
 
         localStorage.setItem(
           "user",
           JSON.stringify({
-            name: response.data.name,
-            mail: response.data.mail,
-            role: response.data.role,
+            name: data.userName,
+            mail: data.userEmail,
+            role: data.userRole,
           })
         );
 
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("token", data.accessToken);
         setIsLoggedIn(true);
       })
       .catch((error) => console.log(error));
