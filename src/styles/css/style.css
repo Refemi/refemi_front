@@ -12,7 +12,8 @@
   scroll-behavior: smooth; }
 
 main {
-  margin-top: 8rem; }
+  margin-top: 8rem;
+  margin-bottom: 10rem; }
 
 a {
   text-decoration: none; }
@@ -240,7 +241,8 @@ button {
   left: 0;
   width: 100%;
   z-index: 99;
-  max-height: 200px; }
+  max-height: 200px;
+  padding: 0 !important; }
   .footer .networks {
     display: block; }
   .footer-text {
