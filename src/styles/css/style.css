@@ -133,14 +133,21 @@ button {
     .counter-box {
       margin: 2rem; } }
 
-.counter-value {
+.counter-value, .counter-text {
   font-family: "Open Sans", sans-serif;
-  color: #4a4a4a;
+  color: #4a4a4a; }
+
+.counter-value {
+  font-size: 1rem; }
+  @media (min-width: 1024px) {
+    .counter-value {
+      font-size: 1.4rem; } }
+
+.counter-text {
   margin-left: -0.5rem;
   font-size: 0.8rem; }
   @media (min-width: 1024px) {
-    .counter-value {
-      margin-left: -0.5rem;
+    .counter-text {
       font-size: 1.2rem; } }
 
 .footer {
@@ -277,11 +284,14 @@ button {
         .home-text hr {
           margin: 2rem; } }
   .home .box {
+    margin: auto;
     border-radius: 1rem;
     padding: 0.5rem;
     font-size: 1.5rem;
     min-width: 4.5rem;
-    min-height: 4.5rem; }
+    min-height: 4.5rem;
+    max-width: 4.5rem;
+    max-height: 4.5rem; }
     @media (min-width: 1024px) {
       .home .box {
         min-width: 10rem;
@@ -289,10 +299,10 @@ button {
   .home .box:last-child {
     margin-bottom: 1.5rem; }
   .home .counters-container {
-    height: 15rem; }
+    height: 10rem; }
     @media (min-width: 1024px) {
       .home .counters-container {
-        height: 25rem; } }
+        height: 15rem; } }
   .home .paragraph-container {
     margin: auto;
     width: 80%; }

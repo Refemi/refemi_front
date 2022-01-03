@@ -33,11 +33,14 @@
     }
   }
   .box {
+    margin: auto;
     border-radius: 1rem;
     padding: 0.5rem;
     font-size: 1.5rem;
     min-width: 4.5rem;
     min-height: 4.5rem;
+    max-width: 4.5rem;
+    max-height: 4.5rem;
 
     @include tablet {
       min-width: 10rem;
@@ -48,9 +51,9 @@
     margin-bottom: 1.5rem;
   }
   .counters-container {
-    height: 15rem;
+    height: 10rem;
     @include tablet {
-      height: 25rem;
+      height: 15rem;
     }
   }
 

@@ -60,21 +60,21 @@ export default function Home() {
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
         <h2 className="is-align-self-center counter-box box grey-bg-opacity">
           <Counter value={totalRefs} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Références
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
           <Counter value={totalContributors} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Contributeurs
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
           <Counter value={monthRefs} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-value">
+          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             nouveautés
           </p>
         </h2>
