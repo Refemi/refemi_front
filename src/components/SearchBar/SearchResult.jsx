@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import http from "../../services/http-common";
 
 import "./SearchBar.css";
-import "../../css/forms.css";
 
 // Get what user types in search input and format it to be processed by backend
 const getSearchInfo = async (answer) => {

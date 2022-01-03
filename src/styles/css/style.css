@@ -20,8 +20,19 @@ a {
 li {
   list-style-type: none; }
 
+form {
+  width: 100%; }
+
 fieldset {
-  border: none; }
+  margin: 0.5rem 0 !important;
+  border: none;
+  width: 90%; }
+  @media (min-width: 1024px) {
+    fieldset {
+      width: 60%; } }
+
+label {
+  margin-bottom: 0.4rem; }
 
 /* COLORS */
 .darkblue-text {
@@ -122,6 +133,15 @@ button {
     top: 4rem;
     transform: translateX(43%); }
 
+.borders {
+  border-radius: 1em; }
+
+/* FORMS */
+.form-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: lightgray 0.2px solid; }
+
 .counter-box {
   width: 5rem;
   height: 5rem;
@@ -179,10 +199,11 @@ button {
 
 .footer {
   background-color: white !important;
-  margin: 0; }
-  @media (min-width: 1024px) {
-    .footer {
-      margin: 0 3rem; } }
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%; }
   .footer .networks {
     display: block; }
   .footer-text {

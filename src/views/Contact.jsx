@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../css/contact.css";
-import "../css/forms.css";
 
 export default function Contact() {
   const [status, setStatus] = useState("Envoyer");
@@ -37,18 +35,18 @@ export default function Contact() {
   }, []);
 
   return (
-    <main className="flex is-flex-direction-column is-align-items-center margin-top20">
-      <h2>
+    <main className="is-flex is-flex-direction-column is-align-items-center">
+      <h2 className="mt-6 has-text-centered mx-3">
         Des remarques, des suggestions d&apos;améliorations, des questions sur{" "}
         <span className="refemi">refemi</span> ?
       </h2>
       <p>Contactez-nous !</p>
 
       <form
-        className="borders flex is-flex-direction-column is-align-items-center width80"
+        className="borders is-flex is-flex-direction-column is-align-items-center"
         onSubmit={handleSend}
       >
-        <fieldset className="margin-input flex is-flex-direction-column width80">
+        <fieldset className="is-flex is-flex-direction-column">
           <label htmlFor="username">Nom</label>
           <input
             id="username"
@@ -60,7 +58,7 @@ export default function Contact() {
           />
         </fieldset>
 
-        <fieldset className="margin-input flex is-flex-direction-column width80">
+        <fieldset className="is-flex is-flex-direction-column">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -72,7 +70,7 @@ export default function Contact() {
           />
         </fieldset>
 
-        <fieldset className="margin-input flex is-flex-direction-column width80">
+        <fieldset className="is-flex is-flex-direction-column">
           <label htmlFor="message">Message</label>
           <textarea
             id="message"
@@ -86,7 +84,7 @@ export default function Contact() {
         </fieldset>
 
         <button
-          className="margin-bottom20 darkblue-bg text-white send-btn pointer"
+          className="darkblue-bg has-text-white send-btn pointer mt-6"
           type="submit"
         >
           {status}

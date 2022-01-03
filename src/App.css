@@ -30,22 +30,12 @@
 .margin30 {
   margin: 17vh 5vw;
 }
-.width80 {
-  width: 80%;
-}
 
-.borders {
-  border-radius: 1em;
-}
 .padding2rem {
   padding: 2vh 2vw;
 }
 .padding5 {
   padding: 5vh 5vw;
-}
-
-.white-hover:hover {
-  color: white;
 }
 
 /* Hover */

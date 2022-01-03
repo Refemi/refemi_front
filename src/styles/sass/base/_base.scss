@@ -22,8 +22,19 @@ a {
 li {
   list-style-type: none;
 }
+form {
+  width: 100%;
+}
 fieldset {
+  margin: 0.5rem 0 !important;
   border: none;
+  width: 90%;
+  @include tablet {
+    width: 60%;
+  }
+}
+label {
+  margin-bottom: 0.4rem;
 }
 
 /* COLORS */
@@ -128,4 +139,15 @@ button {
     top: 4rem;
     transform: translateX(43%);
   }
+}
+
+.borders {
+  border-radius: 1em;
+}
+
+/* FORMS */
+.form-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: lightgray 0.2px solid;
 }

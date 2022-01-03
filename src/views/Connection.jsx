@@ -7,9 +7,6 @@ import http from "../services/http-common";
 // Context
 import { UserCredentials } from "../App";
 
-// CSS
-import "../css/forms.css";
-
 // Regex to verify email validity
 const isEmailValid = (email) => {
   const regex = new RegExp(
