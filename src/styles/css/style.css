@@ -203,7 +203,8 @@ button {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%; }
+  width: 100%;
+  z-index: 99; }
   .footer .networks {
     display: block; }
   .footer-text {
@@ -461,3 +462,5 @@ button {
     background-color: #8fc5bb80; }
   .dashboard .counter-value {
     font-size: 0.8rem !important; }
+  .dashboard .form-content {
+    margin-bottom: 10rem; }

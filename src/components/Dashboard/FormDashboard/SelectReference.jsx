@@ -9,14 +9,12 @@ import { AllSections } from "../../../App";
 
 const getCategories = async (currentSection) => {};
 
-
 // COMPONENT
 export default function SelectReference({
   categories,
   handleChangeForm,
 
   setCategories = [],
-
 }) {
   const { sections } = useContext(AllSections);
   const [currentSection, setCurrentSection] = useState("");
@@ -46,16 +44,16 @@ export default function SelectReference({
   }, [categories]);
 
   return (
-    <form>
-      <label className="margin5 required" htmlFor="categories-select">
-        Choisir une rubrique
+    <form className="is-flex is-flex-direction-column is-align-items-center">
+      <label className=" required" htmlFor="categories-select">
+        1. Choisir une rubrique
       </label>
 
       <select
         id="categories-select"
         defaultValue="default"
         onChange={handleChange}
-        className="borders padding2rem select margin5"
+        className="borders select m-3"
       >
         <option value="default" disabled hidden />
 
@@ -66,24 +64,20 @@ export default function SelectReference({
         ))}
       </select>
 
-
       {!!currentSection && categories.length > 0 && (
-        <fieldset>
-
-          <label className="margin5 required">Choisir une catégorie</label>
+        <fieldset className="is-flex is-flex-direction-column is-align-items-center">
+          <label className="required">Choisir une catégorie</label>
           <select
             id="categories-select"
             defaultValue="default"
             onChange={handleChangeForm}
-            className="borders padding2rem select margin5"
+            className="borders select m-3"
           >
             <option value="default" disabled hidden />
-
 
             {categories.map((subCategory) => (
               <option key={subCategory.id} value={subCategory.name}>
                 {subCategory.label}
-
               </option>
             ))}
           </select>

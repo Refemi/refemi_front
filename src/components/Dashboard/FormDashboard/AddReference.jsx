@@ -23,21 +23,21 @@ export default function AddReference({ changeIsClicked }) {
   }, [showForm, setCurrentForm]);
 
   return (
-    <section className="dashboard dashboard-content borders flex is-flex-direction-column is-align-items-center">
+    <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
       <button
-        className="margin-end10 pointer send-btn darkblue-bg text-white is-align-self-flex-end"
+        className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
         onClick={() => changeIsClicked()}
       >
         Retour à mes contributions
       </button>
 
-      <p className="margin5 refemi">Soumettre une nouvelle contribution</p>
+      <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
 
       {showForm ? (
-        <article className="flex is-flex-direction-column width80">
+        <article className="is-flex is-flex-direction-column form-content">
           <button
             onClick={() => setShowForm(false)}
-            className="margin-end10 pointer send-btn darkblue-bg text-white is-align-self-flex-end"
+            className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
           >
             Retour aux rubriques
           </button>
