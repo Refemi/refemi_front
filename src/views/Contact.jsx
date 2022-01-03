@@ -36,7 +36,7 @@ export default function Contact() {
 
   return (
     <main className="is-flex is-flex-direction-column is-align-items-center">
-      <h2 className="mt-6 has-text-centered mx-3">
+      <h2 className="mt-6 has-text-centered mx-3 has-text-weight-bold">
         Des remarques, des suggestions d&apos;améliorations, des questions sur{" "}
         <span className="refemi">refemi</span> ?
       </h2>
