@@ -4,7 +4,7 @@ import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
 // COMPONENT
 export default function Footer() {
   return (
-    <footer className="p-6 footer">
+    <footer className="px-6 footer">
       <hr />
       <section className="is-flex is-justify-content-space-between ">
         <article className="networks">

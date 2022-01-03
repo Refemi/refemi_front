@@ -70,10 +70,6 @@ export default function References() {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    console.log(references);
-  }, [references]);
-
   // Get references for Categories page OR Themes page, waiting to have the clicked category/theme before showing data
   useEffect(() => {
     const fetchData = async () => {

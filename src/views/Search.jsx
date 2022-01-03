@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { IoIosClose } from "react-icons/io";
 
-import "../components/SearchBar/SearchBar.css";
-
 // Components
 import SearchResult from "../components/SearchBar/SearchResult";
 

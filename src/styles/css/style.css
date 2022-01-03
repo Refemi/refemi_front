@@ -197,6 +197,10 @@ button {
     color: darkgrey;
     font-weight: bold; }
 
+.reference-content {
+  width: 90%;
+  margin-bottom: 20rem; }
+
 .footer {
   background-color: white !important;
   margin: 0;
@@ -204,7 +208,8 @@ button {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 99; }
+  z-index: 99;
+  max-height: 200px; }
   .footer .networks {
     display: block; }
   .footer-text {
@@ -480,3 +485,27 @@ button {
   @media (min-width: 1024px) {
     .search .clearBtn {
       right: 10%; } }
+
+.icon-navbar:hover {
+  color: #0be3af;
+  transition: 0.5s;
+  width: 30px;
+  height: 30px; }
+
+/* TODO: To be updated when we use ListReference instead of this new redondant component */
+.dataResult {
+  width: 80%;
+  height: 20%;
+  overflow: hidden; }
+
+.line {
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
+
+.description {
+  height: 3rem; }
+
+.description:hover {
+  background-color: #8fc5bb80; }
+
+.select {
+  width: 30%; }

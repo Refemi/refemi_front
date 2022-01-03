@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 import http from "../services/http-common";
+import { v4 as uuidv4 } from "uuid";
 import "../css/refsheet.css";
 
-const getReferenceById = (id) => {
-  return http
+const getReferenceById = async (id) => {
+  return await http
     .get(`/references/${id}`)
     .then((response) => {
       if (response.status === 200) {
@@ -34,44 +35,57 @@ export default function RefSheet() {
   }, []);
 
   return (
-    <div className="flex is-flex-direction-column is-align-items-center grey-opacity borders margin30">
-      <button
-        className="is-align-self-flex-end send-btn darkblue-bg text-white"
-        onClick={handleClick}
-      >
-        Retour
-      </button>
+    <main className="is-flex is-flex-direction-column is-align-items-center borders">
+      <div className="is-flex is-flex-direction-column grey-bg-opacity reference-content p-6 mx-6 mt-6 borders">
+        <button
+          className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+          onClick={handleClick}
+        >
+          Retour
+        </button>
 
-      <div className="dashboard-content white-bg borders width80 m-6">
-        <p className="reference-detail">
-          <span className="refemi">Nom :</span> {reference.name}
-        </p>
-        <p className="reference-detail">Date :{reference.date}</p>
-        <p className="reference-detail">
-          Auteur.ice / Réalisateur.ice : {reference.author}
-        </p>
-        <p className="reference-detail">Discipline :{reference.field}</p>
-        <p className="reference-detail">Pays :{reference.country}</p>
-        <p className="reference-detail">
-          Thèmes :&nbsp;
-          {reference.themes &&
-            reference.themes.map((theme) => <p key={theme.id}>{theme}</p>)}
-        </p>
+        <article className="white-bg borders m-6 p-2">
+          <h2 className="reference-detail has-text-weight-bold">
+            <span className="refemi">Nom : </span> {reference.name}
+          </h2>
+          <p className="reference-detail">
+            <span className="refemi">Date : </span> {reference.date}
+          </p>
+          <h3 className="reference-detail">
+            <span className="refemi">Auteur.ice / Réalisateur.ice : </span>{" "}
+            {reference.author}
+          </h3>
+          <p className="reference-detail">
+            <span className="refemi">Discipline : </span> {reference.field}
+          </p>
+          <p className="reference-detail">
+            <span className="refemi">Pays : </span> {reference.country}
+          </p>
+          <div className="reference-detail">
+            <span className="refemi">Thèmes :&nbsp;</span>
+            {reference.themes &&
+              reference.themes.map((theme) => (
+                <h4 className="has-text-weight-bold" key={uuidv4()}>
+                  {theme}
+                </h4>
+              ))}
+          </div>
+        </article>
+
+        <img src={reference.image} alt={reference.name} />
+
+        <div
+          className="dashboard-content white-bg borders  m-6"
+          dangerouslySetInnerHTML={{ __html: reference.content }}
+        />
+
+        <button
+          className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+          onClick={handleClick}
+        >
+          Retour
+        </button>
       </div>
-
-      <img src={reference.image} alt={reference.name} />
-
-      <div
-        className="dashboard-content white-bg borders width80 m-6"
-        dangerouslySetInnerHTML={{ __html: reference.content }}
-      />
-
-      <button
-        className="is-align-self-flex-end send-btn darkblue-bg text-white"
-        onClick={handleClick}
-      >
-        Retour
-      </button>
-    </div>
+    </main>
   );
 }
