@@ -91,12 +91,13 @@ export default function References() {
       };
       fetchData();
     }
+    console.log(references);
   }, [references, themeName]);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
       <WidgetCat categories={categories} />
-      <h2 class="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+      <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
         {themeName
           ? themeName.toUpperCase().replace(/-/g, " ")
           : categoryName.toUpperCase().replace(/-/g, " ")}
@@ -132,7 +133,9 @@ export default function References() {
                   key={uuidv4()}
                   title={category}
                   name={category}
-                  references={references}
+                  references={references.filter(
+                    (reference) => reference.category === category
+                  )}
                 />
               )
           )}
