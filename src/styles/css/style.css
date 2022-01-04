@@ -458,41 +458,52 @@ button {
   width: 70vw;
   height: auto; }
 
-.references {
+.references,
+.dataResult {
   padding: 4rem 1rem 1rem 1rem;
   width: 100%; }
   @media (min-width: 768px) {
-    .references {
+    .references,
+    .dataResult {
       padding: 4rem; } }
-  .references .description {
+  .references .description,
+  .dataResult .description {
     min-height: 2rem; }
-    .references .description-center {
+    .references .description-center,
+    .dataResult .description-center {
       box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
-      .references .description-center-reference {
+      .references .description-center-reference,
+      .dataResult .description-center-reference {
         box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
         padding: 1rem; }
         @media (min-width: 1024px) {
-          .references .description-center-reference {
+          .references .description-center-reference,
+          .dataResult .description-center-reference {
             padding: 1.5rem; } }
-      .references .description-center-reference:hover {
+      .references .description-center-reference:hover,
+      .dataResult .description-center-reference:hover {
         background-color: #8fc5bb;
         color: white; }
   .references .reflist,
-  .references .reflist-div {
+  .references .reflist-div,
+  .dataResult .reflist,
+  .dataResult .reflist-div {
     font-weight: bolder; }
-  .references .reflist {
+  .references .reflist,
+  .dataResult .reflist {
     color: lightgray; }
-  .references .reflist-div {
-    width: 100%; }
-    @media (min-width: 1024px) {
-      .references .reflist-div {
-        width: calc(100% / 3); } }
-  .references .scrollbar {
+  @media (min-width: 1024px) {
+    .references .reflist-div,
+    .dataResult .reflist-div {
+      width: calc(100% / 3); } }
+  .references .scrollbar,
+  .dataResult .scrollbar {
     height: 60px;
     overflow-y: scroll;
     scrollbar-color: #4a4a4a;
     scrollbar-width: thin; }
-  .references .category-title {
+  .references .category-title,
+  .dataResult .category-title {
     color: #0808a3;
     font-weight: bolder;
     font-size: 1.4rem; }
@@ -527,21 +538,3 @@ button {
   transition: 0.5s;
   width: 30px;
   height: 30px; }
-
-/* TODO: To be updated when we use ListReference instead of this new redondant component */
-.dataResult {
-  width: 80%;
-  height: 20%;
-  overflow: hidden; }
-
-.line {
-  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); }
-
-.description {
-  height: 3rem; }
-
-.description:hover {
-  background-color: #8fc5bb80; }
-
-.select {
-  width: 30%; }

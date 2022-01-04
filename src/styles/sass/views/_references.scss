@@ -1,4 +1,5 @@
-.references {
+.references,
+.dataResult {
   padding: 4rem 1rem 1rem 1rem;
   width: 100%;
 
@@ -34,8 +35,6 @@
     color: lightgray;
   }
   .reflist-div {
-    width: 100%;
-
     @include tablet {
       width: calc(100% / 3);
     }
