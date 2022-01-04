@@ -176,7 +176,7 @@ button {
 .widget {
   position: fixed;
   width: 90vw;
-  top: 12%;
+  top: 15%;
   left: -50px; }
   @media (min-width: 1024px) {
     .widget {
