@@ -15,9 +15,11 @@ export default function Header() {
         <span onClick={() => history.push("/categories")} />
         <span onClick={() => history.push("/themes")} />
         <span onClick={() => history.push("/dashboard")} />
-        <a href="/" className="refemi">
-          refemi
-        </a>
+        <h1>
+          <a href="/" className="refemi">
+            refemi
+          </a>
+        </h1>
       </span>
 
       <Navbar />
