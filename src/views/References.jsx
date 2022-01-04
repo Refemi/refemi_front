@@ -105,7 +105,7 @@ export default function References() {
 
       <Button
         className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-        path="/themes"
+        path={themeName ? "/themes" : "/categories"}
         label="Retour"
       />
 
