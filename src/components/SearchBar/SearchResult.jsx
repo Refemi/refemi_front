@@ -35,10 +35,6 @@ export default function SearchResult({ answer = "" }) {
     fetchData();
   }, [answer]);
 
-  useEffect(() => {
-    console.log(searchInfo);
-  }, [searchInfo]);
-
   return (
     <section className="dataResult">
       {Array.isArray(searchInfo) && (
