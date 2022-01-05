@@ -28,7 +28,7 @@ export default function Themes() {
         Cliquez sur un thème pour afficher les références associées
       </h2>
 
-      <section className="themes-container">
+      <section className="themes-container is-flex is-flex-direction-column">
         <Button label="Retour" path="/" />
         <ul className="mt-6 is-flex is-flex-wrap-wrap borders is-justify-content-space-between">
           {themes

@@ -96,10 +96,15 @@ export default function References() {
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
       <WidgetCat categories={categories} />
+      <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+        {themeName
+          ? themeName.toUpperCase().replace(/-/g, " ")
+          : categoryName.toUpperCase().replace(/-/g, " ")}
+      </h2>
 
       <Button
         className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-        path="/themes"
+        path={themeName ? "/themes" : "/categories"}
         label="Retour"
       />
 
@@ -127,7 +132,9 @@ export default function References() {
                   key={uuidv4()}
                   title={category}
                   name={category}
-                  references={references}
+                  references={references.filter(
+                    (reference) => reference.category === category
+                  )}
                 />
               )
           )}

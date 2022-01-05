@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 
 // Components
@@ -12,8 +12,6 @@ export default function Search() {
   const inputSearch = (e) => setSearch(e.target.value);
   // clear what user typed (for cross in input)
   const clearInput = () => setSearch("");
-
-  // TODO: watch out the cross in the input. It goes everywhere. It needs to be in absolute position relative to a div that has in it just the input and the cross.
 
   return (
     <main className="search is-flex is-flex-direction-column is-align-items-center">
