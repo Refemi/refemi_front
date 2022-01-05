@@ -81,26 +81,27 @@ export default function SearchResult({ answer = "" }) {
             </article>
           ))}
           </div>
+          
           {pageCount > 1 ? 
-      <ReactPaginate
-      previousLabel={"Précédente"}
-      nextLabel={"Suivante"}
-      breakLabel={"..."}
-      breakClassName={"break-me"}
-      pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
-      onPageChange={handlePageClick}
-      containerClassName={"pagination"}
-      subContainerClassName={"pages pagination"}
-      activeClassName={"active"}
-      previousClassName={"pagination-previous"}
-      nextClassName={"pagination-next"}
-      forcePage={selectedPage}
-      breakClassName={"pagination-ellipsis"}
-      pageClassName={"pagination-link"}
-      hrefAllControls={true}
-      /> : null}
+          <ReactPaginate
+          previousLabel={"Précédente"}
+          nextLabel={"Suivante"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+          previousClassName={"pagination-previous"}
+          nextClassName={"pagination-next"}
+          forcePage={selectedPage}
+          breakClassName={"pagination-ellipsis"}
+          pageClassName={"pagination-link"}
+          hrefAllControls={true}
+          /> : null}
         </>
       )}
     </section>
