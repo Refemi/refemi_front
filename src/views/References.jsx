@@ -91,7 +91,6 @@ export default function References() {
       };
       fetchData();
     }
-    console.log(references);
   }, [references, themeName]);
 
   return (
