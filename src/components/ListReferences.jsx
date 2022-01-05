@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { v4 as uuidv4 } from "uuid";
+import ReactPaginate from "react-paginate";
 
 // COMPONENT
 export default function ListReferences({
@@ -8,6 +9,28 @@ export default function ListReferences({
   title = "",
   references = [],
 }) {
+
+  const [offset, setOffset] = useState(0);
+  const [perPage] = useState(10);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentReferences, setCurretnReferences] = useState([]);
+  const [selectedPage] = useState()
+
+  const paginateReferences = () => {
+    const paginated = references.slice(offset, offset + perPage);
+    setCurretnReferences(paginated)
+    setPageCount(Math.ceil(references.length / perPage))
+  }
+
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    setOffset(selectedPage + 1);
+  }
+
+  useEffect(() => {
+    paginateReferences()
+  }, [offset])
+
   const history = useHistory();
 
   return (
@@ -23,8 +46,8 @@ export default function ListReferences({
         <p className="reflist is-hidden-mobile">Thèmes</p>
       </article>
 
-      {references
-        .sort(() => (Math.random() > 0.5 ? 1 : -1))
+      <div className="mb-6">
+        {currentReferences
         .map((reference) => (
           <article
             key={uuidv4()}
@@ -47,6 +70,29 @@ export default function ListReferences({
             ) : null}
           </article>
         ))}
+      </div>
+      {pageCount > 1 ? 
+      <ReactPaginate
+      previousLabel={"Précédente"}
+      nextLabel={"Suivante"}
+      breakLabel={"..."}
+      breakClassName={"break-me"}
+      pageCount={pageCount}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={handlePageClick}
+      containerClassName={"pagination"}
+      subContainerClassName={"pages pagination"}
+      activeClassName={"active"}
+      previousClassName={"pagination-previous"}
+      nextClassName={"pagination-next"}
+      forcePage={selectedPage}
+      breakClassName={"pagination-ellipsis"}
+      pageClassName={"pagination-link"}
+      hrefAllControls={true}
+      /> : null}
+
+      <hr />
     </section>
   );
 }

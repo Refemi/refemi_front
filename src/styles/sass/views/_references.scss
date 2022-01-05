@@ -34,11 +34,6 @@
   .reflist {
     color: lightgray;
   }
-  .reflist-div {
-    @include tablet {
-      width: calc(100% / 3);
-    }
-  }
 
   .scrollbar {
     padding-right: 15px;
@@ -52,5 +47,21 @@
     color: $dark-blue;
     font-weight: bolder;
     font-size: $font-14;
+  }
+}
+.references {
+  .reflist-div {
+    width: 100%;
+    @include tablet {
+      width: calc(100% / 3);
+    }
+  }
+}
+
+.dataResult {
+  .reflist-div {
+    @include tablet {
+      width: calc(100% / 3);
+    }
   }
 }
