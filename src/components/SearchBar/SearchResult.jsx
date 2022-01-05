@@ -20,7 +20,7 @@ const getSearchInfo = async (answer) => {
         return res.data;
       }
     })
-    .then((data) => data.search);
+    .then((data) => data.search.sort(() => (Math.random() > 0.5 ? 1 : -1)));
 };
 
 // COMPONENT
@@ -81,7 +81,7 @@ export default function SearchResult({ answer = "" }) {
             </article>
           ))}
           </div>
-          
+
           {pageCount > 1 ? 
           <ReactPaginate
           previousLabel={"Précédente"}
