@@ -52,7 +52,7 @@
       background-color: transparent;
       z-index: 99;
 
-      @include tablet {
+      @include mobile {
         display: none;
       }
     }
@@ -70,7 +70,7 @@
       box-shadow: $down-box-shadow;
     }
 
-    @include tablet {
+    @include mobile {
       position: unset;
       top: unset;
       left: unset;
@@ -96,7 +96,7 @@
         border-radius: $border-radius-1;
       }
     }
-    @include tablet {
+    @include mobile {
       display: flex;
     }
   }

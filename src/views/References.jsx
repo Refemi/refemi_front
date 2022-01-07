@@ -29,7 +29,7 @@ const getReferencesByCategory = async (categoryName) => {
         return response.data;
       }
     })
-    .then((data) => data.references);
+    .then((data) => data.references.sort(() => (Math.random() > 0.5 ? 1 : -1)));
 };
 
 // Gets the references sorted by theme
@@ -41,7 +41,7 @@ const getReferencesByThemes = async (themeName) => {
         return response.data;
       }
     })
-    .then((data) => data.references);
+    .then((data) => data.references.sort(() => (Math.random() > 0.5 ? 1 : -1)));
 };
 
 // Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.

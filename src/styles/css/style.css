@@ -176,7 +176,7 @@ button {
 .widget {
   position: fixed;
   width: 90vw;
-  top: 15%;
+  top: 18%;
   left: -50px; }
   @media (min-width: 1024px) {
     .widget {
@@ -294,7 +294,7 @@ button {
       margin: auto;
       background-color: transparent;
       z-index: 99; }
-      @media (min-width: 1024px) {
+      @media (min-width: 768px) {
         .refemi-navbar .nav-center .nav-toggle {
           display: none; } }
   .refemi-navbar .nav-container {
@@ -307,7 +307,7 @@ button {
     .refemi-navbar .nav-container.show-links {
       display: block;
       box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1); }
-    @media (min-width: 1024px) {
+    @media (min-width: 768px) {
       .refemi-navbar .nav-container {
         position: unset;
         top: unset;
@@ -327,7 +327,7 @@ button {
         flex-direction: column;
         box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3);
         border-radius: 1rem; }
-    @media (min-width: 1024px) {
+    @media (min-width: 768px) {
       .refemi-navbar .nav-container {
         display: flex; } }
   .refemi-navbar .nav-item:nth-child(1) .dropdown-btn:hover {
@@ -492,12 +492,9 @@ button {
   .references .reflist,
   .dataResult .reflist {
     color: lightgray; }
-  @media (min-width: 1024px) {
-    .references .reflist-div,
-    .dataResult .reflist-div {
-      width: calc(100% / 3); } }
   .references .scrollbar,
   .dataResult .scrollbar {
+    padding-right: 15px;
     height: 60px;
     overflow-y: scroll;
     scrollbar-color: #4a4a4a;
@@ -507,6 +504,16 @@ button {
     color: #0808a3;
     font-weight: bolder;
     font-size: 1.4rem; }
+
+.references .reflist-div {
+  width: 100%; }
+  @media (min-width: 1024px) {
+    .references .reflist-div {
+      width: calc(100% / 3); } }
+
+@media (min-width: 1024px) {
+  .dataResult .reflist-div {
+    width: calc(100% / 3); } }
 
 .dashboard {
   padding: 5rem; }
