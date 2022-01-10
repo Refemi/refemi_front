@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router";
+import PropTypes from "prop-types";
 
 import { UserCredentials } from "../../../App";
 import roles from "../../../utils/roles";
@@ -10,11 +11,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import Counter from "../../Counter";
 
 // COMPONENT
-export default function HeaderDashboard({
-  contributions,
-  users,
-  setShowNewRef,
-}) {
+export default function HeaderDashboard({ contributions, users, setShowNewRef, }) {
   const history = useHistory();
   const { userCredentials } = useContext(UserCredentials);
 
@@ -78,4 +75,10 @@ export default function HeaderDashboard({
       </article>
     </header>
   );
+}
+
+HeaderDashboard.propTypes = {
+  contributions: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  setShowNewRef: PropTypes.func.isRequired
 }

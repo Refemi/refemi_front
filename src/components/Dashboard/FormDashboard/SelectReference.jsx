@@ -1,47 +1,42 @@
 import React, { useContext, useEffect, useState } from "react";
-// Get API address
+import PropTypes from "prop-types";
+
 import http from "../../../services/http-common";
 
 // Context
 import { AllSections } from "../../../App";
 
+const getCategories = async (currentSection) => {
+  return await http
+    .get(`categories/${currentSection}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => data.subCategories)
+}
+
 // TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
 
-const getCategories = async (currentSection) => {};
-
 // COMPONENT
-export default function SelectReference({
-  categories,
-  handleChangeForm,
-
-  setCategories = [],
-}) {
+export default function SelectReference({ categories, handleChangeForm, setCategories}) {
   const { sections } = useContext(AllSections);
   const [currentSection, setCurrentSection] = useState("");
 
+  // Sets up a category when it's saved from click
   const handleChange = (e) => setCurrentSection(e.target.value);
 
-  // Sets up a category when it's saved from click
   useEffect(() => {
-    if (currentSection !== "") {
-      http
-        .get(`categories/${currentSection}`)
-        .then((response) => {
-          if (response.status === 200) {
-            return response.data;
-          }
-        })
-        .then((data) => setCategories(data.subCategories));
+
+    const fetchData = async () => {
+      if (currentSection !== "") {
+        setCategories(await getCategories(currentSection));
+      }
     }
+
+    fetchData();
   }, [currentSection, setCategories]);
-
-  useEffect(() => {
-    console.log("currentSection", currentSection);
-  }, [currentSection]);
-
-  useEffect(() => {
-    console.log("categories", categories);
-  }, [categories]);
 
   return (
     <form className="is-flex is-flex-direction-column is-align-items-center">
@@ -86,3 +81,9 @@ export default function SelectReference({
     </form>
   );
 }
+
+SelectReference.propTypes = {
+  categories: PropTypes.array.isRequired,
+  handleChangeForm: PropTypes.func.isRequired,
+  setCategories: PropTypes.func.isRequired
+};
