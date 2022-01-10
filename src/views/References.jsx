@@ -60,9 +60,9 @@ const findCategoriesInThemeReferences = async (references) => {
   return await themeCategories;
 };
 
-// COMOPNENT
+// COMPONENT
 export default function References() {
-  const { categoryName, themeName } = useParams();
+  const { sectionName, themeName } = useParams();
   const [references, setReferences] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -73,15 +73,15 @@ export default function References() {
   // Get references for Categories page OR Themes page, waiting to have the clicked category/theme before showing data
   useEffect(() => {
     const fetchData = async () => {
-      if (categoryName !== undefined) {
-        setCategories(await getCategories(categoryName));
-        setReferences(await getReferencesByCategory(categoryName));
+      if (sectionName !== undefined) {
+        setCategories(await getCategories(sectionName));
+        setReferences(await getReferencesByCategory(sectionName));
       } else if (themeName !== undefined) {
         setReferences(await getReferencesByThemes(themeName));
       }
     };
     fetchData();
-  }, [categoryName, themeName]);
+  }, [sectionName, themeName]);
 
   // Get the references for Themes page only once the references are ready. Otherwise, it doesn't render the data when the page loads.
   useEffect(() => {
@@ -92,6 +92,7 @@ export default function References() {
       fetchData();
     }
   }, [references, themeName]);
+
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
@@ -104,21 +105,16 @@ export default function References() {
       />
 
       {!themeName
-        ? categories.map(
-            (category) =>
-              references.filter(
-                (reference) => reference.category === category.name
-              ).length > 0 && (
-                <ListReferences
-                  key={uuidv4()}
-                  title={category.label}
-                  name={category.name}
-                  references={references.filter(
-                    (reference) => reference.category === category.name
-                  )}
-                />
-              )
+        ? categories.map((category) =>
+          references.filter((reference) => reference.category === category.name).length > 0 && (
+            <ListReferences
+              key={uuidv4()}
+              title={category.label}
+              name={category.name}
+              references={references.filter((reference) => reference.category === category.name)}
+            />
           )
+        )
         : categories.map(
             (category) =>
               references.filter((reference) => reference.category === category)

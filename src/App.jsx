@@ -102,7 +102,7 @@ export default function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/categories" component={Categories} />
               <Route exact path="/themes" component={Themes} />
-              <Route path="/categories/:categoryName" component={References} />
+              <Route path="/categories/:sectionName" component={References} />
               <Route path="/themes/:themeName" component={References} />
               <Route exact path="/contact" component={Contact} />
               <Route path="/auth/:sign" component={Connection} />
