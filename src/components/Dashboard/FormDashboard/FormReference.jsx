@@ -35,17 +35,83 @@ const getCountries = async () => {
     );
 };
 
+const postContribution = async (contribution, token) => {
+
+  return await http
+    .post("references", contribution, {
+      headers: {
+        "x-access-token": token,
+      },
+    })
+    .then((response) => {
+      if (response.status === 202) {
+        return true
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+const putContribution = async (contribution, token) => {
+
+  if (Object.keys(contribution).length > 0) {
+    return await http
+      .put(`references/${contribution.reference_id}`, {
+        reference_name: contribution.reference_name,
+        reference_date: contribution.reference_date,
+        reference_country_name: contribution.reference_country,
+        reference_content: contribution.reference_content,
+        reference_status: 1
+      }, {
+        headers: {
+          "x-access-token": token
+        }
+      })
+      .then((response) => {
+        if (response.status === 202) {
+          return true;
+        }
+      });
+  }
+
+  return false
+}
+
 // COMPONENT
 export default function FormReference({ category, categories, reference }) {
   const { token, userCredentials } = useContext(UserCredentials);
   const [content, setContent] = useState("");
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(
+    ContentState.createFromBlockArray(
+      convertFromHTML("")
+    )
+  ));
   const [isSent, setIsSent] = useState(false);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("");
 
   const handleEditorChange = (state) => {
     setEditorState(state);
+    setContent(convertToHTML(editorState.getCurrentContent()));
+  };
+
+  const onSubmit = ({ reference_name, reference_date }) => {
+
+    const contribution = {
+      reference_id: reference ? reference.id : null,
+      reference_name: reference_name,
+      reference_date: reference_date,
+      reference_country_name: country,
+      reference_content: content,
+      reference_category_id: currentCategory.id
+    }
+
+    if (reference) {
+      setIsSent(putContribution(contribution, token))
+    } else {
+      postContribution(contribution, token);
+    }
   };
 
   const {
@@ -54,75 +120,10 @@ export default function FormReference({ category, categories, reference }) {
     formState: { errors },
   } = useForm();
 
-  const currentCategory = categories.find((clickedCategory) => clickedCategory.name === category);
 
-  const onSubmit = (data) => {
-    if (reference) {
-      const postData = Object.entries(data).reduce((put, [key, value]) => {
-        console.log(reference, data)
-        if (reference[key] !== value) {
-          put[key] = value;
-        }
-
-        return put;
-      }, {});
-
-      if (Object.keys(postData).length > 0) {
-        console.log(postData)
-        http
-          .put(`references/${reference.id}`, {
-            postData 
-          }, {
-            headers: {
-              "x-access-token": token,
-            },
-          })
-          .then((response) => {
-            if (response.status === 202) {
-              setIsSent(true);
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          });
-      }
-    } else {
-      http
-        .post("references", {
-          reference_name: data.reference_name,
-          reference_country_name: country,
-          reference_date: data.reference_date,
-          reference_content: content,
-          reference_category_id: currentCategory.id
-        }, {
-          headers: {
-            "x-access-token": token,
-          },
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            setIsSent(true);
-          }
-        })
-    }
-  };
-  
-
-  const onValid = () => {
-    http
-      .put(`references/${reference.id}`, {
-        reference_status: true
-      }, {
-        headers: {
-          "x-access-token": token
-        }
-      })
-      .then((response) => {
-        if (response.status === 202) {
-          setIsSent(true);
-        }
-      })
-  }
+  useEffect(() => {
+    setCurrentCategory(categories.find((clickedCategory) => clickedCategory.name === category));
+  }, [categories, category])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,22 +134,20 @@ export default function FormReference({ category, categories, reference }) {
   }, [setCountries]);
 
   useEffect(() => {
+
     setEditorState(
       EditorState.createWithContent(
         ContentState.createFromBlockArray(
-          convertFromHTML(reference.content ? reference.content : switchForm(currentCategory.label))
+          convertFromHTML(reference && reference.content !== "" ? reference.content : switchForm(currentCategory.label))
         )
       )
     );
-
-    if (reference) {
-      setCountry(reference.country);
-    }
   }, [reference, currentCategory]);
 
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState])
+
 
   return (
     isSent ? (
@@ -173,7 +172,7 @@ export default function FormReference({ category, categories, reference }) {
             type="text"
             className="form-input"
             {...register("reference_name", { required: true })}
-            value={reference.name ? reference.name : ""}
+            defaultValue={reference.name ? reference.name : ""}
           />
           {errors.reference_name && (
             <span className="error">Veuillez renseigner ce champ</span>
@@ -193,14 +192,14 @@ export default function FormReference({ category, categories, reference }) {
         </fieldset>
 
         <fieldset className="is-flex is-flex-direction-column">
-          <label htmlFor="reference_name" className="required">
+          <label htmlFor="reference_date" className="required">
             Année
           </label>
           <input
             type="text"
             className="form-input"
-            {...register("reference_date", { required: true })}
-            value={reference.date ? reference.date : ""}
+            {...register("reference_date")}
+            defaultValue={reference.date ? reference.date : ""}
           />
         </fieldset>
 
@@ -231,17 +230,9 @@ export default function FormReference({ category, categories, reference }) {
 
         <input
           type="submit"
-          value={Object.entries(reference).length > 0 ? "Modifier" : "Envoyer"}
+          value={!!reference.status === false ? "Valider" : Object.entries(reference).length > 0 ? "Modifier" : "Envoyer"}
           className="darkblue-bg send-btn has-text-white mt-6"
         />
-        {reference && reference.status === false && userCredentials.role !== roles.CONTRIBUTOR && (
-          <span
-            className="darkblue-bg send-btn has-text-white mt-6"
-            onClick={() => onValid()}
-          >
-            Valider
-          </span>
-        )}
       </form>
     )
   );

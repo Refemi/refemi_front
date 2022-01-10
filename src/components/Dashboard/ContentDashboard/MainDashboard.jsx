@@ -9,57 +9,31 @@ import FormReference from "../FormDashboard/FormReference";
 import roles from "../../../utils/roles";
 
 // Rendering for a contributing member
-const renderContributorDashboard = (contributions, setEditContribution) => {
-
-  return (
-    <>
-      {contributions.pending.length > 0 && (
-        <ContributionsDashboard
-          title="Contributions en attente"
-          contributions={contributions.pending}
-          setEditContribution={setEditContribution}
-        />
-      )}
-      {contributions.validated.length > 0 && (
-        <ContributionsDashboard
-          title="Contributions validées" 
-          contributions={contributions.validated}
-        />
-      )}
-    </>
-  );
-};
-const renderAdminDashboard = (contributions, setEditContribution) => {
-
-  return (
-    <>
-      {contributions.pending.length > 0 && (
-        <ContributionsDashboard
-          title="Contributions en attente"
-          contributions={contributions.pending}
-          setEditContribution={setEditContribution}
-        />
-      )}
-      {contributions.validated.length > 0 && (
-        <ContributionsDashboard
-          title="Contributions validées"
-          contributions={contributions.validated}
-          setEditContribution={setEditContribution}
-        />
-      )}
-    </>
-  );
-};
 const renderDashboard = (userCredentials, contributions, setEditContribution) => {
 
   if (contributions.length === 0) {
     return <p>Aucune contribution validée</p>
   } else {
-    if (userCredentials.role === roles.ADMIN) {
-      return renderAdminDashboard(contributions, setEditContribution)
-    } else {
-      return renderContributorDashboard(contributions, setEditContribution)
-    }
+    return (
+      <>
+        {contributions.pending.length > 0 && (
+          <ContributionsDashboard
+            title="Contributions en attente"
+            contributions={contributions.pending}
+            type={userCredentials.role}
+            setEditContribution={setEditContribution}
+          />
+        )}
+        {contributions.validated.length > 0 && (
+          <ContributionsDashboard
+            title="Contributions validées"
+            contributions={contributions.validated}
+            type={userCredentials.role}
+            setEditContribution={setEditContribution}
+          />
+        )}
+      </>
+    )
   }
 }
 

@@ -30,7 +30,7 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
             className="description-center-reference borders is-flex is-justify-content-space-between line m-3 p-3"
             onClick={() => {
               if (contribution.status) {
-                if (userCredentials.role === roles.CONTRIBUTOR) {
+                if (userCredentials.role !== roles.ADMIN) {
                   history.push(`/references/${contribution.id}`);
                 } else {
                   setEditContribution(contribution);
@@ -52,8 +52,8 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
 }
 
 ContributionsDashboard.propTypes = {
-  title: PropTypes.string.isRequired,
   contributions: PropTypes.array.isRequired,
+  type: PropTypes.number.isRequired,
   setEditContribution: PropTypes.func
 };
 
