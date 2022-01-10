@@ -22,7 +22,21 @@ const getAllReferences = async (token) => {
       }
     })
     .then((data) => ({
-      contributions: data.references,
+      references: data.references,
+      totalValidated: data.references.filter((reference) => reference.status === true).length,
+      totalPending: data.references.filter((reference) => reference.status === false).length
+    }));
+};
+const getUserReferences = async (token, userName) => {
+  return await http
+    .get(`references/users/${userName}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => ({
+      references: data.references,
       totalValidated: data.references.filter((reference) => reference.status === true).length,
       totalPending: data.references.filter((reference) => reference.status === false).length
     }));
@@ -66,14 +80,15 @@ export default function Dashboard() {
     } else {
       // Data retrieval based on role, contributor or larger
       const fetchData = async () => {
-        if (userCredentials.role === roles.ADMIN) {
-          const { contributions, totalValidated, totalPending } = await getAllReferences();
+        if (userCredentials.role !== roles.CONTRIBUTOR) {
+          const { references, totalValidated, totalPending } = await getAllReferences();
+
+          setContributions(references);
           setContributionCounters({
             totalValidated,
             totalPending
           })
-          setContributions(contributions);
-
+          
           const { totalContributors, totalAdmins } = await getUserCounters(token);
           setUserCounters({
             totalContributors,
@@ -81,8 +96,13 @@ export default function Dashboard() {
           })
           //setAllUsers(users);
         } else {
-          //const { contributions } = await getContributorCounters(token);
-          //setContributions(contributions);
+          const { references, totalValidated, totalPending } = await getUserReferences(token, userCredentials.name);
+
+          setContributions(references);
+          setContributionCounters({
+            totalValidated,
+            totalPending
+          });
         }
       };
 
