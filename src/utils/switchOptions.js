@@ -119,7 +119,14 @@ const switchForm = category => {
       <p>Figures majeures (si applicable) :</p>
       <p>Pour aller plus loin :</p>`
     default:
-      return null
+      return `<p>Titre original (si applicable) :</p>
+      <p>Extraits et citations :</p>
+      <p>Contexte :</p>
+      <p>Structure :</p>
+      <p>Analyse :</p>
+      <p>À propos de l'auteur·ice :</p>
+      <p>Sources :</p>
+      <p>Pour aller plus loin :</p>`
   }
 }
 
