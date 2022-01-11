@@ -39,7 +39,10 @@ const getUserReferences = async (token, userName) => {
       references: data.references,
       totalValidated: data.references.filter((reference) => reference.status === true).length,
       totalPending: data.references.filter((reference) => reference.status === false).length
-    }));
+    }))
+    .catch((error) => {
+      console.log(error)
+    });
 };
 const getUserCounters = async (token) => {
   return await http
@@ -70,9 +73,6 @@ export default function Dashboard() {
     totalPending: 0
   });
 
-  // TODO: do we really need a variable for that?
-  const changeIsClicked = () => setShowNewRef(!showNewRef);
-
   // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
     if (!isLoggedIn) {
@@ -99,10 +99,7 @@ export default function Dashboard() {
           const { references, totalValidated, totalPending } = await getUserReferences(token, userCredentials.name);
 
           setContributions(references);
-          setContributionCounters({
-            totalValidated,
-            totalPending
-          });
+          setContributionCounters({ totalValidated, totalPending });
         }
       };
 
@@ -116,10 +113,6 @@ export default function Dashboard() {
     setContributions,
   ]);
 
-  useEffect(() => {
-    window.scrollY > 0 && window.scrollTo(0, 0);
-  }, []);
-
   return (
     isLoggedIn && (
       <main className="dashboard">
@@ -130,8 +123,9 @@ export default function Dashboard() {
             setShowNewRef={setShowNewRef}
           />
 
-          {showNewRef ? (
-            <AddReference changeIsClicked={changeIsClicked} />
+          {showNewRef
+          ? (
+            <AddReference closeNewRef={() => setShowNewRef(false)} />
           ) : (
             <MainDashboard
               contributions={contributions}

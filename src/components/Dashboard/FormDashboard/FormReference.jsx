@@ -35,6 +35,7 @@ const getCountries = async () => {
     );
 };
 
+// Requests to the API to send / update a contribution
 const postContribution = async (contribution, token) => {
 
   return await http
@@ -71,11 +72,15 @@ const putContribution = async (contribution, token) => {
         if (response.status === 202) {
           return true;
         }
-      });
+      })
+      .catch((error) => {
+        return false;
+      })
   }
 
   return false
 }
+
 
 // COMPONENT
 export default function FormReference({ category, categories, reference }) {
@@ -89,12 +94,14 @@ export default function FormReference({ category, categories, reference }) {
   const [isSent, setIsSent] = useState(false);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
+  const [isValidated, setValidated] = useState(true);
   const [currentCategory, setCurrentCategory] = useState("");
 
   const handleEditorChange = (state) => {
     setEditorState(state);
     setContent(convertToHTML(editorState.getCurrentContent()));
   };
+
 
   const onSubmit = ({ reference_name, reference_date }) => {
 
@@ -107,10 +114,10 @@ export default function FormReference({ category, categories, reference }) {
       reference_category_id: currentCategory.id
     }
 
-    if (reference) {
-      setIsSent(putContribution(contribution, token))
+    if (Object.entries(reference).length > 0) {
+      setIsSent(putContribution(contribution, token));
     } else {
-      postContribution(contribution, token);
+      setIsSent(postContribution(contribution, token));
     }
   };
 
@@ -122,7 +129,7 @@ export default function FormReference({ category, categories, reference }) {
 
 
   useEffect(() => {
-    setCurrentCategory(categories.find((clickedCategory) => clickedCategory.name === category));
+    setCurrentCategory(categories.find(({ name }) => name === category));
   }, [categories, category])
 
   useEffect(() => {
@@ -134,20 +141,24 @@ export default function FormReference({ category, categories, reference }) {
   }, [setCountries]);
 
   useEffect(() => {
-
-    setEditorState(
-      EditorState.createWithContent(
-        ContentState.createFromBlockArray(
-          convertFromHTML(reference && reference.content !== "" ? reference.content : switchForm(currentCategory.label))
+    if (currentCategory !== "") {
+      setEditorState(
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            convertFromHTML(Object.entries(reference).length > 0 && reference.content !== "" ? reference.content : switchForm(currentCategory.name))
+          )
         )
-      )
-    );
+      );
+    }
   }, [reference, currentCategory]);
 
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState])
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     isSent ? (
@@ -230,7 +241,7 @@ export default function FormReference({ category, categories, reference }) {
 
         <input
           type="submit"
-          value={!!reference.status === false ? "Valider" : Object.entries(reference).length > 0 ? "Modifier" : "Envoyer"}
+          value={!!reference.status === false && userCredentials.role !== roles.CONTRIBUTOR ? "Valider" : Object.entries(reference).length > 0 ? "Modifier" : "Envoyer"}
           className="darkblue-bg send-btn has-text-white mt-6"
         />
       </form>
