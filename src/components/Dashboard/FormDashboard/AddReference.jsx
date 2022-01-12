@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 
 // Components
 import FormReference from "./FormReference";
 import SelectReference from "./SelectReference";
 
 // COMPONENT
-export default function AddReference({ closeNewRef }) {
+export default function AddReference() {
   const [currentForm, setCurrentForm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -22,27 +21,24 @@ export default function AddReference({ closeNewRef }) {
     !showForm && setCurrentForm("");
   }, [showForm, setCurrentForm]);
 
-  return (
-    <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
-      <button
-        className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-        onClick={() => closeNewRef()}
-      >
-        Retour à mes contributions
-      </button>
-
+  return (   
+    <>
       <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
 
       {showForm ? (
-        <article className="is-flex is-flex-direction-column form-content">
-          <button
-            onClick={() => setShowForm(false)}
-            className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-          >
-            Retour aux rubriques
-          </button>
-          <FormReference category={currentForm} categories={categories} />
-        </article>
+        <>
+          <article className="is-flex is-flex-direction-row is-align-self-flex-center">
+            <button
+              className="pointer send-btn darkblue-bg has-text-white mb-5"
+              onClick={() => setShowForm(false)}
+            >
+              Choisir une nouvelle rubrique
+            </button>
+          </article>
+          <article className="is-flex is-flex-direction-column form-content">
+            <FormReference category={currentForm} categories={categories} />
+          </article>
+        </>
       ) : (
         <SelectReference
           handleChangeForm={handleChange}
@@ -50,10 +46,6 @@ export default function AddReference({ closeNewRef }) {
           categories={categories}
         />
       )}
-    </section>
+    </>
   );
 }
-
-AddReference.propTypes = {
-  closeNewRef: PropTypes.func.isRequired,
-};
