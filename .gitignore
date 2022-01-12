@@ -107,3 +107,6 @@ build
 .tern-port
 package-lock.json
 yarn.lock
+
+# Temp file
+*.map
