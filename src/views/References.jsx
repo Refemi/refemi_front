@@ -100,7 +100,7 @@ export default function References() {
       <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
         {themeName
           ? themeName.toUpperCase().replace(/-/g, " ")
-          : categoryName.toUpperCase().replace(/-/g, " ")}
+          : sectionName.toUpperCase().replace(/-/g, " ")}
       </h2>
 
       <Button
