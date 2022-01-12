@@ -9,6 +9,7 @@ import roles from "../utils/roles";
 import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
 import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
 import AddReference from "../components/Dashboard/FormDashboard/AddReference";
+import AddTheme from "../components/Dashboard/FormDashboard/AddTheme";
 
 // Context
 import { UserCredentials } from "../App";
@@ -58,11 +59,22 @@ const getUserCounters = async (token) => {
     }));
 };
 
+const renderNew = (showNew) => {
+  switch (showNew) {
+    case 'reference':
+      return <AddReference />
+    case 'theme':
+      return <AddTheme />
+    default:
+      return null
+  }
+}
+
 // COMPONENT
 export default function Dashboard() {
   const history = useHistory();
   const { userCredentials, token, isLoggedIn } = useContext(UserCredentials);
-  const [showNewRef, setShowNewRef] = useState(false);
+  const [showNew, setShowNew] = useState(undefined);
   const [userCounters, setUserCounters] = useState({
     totalContributors: 0,
     totalAdmins: 0,
@@ -120,17 +132,23 @@ export default function Dashboard() {
           <HeaderDashboard
             contributions={contributionCounters}
             users={userCounters}
-            setShowNewRef={setShowNewRef}
+            setShowNew={setShowNew}
           />
 
-          {showNewRef
-          ? (
-            <AddReference closeNewRef={() => setShowNewRef(false)} />
-          ) : (
-            <MainDashboard
-              contributions={contributions}
-            />
-          )}
+          {showNew !== undefined
+            ? <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
+                <article className="is-flex is-flex-direction-row is-align-self-flex-end">
+                  <button
+                    className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                    onClick={() => setShowNew(undefined)}
+                  >
+                    Retour à mes contributions
+                  </button>
+                </article>
+                {renderNew(showNew)}
+              </section>
+            : <MainDashboard contributions={contributions} />
+          }
         </section>
       </main>
     )
