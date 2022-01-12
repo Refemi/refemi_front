@@ -21,4 +21,38 @@
   section > article {
     background-color: #8fc5bb20;
   }
+
+  .dropdown-menu {
+    left: auto!important;
+    right: 2rem!important;
+
+    .dropdown-content {
+
+      .dropdown-item:hover {
+        &:nth-child(0) {
+          background-color: $dark-blue;
+        }    
+        &:nth-child(1):hover {
+          background-color: $dark-blue;
+          color: $white;
+        }
+        &:nth-child(2):hover {
+          background-color: $aqua;
+          color: $white;
+        }
+      }
+      .dropdown-item:nth-child(2) {
+        .btn-nav:hover {
+          background-color: $dark-blue;
+          color: $white;
+        }
+      }
+      .dropdown-item:nth-child(3) {
+        .btn-nav:hover {
+          background-color: $aqua;
+          color: $white;
+        }
+      }
+    }
+  }
 }

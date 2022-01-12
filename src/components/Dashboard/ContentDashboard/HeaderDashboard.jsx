@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 
@@ -11,9 +11,20 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import Counter from "../../Counter";
 
 // COMPONENT
-export default function HeaderDashboard({ contributions, users, setShowNewRef, }) {
+export default function HeaderDashboard({ contributions, users, setShowNew, }) {
   const history = useHistory();
   const { userCredentials } = useContext(UserCredentials);
+  const [dropDown, setDropDown] = useState(undefined);
+
+  useEffect(() => {
+    const closeMenu = (e) => {
+      e.preventDefault();
+      setDropDown(false);
+      document.removeEventListener("click", closeMenu);
+    };
+    !!dropDown && document.addEventListener("click", closeMenu);
+  }, [dropDown]);
+
 
   return (
     <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
@@ -65,12 +76,26 @@ export default function HeaderDashboard({ contributions, users, setShowNewRef, }
         )}
 
         <div className="box counter-box is-flex is-justify-content-center">
-          
-          <AiFillPlusCircle
-            onClick={() => setShowNewRef(true)}
-            size={32}
-            className="pointer"
-          />
+          <div className="is-flex is-justify-content-center is-align-items-center">
+            <AiFillPlusCircle
+              size={32}
+              className="pointer"
+              onClick={() => setDropDown(!dropDown)}
+            />
+
+            <div className={`dropdown ${!!dropDown && 'is-active'}`}>
+              <div className="dropdown-menu dropdown-content-radius-10" id="dropdown-menu2" role="menu">
+                <div className="dropdown-content p-0">
+                  <div className="dropdown-item">
+                    <span className="drowndown-btn pointer" onClick={() => setShowNew('reference')}>Suggérer une référence.</span>
+                  </div>
+                  <div className="dropdown-item">
+                    <span className="drowndown-btn pointer" onClick={() => setShowNew('theme')}>Suggérer un thème.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </article>
     </header>
@@ -80,5 +105,5 @@ export default function HeaderDashboard({ contributions, users, setShowNewRef, }
 HeaderDashboard.propTypes = {
   contributions: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
-  setShowNewRef: PropTypes.func.isRequired
+  setShowNew: PropTypes.func.isRequired
 }
