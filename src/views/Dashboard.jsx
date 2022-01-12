@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 
 // JS
 import http from "../services/http-common";
-import handleResponse from "../utils/handleResponse";
 import roles from "../utils/roles";
 
 // Components
@@ -14,55 +13,65 @@ import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 // Context
 import { UserCredentials } from "../App";
 
-// COMPONENT
-const getContributorCounters = async (token) => {
+const getAllReferences = async (token) => {
   return await http
-    .get("counter/dashboard/contributor", {
-      headers: { "x-access-token": token },
-    })
+    .get("references/all/references")
     .then((response) => {
       if (response.status === 200) {
         return response.data;
       }
     })
     .then((data) => ({
-      contributions: {
-        validated: data.approvedContributions,
-        pending: data.pendingContributions,
-      },
+      references: data.references,
+      totalValidated: data.references.filter((reference) => reference.status === true).length,
+      totalPending: data.references.filter((reference) => reference.status === false).length
     }));
 };
-const getAdminCounters = async (token) => {
-  http
+const getUserReferences = async (token, userName) => {
+  return await http
+    .get(`references/users/${userName}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => ({
+      references: data.references,
+      totalValidated: data.references.filter((reference) => reference.status === true).length,
+      totalPending: data.references.filter((reference) => reference.status === false).length
+    }))
+    .catch((error) => {
+      console.log(error)
+    });
+};
+const getUserCounters = async (token) => {
+  return await http
     .get("counter/dashboard/admin", { headers: { "x-access-token": token } })
-    .then((response) => handleResponse(response, 200))
-    .then((response) => ({
-      contributions: {
-        validated: response.approvedContributions,
-        pending: response.pendingContributions,
-      },
-      users: {
-        totalContributors: response.totalContributors,
-        totalAdmins: response.totalAdmins,
-      },
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => ({
+      totalContributors: data.totalContributors,
+      totalAdmins: data.totalAdmins,
     }));
 };
 
+// COMPONENT
 export default function Dashboard() {
   const history = useHistory();
   const { userCredentials, token, isLoggedIn } = useContext(UserCredentials);
   const [showNewRef, setShowNewRef] = useState(false);
-  const [allUsers, setAllUsers] = useState({
+  const [userCounters, setUserCounters] = useState({
     totalContributors: 0,
     totalAdmins: 0,
   });
-  const [contributions, setContributions] = useState({
-    validated: 0,
-    pending: 0,
+  const [contributions, setContributions] = useState([]);
+  const [contributionCounters, setContributionCounters] = useState({
+    totalValidated: 0,
+    totalPending: 0
   });
-
-  // TODO: do we really need a variable for that?
-  const changeIsClicked = () => setShowNewRef(!showNewRef);
 
   // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
@@ -71,13 +80,26 @@ export default function Dashboard() {
     } else {
       // Data retrieval based on role, contributor or larger
       const fetchData = async () => {
-        if (userCredentials.role > roles.CONTRIBUTOR) {
-          const { contributions, users } = await getAdminCounters(token);
-          setContributions(contributions);
-          setAllUsers(users);
+        if (userCredentials.role !== roles.CONTRIBUTOR) {
+          const { references, totalValidated, totalPending } = await getAllReferences();
+
+          setContributions(references);
+          setContributionCounters({
+            totalValidated,
+            totalPending
+          })
+          
+          const { totalContributors, totalAdmins } = await getUserCounters(token);
+          setUserCounters({
+            totalContributors,
+            totalAdmins
+          })
+          //setAllUsers(users);
         } else {
-          const { contributions } = await getContributorCounters(token);
-          setContributions(contributions);
+          const { references, totalValidated, totalPending } = await getUserReferences(token, userCredentials.name);
+
+          setContributions(references);
+          setContributionCounters({ totalValidated, totalPending });
         }
       };
 
@@ -89,33 +111,24 @@ export default function Dashboard() {
     userCredentials,
     history,
     setContributions,
-    setAllUsers,
   ]);
-
-  useEffect(() => {
-    window.scrollY > 0 && window.scrollTo(0, 0);
-  }, []);
 
   return (
     isLoggedIn && (
       <main className="dashboard">
         <section className="is-flex is-justify-content-center is-flex-direction-column">
           <HeaderDashboard
-            currentUser={{
-              name: userCredentials.name,
-              role: userCredentials.role,
-            }}
-            contributions={contributions}
-            users={allUsers}
+            contributions={contributionCounters}
+            users={userCounters}
             setShowNewRef={setShowNewRef}
           />
 
-          {showNewRef ? (
-            <AddReference changeIsClicked={changeIsClicked} />
+          {showNewRef
+          ? (
+            <AddReference closeNewRef={() => setShowNewRef(false)} />
           ) : (
             <MainDashboard
               contributions={contributions}
-              users={userCredentials.role >= roles.MODERATOR ? allUsers : {}}
             />
           )}
         </section>

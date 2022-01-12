@@ -6,7 +6,7 @@ import FormReference from "./FormReference";
 import SelectReference from "./SelectReference";
 
 // COMPONENT
-export default function AddReference({ changeIsClicked }) {
+export default function AddReference({ closeNewRef }) {
   const [currentForm, setCurrentForm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -26,7 +26,7 @@ export default function AddReference({ changeIsClicked }) {
     <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
       <button
         className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-        onClick={() => changeIsClicked()}
+        onClick={() => closeNewRef()}
       >
         Retour à mes contributions
       </button>
@@ -55,5 +55,5 @@ export default function AddReference({ changeIsClicked }) {
 }
 
 AddReference.propTypes = {
-  changeIsClicked: PropTypes.func.isRequired,
+  closeNewRef: PropTypes.func.isRequired,
 };
