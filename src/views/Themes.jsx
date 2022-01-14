@@ -7,7 +7,6 @@ import Button from "../components/Button/Button";
 
 // Context
 import { AllThemes } from "../App";
-import { set } from "express/lib/application";
 
 // COMPONENT
 export default function Themes() {
@@ -17,8 +16,11 @@ export default function Themes() {
   const [addTheme, setAddTheme] = useState(false);
 
   const handleSearch = (e) => {
-    if (e.target.value.length >= 3) {
-      const filtered = themes.filter((theme) => theme.name.toLowerCase().includes(e.target.value.toLowerCase()));
+    const themeSearch = e.target.value
+
+    if (themeSearch.length >= 3) {
+      const filtered = themes.filter((theme) => theme.name.toLowerCase().includes(themeSearch.toLowerCase()));
+
       setFilteredThemes(filtered)
       
       if (filtered.length === 0) {
@@ -26,9 +28,16 @@ export default function Themes() {
       } else if (addTheme) {
         setAddTheme(false);
       }
-    } else if (addTheme) {
-      setAddTheme(false)
-    }
+    } else {
+
+      if (addTheme) {
+        setAddTheme(false)
+      }
+
+      if (filteredThemes.length !== themes) {
+        setFilteredThemes(themes)
+      }
+    } 
   }
 
   useEffect(() => {

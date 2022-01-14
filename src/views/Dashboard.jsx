@@ -45,6 +45,20 @@ const getUserReferences = async (token, userName) => {
       console.log(error)
     });
 };
+const getAllThemes = async (token) => {
+  return await http
+    .get("admin/themes")
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then((data) => ({
+      themes: data.themes,
+      totalValidated: data.themes.filter((theme) => theme.active === true).length,
+      totalPending: data.themes.filter((theme) => theme.active === false).length
+    }));
+}
 const getUserCounters = async (token) => {
   return await http
     .get("counter/dashboard/admin", { headers: { "x-access-token": token } })
@@ -84,6 +98,12 @@ export default function Dashboard() {
     totalValidated: 0,
     totalPending: 0
   });
+  const [themes, setThemes] = useState([]);
+  const [themeCounters, setThemeCounters] = useState({
+    totalValidated: 0,
+    totalPending: 0
+  });
+
 
   // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
@@ -93,23 +113,22 @@ export default function Dashboard() {
       // Data retrieval based on role, contributor or larger
       const fetchData = async () => {
         if (userCredentials.role !== roles.CONTRIBUTOR) {
-          const { references, totalValidated, totalPending } = await getAllReferences();
 
+          const { references, totalValidated, totalPending } = await getAllReferences();
           setContributions(references);
-          setContributionCounters({
-            totalValidated,
-            totalPending
-          })
-          
-          const { totalContributors, totalAdmins } = await getUserCounters(token);
-          setUserCounters({
-            totalContributors,
-            totalAdmins
-          })
-          //setAllUsers(users);
+          setContributionCounters({ totalValidated, totalPending });
+
+          if (userCredentials.role === roles.ADMIN) {
+            const { totalContributors, totalAdmins } = await getUserCounters(token);
+            setUserCounters({ totalContributors, totalAdmins });
+
+            const { themes, total } = await getAllThemes();
+            setThemes(themes);
+            setThemeCounters({ });
+          }
         } else {
           const { references, totalValidated, totalPending } = await getUserReferences(token, userCredentials.name);
-
+          
           setContributions(references);
           setContributionCounters({ totalValidated, totalPending });
         }
@@ -122,34 +141,32 @@ export default function Dashboard() {
     token,
     userCredentials,
     history,
-    setContributions,
   ]);
 
   return (
-    isLoggedIn && (
+    isLoggedIn && contributions.length > 0 && (
       <main className="dashboard">
-        <section className="is-flex is-justify-content-center is-flex-direction-column">
-          <HeaderDashboard
-            contributions={contributionCounters}
-            users={userCounters}
-            setShowNew={setShowNew}
-          />
-
-          {showNew !== undefined
-            ? <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
-                <article className="is-flex is-flex-direction-row is-align-self-flex-end">
-                  <button
-                    className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-                    onClick={() => setShowNew(undefined)}
-                  >
-                    Retour à mes contributions
-                  </button>
-                </article>
-                {renderNew(showNew)}
-              </section>
-            : <MainDashboard contributions={contributions} />
-          }
-        </section>
+        
+        <HeaderDashboard
+          contributions={contributionCounters}
+          themes={themeCounters}
+          users={userCounters}
+          setShowNew={setShowNew}
+        />
+        {showNew !== undefined
+          ? <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
+              <article className="is-flex is-flex-direction-row is-align-self-flex-end">
+                <button
+                  className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                  onClick={() => setShowNew(undefined)}
+                >
+                  Retour à mes contributions
+                </button>
+              </article>
+              {renderNew(showNew)}
+            </section>
+          : <MainDashboard contributions={contributions} themes={themes} />
+        }
       </main>
     )
   );
