@@ -39,7 +39,7 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
   }, [currentSection, setCategories]);
 
   return (
-    <form className="is-flex is-flex-direction-column is-align-items-center">
+    <form className="is-flex is-flex-direction-column is-align-items-center p-5">
       <label className=" required" htmlFor="categories-select">
         1. Choisir une rubrique
       </label>

@@ -4,9 +4,8 @@ import PropTypes from "prop-types";
 
 import http from "../../../services/http-common";
 
-import { UserCredentials } from "../../../App";
-
-import ContributionsDashboard from "./ContributionsDashboard";
+import ContributionsDashboard from "./ContributionsDashboard/ContributionDashboard";
+import ThemesDashboard from "./ThemesDashboard/ThemesDashboard";
 import FormReference from "../FormDashboard/FormReference";
 
 
@@ -23,46 +22,74 @@ const getCategories = async (currentSection) => {
     });
 }
 
-// Rendering for a contributing member
-const renderDashboard = (userCredentials, contributions, setEditContribution) => {
+const renderTabs = (currentTab, data, setEdit) => {
+  switch (currentTab) {
+    case "contributions":
+      return (
+        <ContributionsDashboard
+          contributions={data.reduce((filter, contribution) => {
+            if (!contribution.status) {
+              filter.pending.push(contribution);
+            } else {
+              filter.validated.push(contribution);
+            }
 
-  if (contributions.length === 0) {
-    return <p>Aucune contribution validée</p>
-  } else {
-    return (
-      <>
-        {contributions.pending.length > 0 && (
-          <ContributionsDashboard
-            title="Contributions en attente"
-            contributions={contributions.pending}
-            type={userCredentials.role}
-            setEditContribution={setEditContribution}
-          />
-        )}
-        {contributions.validated.length > 0 && (
-          <ContributionsDashboard
-            title="Contributions validées"
-            contributions={contributions.validated}
-            type={userCredentials.role}
-            setEditContribution={setEditContribution}
-          />
-        )}
-      </>
-    )
+            return filter
+          }, { validated: [], pending: [] })}
+          setEditContribution={setEdit}
+        />
+      )
+    case "themes":
+      return (
+        <ThemesDashboard
+          themes={data.reduce((filter, theme) => {
+            if (!theme.active) {
+              filter.pending.push(theme);
+            } else {
+              filter.active.push(theme);
+            }
+
+            console.log(filter)
+
+            return filter
+          }, { active: [], pending: [] })}
+        />
+      )
+    default:
+      return null
   }
 }
 
 
 // COMPONENT
-export default function MainDashboard({ contributions }) {
-  const { userCredentials } = useContext(UserCredentials);
+export default function MainDashboard({ contributions, themes }) {
   const [categories, setCategories] = useState([]);
   const [editContribution, setEditContribution] = useState({});
+  const [currentTab, setCurrentTab] = useState("");
+  const [currentData, setCurrentData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
+    if (currentTab === "") {
+      setCurrentTab("contributions");
+      return
+    }
+
+    switch (currentTab) {
+      case "contributions":
+        setCurrentData(contributions);
+        break;
+      case "themes":
+        console.log('setCurrentTab')
+        setCurrentData(themes);
+        break;
+      default:
+        setCurrentData([]);
+    }
+    console.log('useState', currentTab)
+
     window.scrollTo(0, 0);
-  }, []);
+  }, [currentTab, contributions, themes]);
 
   useEffect(() => {
     if (Object.entries(editContribution).length > 0) {
@@ -77,12 +104,12 @@ export default function MainDashboard({ contributions }) {
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise 
   return (
-    <article className="dashboard-content borders mt-6">
+    <section className="dashboard-content borders mt-6">
       {Object.entries(editContribution).length > 0 && categories.length > 0
-        ? <>
+        ? <article>
             <button
               onClick={() => setEditContribution({})}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+              className="pointer send-btn darkblue-bg has-text-white mb-5"
             >
               Retour au Tableau de bord
             </button>
@@ -92,26 +119,39 @@ export default function MainDashboard({ contributions }) {
                 className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
               >
                 Voir la contribution
-            </button>
+              </button>
             )}
+
             <FormReference category={editContribution.category_name} categories={categories} reference={editContribution} />
-            
+          </article>
+        : <>
+            <aside>
+              <div className="navbar-menu">
+                <div className="navbar-start">
+                  <span
+                    className={`navbar-item ${currentTab === "contributions" ? "active": "pointer"}`}
+                    onClick={() => currentTab !== "reference" && setCurrentTab("contributions")}
+                  >
+                    Contributions
+                  </span>
+                </div>
+                <div className="navbar-start">
+                  <span
+                    className={`navbar-item ${currentTab === "themes" ? "active" : "pointer"}`}
+                    onClick={() => currentTab !== "themes" && setCurrentTab("themes")}
+                  >
+                    Thèmes
+                  </span>
+                </div>
+              </div>
+            </aside>
+
+            {currentData.length > 0 && (
+              renderTabs(currentTab, currentData, setEditContribution)
+            )}
           </>
-        : renderDashboard(userCredentials, contributions.reduce((filter, contribution) => {
-          if (contribution.status) {
-            filter.validated.push(contribution);
-          } else {
-            filter.pending.push(contribution);
-          }
-      
-          return filter;
-        }, {
-          validated: [],
-          pending: []
-        })
-        , setEditContribution)
       }
-    </article>
+    </section>
   );
 }
 

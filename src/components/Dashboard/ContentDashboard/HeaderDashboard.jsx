@@ -11,7 +11,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import Counter from "../../Counter";
 
 // COMPONENT
-export default function HeaderDashboard({ contributions, users, setShowNew, }) {
+export default function HeaderDashboard({ contributions, themes, users, setShowNew, }) {
   const history = useHistory();
   const { userCredentials } = useContext(UserCredentials);
   const [dropDown, setDropDown] = useState(undefined);
@@ -27,20 +27,21 @@ export default function HeaderDashboard({ contributions, users, setShowNew, }) {
 
 
   return (
-    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
-      <p className="pl-6 pt-6">
-        Bienvenue, {userCredentials.name}&nbsp;
-        <span className="pointer" onClick={() => history.push("/auth/signout")}>
-          (Déconnexion)
-        </span>
-      </p>
-      <h2 className="has-text-centered is-uppercase has-text-weight-bold">
-        Tableau des contributions
-      </h2>
+    <section className="dashboard-header borders p-5">
+      <article className="columns">
+        <p className="column is-5">
+          Bienvenue, {userCredentials.name}&nbsp;
+          <span className="pointer" onClick={() => history.push("/auth/signout")}>
+            (Déconnexion)
+          </span>
+        </p>
+        <h2 className="column is-uppercase has-text-weight-bold is-align-items-center">
+          Tableau des contributions
+        </h2>
+      </article>
       <hr />
-
-      <article className="is-flex is-justify-content-space-between px-6 pb-6">
-        <div className="is-flex is-flex-direction-column is-align-items-center">
+      <article className="columns p-5">
+        <div className="column is-one-fifth is-flex is-flex-direction-column is-align-items-center">
           <Counter
             label="contributions validées"
             value={contributions.totalValidated}
@@ -48,7 +49,7 @@ export default function HeaderDashboard({ contributions, users, setShowNew, }) {
           <p className="has-text-weight-bold">VALIDÉES</p>
         </div>
 
-        <div className="is-flex is-flex-direction-column is-align-items-center">
+        <div className="column is-one-quarter is-flex is-flex-direction-column is-align-items-center">
           <Counter
             label="contributions en attente"
             value={contributions.totalPending}
@@ -58,14 +59,14 @@ export default function HeaderDashboard({ contributions, users, setShowNew, }) {
 
         {userCredentials.role === roles.ADMIN && (
           <>
-            <div className="is-flex is-flex-direction-column is-align-items-center">
+            <div className="column is-one-fifth is-flex is-flex-direction-column is-align-items-center">
               <Counter
                 label="contributeurs"
                 value={users.totalContributors ? users.totalContributors : 0}
               />
               <p className="has-text-weight-bold">CONTRIBUTEURS</p>
             </div>
-            <div className="is-flex is-flex-direction-column is-align-items-center">
+            <div className="column is-one-fifth is-flex is-flex-direction-column is-align-items-center">
               <Counter
                 label="admins"
                 value={users.totalAdmins ? users.totalAdmins : 0}
@@ -75,8 +76,8 @@ export default function HeaderDashboard({ contributions, users, setShowNew, }) {
           </>
         )}
 
-        <div className="box counter-box is-flex is-justify-content-center">
-          <div className="is-flex is-justify-content-center is-align-items-center">
+        <div className="column is-one-fifth is-flex is-flex-direction-column is-align-items-center mt-5">
+          <div className="box">
             <AiFillPlusCircle
               size={32}
               className="pointer"
@@ -98,7 +99,7 @@ export default function HeaderDashboard({ contributions, users, setShowNew, }) {
           </div>
         </div>
       </article>
-    </header>
+    </section>
   );
 }
 
