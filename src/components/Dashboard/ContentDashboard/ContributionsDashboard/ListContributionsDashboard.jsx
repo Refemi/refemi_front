@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 
-import { UserCredentials, AllSections } from "../../../App";
+import { UserCredentials, AllSections } from "../../../../App";
 
 import { AiOutlineFundProjectionScreen, AiFillCloseCircle } from "react-icons/ai";
 import {
@@ -13,7 +13,7 @@ import {
   GiBookCover,
 } from "react-icons/gi";
 
-import roles from "../../../utils/roles";
+import roles from "../../../../utils/roles";
 
 const setIcon = (categoryName) => {
   switch (categoryName) {
@@ -41,7 +41,7 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
   const history = useHistory();
 
   return (
-    <div className="margin-bottom">
+    <div className="mb-5">
       <p className="dashboard-title">{title}</p>
       {contributions
         .sort((a, b) => {
@@ -81,13 +81,3 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
     </div>
   );
 }
-
-ContributionsDashboard.propTypes = {
-  contributions: PropTypes.array.isRequired,
-  type: PropTypes.number.isRequired,
-  setEditContribution: PropTypes.func
-};
-
-ContributionsDashboard.defaultProps = {
-  setEditContribution: void(0)
-};
