@@ -1,55 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import http from "../services/http-common";
+
+// Import Datas Context
+import { DataContext } from "../App";
+
+// Import Icons
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsList } from "react-icons/bs";
 import { AiFillPlusCircle } from "react-icons/ai";
 
-// Components
+// Import Components
 import Counter from "../components/Counter";
 
-// Get counters for homepage
-// TODO: wouldn't it be better to write a general algorithm that counts stuff and that we could use for: all references, validated/pending references in dashboards rather than calling server? We could then also use this bit of code to show the number of results on search page, but also everytime we display a list of references. And we'd call server only for: number of contributorsa and monthly references?
-const getHomeCounters = async () => {
-  return await http
-    .get("counter/homecounter")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ totalReferences, totalContributors, monthlyReferences }) => ({
-      totalReferences,
-      totalContributors,
-      monthlyReferences,
-    }));
-};
 
-// COMPONENT
+/**
+ * Home component
+ * @returns {JSX.Element}
+ */
 export default function Home() {
-  const [totalRefs, setTotalRefs] = useState(0);
-  const [totalContributors, setTotalContributors] = useState(0);
-  const [monthRefs, setMonthRefs] = useState(0);
-
+  const { references } = useContext(DataContext);
   const history = useHistory();
-
-  // Are variables necessery for that?
-  const toCategories = () => history.push("/categories");
-  const toThemes = () => history.push("/themes");
-  const toLogin = () => history.push("/auth/signin");
-
-  // Waits for data to be ready before distributong it in state so that when the page loads it gets all needed data
-  useEffect(() => {
-    const fetchData = async () => {
-      const { totalReferences, totalContributors, monthlyReferences } =
-        await getHomeCounters();
-      setTotalRefs(totalReferences);
-      setTotalContributors(totalContributors);
-      setMonthRefs(monthlyReferences);
-    };
-
-    fetchData();
-  }, [setTotalRefs, setTotalContributors, setMonthRefs]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,23 +29,35 @@ export default function Home() {
     <main className="main-text-color home">
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
         <h2 className="is-align-self-center counter-box box grey-bg-opacity">
-          <Counter value={totalRefs} />
+          <Counter value={references.reduce((counter, reference) => {
+              if (reference.status) {
+                counter++;
+              }
+
+              return counter;
+            }, 0)
+          } />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Références
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
-          <Counter value={totalContributors} />
+          <Counter value={references.reduce((contributors, reference) => {
+            if (!contributors.includes(reference.contributor)) {
+              contributors.push(reference.contributor);
+            }
+            return contributors;
+          }, []).length} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Contributeurs
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
-          <Counter value={monthRefs} />
+          <Counter value={0} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            nouveautés
+            Nouveautés
           </p>
         </h2>
       </section>
@@ -132,7 +114,7 @@ export default function Home() {
         <hr />
       </section>
       <section className="is-flex is-justify-content-space-around second-menu">
-        <button className="cat-btn pointer" onClick={toCategories}>
+        <button className="cat-btn pointer" onClick={ () => history.push("/categories") }>
           <span className="box grey-bg-opacity has-text-white is-relative">
             <BiCategoryAlt className="position-absolute-icon" size={100} />
           </span>
@@ -142,7 +124,7 @@ export default function Home() {
           </h4>
         </button>
 
-        <button className="cat-btn pointer" onClick={toThemes}>
+        <button className="cat-btn pointer" onClick={ () => history.push("/themes") }>
           <span className="box darkblue-bg-opacity has-text-white is-relative">
             <BsList className="position-absolute-icon" size={100} />
           </span>
@@ -151,10 +133,7 @@ export default function Home() {
           </h4>
         </button>
 
-        <button
-          className="is-align-self-center cat-btn pointer"
-          onClick={toLogin}
-        >
+        <button className="is-align-self-center cat-btn pointer" onClick={ () => history.push("/auth/signin") }>
           <span className="box aqua-bg-opacity has-text-white is-relative">
             <AiFillPlusCircle className="position-absolute-icon" size={100} />
           </span>

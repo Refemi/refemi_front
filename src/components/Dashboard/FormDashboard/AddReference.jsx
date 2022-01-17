@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-// Components
+// Import components
 import FormReference from "./FormReference";
 import SelectReference from "./SelectReference";
 
-// COMPONENT
-export default function AddReference({ closeNewRef }) {
+// Import contexts
+const { DashboardContext } = require('../../../App')
+/**
+ * Display main form to add a reference
+ * @returns {JSX.Element}
+ */
+export default function AddReference() {
   const [currentForm, setCurrentForm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  const { setShowNewRef } = useContext(DashboardContext);
 
   const handleChange = (e) => setCurrentForm(e.nativeEvent.target.value);
 
@@ -26,7 +33,7 @@ export default function AddReference({ closeNewRef }) {
     <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
       <button
         className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-        onClick={() => closeNewRef()}
+        onClick={() => setShowNewRef(false)}
       >
         Retour à mes contributions
       </button>
@@ -53,7 +60,3 @@ export default function AddReference({ closeNewRef }) {
     </section>
   );
 }
-
-AddReference.propTypes = {
-  closeNewRef: PropTypes.func.isRequired,
-};

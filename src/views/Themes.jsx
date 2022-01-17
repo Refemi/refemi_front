@@ -6,16 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 import Button from "../components/Button/Button";
 
 // Context
-import { AllThemes } from "../App";
+import { DataContext } from "../App";
 
 // COMPONENT
 export default function Themes() {
-  const { themes } = useContext(AllThemes);
+  const { themes } = useContext(DataContext);
   const history = useHistory();
-
-  const handleClick = (themeName) => {
-    history.push(`/themes/${themeName}`);
-  };
 
   useEffect(() => {
     // Everytime the page is loaded, goes back to the top of the page
@@ -37,9 +33,7 @@ export default function Themes() {
               <li
                 className="m-1 pointer theme"
                 key={uuidv4()}
-                onClick={() => {
-                  handleClick(theme.name);
-                }}
+                onClick={() => { history.push(`/themes/${theme.name}`) }}
               >
                 <h3>{theme.label}</h3>
               </li>

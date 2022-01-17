@@ -2,8 +2,11 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 
-import { UserCredentials, AllSections } from "../../../App";
+// Import Contexts
+import { DataContext, UserContext } from "../../../App";
+import { MainContext } from "./MainDashboard";
 
+// Import icons
 import { AiOutlineFundProjectionScreen, AiFillCloseCircle } from "react-icons/ai";
 import {
   GiInjustice,
@@ -13,10 +16,16 @@ import {
   GiBookCover,
 } from "react-icons/gi";
 
+// Import globals
 import roles from "../../../utils/roles";
 
-const setIcon = (categoryName) => {
-  switch (categoryName) {
+/**
+ * @description Display the icon corresponding to the contribution section
+ * @param {string} sectionName
+ * @returns {JSX.Element}
+ */
+const setIcon = (sectionName) => {
+  switch (sectionName) {
     case "audiovisuel":
       return <AiOutlineFundProjectionScreen size={24} className="mr-3"/>;
     case "juridique-militantisme":
@@ -35,20 +44,22 @@ const setIcon = (categoryName) => {
 };
 
 
-export default function ContributionsDashboard({ contributions, title, setEditContribution }) {
-  const { userCredentials } = useContext(UserCredentials);
-  const { sections } = useContext(AllSections);
+export default function ContributionsDashboard({ title, contributions }) {
+  const { userCredentials } = useContext(UserContext);
+  const { categories, sections } = useContext(DataContext);
+  const { setEditContribution } = useContext(MainContext);
   const history = useHistory();
+
 
   return (
     <div className="margin-bottom">
       <p className="dashboard-title">{title}</p>
-      {contributions
+      {contributions && contributions
         .sort((a, b) => {
           if (a.status) {
-            return a.category_name.localeCompare(b.category_name);
+            return a.category - b.category
           } else {
-            return a.user_name.localeCompare(b.user_name);
+            return a.contributor - b.user_name;
           }
         })            
         .map((contribution) => (
@@ -69,8 +80,9 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
             }}
           >
             <p className="reflist-div is-inline-flex">
-              {setIcon(contribution.section)}
-              {contribution.category_label}
+              {sections.length > 0 && setIcon(sections.find((section) => {
+                return contribution.section === section.id
+              }).name)}
             </p>
             <p className="reflist-div">{contribution.name}</p>
             <p className="reflist-div">{contribution.user_name}</p>
@@ -83,11 +95,6 @@ export default function ContributionsDashboard({ contributions, title, setEditCo
 }
 
 ContributionsDashboard.propTypes = {
-  contributions: PropTypes.array.isRequired,
-  type: PropTypes.number.isRequired,
-  setEditContribution: PropTypes.func
-};
-
-ContributionsDashboard.defaultProps = {
-  setEditContribution: void(0)
+  title: PropTypes.string.isRequired,
+  contributions: PropTypes.array.isRequired
 };

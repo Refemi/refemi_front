@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
-// COMPONENT
-export default function ListReferences({
-  name = "",
-  title = "",
-  references = [],
-}) {
+// Import Contexts
+import { DataContext } from "../App";
 
+/**
+ * ListReferences component
+ * @param {string} name
+ * @param {string} title
+ * @param {array} references
+ * @returns 
+ */
+export default function ListReferences({ name = "", title = "", references = []}) {
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
-  const [currentReferences, setCurretnReferences] = useState([]);
+  const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState()
+  const { themes } = useContext(DataContext);
 
   const paginateReferences = () => {
     const paginated = references.slice(offset, offset + perPage);
-    setCurretnReferences(paginated)
+    setCurrentReferences(paginated)
     setPageCount(Math.ceil(references.length / perPage))
   }
 
@@ -63,7 +68,7 @@ export default function ListReferences({
               <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
                 {reference.themes.map((theme) => (
                   <h4 className="ml-4" key={uuidv4()}>
-                    {theme}
+                    {themes.map((t) => (t.id === theme && t.label))}
                   </h4>
                 ))}
               </span>

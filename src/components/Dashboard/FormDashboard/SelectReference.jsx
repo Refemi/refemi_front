@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import http from "../../../services/http-common";
 
 // Context
-import { AllSections } from "../../../App";
+import { DataContext } from "../../../App";
 
 const getCategories = async (currentSection) => {
   return await http
@@ -21,7 +21,7 @@ const getCategories = async (currentSection) => {
 
 // COMPONENT
 export default function SelectReference({ categories, handleChangeForm, setCategories}) {
-  const { sections } = useContext(AllSections);
+  const { sections } = useContext(DataContext);
   const [currentSection, setCurrentSection] = useState("");
 
   // Sets up a category when it's saved from click

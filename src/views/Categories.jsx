@@ -11,7 +11,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 // Context
-import { AllSections } from "../App";
+import { DataContext } from "../App";
 
 // Show icon depending on category
 const setIcon = (categoryName) => {
@@ -35,7 +35,7 @@ const setIcon = (categoryName) => {
 
 // COMPONENT
 export default function Categories() {
-  const { sections } = useContext(AllSections);
+  const { sections } = useContext(DataContext);
   const history = useHistory();
 
   useEffect(() => {
