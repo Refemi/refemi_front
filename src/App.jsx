@@ -1,5 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
+
+// JS
 import http from "./services/http-common";
 import handleResponse from "./utils/handleResponse";
 // Views
@@ -61,21 +63,16 @@ const getThemes = async () => {
       // TODO : display the error in a dedicated location
     });
 };
-const getReferences = async () => {
-  // Get themes to spread in context AllThemes
+const getUser = async (token) => {
   return await http
-    .get(`references`)
+    .get(`users/me`, { headers: { "x-access-token": token } })
     .then((response) => {
-      // TODO see the behavior of this function
-      return handleResponse(response, 200);
+
+      if (response.status === 200) {
+        return handleResponse(response, 200);
+      }
     })
-    .then((data) => {
-      return data.references
-    })
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
-    });
-};
+}
 
 // COMPONENT
 export default function App() {
@@ -85,17 +82,14 @@ export default function App() {
   const [sections, setSections] = useState([]); // Get sections
   const [categories, setCategories] = useState([]); // Get categories
   const [themes, setThemes] = useState([]); // Get themes
-  const [references, setReferences] = useState([]); // Get references
 
   useEffect(() => {
     // Get sections and themes from database and save them in state
-    const fetchData = async () => {
-      setReferences(await getReferences());
+    (async () => {
       setSections(await getSections());
       setCategories(await getCategories());
       setThemes(await getThemes());
-    };
-    fetchData();
+    })();
   }, []);
 
   useEffect(() => {
@@ -104,18 +98,30 @@ export default function App() {
       // TODO : check if tokenStorage is not exprired
       const tokenStorage = localStorage.getItem("token");
       const userStorage = localStorage.getItem("user");
-
       if (tokenStorage && userStorage) {
         setToken(tokenStorage);
         setUserCredentials(JSON.parse(userStorage));
         setIsLoggedIn(true);
       }
+    } else {
+      (async () => {
+
+        try {
+          await getUser(token);
+        } catch (error) {
+          setToken(null);
+          localStorage.removeItem("token");
+          setUserCredentials({});
+          localStorage.removeItem("user");
+          setIsLoggedIn(false);
+        }
+      })();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, token]);
 
   useEffect(() => {
 
-    if (isLoggedIn) {
+    if (Object.entries(userCredentials).length > 0) {
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -125,13 +131,13 @@ export default function App() {
         })
       );
     }
-  }, [userCredentials, isLoggedIn]);
+  }, [userCredentials]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (token != null) {
       localStorage.setItem("token", token);
     }
-  }, [token, isLoggedIn]);
+  }, [token]);
 
   return (
     <BrowserRouter>
@@ -143,7 +149,7 @@ export default function App() {
             isLoggedIn, setIsLoggedIn,
           }}
         >     
-          <DataContext.Provider value={{ sections, categories, themes, references }}>
+          <DataContext.Provider value={{ sections, categories, themes }}>
             <Header />
             <Route exact path="/" component={Home} />
             <Route exact path="/categories" component={Categories} />

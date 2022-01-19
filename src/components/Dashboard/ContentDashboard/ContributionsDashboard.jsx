@@ -46,7 +46,7 @@ const setIcon = (sectionName) => {
 
 export default function ContributionsDashboard({ title, contributions }) {
   const { userCredentials } = useContext(UserContext);
-  const { categories, sections } = useContext(DataContext);
+  const { sections } = useContext(DataContext);
   const { setEditContribution } = useContext(MainContext);
   const history = useHistory();
 

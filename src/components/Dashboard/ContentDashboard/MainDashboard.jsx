@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import PropTypes from "prop-types";
 
 // Import Contexts
-import { DataContext, UserContext } from "../../../App";
+import { DataContext } from "../../../App";
 import { DashboardContext } from "../../../views/Dashboard";
 
 import ContributionsDashboard from "./ContributionsDashboard";
@@ -41,9 +40,8 @@ export default function MainDashboard() {
   const [editContribution, setEditContribution] = useState({});
   const history = useHistory();
 
-  const { userCredentials } = useContext(UserContext);
   const { categories } = useContext(DataContext);
-  const { contributions, setShowNew } = useContext(DashboardContext);
+  const { contributions } = useContext(DashboardContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);

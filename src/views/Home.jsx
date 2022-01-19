@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
+import http from "../services/http-common";
 
-// Import Datas Context
-import { DataContext } from "../App";
 
 // Import Icons
 import { BiCategoryAlt } from "react-icons/bi";
@@ -12,50 +11,51 @@ import { AiFillPlusCircle } from "react-icons/ai";
 // Import Components
 import Counter from "../components/Counter";
 
+const getHomeCounters = async () => {
+  // Get sections to spread in context SectionsContext
+  return await http
+    .get(`counters/home`)
+    .then((response) => response.status === 200 && response.data)
+    .then((data) =>  data)
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
+};
+
 
 /**
  * Home component
  * @returns {JSX.Element}
  */
 export default function Home() {
-  const { references } = useContext(DataContext);
+  const [counters, setCounters] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    (async () => setCounters(await getHomeCounters()))()
   }, []);
 
   return (
     <main className="main-text-color home">
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
         <h2 className="is-align-self-center counter-box box grey-bg-opacity">
-          <Counter value={references.reduce((counter, reference) => {
-              if (reference.status) {
-                counter++;
-              }
-
-              return counter;
-            }, 0)
-          } />
+          <Counter value={counters.totalReferences} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Références
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
-          <Counter value={references.reduce((contributors, reference) => {
-            if (!contributors.includes(reference.contributor)) {
-              contributors.push(reference.contributor);
-            }
-            return contributors;
-          }, []).length} />
+          <Counter value={counters.totalContributors} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Contributeurs
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
-          <Counter value={0} />
+          <Counter value={counters.monthReferences} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
             Nouveautés
           </p>
