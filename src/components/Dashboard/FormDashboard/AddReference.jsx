@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from "react";
 import FormReference from "./FormReference";
 import SelectReference from "./SelectReference";
 
+import { DashboardContext } from "../../../views/Dashboard";
+
 // Import contexts
 /**
  * Display main form to add a reference
@@ -13,6 +15,7 @@ export default function AddReference() {
   const [currentForm, setCurrentForm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categories, setCategories] = useState([]);
+  const { setShowNewRef } = useContext(DashboardContext);
 
   const handleChange = (e) => setCurrentForm(e.nativeEvent.target.value);
 
@@ -25,13 +28,12 @@ export default function AddReference() {
     !showForm && setCurrentForm("");
   }, [showForm, setCurrentForm]);
 
-  console.log('categories:', categories, currentForm)
 
   return (
     <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
       <button
         className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-        onClick={() => console.log('retour')}
+        onClick={() => setShowNewRef()}
       >
         Retour à mes contributions
       </button>
