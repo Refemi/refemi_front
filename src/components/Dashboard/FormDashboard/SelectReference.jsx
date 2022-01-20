@@ -4,25 +4,25 @@ import PropTypes from "prop-types";
 import http from "../../../services/http-common";
 
 // Context
-import { AllSections } from "../../../App";
+import { DataContext } from "../../../App";
 
 const getCategories = async (currentSection) => {
   return await http
-    .get(`categories/${currentSection}`)
+    .get(`categories/sections/${currentSection}`)
     .then((response) => {
       if (response.status === 200) {
         return response.data;
       }
     })
-    .then((data) => data.subCategories)
+    .then(({ categories }) => categories)
 }
 
 // TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
 
 // COMPONENT
 export default function SelectReference({ categories, handleChangeForm, setCategories}) {
-  const { sections } = useContext(AllSections);
-  const [currentSection, setCurrentSection] = useState("");
+  const { sections } = useContext(DataContext);
+  const [currentSection, setCurrentSection] = useState(undefined);
 
   // Sets up a category when it's saved from click
   const handleChange = (e) => setCurrentSection(e.target.value);
@@ -30,7 +30,7 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
   useEffect(() => {
 
     const fetchData = async () => {
-      if (currentSection !== "") {
+      if (currentSection !== undefined) {
         setCategories(await getCategories(currentSection));
       }
     }
@@ -53,7 +53,7 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
         <option value="default" disabled hidden />
 
         {sections.map((section) => (
-          <option key={section.id} value={section.name}>
+          <option key={section.id} value={section.id}>
             {section.label}
           </option>
         ))}
@@ -70,9 +70,9 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
           >
             <option value="default" disabled hidden />
 
-            {categories.map((subCategory) => (
-              <option key={subCategory.id} value={subCategory.name}>
-                {subCategory.label}
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.label}
               </option>
             ))}
           </select>

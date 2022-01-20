@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import http from "../services/http-common";
 
 // Context
-import { UserCredentials } from "../App";
+import { UserContext } from "../App";
 
 // Regex to verify email validity
 const isEmailValid = (email) => {
@@ -27,7 +27,7 @@ export default function Connection() {
     setToken,
     isLoggedIn,
     setIsLoggedIn,
-  } = useContext(UserCredentials);
+  } = useContext(UserContext);
 
   const { sign } = useParams();
   const history = useHistory();
@@ -41,7 +41,7 @@ export default function Connection() {
   // TODO: why does a signUp variable redirects to a signin address when the usEffect takes you to dashboard?
   const signUp = (data) => {
     return http
-      .post(`/register`, {
+      .post(`auth/signIn`, {
         name: data.name,
         mail: data.mail,
         password: data.password,
@@ -67,52 +67,33 @@ export default function Connection() {
 
   const signIn = (data) => {
     return http
-      .post(
-        `/login`,
-        {
-          mail: data.mail,
-          password: data.password,
-        },
-        {
+      .post(`/auth/signIn`, {
+        mail: data.mail,
+        password: data.password,
+      }, {
           headers: {
             "Access-Control-Allow-Credentials": true,
             "Access-Control-Allow-Headers": true,
           },
           credentials: "same-origin",
-        }
-      )
+      })
       .then((response) => {
         if (response.status === 200) {
           return response.data;
         }
       })
-      .then((data) => {
-        if (
-          data.accessToken === null ||
-          data.accessToken === undefined
-        ) {
+      .then(({ accessToken, user }) => {
+        if ( accessToken === null || accessToken === undefined) {
           return;
         }
 
         setUserCredentials({
-          name: data.userName,
-          mail: data.userEmail,
-          role: data.userRole,
+          name: user.name,
+          mail: user.email,
+          role: user.role,
         });
-
-        setToken(data.accessToken);
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: data.userName,
-            mail: data.userEmail,
-            role: data.userRole,
-          })
-        );
-
-        localStorage.setItem("token", data.accessToken);
-        setIsLoggedIn(true);
+        setToken(accessToken);
+        setIsLoggedIn(true)
       })
       .catch((error) => console.log(error));
   };
@@ -139,20 +120,20 @@ export default function Connection() {
         isLoggedIn && history.push("/dashboard");
         break;
       case "signout":
-        userCredentials.accessToken === null
-          ? history.push("/")
-          : localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        if (userCredentials.accessToken !== null) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUserCredentials({
+            name: "",
+            mail: "",
+            role: "",
+          });
+          setToken(null)
+          setIsLoggedIn(false);
 
-        setIsLoggedIn(false);
-        setUserCredentials({
-          name: "",
-          mail: "",
-          role: "",
-          accessToken: null,
-        });
+          history.push("/auth/signin");
+        }
 
-        history.push("/auth/signin");
         break;
       default:
         history.push("/");
@@ -164,6 +145,7 @@ export default function Connection() {
     userCredentials,
     setIsLoggedIn,
     setUserCredentials,
+    setToken,
   ]);
 
   useEffect(() => {

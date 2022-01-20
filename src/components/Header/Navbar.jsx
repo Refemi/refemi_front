@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { BsList } from "react-icons/bs";
 
 // Context
-import { UserCredentials } from "../../App";
+import { UserContext } from "../../App";
 
 // COMPONENT
 const Navbar = () => {
@@ -12,7 +12,7 @@ const Navbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
-  const { isLoggedIn } = useContext(UserCredentials);
+  const { isLoggedIn } = useContext(UserContext);
 
   const showMenu = (e) => {
     e.preventDefault();

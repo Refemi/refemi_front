@@ -1,47 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import http from "../services/http-common";
 import { v4 as uuidv4 } from "uuid";
+
+import http from "../services/http-common";
+
+import { DataContext } from "../App";
 
 // Components
 import ListReferences from "../components/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import Button from "../components/Button/Button";
 
-// Gets categories (correspond to subcategories in DB at the moment)
-const getCategories = async (categoryName) => {
+const getReferencesBySection = async (sectionId) => {
+  // Get sections to spread in context SectionsContext
   return await http
-    .get(`categories/${categoryName}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((data) => data.subCategories); // TODO :  update when backend gives categories instead of subcategories
+    .get(`references/section/${sectionId}`)
+    .then((response) => response.status === 200 && response.data)
+    .then(({ references }) => references)
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
 };
-
-// Gets the references sorted by category
-const getReferencesByCategory = async (categoryName) => {
+const getReferencesByTheme = async (themeId) => {
+  // Get sections to spread in context SectionsContext
   return await http
-    .get(`references/category/${categoryName}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((data) => data.references.sort(() => (Math.random() > 0.5 ? 1 : -1)));
-};
-
-// Gets the references sorted by theme
-const getReferencesByThemes = async (themeName) => {
-  return await http
-    .get(`references/theme/${themeName}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((data) => data.references.sort(() => (Math.random() > 0.5 ? 1 : -1)));
+    .get(`references/theme/${themeId}`)
+    .then((response) => response.status === 200 && response.data)
+    .then(({ references }) => references)
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
 };
 
 // Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.
@@ -64,54 +52,52 @@ const findCategoriesInThemeReferences = async (references) => {
 export default function References() {
   const { sectionName, themeName } = useParams();
   const [references, setReferences] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { categories, sections, themes } = useContext(DataContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  // Get references for Categories page OR Themes page, waiting to have the clicked category/theme before showing data
-  useEffect(() => {
-    const fetchData = async () => {
-      if (sectionName !== undefined) {
-        setCategories(await getCategories(sectionName));
-        setReferences(await getReferencesByCategory(sectionName));
-      } else if (themeName !== undefined) {
-        setReferences(await getReferencesByThemes(themeName));
+    (async () => {
+      if (references.length === 0) {
+        if (!!sectionName && sections.length > 0 ) {
+          setReferences(await getReferencesBySection(sections.find(section =>
+            section.name === sectionName).id
+          ));
+        } else if (!!themeName && themes.length > 0) {
+          setReferences(await getReferencesByTheme(themes.find(theme =>
+            theme.name === themeName).id
+          ));
+        }
       }
-    };
-    fetchData();
-  }, [sectionName, themeName]);
-
-  // Get the references for Themes page only once the references are ready. Otherwise, it doesn't render the data when the page loads.
-  useEffect(() => {
-    if (themeName !== undefined) {
-      const fetchData = async () => {
-        setCategories(await findCategoriesInThemeReferences(references));
-      };
-      fetchData();
-    }
-  }, [references, themeName]);
-
+    })()
+  }, [references, sections, sectionName, themes, themeName]);
 
   return (
-    <main className="is-flex is-flex-direction-column borders references is-relative">
-      <WidgetCat categories={categories} />
-      <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-        {themeName
-          ? themeName.toUpperCase().replace(/-/g, " ")
-          : categoryName.toUpperCase().replace(/-/g, " ")}
-      </h2>
+    references.length > 0 && (
+      <main className="is-flex is-flex-direction-column borders references is-relative">
+        <WidgetCat categories={references.reduce((filtered, reference) => {
+          const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
+          if (!filtered.find(filter => filter.name === currentCategory.name)) {
+            filtered.push(currentCategory)
+          }
 
-      <Button
-        className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-        path={themeName ? "/themes" : "/categories"}
-        label="Retour"
-      />
+          return filtered
+        }, [])} />
+        <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+          {!!themeName
+            ? themeName.toUpperCase().replace(/-/g, " ")
+            : sectionName.toUpperCase().replace(/-/g, " ")
+          }
+        </h2>
 
-      {!themeName
-        ? categories.map((category) =>
-          references.filter((reference) => reference.category === category.name).length > 0 && (
+        <Button
+          className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+          path={themeName ? "/themes" : "/categories"}
+          label="Retour"
+        />
+        {categories.map((category) => (
+          references.filter((reference) => reference.category === category.name
+          ).length > 0 && (
             <ListReferences
               key={uuidv4()}
               title={category.label}
@@ -119,21 +105,8 @@ export default function References() {
               references={references.filter((reference) => reference.category === category.name)}
             />
           )
-        )
-        : categories.map(
-            (category) =>
-              references.filter((reference) => reference.category === category)
-                .length >= 0 && (
-                <ListReferences
-                  key={uuidv4()}
-                  title={category}
-                  name={category}
-                  references={references.filter(
-                    (reference) => reference.category === category
-                  )}
-                />
-              )
-          )}
-    </main>
+        ))}
+      </main>
+    )
   );
 }
