@@ -1,15 +1,39 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+
+import http from '../services/http-common';
+import roles from '../utils/roles';
 
 // Import components
-import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
-import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
-import AddReference from "../components/Dashboard/FormDashboard/AddReference";
+import HeaderDashboard from '../components/Dashboard/ContentDashboard/HeaderDashboard';
+import MainDashboard from '../components/Dashboard/ContentDashboard/MainDashboard';
+import AddReference from '../components/Dashboard/FormDashboard/AddReference';
 
 // Import contexts
-import { DataContext, UserContext } from "../App";
+import { UserContext } from '../App';
 
 export const DashboardContext = createContext();
+
+const getAllReferences = async (token) => {
+  return await http
+    .get('/references', { headers: { 'x-access-token': token }})
+    .then(response => {
+      if (response.status === 200) {
+        return response.data;
+      } 
+    })
+    .then(({ references }) => references)
+}
+const getUserReferences = async (userId, token) => {
+  return await http
+    .get(`/references/user/${userId}`, { header: { 'x-access-token': token }})
+    .then(response => {
+      if (response.response === 200) {
+        return response.data;
+      }
+    })
+    .then(data => data)
+}
 
 
 /**
@@ -21,24 +45,17 @@ export default function Dashboard() {
   const [contributions, setContributions] = useState({});
 
   const history = useHistory();
-  const { isLoggedIn } = useContext(UserContext);
-  const { references } = useContext(DataContext);
+  const { userCredentials, token, isLoggedIn } = useContext(UserContext);
 
   useEffect(() => {
-    if (references.length > 0) {
-      setContributions(references.reduce((filter, reference) => {
-        if (reference.status) {
-          filter.validated.push(reference);
-        } else {
-          filter.pending.push(reference);
-        }
-        return filter;
-      }, {
-        validated: [],
-        pending: []
-      }));
+    if (Object.entries(contributions).length === 0) {
+      (async () => Object.entries(userCredentials).length > 0 && (
+        userCredentials.role === roles.ADMIN
+          ? setContributions(await getAllReferences(token))
+          : setContributions(await getUserReferences())
+      ))();
     }
-  }, [references])
+  }, [userCredentials, token, contributions]);
 
   // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
