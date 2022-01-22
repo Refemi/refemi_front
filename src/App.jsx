@@ -30,7 +30,7 @@ export const DataContext = createContext();
 // Functions
 const getSections = async () => {
   // Get sections to spread in context SectionsContext
-  return await http
+  return await http()
     .get(`sections`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => {
@@ -42,7 +42,7 @@ const getSections = async () => {
 };
 const getCategories = async () => {
   // Get categories to spread in context DataContext
-  return await http
+  return await http()
     .get(`categories`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => data.categories)
@@ -52,7 +52,7 @@ const getCategories = async () => {
 };
 const getThemes = async () => {
   // Get themes to spread in context AllThemes
-  return await http
+  return await http()
     .get(`themes`)
     .then((response) => {
       // TODO see the behavior of this function
@@ -64,8 +64,8 @@ const getThemes = async () => {
     });
 };
 const getUser = async (token) => {
-  return await http
-    .get(`users/me`, { headers: { "x-access-token": token } })
+  return await http(token)
+    .get(`users/me`)
     .then((response) => {
 
       if (response.status === 200) {

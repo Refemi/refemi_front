@@ -13,7 +13,7 @@ const getSearchInfo = async (answer) => {
       ? (insert = insert.join(""))
       : (insert = insert.join("<->"));
 
-  return await http
+  return await http()
     .get(`search?answer=${insert}`)
     .then((res) => {
       if (res.status === 200) {

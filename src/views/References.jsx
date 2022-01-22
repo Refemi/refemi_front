@@ -13,7 +13,7 @@ import Button from "../components/Button/Button";
 
 const getReferencesBySection = async (sectionId) => {
   // Get sections to spread in context SectionsContext
-  return await http
+  return await http()
     .get(`references/section/${sectionId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
@@ -23,7 +23,7 @@ const getReferencesBySection = async (sectionId) => {
 };
 const getReferencesByTheme = async (themeId) => {
   // Get sections to spread in context SectionsContext
-  return await http
+  return await http()
     .get(`references/theme/${themeId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)

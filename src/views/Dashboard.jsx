@@ -15,8 +15,8 @@ import { UserContext } from '../App';
 export const DashboardContext = createContext();
 
 const getAllReferences = async (token) => {
-  return await http
-    .get('/references', { headers: { 'x-access-token': token }})
+  return await http(token)
+    .get('/references')
     .then(response => {
       if (response.status === 200) {
         return response.data;
@@ -25,8 +25,8 @@ const getAllReferences = async (token) => {
     .then(({ references }) => references)
 }
 const getUserReferences = async (userId, token) => {
-  return await http
-    .get(`/references/user/${userId}`, { header: { 'x-access-token': token }})
+  return await http(token)
+    .get(`/references/user/${userId}`)
     .then(response => {
       if (response.response === 200) {
         return response.data;

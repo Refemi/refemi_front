@@ -40,7 +40,7 @@ export default function Connection() {
 
   // TODO: why does a signUp variable redirects to a signin address when the usEffect takes you to dashboard?
   const signUp = (data) => {
-    return http
+    return http()
       .post(`auth/signIn`, {
         name: data.name,
         mail: data.mail,
@@ -66,16 +66,10 @@ export default function Connection() {
     } */
 
   const signIn = (data) => {
-    return http
+    return http()
       .post(`/auth/signIn`, {
         mail: data.mail,
         password: data.password,
-      }, {
-          headers: {
-            "Access-Control-Allow-Credentials": true,
-            "Access-Control-Allow-Headers": true,
-          },
-          credentials: "same-origin",
       })
       .then((response) => {
         if (response.status === 200) {

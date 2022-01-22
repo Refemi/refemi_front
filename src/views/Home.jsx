@@ -13,7 +13,7 @@ import Counter from "../components/Counter";
 
 const getHomeCounters = async () => {
   // Get sections to spread in context SectionsContext
-  return await http
+  return await http()
     .get(`counters/home`)
     .then((response) => response.status === 200 && response.data)
     .then((data) =>  data)
