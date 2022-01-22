@@ -1,15 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // Import Contexts
 import { UserContext } from "../../../App";
 import { DashboardContext } from "../../../views/Dashboard";
+
+// Import roles utils — REST-API utils
+import http from '../../../services/http-common';
 import roles from "../../../utils/roles";
 
+//Import icons 
 import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import components
 import Counter from "../../Counter";
+
+/**
+ * Retrieve counters for administrators
+ * @param {string} token
+ * @returns 
+ */
+const getAdminCounter = async (token) => await http(token)
+  .get('/counters/dashboard/admin/')
+  .then(response => {
+    if (response.status === 200) {
+      return response.data;
+    }
+  })
+  .then(data => data);
+/**
+ * Retrieve counters for users
+ * @param {string} token
+ * @returns 
+ */
+ const getUserCounter = async (token) => await http(token)
+  .get("/counters/dashboard/contributor")
+  .then(response => {
+    if (response.status === 200) {
+      return response.data;
+    }
+  })
+  .then(({ counters }) => counters );
+ 
+
 
 /**
  * HeaderDashboard component
@@ -17,10 +50,20 @@ import Counter from "../../Counter";
  */
 export default function HeaderDashboard() {
   const history = useHistory();
-  const { userCredentials } = useContext(UserContext);
-  const { contributions, setShowNewRef } = useContext(DashboardContext);
+  const { userCredentials, token } = useContext(UserContext);
+  const { setShowNewRef } = useContext(DashboardContext);
+  const [counters, setCounters] = useState({})
+  
+useEffect(() => {
+  (async () => {
+    userCredentials.role === roles.ADMIN
+      ? setCounters(await getAdminCounter(token))
+      : setCounters(await getUserCounter(token))
+  })();
+}, [userCredentials, token]);
 
   return (
+    
     <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
       <p className="pl-6 pt-6">
         Bienvenue, {userCredentials.name}&nbsp;
@@ -37,7 +80,7 @@ export default function HeaderDashboard() {
         <div className="is-flex is-flex-direction-column is-align-items-center">
           <Counter
             label="contributions validées"
-            value={contributions.validated.length}
+            value={counters.totalApprovedContributions}
           />
           <p className="has-text-weight-bold">VALIDÉES</p>
         </div>
@@ -45,29 +88,29 @@ export default function HeaderDashboard() {
         <div className="is-flex is-flex-direction-column is-align-items-center">
           <Counter
             label="contributions en attente"
-            value={contributions.pending.length}
+            value={counters.totalPendingContributions}
           />
           <p className="has-text-weight-bold">EN ATTENTE</p>
         </div>
 
-        {/*userCredentials.role === roles.ADMIN && (*/
+        {userCredentials.role === roles.ADMIN && (
           <>
             <div className="is-flex is-flex-direction-column is-align-items-center">
               <Counter
                 label="contributeurs"
-                value={0}
+                value={counters.totalContributors}
               />
               <p className="has-text-weight-bold">CONTRIBUTEURS</p>
             </div>
             <div className="is-flex is-flex-direction-column is-align-items-center">
               <Counter
                 label="admins"
-                value={0}
+                value={counters.totalAdmins}
               />
               <p className="has-text-weight-bold">ADMINS</p>
             </div>
           </>
-        /*)*/}
+        )}
 
         <div className="box counter-box is-flex is-justify-content-center">
           
