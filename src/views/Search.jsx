@@ -6,12 +6,7 @@ import SearchResult from "../components/SearchBar/SearchResult";
 
 // COMPONENT
 export default function Search() {
-  const [search, setSearch] = useState("");
-
-  // get what user typed
-  const inputSearch = (e) => setSearch(e.target.value);
-  // clear what user typed (for cross in input)
-  const clearInput = () => setSearch("");
+  const [search, setSearch] = useState(null);
 
   return (
     <main className="search is-flex is-flex-direction-column is-align-items-center">
@@ -23,15 +18,13 @@ export default function Search() {
         <input
           type="text"
           placeholder="Recherche"
-          value={search}
-          onChange={inputSearch}
+          onChange={(e) => setSearch(e.target.value)}
           className="borders form-input search-input my-6"
         />
-
-        <IoIosClose className="clearBtn" onClick={clearInput} />
+        <IoIosClose className="clearBtn" onClick={() => setSearch(null)} />
       </fieldset>
 
-      {search === "" ? null : <SearchResult answer={search} />}
+      {search !== null && <SearchResult search={search !== null && search !== "" ? search : ""} />}
     </main>
   );
 }
