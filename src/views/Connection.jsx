@@ -92,21 +92,22 @@ export default function Connection() {
   };
 
   // Handles the case of login
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     let error = undefined;
 
     switch (sign) {
       case "signin":
-        error = signIn(data);
+        error = await signIn(data);
         break;
       case "signup":
-        error = signUp(data);
+        error = await signUp(data);
         break;
       default:
         return;
     }
 
-    if (error !== undefined) {
+    // If the return of the functions is an error or is not a Promise
+    if (error !== undefined && error !== false) {
       setErrorSign(true)
     }
   };
