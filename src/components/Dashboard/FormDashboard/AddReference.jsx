@@ -48,7 +48,7 @@ export default function AddReference() {
           <article className="is-flex is-flex-direction-column form-content">
             <button
               onClick={() => setShowForm(false)}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-start"
             >
               Retour aux rubriques
             </button>

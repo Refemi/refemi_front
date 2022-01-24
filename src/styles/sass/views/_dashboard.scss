@@ -1,5 +1,5 @@
 .dashboard {
-  padding: 5rem;
+  padding: 3rem;
 
   &-content {
     box-shadow: $light-box-shadow;
@@ -18,7 +18,15 @@
     margin-bottom: 10rem;
   }
 
-  section > article {
-    background-color: #8fc5bb20;
+  section {
+    padding: 1rem;
+
+    article {
+      padding-top: 1rem;
+      padding-left: 1rem;
+      background-color: #8fc5bb20;
+    }
   }
+
+  
 }

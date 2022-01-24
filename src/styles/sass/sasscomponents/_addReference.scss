@@ -1,0 +1,29 @@
+.found-references {
+    margin: 1rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    background-color: $light-grey;
+    border-radius: 1rem;
+
+    h6 {
+        font-size: 0.9rem;
+    }
+
+    ul {
+        margin: 1rem;
+
+        li {
+            padding: 0.5rem;
+
+            &:hover {
+                background-color: #fff;
+                cursor: zoom-in;
+            }
+            &:hover:after {
+                font-size: 0.8rem;
+                font-weight: bold;
+                content: " (voir la référence)";
+            }
+        }
+    }
+}
