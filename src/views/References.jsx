@@ -73,40 +73,47 @@ export default function References() {
   }, [references, sections, sectionName, themes, themeName]);
 
   return (
-    references.length > 0 && (
-      <main className="is-flex is-flex-direction-column borders references is-relative">
-        <WidgetCat categories={references.reduce((filtered, reference) => {
-          const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
-          if (!filtered.find(filter => filter.name === currentCategory.name)) {
-            filtered.push(currentCategory)
-          }
+    <main className="is-flex is-flex-direction-column borders references is-relative">
+      {references.length === 0
+        ? <span className="logo-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        : <>
+            <WidgetCat categories={references.reduce((filtered, reference) => {
+              const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
+              if (!filtered.find(filter => filter.name === currentCategory.name)) {
+                filtered.push(currentCategory)
+              }
 
-          return filtered
-        }, [])} />
-        <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-          {!!themeName
-            ? themeName.toUpperCase().replace(/-/g, " ")
-            : sectionName.toUpperCase().replace(/-/g, " ")
-          }
-        </h2>
+              return filtered
+            }, [])} />
+            <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+              {!!themeName
+                ? themeName.toUpperCase().replace(/-/g, " ")
+                : sectionName.toUpperCase().replace(/-/g, " ")
+              }
+            </h2>
 
-        <Button
-          className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-          path={themeName ? "/themes" : "/categories"}
-          label="Retour"
-        />
-        {categories.map((category) => (
-          references.filter((reference) => reference.category === category.name
-          ).length > 0 && (
-            <ListReferences
-              key={uuidv4()}
-              title={category.label}
-              name={category.name}
-              references={references.filter((reference) => reference.category === category.name)}
+            <Button
+              className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+              path={themeName ? "/themes" : "/categories"}
+              label="Retour"
             />
-          )
-        ))}
-      </main>
-    )
-  );
+            {categories.map((category) => (
+              references.filter((reference) => reference.category === category.name
+              ).length > 0 && (
+                <ListReferences
+                  key={uuidv4()}
+                  title={category.label}
+                  name={category.name}
+                  references={references.filter((reference) => reference.category === category.name)}
+                />
+              )
+            ))}
+          </>
+      }
+    </main>
+  )
 }
