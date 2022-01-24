@@ -1,6 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap");
+@-webkit-keyframes zoom-in-out {
+  0% {
+    -ms-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+  100% {
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes zoom-in-out {
+  0% {
+    -ms-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+  100% {
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+
 .refemi {
   font-family: "Old Standard TT", serif; }
 
@@ -144,6 +166,33 @@ button {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: lightgray 0.2px solid; }
+
+.logo-loader {
+  display: flex;
+  justify-content: center;
+  margin: 2em; }
+  .logo-loader span {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0.2rem; }
+  .logo-loader span:nth-child(1) {
+    background-color: #8fc5bb;
+    animation: zoom-in-out 1.8s ease 6s infinite normal;
+    -moz-animation: zoom-in-out 1s ease 6s infinite normal;
+    -ms-animation: zoom-in-out 1s ease 6s infinite normal; }
+  .logo-loader span:nth-child(2) {
+    background-color: #0808a3;
+    animation: zoom-in-out 1.8s ease 0.12s infinite normal;
+    -moz-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
+    -ms-animation: zoom-in-out 1.8s ease 0.12s infinite normal; }
+  .logo-loader span:nth-child(3) {
+    background-color: #0be3af;
+    animation: zoom-in-out 1.8s ease 0.18s infinite normal;
+    -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
+    -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal; }
+  .logo-loader a {
+    font-size: 3em;
+    color: #2f3030; }
 
 .counter-box {
   width: 5rem;
@@ -526,6 +575,8 @@ button {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
     margin-bottom: 10rem; }
+  .dashboard section > article {
+    background-color: #8fc5bb20; }
 
 .search .search-input {
   width: 80%;

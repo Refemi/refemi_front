@@ -155,3 +155,37 @@ button {
   border-radius: 0.5rem;
   border: lightgray 0.2px solid;
 }
+.logo-loader {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+
+  span {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0.2rem;
+  }
+  span:nth-child(1) {
+    background-color: $green-grey;
+    animation:zoom-in-out 1.8s ease 6s infinite normal;
+    -moz-animation:zoom-in-out 1s ease 6s infinite normal;
+    -ms-animation:zoom-in-out 1s ease 6s infinite normal;
+  }
+  span:nth-child(2) {
+    background-color: $dark-blue;
+    animation:zoom-in-out 1.8s ease 0.12s infinite normal;
+    -moz-animation:zoom-in-out 1.8s ease 0.12s infinite normal;
+    -ms-animation:zoom-in-out 1.8s ease 0.12s infinite normal;
+  }
+  span:nth-child(3) {
+    background-color: $aqua;
+    animation:zoom-in-out 1.8s ease 0.18s infinite normal;
+    -moz-animation:zoom-in-out 1.8s ease 0.18s infinite normal;
+    -ms-animation:zoom-in-out 1.8s ease 0.18s infinite normal;
+
+  }
+  a {
+    font-size: 3em;
+    color: #2f3030;
+  }
+}
