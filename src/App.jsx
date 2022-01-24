@@ -63,16 +63,6 @@ const getThemes = async () => {
       // TODO : display the error in a dedicated location
     });
 };
-const getUser = async (token) => {
-  return await http(token)
-    .get(`users/me`)
-    .then((response) => {
-
-      if (response.status === 200) {
-        return handleResponse(response, 200);
-      }
-    })
-}
 
 // COMPONENT
 export default function App() {
@@ -103,24 +93,10 @@ export default function App() {
         setUserCredentials(JSON.parse(userStorage));
         setIsLoggedIn(true);
       }
-    } else {
-      (async () => {
-
-        try {
-          await getUser(token);
-        } catch (error) {
-          setToken(null);
-          localStorage.removeItem("token");
-          setUserCredentials({});
-          localStorage.removeItem("user");
-          setIsLoggedIn(false);
-        }
-      })();
     }
   }, [isLoggedIn, token]);
 
   useEffect(() => {
-
     if (Object.entries(userCredentials).length > 0) {
       localStorage.setItem(
         "user",
