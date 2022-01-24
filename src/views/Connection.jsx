@@ -162,7 +162,7 @@ export default function Connection() {
       </h3>
       {errorSign && (
         <p style={{ color: 'red', fontSize: '0.9rem' }}>
-          Une erreur est survenue lors de la connexion
+          Le nom d'utilisateur ou le mot de passe est incorrect
         </p>
       )}
 
