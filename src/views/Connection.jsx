@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,17 +7,20 @@ import http from "../services/http-common";
 // Context
 import { UserContext } from "../App";
 
-// Regex to verify email validity
-const isEmailValid = (email) => {
+// Regex to verify email and password validity
+const isPasswordValid = (email) => {
   const regex = new RegExp(
-    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+    /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/
   );
-  return regex.text(email);
+  return regex.test(email);
 };
-
-/* const formError = () => {
-  return ' Une erreur est survenue'
-} */
+const isEmailValid = (email) => {
+  console.log(email)
+  const regex = new RegExp(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+  return regex.test(email);
+};
 
 // COMPONENT
 export default function Connection() {
@@ -29,86 +32,83 @@ export default function Connection() {
     setIsLoggedIn,
   } = useContext(UserContext);
 
+  const [errorSign, setErrorSign] = useState(false);
+
   const { sign } = useParams();
   const history = useHistory();
 
   const {
     register,
-    handleSubmit /* ,
-    formState: { errors } */,
+    handleSubmit,
+    formState: { errors },
   } = useForm();
 
-  // TODO: why does a signUp variable redirects to a signin address when the usEffect takes you to dashboard?
-  const signUp = (data) => {
-    return http
-      .post(`auth/signIn`, {
-        name: data.name,
-        mail: data.mail,
-        password: data.password,
+  // Register a new user and redirect to the login page
+  const signUp = async (data) => {
+    return await http()
+      .post(`auth/signUp`, {
+        userName: data.name,
+        userEmail: data.email,
+        userPassword: data.password,
       })
-      .then(
-        (response) => response.status !== 201 && history.push("/auth/signin")
-      );
+      .then((response) => {
+        if (response.status === 201) {
+          history.push("/auth/signin");
+        }
+      });
   };
-  /* const handleEmailValidation = email => {
-      console.log('ValidateEmail was called with', email)
-      
-      const isValid = isValidEmail(email)
-      
-      const validityChanged =
-      (errors.email && isValid) || (!errors.email && !isValid)
-      
-      if (validityChanged) {
-        console.log('Fire tracker with', isValid ? 'Valid' : 'Invalid')
-      }
-      
-      return isValid
-    } */
 
-  const signIn = (data) => {
-    return http
+  const signIn = async (data) => {
+    return await http()
       .post(`/auth/signIn`, {
-        mail: data.mail,
+        email: data.email,
         password: data.password,
-      }, {
-          headers: {
-            "Access-Control-Allow-Credentials": true,
-            "Access-Control-Allow-Headers": true,
-          },
-          credentials: "same-origin",
       })
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data)
           return response.data;
         }
       })
       .then(({ accessToken, user }) => {
         if ( accessToken === null || accessToken === undefined) {
-          return;
+          throw new Error("No token");
         }
 
         setUserCredentials({
-          name: user.name,
-          mail: user.email,
-          role: user.role,
+          name: user.userName,
+          mail: user.userEmail,
+          role: user.userRole
         });
         setToken(accessToken);
         setIsLoggedIn(true)
+
+        return false
       })
-      .catch((error) => console.log(error));
+
+      .catch ((error) => {
+        return error;
+      });
   };
 
   // Handles the case of login
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    let error = undefined;
+
     switch (sign) {
       case "signin":
-        signIn(data);
+        error = await signIn(data);
         break;
       case "signup":
-        signUp(data);
+        error = await signUp(data);
         break;
       default:
-        console.log("Erreur");
+        return;
+    }
+
+    // If the return of the functions is an error or is not a Promise
+    if (error !== undefined && error !== false) {
+      setErrorSign(true)
     }
   };
 
@@ -123,11 +123,7 @@ export default function Connection() {
         if (userCredentials.accessToken !== null) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
-          setUserCredentials({
-            name: "",
-            mail: "",
-            role: "",
-          });
+          setUserCredentials({ name: '', mail: '', role: '' });
           setToken(null)
           setIsLoggedIn(false);
 
@@ -153,7 +149,7 @@ export default function Connection() {
   }, []);
 
   return (
-    <main className="is-flex is-flex-direction-column is-align-items-center">
+    <main className="auth is-flex is-flex-direction-column is-align-items-center">
       <h2 className="mt-6 has-text-weight-bold has-text-centered mx-3">
         Envie de collaborer et de proposer de nouvelles références ?
       </h2>
@@ -164,6 +160,11 @@ export default function Connection() {
           ? "Devenez contributeur·ice vous créant un compte !"
           : null}
       </h3>
+      {errorSign && (
+        <p style={{ color: 'red', fontSize: '0.9rem' }}>
+          Le nom d'utilisateur ou le mot de passe est incorrect
+        </p>
+      )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -175,22 +176,28 @@ export default function Connection() {
             <label>Nom</label>
             <input
               type="text"
-              placeholder="Nom de lutilisateur"
-              className="form-input"
+              placeholder="Francis Noname"
+              className={`form-input ${errors.password && 'error'}`}
               {...register("name", { required: true })}
             />
+            {errors.name && (
+              <p className="error">Le pseudo n'est pas valide</p>
+            )}
           </fieldset>
         )}
 
         <fieldset className="is-flex is-flex-direction-column ">
-          <label>Email</label>
+          <label>Courriel</label>
           <input
             type="text"
-            placeholder="Adresse mél"
+            placeholder="francisnoname@refemi.com"
             name="email"
-            className="form-input"
-            {...register("mail", { required: true })}
+            className={`form-input ${errors.mail && 'error'}`}
+            {...register("email", { required: true, validate: isEmailValid })}
           />
+          {errors.email && (
+            <p className="error">Le courriel n'est pas valide</p>
+          )}
         </fieldset>
 
         <fieldset className="is-flex is-flex-direction-column ">
@@ -198,9 +205,12 @@ export default function Connection() {
           <input
             type="password"
             placeholder="Mot de passe"
-            className="form-input"
-            {...register("password", { required: true, minLength: 6 })}
+            className={`form-input ${errors.password && 'error'}`}
+            {...register("password", { required: true, validate: isPasswordValid })}
           />
+          {errors.password && (
+            <p className="error">Le mot de passe n'est pas valide</p>
+          )}
         </fieldset>
         {sign === "signup" && (
           <fieldset className="is-flex is-flex-direction-column ">
@@ -211,34 +221,46 @@ export default function Connection() {
               className="form-input"
               {...register("confirm_password", {
                 required: true,
-                minLength: 6,
+                validate: () => {} // TODO: validate the password confirmation
               })}
             />
           </fieldset>
         )}
-        {sign === "signup" ? (
-          <button
-            className="darkblue-bg send-btn has-text-white mt-6"
-            type="submit"
-          >
-            Créer un compte
-          </button>
-        ) : (
-          <fieldset className="is-flex is-justify-content-space-between">
-            <button
-              className="darkblue-bg send-btn has-text-white pointer  mt-6"
-              type="submit"
-            >
-              Se connecter
-            </button>
-            <button
-              className="darkblue-bg send-btn has-text-white pointer mt-6"
-              onClick={() => history.push("/auth/signup")}
-            >
-              Créer un compte
-            </button>
-          </fieldset>
-        )}
+        <div className="columns">
+          {sign === "signup"
+            ? (<>
+                <button
+                  className="darkblue-bg send-btn has-text-white mt-6"
+                  type="button"
+                  onClick={() => history.push("/auth/signin")}
+                >
+                  Connexion
+                </button>
+                <button
+                  className="darkblue-bg send-btn has-text-white mt-6"
+                  type="submit"
+                >
+                  Valider mon compte
+                </button>
+              </>
+            )
+            : (<>
+                <button
+                  className="darkblue-bg send-btn has-text-white pointer  mt-6"
+                  type="submit"
+                >
+                  Se connecter
+                </button>
+                <button
+                  className="darkblue-bg send-btn has-text-white pointer mt-6"
+                  onClick={() => history.push("/auth/signup")}
+                >
+                  Créer un compte
+                </button>
+              </>
+            )
+          } 
+        </div>
       </form>
     </main>
   );

@@ -144,6 +144,8 @@ button {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: lightgray 0.2px solid; }
+  .form-input.error {
+    border-color: #da0027; }
 
 .counter-box {
   width: 5rem;
@@ -515,6 +517,11 @@ button {
   .dataResult .reflist-div {
     width: calc(100% / 3); } }
 
+.auth fieldset p.error {
+  padding-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #da0027; }
+
 .dashboard {
   padding: 5rem; }
   .dashboard-content {
@@ -526,6 +533,8 @@ button {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
     margin-bottom: 10rem; }
+  .dashboard section > article {
+    background-color: #8fc5bb20; }
 
 .search .search-input {
   width: 80%;

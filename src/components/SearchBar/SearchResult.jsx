@@ -5,48 +5,46 @@ import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
-// Get what user types in search input and format it to be processed by backend
-const getSearchInfo = async (answer) => {
+// Get what user types in searchReferences input and format it to be processed by backend
+const getSearchReferences = async (answer, setSearchReferences) => {
   let insert = answer.split(" ");
   insert =
     insert.length === 1
       ? (insert = insert.join(""))
       : (insert = insert.join("<->"));
 
-  return await http
-    .get(`search?answer=${insert}`)
-    .then((res) => {
-      if (res.status === 200) {
-        return res.data;
+  return await http()
+    .get(`search/?answer=${insert}`)
+    .then((result) => {
+      if (result.status === 200) {
+        return result.data;
       }
     })
-    .then((data) => data.search.sort(() => (Math.random() > 0.5 ? 1 : -1)));
+    .then((data) => data.search.sort(() => (Math.random() > 0.5 ? 1 : -1)))
+    .catch((_) => {
+      return [];
+    });
 };
 
-// COMPONENT
+/**
+ * @description SearchBar component
+ * @param {string} answer 
+ * @returns {JSX.Element}
+ */
 export default function SearchResult({ answer = "" }) {
   const history = useHistory();
-  const [searchInfo, setSearchInfo] = useState([]);
+  const [searchReferences, setSearchReferences] = useState([]);
   // Following states are for pagination
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
-  const [currentReferences, setCurretnReferences] = useState([]);
+  const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState()
 
   // Waits for the input info to be processed before sending it to state
   useEffect(() => {
-    const fetchData = async () => {
-      setSearchInfo(await getSearchInfo(answer));
-    };
-    fetchData();
+    (async () => setSearchReferences(await getSearchReferences(answer, setSearchReferences)))();
   }, [answer]);
-
-  const paginateReferences = () => {
-    const paginated = searchInfo.slice(offset, offset + perPage);
-    setCurretnReferences(paginated)
-    setPageCount(Math.ceil(searchInfo.length / perPage))
-  }
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
@@ -54,16 +52,23 @@ export default function SearchResult({ answer = "" }) {
   }
 
   useEffect(() => {
-    paginateReferences()
-  }, [offset, searchInfo])
+    if (Array.isArray(searchReferences)) {
+      // Set paginate references
+      (() => {
+        const paginated = searchReferences.slice(offset, offset + perPage);
+        setCurrentReferences(paginated)
+        setPageCount(Math.ceil(searchReferences.length / perPage))
+      })();
+    }
+  }, [offset, searchReferences, perPage])
 
   return (
     <section className="dataResult">
-      {Array.isArray(searchInfo) && (
+      {Array.isArray(searchReferences) && (
         <>
           <h2 className="mb-6 darkblue-text has-text-weight-bold">
-            {searchInfo.length} résultats trouvés pour votre recherche "{answer}
-            " :
+            {searchReferences.length} résultats trouvés pour votre recherche "{answer}"
+            {searchReferences.length > 0 && (':')}
           </h2>
           <div className="mb-6">
           {currentReferences.map((item) => (

@@ -46,50 +46,55 @@ const setIcon = (sectionName) => {
 
 export default function ContributionsDashboard({ title, contributions }) {
   const { userCredentials } = useContext(UserContext);
-  const { sections } = useContext(DataContext);
+  const { sections, categories } = useContext(DataContext);
   const { setEditContribution } = useContext(MainContext);
   const history = useHistory();
 
-
   return (
     <div className="margin-bottom">
-      <p className="dashboard-title">{title}</p>
-      {contributions && contributions
-        .sort((a, b) => {
-          if (a.status) {
-            return a.category - b.category
-          } else {
-            return a.contributor - b.user_name;
-          }
-        })            
-        .map((contribution) => (
-          <article
-            key={contribution.id}
-            id={contribution.id}
-            className="description-center-reference borders is-flex is-justify-content-space-between line m-3 p-3"
-            onClick={() => {
-              if (contribution.status) {
-                if (userCredentials.role !== roles.ADMIN) {
-                  history.push(`/references/${contribution.id}`);
-                } else {
-                  setEditContribution(contribution);
-                }
+      {sections.length > 0 && categories.length > 0 && (
+        <>
+          <p className="dashboard-title">{title}</p>
+          {contributions && contributions
+            .sort((a, b) => {
+              if (a.status) {
+                return a.category - b.category
               } else {
-                setEditContribution(contribution);
+                return a.contributor - b.user_name;
               }
-            }}
-          >
-            <p className="reflist-div is-inline-flex">
-              {sections.length > 0 && setIcon(sections.find((section) => {
-                return contribution.section === section.id
-              }).name)}
-            </p>
-            <p className="reflist-div">{contribution.name}</p>
-            <p className="reflist-div">{contribution.user_name}</p>
-            
-          </article>
-        ))}
-      <hr className="m-6" />
+            })            
+            .map((contribution) => (
+              <article
+                key={contribution.id}
+                id={contribution.id}
+                className="description-center-reference borders is-flex is-justify-content-space-between line m-3 p-3"
+                onClick={() => {
+                  if (contribution.status) {
+                    if (userCredentials.role !== roles.ADMIN) {
+                      history.push(`/references/${contribution.id}`);
+                    } else {
+                      setEditContribution(contribution);
+                    }
+                  } else {
+                    setEditContribution(contribution);
+                  }
+                }}
+              >
+                <p className="reflist-div is-inline-flex">
+                  { // Retrieving the name of the section of the category
+                    sections.length > 0 && setIcon(sections.filter((section) =>
+                      categories.find((category) => contribution.category_id === category.id).section_id === section.id
+                    )[0].name)
+                  }
+                </p>
+                <p className="reflist-div">{contribution.name}</p>
+                <p className="reflist-div">{contribution.user_name}</p>
+                
+              </article>
+            ))}
+          <hr className="m-6" />
+        </>
+      )}
     </div>
   );
 }

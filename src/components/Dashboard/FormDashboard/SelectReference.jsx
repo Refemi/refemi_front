@@ -6,37 +6,15 @@ import http from "../../../services/http-common";
 // Context
 import { DataContext } from "../../../App";
 
-const getCategories = async (currentSection) => {
-  return await http
-    .get(`categories/sections/${currentSection}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ categories }) => categories)
-}
-
-// TODO: why are we calling here again the API to get to the categories when I think sections and categories are in a context that we could just spread here?
-
-// COMPONENT
-export default function SelectReference({ categories, handleChangeForm, setCategories}) {
-  const { sections } = useContext(DataContext);
-  const [currentSection, setCurrentSection] = useState(undefined);
-
-  // Sets up a category when it's saved from click
-  const handleChange = (e) => setCurrentSection(e.target.value);
-
-  useEffect(() => {
-
-    const fetchData = async () => {
-      if (currentSection !== undefined) {
-        setCategories(await getCategories(currentSection));
-      }
-    }
-
-    fetchData();
-  }, [currentSection, setCategories]);
+/**
+ * SelectReference component
+ * @param {string} currentSection - current section selected
+ * @param {function} setCurrentSection - function to set current section
+ * @param {function} handleChangeForm - function to handle change form
+ * @returns {JSX.Element}
+ */
+export default function SelectReference({ currentSection, setCurrentSection, handleChangeForm }) {
+  const { sections, categories } = useContext(DataContext);
 
   return (
     <form className="is-flex is-flex-direction-column is-align-items-center">
@@ -47,7 +25,7 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
       <select
         id="categories-select"
         defaultValue="default"
-        onChange={handleChange}
+        onChange={(event) => setCurrentSection(event.target.value)}
         className="borders select m-3"
       >
         <option value="default" disabled hidden />
@@ -70,11 +48,15 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
           >
             <option value="default" disabled hidden />
 
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.label}
-              </option>
-            ))}
+            {categories.map((category) =>
+              !sections.find(section => section.id === category.section_id).name === currentSection
+                ? null
+                : (
+                  <option key={category.id} value={category.id}>
+                    {category.label}
+                  </option>
+                )
+            )}
           </select>
         </fieldset>
       )}
@@ -83,7 +65,7 @@ export default function SelectReference({ categories, handleChangeForm, setCateg
 }
 
 SelectReference.propTypes = {
-  categories: PropTypes.array.isRequired,
+  currentSection: PropTypes.string.isRequired,
+  setCurrentSection: PropTypes.func.isRequired,
   handleChangeForm: PropTypes.func.isRequired,
-  setCategories: PropTypes.func.isRequired
 };

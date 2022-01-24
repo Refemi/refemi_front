@@ -30,7 +30,7 @@ export const DataContext = createContext();
 // Functions
 const getSections = async () => {
   // Get sections to spread in context SectionsContext
-  return await http
+  return await http()
     .get(`sections`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => {
@@ -42,7 +42,7 @@ const getSections = async () => {
 };
 const getCategories = async () => {
   // Get categories to spread in context DataContext
-  return await http
+  return await http()
     .get(`categories`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => data.categories)
@@ -52,7 +52,7 @@ const getCategories = async () => {
 };
 const getThemes = async () => {
   // Get themes to spread in context AllThemes
-  return await http
+  return await http()
     .get(`themes`)
     .then((response) => {
       // TODO see the behavior of this function
@@ -63,16 +63,6 @@ const getThemes = async () => {
       // TODO : display the error in a dedicated location
     });
 };
-const getUser = async (token) => {
-  return await http
-    .get(`users/me`, { headers: { "x-access-token": token } })
-    .then((response) => {
-
-      if (response.status === 200) {
-        return handleResponse(response, 200);
-      }
-    })
-}
 
 // COMPONENT
 export default function App() {
@@ -103,24 +93,10 @@ export default function App() {
         setUserCredentials(JSON.parse(userStorage));
         setIsLoggedIn(true);
       }
-    } else {
-      (async () => {
-
-        try {
-          await getUser(token);
-        } catch (error) {
-          setToken(null);
-          localStorage.removeItem("token");
-          setUserCredentials({});
-          localStorage.removeItem("user");
-          setIsLoggedIn(false);
-        }
-      })();
     }
   }, [isLoggedIn, token]);
 
   useEffect(() => {
-
     if (Object.entries(userCredentials).length > 0) {
       localStorage.setItem(
         "user",

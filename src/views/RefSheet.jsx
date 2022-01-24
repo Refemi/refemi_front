@@ -5,7 +5,7 @@ import http from "../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 
 const getReferenceById = async (id) => {
-  return await http
+  return await http()
     .get(`/references/${id}`)
     .then((response) => {
       if (response.status === 200) {
