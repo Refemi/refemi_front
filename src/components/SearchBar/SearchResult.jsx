@@ -5,16 +5,16 @@ import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
-// Get what user types in search input and format it to be processed by backend
-const getSearchInfo = async (answer) => {
+// Get what user types in searchReferences input and format it to be processed by backend
+const getSearchReferences = async (answer, setSearchReferences) => {
   let insert = answer.split(" ");
   insert = insert.length === 1
     ? (insert = insert.join(""))
     : (insert = insert.join("<->"))
   ;
 
-  return await http
-    .get(`search?answer=${insert}`)
+  return await http()
+    .get(`search/?answer=${insert}`)
     .then((result) => {
       if (result.status === 200) {
         return result.data;
@@ -24,38 +24,47 @@ const getSearchInfo = async (answer) => {
     .catch(() => false);
 };
 
-// COMPONENT
-export default function SearchResult({ search }) {
+/**
+ * @description SearchBar component
+ * @param {string} answer 
+ * @returns {JSX.Element}
+ */
+export default function SearchResult({ answer = "" }) {
   const history = useHistory();
+  const [searchReferences, setSearchReferences] = useState([]);
   const [searchResult, setSearchResult] = useState(false);
   // Following states are for pagination
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
   const [currentReferences, setCurrentReferences] = useState([]);
-  const [selectedPage] = useState();
+  const [selectedPage] = useState()
+
+  // Waits for the input info to be processed before sending it to state
+  useEffect(() => {
+    (async () => setSearchReferences(await getSearchReferences(answer)))();
+  }, [answer]);
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setOffset(selectedPage + 1);
   }
-
   // Waits for the input info to be processed before sending it to state
   useEffect(() => {
-    if (search !== "") {
+    if (answer !== "") {
       if (searchResult !== false) {
         setSearchResult(false);
       }
       
       (async () => {
-        const searchResult = await getSearchInfo(search);
+        const searchResult = await getSearchReferences(answer);
         setSearchResult(searchResult !== false ? searchResult : []);
       })();
 
     } else {
       setSearchResult(false);
     }
-  }, [search]);
+  }, [answer]);
 
   useEffect(() => {
     if (searchResult !== false) {
@@ -69,7 +78,7 @@ export default function SearchResult({ search }) {
   return (
     <section className="dataResult">
       {searchResult === false
-        ? search !== ""
+        ? answer !== ""
           ? <span className="logo-loader pointer">
               <span></span>
               <span></span>
@@ -78,7 +87,7 @@ export default function SearchResult({ search }) {
           : null
         : <>
             <h2 className="mb-6 darkblue-text has-text-weight-bold">
-              {searchResult.length} résultats trouvés pour votre recherche "{search}" :
+              {searchResult.length} résultats trouvés pour votre recherche "{answer}" :
             </h2>
             <div className="mb-6">
               {currentReferences.map((item) => (

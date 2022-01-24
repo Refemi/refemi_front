@@ -1,0 +1,11 @@
+.auth {
+  fieldset {
+    p {
+      &.error {
+        padding-left: 0.5rem;
+        font-size: $font-08;
+        color: $red;
+      }
+    }
+  }
+}

@@ -12,32 +12,72 @@ import AddReference from '../components/Dashboard/FormDashboard/AddReference';
 // Import contexts
 import { UserContext } from '../App';
 
+// Create contexts
 export const DashboardContext = createContext();
 
-const getAllReferences = async (token) => {
-  return await http
-    .get('/references', { headers: { 'x-access-token': token }})
+/**
+ * Disconnect the user if the connection is corrupted (expired token)
+ * @param {function} setUserCredentials 
+ * @param {function} setToken 
+ * @param {function} setIsLoggedIn 
+ * @return void
+ */
+const setLoggedOut = (setUserCredentials, setToken, setIsLoggedIn) => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  setUserCredentials({});
+  setToken(null);
+  setIsLoggedIn(false);
+}
+/**
+ * Retrieve all references 
+ * @param {string} token 
+ * @param {function} setUserCredentials 
+ * @param {function} setToken 
+ * @param {function} setIsLoggedIn 
+ * @returns {object} references stored in an object by status (validated or pending)
+ */
+const getAllReferences = async (token, setUserCredentials, setToken, setIsLoggedIn) => {
+  return await http(token)
+    .get('/references')
     .then(response => {
       if (response.status === 200) {
         return response.data;
       } 
     })
     .then(({ references }) => references)
-}
-const getUserReferences = async (userId, token) => {
-  return await http
-    .get(`/references/user/${userId}`, { header: { 'x-access-token': token }})
-    .then(response => {
-      if (response.response === 200) {
-        return response.data;
+    .catch((error) => {
+      if (error.response.status === 498) {
+        setLoggedOut(setUserCredentials, setToken, setIsLoggedIn);
       }
-    })
-    .then(data => data)
+    });
 }
-
+/**
+ * Retrieve all user references 
+ * @param {string} token 
+ * @param {function} setUserCredentials 
+ * @param {function} setToken 
+ * @param {function} setIsLoggedIn 
+ * @returns {object} references stored in an object by status (validated or pending)
+ */
+const getUserReferences = async (token, setUserCredentials, setToken, setIsLoggedIn) => {
+  return await http(token)
+  .get('/references/user/')
+  .then(response => {
+    if (response.status === 200) {
+      return response.data;
+    }
+  })
+  .then(({ references }) => references)
+  .catch((error) => {
+    if (error.response.status === 498) {
+      setLoggedOut(setUserCredentials, setToken, setIsLoggedIn);
+    }
+  })
+}
 
 /**
- * 
+ * Dashboard view
  * @returns {JSX.Element} 
  */
 export default function Dashboard() {
@@ -45,17 +85,11 @@ export default function Dashboard() {
   const [contributions, setContributions] = useState({});
 
   const history = useHistory();
-  const { userCredentials, token, isLoggedIn } = useContext(UserContext);
-
-  useEffect(() => {
-    if (Object.entries(contributions).length === 0) {
-      (async () => Object.entries(userCredentials).length > 0 && (
-        userCredentials.role === roles.ADMIN
-          ? setContributions(await getAllReferences(token))
-          : setContributions(await getUserReferences())
-      ))();
-    }
-  }, [userCredentials, token, contributions]);
+  const {
+    userCredentials, setUserCredentials,
+    token, setToken, 
+    isLoggedIn, setIsLoggedIn
+  } = useContext(UserContext);
 
   // If user is authentified, then counters are loaded depending on their role
   useEffect(() => {
@@ -63,23 +97,38 @@ export default function Dashboard() {
       history.push("/auth/signin");
     }
   }, [isLoggedIn, history]);
+  
+  useEffect(() => {
+    if (Object.entries(contributions).length === 0) {
+      (async () => {
+        console.log(await getUserReferences(token, setUserCredentials, setToken, setIsLoggedIn))
+        return Object.entries(userCredentials).length > 0 && (
+          userCredentials.role === roles.ADMIN
+            ? setContributions(await getAllReferences(token, setUserCredentials, setToken, setIsLoggedIn))
+            : setContributions(await getUserReferences(token, setUserCredentials, setToken, setIsLoggedIn))
+        )
+      })();
+    }
+  }, [
+    userCredentials, token,
+    setUserCredentials, setToken, setIsLoggedIn,
+    contributions
+  ]);
 
   return (
-    isLoggedIn && Object.entries(contributions).length
-      ? (
-        <main className="dashboard">
-          <section className="is-flex is-justify-content-center is-flex-direction-column">
-            <DashboardContext.Provider value ={{ contributions, setShowNewRef }}>
-              <HeaderDashboard />
+    isLoggedIn && Object.entries(contributions).length && (
+      <main className="dashboard">
+        <section className="is-flex is-justify-content-center is-flex-direction-column">
+          <DashboardContext.Provider value ={{ contributions, setShowNewRef }}>
+            <HeaderDashboard />
 
-              {showNewRef
-                ? (<AddReference />)
-                : (<MainDashboard />)
-              }
-            </DashboardContext.Provider>
-          </section>
-        </main>
-      )
-    : null
+            {showNewRef
+              ? (<AddReference />)
+              : (<MainDashboard />)
+            }
+          </DashboardContext.Provider>
+        </section>
+      </main>
+    )
   );
 }

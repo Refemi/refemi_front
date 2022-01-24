@@ -154,6 +154,10 @@ button {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: lightgray 0.2px solid;
+
+  &.error {
+    border-color: $red;
+  }
 }
 .logo-loader {
   display: flex;

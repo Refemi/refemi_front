@@ -166,6 +166,8 @@ button {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: lightgray 0.2px solid; }
+  .form-input.error {
+    border-color: #da0027; }
 
 .logo-loader {
   display: flex;
@@ -563,6 +565,11 @@ button {
 @media (min-width: 1024px) {
   .dataResult .reflist-div {
     width: calc(100% / 3); } }
+
+.auth fieldset p.error {
+  padding-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #da0027; }
 
 .dashboard {
   padding: 5rem; }
