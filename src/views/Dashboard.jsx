@@ -97,16 +97,21 @@ export default function Dashboard() {
       history.push("/auth/signin");
     }
   }, [isLoggedIn, history]);
-  
+
   useEffect(() => {
-    if (Object.entries(contributions).length === 0) {
+    if (token.length > 0 && Object.entries(contributions).length === 0) {
       (async () => {
-        console.log(await getUserReferences(token, setUserCredentials, setToken, setIsLoggedIn))
-        return Object.entries(userCredentials).length > 0 && (
-          userCredentials.role === roles.ADMIN
-            ? setContributions(await getAllReferences(token, setUserCredentials, setToken, setIsLoggedIn))
-            : setContributions(await getUserReferences(token, setUserCredentials, setToken, setIsLoggedIn))
-        )
+        let references = undefined;
+
+        if (userCredentials.role === roles.ADMIN) {
+          references = await getAllReferences(token, setUserCredentials, setToken, setIsLoggedIn)
+        } else {
+          references = await getUserReferences(token, setUserCredentials, setToken, setIsLoggedIn)
+        }
+        
+        if (references !== undefined) {
+          setContributions(references);
+        }
       })();
     }
   }, [
