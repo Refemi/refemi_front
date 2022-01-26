@@ -5,6 +5,8 @@ import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
+import Loader from "../Loader";
+
 // Get what user types in searchReferences input and format it to be processed by backend
 const getSearchReferences = async (answer, setSearchReferences) => {
   let insert = answer.split(" ");
@@ -79,11 +81,7 @@ export default function SearchResult({ answer = "" }) {
     <section className="dataResult">
       {searchResult === false
         ? answer !== ""
-          ? <span className="logo-loader pointer">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+          ? <Loader />
           : null
         : <>
             <h2 className="mb-6 darkblue-text has-text-weight-bold">

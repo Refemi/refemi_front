@@ -10,6 +10,7 @@ import { DataContext } from "../App";
 import ListReferences from "../components/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import Button from "../components/Button/Button";
+import Loader from "../components/Loader";
 
 const getReferencesBySection = async (sectionId) => {
   // Get sections to spread in context SectionsContext
@@ -75,11 +76,7 @@ export default function References() {
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
       {references.length === 0
-        ? <span className="logo-loader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+        ? <Loader />
         : <>
             <WidgetCat categories={references.reduce((filtered, reference) => {
               const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
