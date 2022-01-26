@@ -67,7 +67,7 @@ const getThemes = async () => {
 // COMPONENT
 export default function App() {
   const [userCredentials, setUserCredentials] = useState({});
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sections, setSections] = useState([]); // Get sections
   const [categories, setCategories] = useState([]); // Get categories
