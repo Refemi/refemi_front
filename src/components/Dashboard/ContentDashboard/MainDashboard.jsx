@@ -68,7 +68,7 @@ export default function MainDashboard() {
                   Voir la contribution
               </button>
               )}
-              <FormReference reference={editContribution} />
+              <FormReference category={editContribution.category_id} reference={editContribution} />
             </>
           : renderDashboard(contributions)
         }

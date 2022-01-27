@@ -20,7 +20,7 @@ export default function AddReference() {
   const [currentSection, setCurrentSection] = useState("");
   const { setShowNewRef } = useContext(DashboardContext);
 
-  const handleChange = (e) => setCurrentForm(e.nativeEvent.target.value);
+  const handleChange = (e) => setCurrentForm(parseInt(e.nativeEvent.target.value));
 
   // Show needed form
   useEffect(() => {

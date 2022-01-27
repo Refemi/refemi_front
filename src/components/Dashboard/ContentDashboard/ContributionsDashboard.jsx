@@ -82,7 +82,7 @@ export default function ContributionsDashboard({ title, contributions }) {
               >
                 <p className="reflist-div is-inline-flex">
                   { // Retrieving the name of the section of the category
-                    sections.length > 0 && setIcon(sections.filter((section) =>
+                    sections.length > 0 && categories && setIcon(sections.filter((section) =>
                       categories.find((category) => contribution.category_id === category.id).section_id === section.id
                     )[0].name)
                   }
