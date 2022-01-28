@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import http from "../services/http-common";
 
+import Error from "../components/Error";
+
 import { DataContext } from "../App";
 
 // Components
@@ -18,8 +20,8 @@ const getReferencesBySection = async (sectionId) => {
     .get(`references/section/${sectionId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
+    .catch(() => {
+      return false
     });
 };
 const getReferencesByTheme = async (themeId) => {
@@ -28,8 +30,8 @@ const getReferencesByTheme = async (themeId) => {
     .get(`references/theme/${themeId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
+    .catch(() => {
+      return false
     });
 };
 
@@ -58,59 +60,85 @@ export default function References() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    (async () => {
-      if (references.length === 0) {
-        if (!!sectionName && sections.length > 0 ) {
-          setReferences(await getReferencesBySection(sections.find(section =>
-            section.name === sectionName).id
-          ));
-        } else if (!!themeName && themes.length > 0) {
-          setReferences(await getReferencesByTheme(themes.find(theme =>
-            theme.name === themeName).id
-          ));
+    if (references && references.length === 0) {
+      (async () => {
+        try {
+          if (!!sectionName && sections.length > 0 ) {
+            setReferences(await getReferencesBySection(sections.find(section =>
+              section.name === sectionName).id
+            ));
+          } else if (!!themeName && themes.length > 0) {
+            setReferences(await getReferencesByTheme(themes.find(theme =>
+              theme.name === themeName).id
+            ));
+          }
+        } catch (_) {
+          setReferences(false)
         }
-      }
-    })()
+      })()
+    }
   }, [references, sections, sectionName, themes, themeName]);
 
   return (
-    <main className="is-flex is-flex-direction-column borders references is-relative">
-      {references.length === 0
-        ? <Loader />
-        : <>
-            <WidgetCat categories={references.reduce((filtered, reference) => {
-              const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
-              if (!filtered.find(filter => filter.name === currentCategory.name)) {
-                filtered.push(currentCategory)
-              }
+    !references
+      ? <Error errorCode={404} message={ (() => {
+        if (!!sectionName) {
+          const sectionLabel = sections.filter(section => sectionName === section.name)[0]
 
-              return filtered
-            }, [])} />
-            <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-              {!!themeName
-                ? themeName.toUpperCase().replace(/-/g, " ")
-                : sectionName.toUpperCase().replace(/-/g, " ")
-              }
-            </h2>
+          if (sectionLabel === undefined) {
+            return `La section recherchée (${sectionName}) est introuvable`
+          } else {
+            return `Aucune référence dans la section `
+          }
+        } else if (!!themeName) {
+          const themeLabel = themes.filter(theme => themeName === theme.name)[0];
 
-            <Button
-              className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-              path={themeName ? "/themes" : "/categories"}
-              label="Retour"
-            />
-            {categories.map((category) => (
-              references.filter((reference) => reference.category === category.name
-              ).length > 0 && (
-                <ListReferences
-                  key={uuidv4()}
-                  title={category.label}
-                  name={category.name}
-                  references={references.filter((reference) => reference.category === category.name)}
+          if (themeLabel === undefined) {
+            return `Le theme recherché (${themeName}) est introuvable`
+          } else {
+            return `Aucune référence dans le thème ${themes.filter(theme => themeName === theme.name)[0].label}`
+          }
+        }
+      })()} />
+      : (
+        <main className="is-flex is-flex-direction-column borders references is-relative">
+          {references.length === 0
+            ? <Loader />
+            : <>
+                <WidgetCat categories={references.reduce((filtered, reference) => {
+                  const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
+                  if (!filtered.find(filter => filter.name === currentCategory.name)) {
+                    filtered.push(currentCategory)
+                  }
+
+                  return filtered
+                }, [])} />
+                <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+                  {!!themeName
+                    ? themeName.toUpperCase().replace(/-/g, " ")
+                    : sectionName.toUpperCase().replace(/-/g, " ")
+                  }
+                </h2>
+
+                <Button
+                  className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+                  path={themeName ? "/themes" : "/categories"}
+                  label="Retour"
                 />
-              )
-            ))}
-          </>
-      }
-    </main>
+                {categories.map((category) => (
+                  references.filter((reference) => reference.category === category.name
+                  ).length > 0 && (
+                    <ListReferences
+                      key={uuidv4()}
+                      title={category.label}
+                      name={category.name}
+                      references={references.filter((reference) => reference.category === category.name)}
+                    />
+                  )
+                ))}
+              </>
+          }
+        </main>
+      )
   )
 }
