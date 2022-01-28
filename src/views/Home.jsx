@@ -11,17 +11,20 @@ import { AiFillPlusCircle } from "react-icons/ai";
 // Import Components
 import Counter from "../components/Counter";
 
+// Get the different counters of the homepage
 const getHomeCounters = async () => {
-  // Get sections to spread in context SectionsContext
   return await http()
     .get(`counters/home`)
     .then((response) => response.status === 200 && response.data)
-    .then((data) =>  data)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
+    .then((data) => data)
+    .catch(() => {
+      return {
+        totalReferences: -1,
+        totalContributors: -1,
+        monthReferences: -1
+      }
     });
 };
-
 
 /**
  * Home component
