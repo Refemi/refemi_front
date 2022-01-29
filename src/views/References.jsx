@@ -58,18 +58,23 @@ export default function References() {
 
   const getReferences = async () => {
     if (references.length === 0) {
-      if (!!sectionName && sections.length > 0) {
-        setReferences(
-          await getReferencesBySection(
-            sections.find((section) => section.name === sectionName).id
-          )
-        );
-      } else if (!!themeName && themes.length > 0) {
-        setReferences(
-          await getReferencesByTheme(
-            themes.find((theme) => theme.name === themeName).id
-          )
-        );
+      try {
+        if (!!sectionName && sections.length > 0) {
+          setReferences(
+            await getReferencesBySection(
+              sections.find((section) => section.name === sectionName).id
+            )
+          );
+        } else if (!!themeName && themes.length > 0) {
+          console.log(themes.find((theme) => theme.name === themeName).id);
+          setReferences(
+            await getReferencesByTheme(
+              themes.find((theme) => theme.name === themeName).id
+            )
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
