@@ -12,9 +12,11 @@ import Button from "./Button";
 export default function Error({ errorCode = 500, message = "Une erreur est survenue" }) {
 
   return (
-    <main style={{ marginTop: "20rem", textAlign:"center" }}>
-      <h3 className="refemi is-size-1">Erreur {errorCode}</h3>
-      <p className="mb-5">{message}</p>
+    <main className="error">
+      <section>
+        <h3 className="refemi is-size-1">Erreur {errorCode}</h3>
+        <p className="mb-5">{message}</p>
+      </section>
       <Button label="Retour" path="back" />
     </main>
   );
