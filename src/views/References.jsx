@@ -35,7 +35,7 @@ const getReferencesByTheme = async (themeId) => {
 
 // Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.
 // TODO: the dependency array for now has an empty string that I happen to have to shift before returning my new array. It would be best if we didn't need to do that (not urgent)
-const findCategoriesInThemeReferences = async (references) => {
+const findCategoriesInThemeReferences = (references) => {
   const themeCategories = references.reduce(
     (categories, reference) => {
       if (!categories.includes(reference.category)) {
@@ -46,7 +46,7 @@ const findCategoriesInThemeReferences = async (references) => {
     [""]
   );
   themeCategories.shift();
-  return await themeCategories;
+  return themeCategories;
 };
 
 // COMPONENT
@@ -54,63 +54,70 @@ export default function References() {
   const { sectionName, themeName } = useParams();
   const [references, setReferences] = useState([]);
   const { categories, sections, themes } = useContext(DataContext);
+  const [themeCategories, setThemeCategories] = useState([]);
+
+  const getReferences = async () => {
+    if (references.length === 0) {
+      if (!!sectionName && sections.length > 0) {
+        setReferences(
+          await getReferencesBySection(
+            sections.find((section) => section.name === sectionName).id
+          )
+        );
+      } else if (!!themeName && themes.length > 0) {
+        setReferences(
+          await getReferencesByTheme(
+            themes.find((theme) => theme.name === themeName).id
+          )
+        );
+      }
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    (async () => {
-      if (references.length === 0) {
-        if (!!sectionName && sections.length > 0 ) {
-          setReferences(await getReferencesBySection(sections.find(section =>
-            section.name === sectionName).id
-          ));
-        } else if (!!themeName && themes.length > 0) {
-          setReferences(await getReferencesByTheme(themes.find(theme =>
-            theme.name === themeName).id
-          ));
-        }
-      }
-    })()
+    getReferences();
   }, [references, sections, sectionName, themes, themeName]);
+
+  useEffect(() => {
+    setThemeCategories(findCategoriesInThemeReferences(references));
+  }, [references]);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
-      {references.length === 0
-        ? <Loader />
-        : <>
-            <WidgetCat categories={references.reduce((filtered, reference) => {
-              const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
-              if (!filtered.find(filter => filter.name === currentCategory.name)) {
-                filtered.push(currentCategory)
-              }
+      {references.length === 0 ? (
+        <Loader />
+      ) : (
+        <>
+          <WidgetCat categories={themeCategories} />
+          <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+            {!!themeName
+              ? themeName.toUpperCase().replace(/-/g, " ")
+              : sectionName.toUpperCase().replace(/-/g, " ")}
+          </h2>
 
-              return filtered
-            }, [])} />
-            <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-              {!!themeName
-                ? themeName.toUpperCase().replace(/-/g, " ")
-                : sectionName.toUpperCase().replace(/-/g, " ")
-              }
-            </h2>
-
-            <Button
-              className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-              path={themeName ? "/themes" : "/categories"}
-              label="Retour"
-            />
-            {categories.map((category) => (
-              references.filter((reference) => reference.category === category.name
+          <Button
+            className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+            path={themeName ? "/themes" : "/categories"}
+            label="Retour"
+          />
+          {categories.map(
+            (category) =>
+              references.filter(
+                (reference) => reference.category === category.name
               ).length > 0 && (
                 <ListReferences
                   key={uuidv4()}
                   title={category.label}
                   name={category.name}
-                  references={references.filter((reference) => reference.category === category.name)}
+                  references={references.filter(
+                    (reference) => reference.category === category.name
+                  )}
                 />
               )
-            ))}
-          </>
-      }
+          )}
+        </>
+      )}
     </main>
-  )
+  );
 }
