@@ -83,20 +83,20 @@ export default function References() {
     !references
       ? <Error errorCode={404} message={ (() => {
         if (!!sectionName) {
-          const sectionLabel = sections.filter(section => sectionName === section.name)[0]
+          const currentSection = sections.filter(section => sectionName === section.name)[0]
 
-          if (sectionLabel === undefined) {
+          if (currentSection === undefined) {
             return `La section recherchée (${sectionName}) est introuvable`
           } else {
-            return `Aucune référence dans la section `
+            return `Aucune référence dans la section ${currentSection.label}`
           }
         } else if (!!themeName) {
-          const themeLabel = themes.filter(theme => themeName === theme.name)[0];
+          const currentTheme = themes.filter(theme => themeName === theme.name)[0];
 
-          if (themeLabel === undefined) {
+          if (currentTheme === undefined) {
             return `Le theme recherché (${themeName}) est introuvable`
           } else {
-            return `Aucune référence dans le thème ${themes.filter(theme => themeName === theme.name)[0].label}`
+            return `Aucune référence dans le thème ${currentTheme.label}`
           }
         }
       })()} />
