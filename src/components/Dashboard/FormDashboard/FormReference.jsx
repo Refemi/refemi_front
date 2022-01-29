@@ -129,7 +129,7 @@ export default function FormReference({ category, reference }) {
 
   useEffect(() => {
     setCurrentCategory(categories.find(({ id }) => id === parseInt(category)));
-  }, [categories, category, reference])
+  }, [categories, category])
 
   // 
   useEffect(() => {
@@ -167,8 +167,8 @@ export default function FormReference({ category, reference }) {
     isSent ? (
       <div className="has-text-justified">
         <p>
-          Votre contribution a bien été envoyée et sera examinée par un.e
-          modérateur.ice. Vous serez informé.e par email dès sa validation !
+          Votre contribution a bien été envoyée et sera examinée par un·e
+          modérateur·ice. Vous serez informé·e par email dès sa validation !
         </p>
         <p>Un grand merci pour votre participation !</p>
       </div>
