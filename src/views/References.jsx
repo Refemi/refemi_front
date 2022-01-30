@@ -21,7 +21,7 @@ const getReferencesBySection = async (sectionId) => {
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
     .catch(() => {
-      return false
+      return false;
     });
 };
 const getReferencesByTheme = async (themeId) => {
@@ -31,7 +31,7 @@ const getReferencesByTheme = async (themeId) => {
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
     .catch(() => {
-      return false
+      return false;
     });
 };
 
@@ -54,10 +54,9 @@ const findCategoriesInThemeReferences = (references) => {
 // COMPONENT
 export default function References() {
   const { sectionName, themeName } = useParams();
-  const [references, setReferences] = useState(null);
+  const [references, setReferences] = useState();
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
-
 
   const getReferences = async () => {
     if (references.length === 0) {
@@ -80,26 +79,30 @@ export default function References() {
       }
     }
   };
-  
+
   const errorMessage = () => {
     if (!!sectionName) {
-        const currentSection = sections.filter(section => sectionName === section.name)[0]
+      const currentSection = sections.filter(
+        (section) => sectionName === section.name
+      )[0];
 
-        if (currentSection === undefined) {
-          return `La section recherchée (${sectionName}) est introuvable`
-        } else {
-          return `Aucune référence dans la section ${currentSection.label}`
-        }
-      } else if (!!themeName) {
-        const currentTheme = themes.filter(theme => themeName === theme.name)[0];
-
-        if (currentTheme === undefined) {
-          return `Le theme recherché (${themeName}) est introuvable`
-        } else {
-          return `Aucune référence dans le thème ${currentTheme.label}`
-        }
+      if (currentSection === undefined) {
+        return `La section recherchée (${sectionName}) est introuvable`;
+      } else {
+        return `Aucune référence dans la section ${currentSection.label}`;
       }
-  }
+    } else if (!!themeName) {
+      const currentTheme = themes.filter(
+        (theme) => themeName === theme.name
+      )[0];
+
+      if (currentTheme === undefined) {
+        return `Le theme recherché (${themeName}) est introuvable`;
+      } else {
+        return `Aucune référence dans le thème ${currentTheme.label}`;
+      }
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,13 +110,16 @@ export default function References() {
   }, [references, sections, sectionName, themes, themeName]);
 
   useEffect(() => {
-    setThemeCategories(findCategoriesInThemeReferences(references));
+    if (references) {
+      setThemeCategories(findCategoriesInThemeReferences(references));
+    }
   }, [references]);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
-    {references.length === 0 ? <Error errorCode={404} message={errorMessage()} /> : 
-      {references === null ? (
+      {!references ? (
+        <Error errorCode={404} message={errorMessage()} />
+      ) : references.length === 0 ? (
         <Loader />
       ) : (
         <>
@@ -144,7 +150,6 @@ export default function References() {
                 />
               )
           )}
-       }
         </>
       )}
     </main>

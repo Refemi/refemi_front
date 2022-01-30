@@ -9,15 +9,15 @@ import Button from "./Button";
  * @param {string} props.message - The error message
  * @return {JSX.Element}
  */
-export default function Error({ errorCode = 500, message = "Une erreur est survenue" }) {
-
+export default function Error({
+  errorCode = 500,
+  message = "Une erreur est survenue",
+}) {
   return (
-    <main className="error">
-      <section>
-        <h3 className="refemi is-size-1">Erreur {errorCode}</h3>
-        <p className="mb-5">{message}</p>
-      </section>
+    <section className="has-text-centered	is-flex is-flex-direction-column is-align-content-center">
       <Button label="Retour" path="back" />
-    </main>
+      <h3 className="refemi is-size-1">Erreur {errorCode}</h3>
+      <p className="mb-5">{message}</p>
+    </section>
   );
 }
