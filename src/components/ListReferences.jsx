@@ -61,16 +61,32 @@ export default function ListReferences({
             key={uuidv4()}
             id={reference.id}
             className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3"
-            onClick={() => history.push(`/references/${reference.id}`)}
           >
-            <h3 className="reflist-div">{reference.name}</h3>
+            <h3
+              className="reflist-div pointer"
+              onClick={() => history.push(`/references/${reference.id}`)}
+            >
+              {reference.name}
+            </h3>
             <p className="reflist-div is-hidden-mobile has-text-centered">
               {reference.country}
             </p>
             {reference.themes ? (
               <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
                 {reference.themes.map((theme) => (
-                  <h4 className="ml-4" key={uuidv4()}>
+                  <h4
+                    className="ml-4 has-text-weight-bold pointer darkblue-text"
+                    key={uuidv4()}
+                    onClick={() =>
+                      history.push(
+                        `/themes/${theme
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")}`
+                      )
+                    }
+                  >
                     {theme}
                   </h4>
                 ))}
