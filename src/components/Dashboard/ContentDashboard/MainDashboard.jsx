@@ -59,21 +59,18 @@ export default function MainDashboard() {
             >
               Retour au Tableau de bord
             </button>
+            
             {editContribution.status && (
               <button
-                onClick={() =>
-                  history.push(`/references/${editContribution.id}`)
-                }
+                onClick={() => history.push(`/references/${editContribution.id}`)}
                 className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
               >
                 Voir la contribution
-              </button>
+            </button>
             )}
-            <FormReference reference={editContribution} />
+            <FormReference category={editContribution.category_id} reference={editContribution} />
           </>
-        ) : (
-          renderDashboard(contributions)
-        )}
+        ) : renderDashboard(contributions)}
       </MainContext.Provider>
     </article>
   );
