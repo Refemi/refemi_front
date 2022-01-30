@@ -19,7 +19,9 @@ const getReferencesBySection = async (sectionId) => {
   return await http()
     .get(`references/section/${sectionId}`)
     .then((response) => response.status === 200 && response.data)
-    .then(({ references }) => references)
+    .then(({ references }) =>
+      references.sort(() => (Math.random() > 0.5 ? 1 : -1))
+    )
     .catch(() => {
       return false;
     });
