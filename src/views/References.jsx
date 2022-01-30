@@ -59,7 +59,7 @@ export default function References() {
   const [themeCategories, setThemeCategories] = useState([]);
 
   const getReferences = async () => {
-    if (references.length === 0) {
+    if (!references) {
       try {
         if (!!sectionName && sections.length > 0) {
           setReferences(
