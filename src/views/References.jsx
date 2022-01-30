@@ -79,66 +79,67 @@ export default function References() {
     }
   }, [references, sections, sectionName, themes, themeName]);
 
-  return (
-    !references
-      ? <Error errorCode={404} message={ (() => {
-        if (!!sectionName) {
-          const currentSection = sections.filter(section => sectionName === section.name)[0]
+  // Return an error when the reference table is in error otherwise display the list of references
+  if (!references) {
+    return <Error errorCode={404} message={ (() => {
+      if (!!sectionName) {
+        const currentSection = sections.filter(section => sectionName === section.name)[0]
 
-          if (currentSection === undefined) {
-            return `La section recherchée (${sectionName}) est introuvable`
-          } else {
-            return `Aucune référence dans la section ${currentSection.label}`
-          }
-        } else if (!!themeName) {
-          const currentTheme = themes.filter(theme => themeName === theme.name)[0];
-
-          if (currentTheme === undefined) {
-            return `Le theme recherché (${themeName}) est introuvable`
-          } else {
-            return `Aucune référence dans le thème ${currentTheme.label}`
-          }
+        if (currentSection === undefined) {
+          return `La section recherchée (${sectionName}) est introuvable`
+        } else {
+          return `Aucune référence dans la section ${currentSection.label}`
         }
-      })()} />
-      : (
-        <main className="is-flex is-flex-direction-column borders references is-relative">
-          {references.length === 0
-            ? <Loader />
-            : <>
-                <WidgetCat categories={references.reduce((filtered, reference) => {
-                  const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
-                  if (!filtered.find(filter => filter.name === currentCategory.name)) {
-                    filtered.push(currentCategory)
-                  }
+      } else if (!!themeName) {
+        const currentTheme = themes.filter(theme => themeName === theme.name)[0];
 
-                  return filtered
-                }, [])} />
-                <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-                  {!!themeName
-                    ? themeName.toUpperCase().replace(/-/g, " ")
-                    : sectionName.toUpperCase().replace(/-/g, " ")
-                  }
-                </h2>
-
-                <Button
-                  className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-                  path={themeName ? "/themes" : "/categories"}
-                  label="Retour"
-                />
-                {categories.map((category) => (
-                  references.filter((reference) => reference.category === category.name
-                  ).length > 0 && (
-                    <ListReferences
-                      key={uuidv4()}
-                      title={category.label}
-                      name={category.name}
-                      references={references.filter((reference) => reference.category === category.name)}
-                    />
-                  )
-                ))}
-              </>
-          }
-        </main>
-      )
-  )
+        if (currentTheme === undefined) {
+          return `Le theme recherché (${themeName}) est introuvable`
+        } else {
+          return `Aucune référence dans le thème ${currentTheme.label}`
+        }
+      }
+    })()} />
+  } else {
+    return (
+      <main className="is-flex is-flex-direction-column borders references is-relative">
+        {references.length === 0
+          ? <Loader />
+          : <>
+              <WidgetCat categories={references.reduce((filtered, reference) => {
+                const currentCategory = categories.length > 0 && categories.find(category => category.name === reference.category)
+                if (!filtered.find(filter => filter.name === currentCategory.name)) {
+                  filtered.push(currentCategory)
+                }
+  
+                return filtered
+              }, [])} />
+              <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+                {!!themeName
+                  ? themeName.toUpperCase().replace(/-/g, " ")
+                  : sectionName.toUpperCase().replace(/-/g, " ")
+                }
+              </h2>
+  
+              <Button
+                className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
+                path={themeName ? "/themes" : "/categories"}
+                label="Retour"
+              />
+              {categories.map((category) => (
+                references.filter((reference) => reference.category === category.name
+                ).length > 0 && (
+                  <ListReferences
+                    key={uuidv4()}
+                    title={category.label}
+                    name={category.name}
+                    references={references.filter((reference) => reference.category === category.name)}
+                  />
+                )
+              ))}
+            </>
+        }
+      </main>
+    )
+  }
 }
