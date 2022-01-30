@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { HashLink } from "react-router-hash-link";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 import { IoIosArrowBack } from "react-icons/io";
@@ -22,9 +23,9 @@ export default function WidgetCat({ categories = [] }) {
         <ul className="is-flex is-flex-wrap-wrap is-align-items-center">
           {categories.map((category) => (
             <li key={uuidv4()}>
-              <a
+              <HashLink
                 key={uuidv4()}
-                href={`#${category.name ? category.name : category}`}
+                to={`#${category.name ? category.name : category}`}
                 className="widget-link"
               >
                 <button key={uuidv4()} className="widget-btn pointer">
@@ -34,7 +35,7 @@ export default function WidgetCat({ categories = [] }) {
                     : category.charAt(0).toUpperCase() +
                       category.slice(1).replace(/-/g, " ")}
                 </button>
-              </a>
+              </HashLink>
             </li>
           ))}
         </ul>
