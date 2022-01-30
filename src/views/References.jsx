@@ -66,7 +66,6 @@ export default function References() {
             )
           );
         } else if (!!themeName && themes.length > 0) {
-          console.log(themes.find((theme) => theme.name === themeName).id);
           setReferences(
             await getReferencesByTheme(
               themes.find((theme) => theme.name === themeName).id
