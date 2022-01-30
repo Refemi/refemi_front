@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import http from "../services/http-common";
 
+import Error from "../components/Error";
+
 import { DataContext } from "../App";
 
 // Components
@@ -18,8 +20,8 @@ const getReferencesBySection = async (sectionId) => {
     .get(`references/section/${sectionId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
+    .catch(() => {
+      return false
     });
 };
 const getReferencesByTheme = async (themeId) => {
@@ -28,8 +30,8 @@ const getReferencesByTheme = async (themeId) => {
     .get(`references/theme/${themeId}`)
     .then((response) => response.status === 200 && response.data)
     .then(({ references }) => references)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
+    .catch(() => {
+      return false
     });
 };
 
@@ -52,9 +54,10 @@ const findCategoriesInThemeReferences = (references) => {
 // COMPONENT
 export default function References() {
   const { sectionName, themeName } = useParams();
-  const [references, setReferences] = useState([]);
+  const [references, setReferences] = useState(null);
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
+
 
   const getReferences = async () => {
     if (references.length === 0) {
@@ -66,7 +69,6 @@ export default function References() {
             )
           );
         } else if (!!themeName && themes.length > 0) {
-          console.log(themes.find((theme) => theme.name === themeName).id);
           setReferences(
             await getReferencesByTheme(
               themes.find((theme) => theme.name === themeName).id
@@ -78,6 +80,26 @@ export default function References() {
       }
     }
   };
+  
+  const errorMessage = () => {
+    if (!!sectionName) {
+        const currentSection = sections.filter(section => sectionName === section.name)[0]
+
+        if (currentSection === undefined) {
+          return `La section recherchée (${sectionName}) est introuvable`
+        } else {
+          return `Aucune référence dans la section ${currentSection.label}`
+        }
+      } else if (!!themeName) {
+        const currentTheme = themes.filter(theme => themeName === theme.name)[0];
+
+        if (currentTheme === undefined) {
+          return `Le theme recherché (${themeName}) est introuvable`
+        } else {
+          return `Aucune référence dans le thème ${currentTheme.label}`
+        }
+      }
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,7 +112,8 @@ export default function References() {
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
-      {references.length === 0 ? (
+    {references.length === 0 ? <Error errorCode={404} message={errorMessage()} /> : 
+      {references === null ? (
         <Loader />
       ) : (
         <>
@@ -121,6 +144,7 @@ export default function References() {
                 />
               )
           )}
+       }
         </>
       )}
     </main>

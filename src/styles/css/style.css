@@ -287,6 +287,11 @@ button {
         width: 90%;
         padding: 3rem; } }
 
+.error {
+  margin-top: 10rem !important;
+  padding-top: 10rem !important;
+  text-align: center; }
+
 .footer {
   background-color: white !important;
   margin: 0;
