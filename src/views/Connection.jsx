@@ -42,6 +42,7 @@ export default function Connection() {
     handleSubmit,
     watch,
     formState: { errors },
+    clearErrors
   } = useForm();
 
   passwordInput.current = watch("password");
@@ -238,7 +239,11 @@ export default function Connection() {
                 <button
                   className="darkblue-bg send-btn has-text-white mt-6"
                   type="button"
-                  onClick={() => history.push("/auth/signin")}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    clearErrors()
+                    history.push("/auth/signin")
+                  }}
                 >
                   Connexion
                 </button>
@@ -259,7 +264,11 @@ export default function Connection() {
                 </button>
                 <button
                   className="darkblue-bg send-btn has-text-white pointer mt-6"
-                  onClick={() => history.push("/auth/signup")}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    clearErrors()
+                    history.push("/auth/signup")
+                  }}
                 >
                   Créer un compte
                 </button>
