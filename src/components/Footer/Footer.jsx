@@ -6,7 +6,6 @@ export default function Footer() {
   useEffect(() => {
     const date = document.getElementById('date');
     date.innerHTML = new Date().getFullYear();
-    console.log(date);
   });
 
   return (
