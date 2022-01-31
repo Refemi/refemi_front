@@ -149,6 +149,7 @@ export default function References() {
                   references={references.filter(
                     (reference) => reference.category === category.name
                   )}
+                  clearReferences={() => { setReferences([])}}
                 />
               )
           )}

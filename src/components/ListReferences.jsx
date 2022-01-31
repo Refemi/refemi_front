@@ -17,6 +17,7 @@ export default function ListReferences({
   name = "",
   title = "",
   references = [],
+  clearReferences = () => {},
 }) {
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
@@ -77,7 +78,8 @@ export default function ListReferences({
                   <h4
                     className="ml-4 has-text-weight-bold pointer darkblue-text"
                     key={uuidv4()}
-                    onClick={() =>
+                    onClick={() => {
+                      clearReferences();
                       history.push(
                         `/themes/${theme
                           .toLowerCase()
@@ -85,7 +87,7 @@ export default function ListReferences({
                           .normalize("NFD")
                           .replace(/[\u0300-\u036f]/g, "")}`
                       )
-                    }
+                    }}
                   >
                     {theme}
                   </h4>
