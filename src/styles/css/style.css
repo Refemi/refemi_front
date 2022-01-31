@@ -287,6 +287,12 @@ button {
         width: 90%;
         padding: 3rem; } }
 
+.box-back-btn {
+  min-width: 3rem !important;
+  max-width: 3rem !important;
+  max-height: 3rem !important;
+  min-height: 3rem !important; }
+
 .footer {
   background-color: white !important;
   margin: 0;

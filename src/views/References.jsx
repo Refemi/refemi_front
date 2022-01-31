@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
-import http from "../services/http-common";
+import http from '../services/http-common';
 
-import Error from "../components/Error";
+import Error from '../components/Error';
 
-import { DataContext } from "../App";
+import { DataContext } from '../App';
 
 // Components
-import ListReferences from "../components/ListReferences";
-import WidgetCat from "../components/WidgetCat";
-import Button from "../components/Button/Button";
-import Loader from "../components/Loader";
+import ListReferences from '../components/ListReferences';
+import WidgetCat from '../components/WidgetCat';
+import Button from '../components/Button/Button';
+import Loader from '../components/Loader';
+import BackToTheTop from '../components/Button/BackToTheTop';
 
 const getReferencesBySection = async (sectionId) => {
   // Get sections to spread in context SectionsContext
@@ -47,7 +48,7 @@ const findCategoriesInThemeReferences = (references) => {
       }
       return categories;
     },
-    [""]
+    ['']
   );
   themeCategories.shift();
   return themeCategories;
@@ -118,7 +119,7 @@ export default function References() {
   }, [references]);
 
   return (
-    <main className="is-flex is-flex-direction-column borders references is-relative">
+    <main className='is-flex is-flex-direction-column borders references is-relative'>
       {!references ? (
         <Error errorCode={404} message={errorMessage()} />
       ) : references.length === 0 ? (
@@ -126,16 +127,16 @@ export default function References() {
       ) : (
         <>
           <WidgetCat categories={themeCategories} />
-          <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
+          <h2 className='has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text'>
             {!!themeName
-              ? themeName.toUpperCase().replace(/-/g, " ")
-              : sectionName.toUpperCase().replace(/-/g, " ")}
+              ? themeName.toUpperCase().replace(/-/g, ' ')
+              : sectionName.toUpperCase().replace(/-/g, ' ')}
           </h2>
 
           <Button
-            className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
-            path={themeName ? "/themes" : "/categories"}
-            label="Retour"
+            className='is-align-self-flex-end send-btn darkblue-bg has-text-white'
+            path={themeName ? '/themes' : '/categories'}
+            label='Retour'
           />
           {categories.map(
             (category) =>
