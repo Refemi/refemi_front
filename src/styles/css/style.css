@@ -287,15 +287,9 @@ button {
         width: 90%;
         padding: 3rem; } }
 
-.error {
-  margin-top: 10rem !important;
-  padding-top: 10rem !important;
-  text-align: center; }
-
 .footer {
   background-color: white !important;
   margin: 0;
-  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
