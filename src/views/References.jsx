@@ -19,7 +19,9 @@ const getReferencesBySection = async (sectionId) => {
   return await http()
     .get(`references/section/${sectionId}`)
     .then((response) => response.status === 200 && response.data)
-    .then(({ references }) => references)
+    .then(({ references }) =>
+      references.sort(() => (Math.random() > 0.5 ? 1 : -1))
+    )
     .catch(() => {
       return false;
     });
@@ -54,12 +56,12 @@ const findCategoriesInThemeReferences = (references) => {
 // COMPONENT
 export default function References() {
   const { sectionName, themeName } = useParams();
-  const [references, setReferences] = useState();
+  const [references, setReferences] = useState([]);
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
 
   const getReferences = async () => {
-    if (!references) {
+    if (references.length === 0) {
       try {
         if (!!sectionName && sections.length > 0) {
           setReferences(
