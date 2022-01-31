@@ -1,11 +1,11 @@
 // Abstract
-@import "abstract/variables";
-@import "abstract/mixins";
-@import "abstract/keyframes";
+@import 'abstract/variables';
+@import 'abstract/mixins';
+@import 'abstract/keyframes';
 
 // Base
-@import "base/base";
-@import "base/typography";
+@import 'base/base';
+@import 'base/typography';
 
 // Components
 @import "sasscomponents/counter";
@@ -13,15 +13,16 @@
 @import "sasscomponents/addReference";
 @import "sasscomponents/refSheet";
 
+
 // Layout
-@import "layout/footer";
-@import "layout/header";
+@import 'layout/footer';
+@import 'layout/header';
 
 // Pages
-@import "views/home";
-@import "views/categories";
-@import "views/themes";
-@import "views/references";
-@import "views/auth";
-@import "views/dashboard";
-@import "views/search";
+@import 'views/home';
+@import 'views/categories';
+@import 'views/themes';
+@import 'views/references';
+@import 'views/auth';
+@import 'views/dashboard';
+@import 'views/search';
