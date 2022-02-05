@@ -33,7 +33,7 @@ export default function Connection() {
 
   const passwordInput = useRef(null);
   const [errorSign, setErrorSign] = useState(false);
-
+  const [isUserCreated, setUserCreated] = useState(false);
   const { sign } = useParams();
   const history = useHistory();
 
@@ -57,6 +57,7 @@ export default function Connection() {
       })
       .then((response) => {
         if (response.status === 201) {
+          setUserCreated(true);
           history.push("/auth/signin");
         }
       })
@@ -117,8 +118,11 @@ export default function Connection() {
   useEffect(() => {
     switch (sign) {
       case "signin":
+        isLoggedIn && history.push("/dashboard");
+        break;
       case "signup":
         isLoggedIn && history.push("/dashboard");
+        isUserCreated && setUserCreated(false);
         break;
       case "signout":
         if (userCredentials.accessToken !== null) {
@@ -138,6 +142,7 @@ export default function Connection() {
   }, [
     history,
     isLoggedIn,
+    isUserCreated,
     sign,
     userCredentials,
     setIsLoggedIn,
@@ -154,6 +159,7 @@ export default function Connection() {
       <h2 className="mt-6 has-text-weight-bold has-text-centered mx-3">
         Envie de collaborer et de proposer de nouvelles références ?
       </h2>
+      {isUserCreated && (<p className="has-text-success">Votre compte a bien été créé</p>)}
       <h3>
         {sign === "signin"
           ? "Connectez-vous !"
@@ -161,6 +167,8 @@ export default function Connection() {
           ? "Devenez contributeur·ice vous créant un compte !"
           : null}
       </h3>
+        
+
       {errorSign && (
         <p style={{ color: 'red', fontSize: '0.9rem' }}>
           {errorSign === "signup" && (
