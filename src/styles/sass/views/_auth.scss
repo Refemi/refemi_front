@@ -1,11 +1,18 @@
 .auth {
   fieldset {
-    p {
-      &.error {
-        padding-left: 0.5rem;
-        font-size: $font-08;
-        color: $red;
+
+    ol {
+
+      li {
+        list-style: auto;
+        margin-left: 2rem;
       }
+    }
+
+    .error {
+      padding-left: 0.5rem;
+      font-size: $font-08;
+      color: $red;
     }
   }
 }
