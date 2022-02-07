@@ -25,7 +25,7 @@ const getCountries = async () => {
     .get("https://restcountries.com/v3.1/all")
     .then((response) => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       }
     })
     .then((response) =>
@@ -73,13 +73,12 @@ const getSearchReferences = async (name) => {
  * @param {string} contribution.reference_status
  * @returns {boolean} Returns false (> 0 error), else true
  */
-// 
 const postContribution = async (contribution, token) => {
   return await http(token)
     .post("references", contribution)
     .then((response) => {
       if (response.status === 202) {
-        return true
+        return true;
       }
     })
     .catch((error) => {
@@ -100,56 +99,50 @@ const putContribution = async (contribution, token) => {
   if (Object.keys(contribution).length > 0) {
     return await http(token)
       .put(`references/${contribution.reference_id}`, {
-        reference_name: contribution.reference_name,
-        reference_date: contribution.reference_date,
-        reference_country_name: contribution.reference_country,
-        reference_content: contribution.reference_content,
-        reference_status: 1
+        ...contribution,
+        reference_status: 1,
       })
       .then((response) => {
         if (response.status === 202) {
           return true;
         }
       })
-      .catch((error) => {
+      .catch(() => {
         return false;
-      })
+      });
   }
 
-  return false
-}
-
+  return false;
+};
 
 /**
- * Form reference component
+ * @description Displays the form for adding / modifying references
  * @param {string} props.category
  * @param {object} props.reference
- * @returns {JSX.Element}
+ * @return {JSX.Element}
  */
 export default function FormReference({ category, reference }) {
   const { token, userCredentials } = useContext(UserContext);
   const { categories } = useContext(DataContext);
   const [content, setContent] = useState("");
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(
-    ContentState.createFromBlockArray(
-      convertFromHTML("")
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(
+      ContentState.createFromBlockArray(convertFromHTML(""))
     )
-  ));
+  );
   const [isSent, setIsSent] = useState(false);
   const [name, setName] = useState("");
   const [referencesFound, setReferencesFound] = useState([]);
   const [showReferencesFound, setShowReferencesFound] = useState(false);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
-  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentCategory, setCurrentCategory] = useState(undefined);
 
   const handleEditorChange = (state) => {
     setEditorState(state);
-    setContent(convertToHTML(editorState.getCurrentContent()));
   };
 
   const onSubmit = ({ reference_name, reference_date }) => {
-
     const contribution = {
       reference_id: reference ? reference.id : null,
       reference_name: reference_name,
@@ -158,7 +151,7 @@ export default function FormReference({ category, reference }) {
       reference_content: content,
       reference_category_id: currentCategory.id
     }
-
+    
     if (Object.entries(reference).length > 0) {
       setIsSent(putContribution(contribution, token));
     } else {
@@ -172,29 +165,46 @@ export default function FormReference({ category, reference }) {
     formState: { errors },
   } = useForm();
 
-
-  useEffect(() => {
-    setCurrentCategory(categories.find(({ id }) => id === category));
-  }, [categories, category, reference])
-
   useEffect(() => {
     (async () => setCountries(await getCountries()))();
   }, []);
 
   useEffect(() => {
+    setContent(convertToHTML(editorState.getCurrentContent()));
+  }, [editorState]);
 
-    if (Object.entries(reference) > 0 && currentCategory !== undefined) {
-      console.log(reference, currentCategory)
-      setEditorState(
-        EditorState.createWithContent(
-          ContentState.createFromBlockArray(
-            convertFromHTML(Object.entries(reference).length > 0 && reference.content !== "" ? reference.content : switchForm(currentCategory.name))
+  useEffect(() => {
+    setCurrentCategory(categories.find(({ id }) => id === parseInt(category)));
+  }, [categories, category]);
+
+  //
+  useEffect(() => {
+    if (currentCategory !== undefined) {
+      if (Object.entries(reference).length > 0) {
+        setEditorState(
+          EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(
+                Object.entries(reference).length > 0 && reference.content !== ""
+                  ? reference.content
+                  : switchForm(currentCategory.name)
+              )
+            )
           )
-        )
-      );
+        );
+      } else {
+        setEditorState(
+          EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(switchForm(currentCategory.name))
+            )
+          )
+        );
+      }
     }
   }, [reference, currentCategory]);
 
+  // Assign the new Editor content to the setContent state, converted to HTML
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState])
@@ -315,9 +325,9 @@ export default function FormReference({ category, reference }) {
 }
 
 FormReference.propTypes = {
-  category: PropTypes.string.isRequired,
-  reference: PropTypes.object
+  category: PropTypes.number.isRequired,
+  reference: PropTypes.object,
 };
 FormReference.defaultProps = {
-  reference: {}
+  reference: {},
 };

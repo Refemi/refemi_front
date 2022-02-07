@@ -11,30 +11,34 @@ import { DataContext } from "../App";
  * @param {string} name
  * @param {string} title
  * @param {array} references
- * @returns 
+ * @returns
  */
-export default function ListReferences({ name = "", title = "", references = []}) {
+export default function ListReferences({
+  name = "",
+  title = "",
+  references = [],
+}) {
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
   const [currentReferences, setCurrentReferences] = useState([]);
-  const [selectedPage] = useState()
+  const [selectedPage] = useState();
   const { themes } = useContext(DataContext);
 
   const paginateReferences = () => {
     const paginated = references.slice(offset, offset + perPage);
-    setCurrentReferences(paginated)
-    setPageCount(Math.ceil(references.length / perPage))
-  }
+    setCurrentReferences(paginated);
+    setPageCount(Math.ceil(references.length / perPage));
+  };
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setOffset(selectedPage + 1);
-  }
+  };
 
   useEffect(() => {
-    paginateReferences()
-  }, [offset])
+    paginateReferences();
+  }, [offset]);
 
   const history = useHistory();
 
@@ -52,8 +56,7 @@ export default function ListReferences({ name = "", title = "", references = []}
       </article>
 
       <div className="mb-6">
-        {currentReferences
-        .map((reference) => (
+        {currentReferences.map((reference) => (
           <article
             key={uuidv4()}
             id={reference.id}
@@ -68,7 +71,7 @@ export default function ListReferences({ name = "", title = "", references = []}
               <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
                 {reference.themes.map((theme) => (
                   <h4 className="ml-4" key={uuidv4()}>
-                    {themes.map((t) => (t.id === theme && t.label))}
+                    {theme}
                   </h4>
                 ))}
               </span>
@@ -76,26 +79,27 @@ export default function ListReferences({ name = "", title = "", references = []}
           </article>
         ))}
       </div>
-      {pageCount > 1 ? 
-      <ReactPaginate
-      previousLabel={"Précédente"}
-      nextLabel={"Suivante"}
-      breakLabel={"..."}
-      breakClassName={"break-me"}
-      pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
-      onPageChange={handlePageClick}
-      containerClassName={"pagination"}
-      subContainerClassName={"pages pagination"}
-      activeClassName={"active"}
-      previousClassName={"pagination-previous"}
-      nextClassName={"pagination-next"}
-      forcePage={selectedPage}
-      breakClassName={"pagination-ellipsis"}
-      pageClassName={"pagination-link"}
-      hrefAllControls={true}
-      /> : null}
+      {pageCount > 1 ? (
+        <ReactPaginate
+          previousLabel={"Précédente"}
+          nextLabel={"Suivante"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+          previousClassName={"pagination-previous"}
+          nextClassName={"pagination-next"}
+          forcePage={selectedPage}
+          breakClassName={"pagination-ellipsis"}
+          pageClassName={"pagination-link"}
+          hrefAllControls={true}
+        />
+      ) : null}
 
       <hr />
     </section>

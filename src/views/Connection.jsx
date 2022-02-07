@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,6 @@ const isPasswordValid = (email) => {
   return regex.test(email);
 };
 const isEmailValid = (email) => {
-  console.log(email)
   const regex = new RegExp(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
@@ -32,6 +31,7 @@ export default function Connection() {
     setIsLoggedIn,
   } = useContext(UserContext);
 
+  const passwordInput = useRef(null);
   const [errorSign, setErrorSign] = useState(false);
 
   const { sign } = useParams();
@@ -40,33 +40,38 @@ export default function Connection() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
+  passwordInput.current = watch("password");
+
   // Register a new user and redirect to the login page
-  const signUp = async (data) => {
+  const signUp = async (user) => {
     return await http()
       .post(`auth/signUp`, {
-        userName: data.name,
-        userEmail: data.email,
-        userPassword: data.password,
+        userName: user.name,
+        userEmail: user.email,
+        userPassword: user.password,
       })
       .then((response) => {
         if (response.status === 201) {
           history.push("/auth/signin");
         }
+      })
+      .catch((error) => {
+        setErrorSign('signup')
       });
   };
 
-  const signIn = async (data) => {
+  const signIn = async (user) => {
     return await http()
       .post(`/auth/signIn`, {
-        email: data.email,
-        password: data.password,
+        userEmail: user.email,
+        userPassword: user.password,
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data)
           return response.data;
         }
       })
@@ -74,12 +79,7 @@ export default function Connection() {
         if ( accessToken === null || accessToken === undefined) {
           throw new Error("No token");
         }
-
-        setUserCredentials({
-          name: user.userName,
-          mail: user.userEmail,
-          role: user.userRole
-        });
+        setUserCredentials(user);
         setToken(accessToken);
         setIsLoggedIn(true)
 
@@ -87,8 +87,8 @@ export default function Connection() {
       })
 
       .catch ((error) => {
-        return error;
-      });
+        setErrorSign('signin');
+      })
   };
 
   // Handles the case of login
@@ -162,7 +162,12 @@ export default function Connection() {
       </h3>
       {errorSign && (
         <p style={{ color: 'red', fontSize: '0.9rem' }}>
-          Une erreur est survenue lors de la connexion
+          {errorSign === "signup" && (
+            "Une erreur est survenue lors de la création de votre compte. Veuillez réessayer."
+          )}
+          {errorSign === "signin" && (
+            "Le nom d'utilisateur ou le mot de passe est incorrect."
+          )}
         </p>
       )}
 
@@ -192,7 +197,7 @@ export default function Connection() {
             type="text"
             placeholder="francisnoname@refemi.com"
             name="email"
-            className={`form-input ${errors.mail && 'error'}`}
+            className={`form-input ${errors.email && 'error'}`}
             {...register("email", { required: true, validate: isEmailValid })}
           />
           {errors.email && (
@@ -203,6 +208,7 @@ export default function Connection() {
         <fieldset className="is-flex is-flex-direction-column ">
           <label>Mot de passe</label>
           <input
+            ref={passwordInput}
             type="password"
             placeholder="Mot de passe"
             className={`form-input ${errors.password && 'error'}`}
@@ -219,11 +225,11 @@ export default function Connection() {
               type="password"
               placeholder="Confirmer le mot de passe"
               className="form-input"
-              {...register("confirm_password", {
-                required: true,
-                validate: () => {} // TODO: validate the password confirmation
-              })}
+              {...register("confirm_password", { required: true, validate: (v) => passwordInput.current.length > 0 && v === passwordInput.current})}
             />
+            {errors.confirm_password && (
+            <p className="error">Les mots de passe ne correspondent pas</p>
+          )}
           </fieldset>
         )}
         <div className="columns">
