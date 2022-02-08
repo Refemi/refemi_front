@@ -226,7 +226,7 @@ export default function FormReference({ category, reference }) {
             onSubmit={handleSubmit(onSubmit)}
             className="borders is-flex is-flex-direction-column is-align-items-center"
           >
-            <h2 className="m-6">Catégorie actuelle : {/*currentCategory.label*/}</h2>
+            <h2 className="m-6">Catégorie actuelle : {currentCategory !== undefined && currentCategory.label}</h2>
 
             <fieldset className="is-flex is-flex-direction-column ">
               <label htmlFor="reference_name" className="required">
