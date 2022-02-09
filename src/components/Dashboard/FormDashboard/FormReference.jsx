@@ -39,7 +39,7 @@ const getCountries = async () => {
 /**
  * Reuse of the search function of the SearchResult component to find similar references
  * @param {string} name
- * @return {array} Returns an array of references
+ * @return {promise<Array>} Returns an array of references
  * */
 const getSearchReferences = async (name) => {
   let insert = name.split(" ");
@@ -71,19 +71,17 @@ const getSearchReferences = async (name) => {
  * @param {string} contribution.reference_country_name
  * @param {string} contribution.reference_content
  * @param {string} contribution.reference_status
- * @returns {boolean} Returns false (> 0 error), else true
+ * @returns {promise<boolean>} Returns false (> 0 error), else true
  */
 const postContribution = async (contribution, token) => {
   return await http(token)
     .post("references", contribution)
     .then((response) => {
       if (response.status === 202) {
-        return true;
+        return false;
       }
     })
-    .catch((error) => {
-      console.log(error)
-    })
+    .catch((error) => error.response.data.error);
 }
 /**
  * Requests to the API to update a contribution
@@ -93,7 +91,7 @@ const postContribution = async (contribution, token) => {
  * @param {string} contribution.reference_country_name
  * @param {string} contribution.reference_content
  * @param {string} contribution.reference_status
- * @returns {boolean} Returns false (> 0 error), else true
+ * @returns {promise<boolean>} Returns false (> 0 error), else true
  */
 const putContribution = async (contribution, token) => {
   if (Object.keys(contribution).length > 0) {
@@ -131,6 +129,7 @@ export default function FormReference({ category, reference }) {
     )
   );
   const [isSent, setIsSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [name, setName] = useState("");
   const [referencesFound, setReferencesFound] = useState([]);
   const [showReferencesFound, setShowReferencesFound] = useState(false);
@@ -142,7 +141,7 @@ export default function FormReference({ category, reference }) {
     setEditorState(state);
   };
 
-  const onSubmit = ({ reference_name, reference_date }) => {
+  const onSubmit = async ({ reference_name, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
       reference_name: reference_name,
@@ -155,7 +154,15 @@ export default function FormReference({ category, reference }) {
     if (Object.entries(reference).length > 0) {
       setIsSent(putContribution(contribution, token));
     } else {
-      setIsSent(postContribution(contribution, token));
+      const error = await postContribution(contribution, token);
+
+      if (!error) {
+        setIsSent(true);
+        setErrorMessage(false);
+      } else {
+        setErrorMessage(error);
+        window.scrollTo(0, 500);
+      }
     }
   };
 
@@ -177,7 +184,8 @@ export default function FormReference({ category, reference }) {
     setCurrentCategory(categories.find(({ id }) => id === parseInt(category)));
   }, [categories, category]);
 
-  //
+  // Fills the EditorState, with the content of the reference if it has been sent in props,
+  // or with the default content depending on the category sent in props
   useEffect(() => {
     if (currentCategory !== undefined) {
       if (Object.entries(reference).length > 0) {
@@ -226,6 +234,13 @@ export default function FormReference({ category, reference }) {
             onSubmit={handleSubmit(onSubmit)}
             className="borders is-flex is-flex-direction-column is-align-items-center"
           >
+            {!!errorMessage && (
+              <div className="has-text-danger has-text-centered">
+                <h3>Impossible d'ajouter la référence :</h3>
+                <p>{errorMessage}</p>
+              </div>
+            )}
+
             <h2 className="m-6">Catégorie actuelle : {currentCategory !== undefined && currentCategory.label}</h2>
 
             <fieldset className="is-flex is-flex-direction-column ">
