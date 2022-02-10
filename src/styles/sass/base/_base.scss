@@ -42,7 +42,7 @@ label {
 .darkblue-text {
   color: $dark-blue;
   &:hover {
-    color: $green-grey;
+    color: $dark-grey;
   }
 }
 .green-grey-text {
@@ -171,22 +171,21 @@ button {
   }
   span:nth-child(1) {
     background-color: $green-grey;
-    animation:zoom-in-out 1.8s ease 6s infinite normal;
-    -moz-animation:zoom-in-out 1s ease 6s infinite normal;
-    -ms-animation:zoom-in-out 1s ease 6s infinite normal;
+    animation: zoom-in-out 1.8s ease 6s infinite normal;
+    -moz-animation: zoom-in-out 1s ease 6s infinite normal;
+    -ms-animation: zoom-in-out 1s ease 6s infinite normal;
   }
   span:nth-child(2) {
     background-color: $dark-blue;
-    animation:zoom-in-out 1.8s ease 0.12s infinite normal;
-    -moz-animation:zoom-in-out 1.8s ease 0.12s infinite normal;
-    -ms-animation:zoom-in-out 1.8s ease 0.12s infinite normal;
+    animation: zoom-in-out 1.8s ease 0.12s infinite normal;
+    -moz-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
+    -ms-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
   }
   span:nth-child(3) {
     background-color: $aqua;
-    animation:zoom-in-out 1.8s ease 0.18s infinite normal;
-    -moz-animation:zoom-in-out 1.8s ease 0.18s infinite normal;
-    -ms-animation:zoom-in-out 1.8s ease 0.18s infinite normal;
-
+    animation: zoom-in-out 1.8s ease 0.18s infinite normal;
+    -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
+    -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
   }
   a {
     font-size: 3em;
