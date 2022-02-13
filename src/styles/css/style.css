@@ -565,7 +565,11 @@ button {
   .dataResult .reflist-div {
     width: calc(100% / 3); } }
 
-.auth fieldset p.error {
+.auth fieldset ol li {
+  list-style: auto;
+  margin-left: 2rem; }
+
+.auth fieldset .error {
   padding-left: 0.5rem;
   font-size: 0.8rem;
   color: #da0027; }
