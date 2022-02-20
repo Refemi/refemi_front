@@ -110,7 +110,6 @@ export default function Connection() {
 
         return false
       })
-
       .catch (({ response }) => {
         return response.data.error;
       })
@@ -122,10 +121,10 @@ export default function Connection() {
 
     switch (sign) {
       case "signin":
-        error = signIn(data);
+        error = await signIn(data);
         break;
       case "signup":
-        error = signUp(data);
+        error = await signUp(data);
         break;
       default:
         return;
