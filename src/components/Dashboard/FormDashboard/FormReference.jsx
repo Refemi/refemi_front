@@ -42,14 +42,9 @@ const getCountries = async () => {
  * @return {promise<Array>} Returns an array of references
  * */
 const getSearchReferences = async (name) => {
-  let insert = name.split(" ");
-  insert =
-    insert.length === 1
-      ? (insert = insert.join(""))
-      : (insert = insert.join("<->"));
 
   return await http()
-    .get(`search/?answer=${insert}`)
+    .get(`search/${name}`)
     .then((result) => {
       if (result.status === 200) {
         return result.data;
