@@ -8,17 +8,6 @@ import http from "../services/http-common";
 import { UserContext } from "../App";
 
 /**
- * Regex to verify password validity
- * @param {string} password 
- * @return {boolean}
- */
-const isPasswordValid = (password) => {
-  const regex = new RegExp(
-    /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/
-  );
-  return regex.test(password);
-};
-/**
  * Regex to verify mail validity
  * @param {string} email 
  * @return {boolean}
@@ -241,7 +230,7 @@ export default function Connection() {
                 type="password"
                 placeholder="Mot de passe"
                 className={`form-input ${errors.password && 'error'}`}
-                {...register("password", { required: true, validate: isPasswordValid })}
+                {...register("password", { required: true })}
               />
               {errors.password && (
                 <>
