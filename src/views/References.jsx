@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
@@ -60,7 +60,7 @@ export default function References() {
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
 
-  const getReferences = async () => {
+  const getReferences = useCallback(async () => {
     if (references.length === 0) {
       try {
         if (!!sectionName && sections.length > 0) {
@@ -77,21 +77,27 @@ export default function References() {
           );
         }
       } catch (error) {
-        console.log(error);
+        setReferences(false);
       }
     }
-  };
+  }, [references, sectionName, sections, themeName, themes]);
 
-  const errorMessage = () => {
+  const getError = () => {
     if (!!sectionName) {
       const currentSection = sections.filter(
         (section) => sectionName === section.name
       )[0];
 
       if (currentSection === undefined) {
-        return `La section recherchée (${sectionName}) est introuvable`;
+        return {
+          message: `La section recherchée « ${sectionName} » est introuvable`,
+          code: 404
+        };
       } else {
-        return `Aucune référence dans la section ${currentSection.label}`;
+        return {
+          message: `Aucune référence dans la section ${currentSection.label}`,
+          code: 204
+        };
       }
     } else if (!!themeName) {
       const currentTheme = themes.filter(
@@ -99,9 +105,15 @@ export default function References() {
       )[0];
 
       if (currentTheme === undefined) {
-        return `Le theme recherché (${themeName}) est introuvable`;
+        return {
+          message: `Le theme recherché « ${themeName} » est introuvable`,
+          code: 404
+        };
       } else {
-        return `Aucune référence dans le thème ${currentTheme.label}`;
+        return {
+          message: `Aucune référence dans le thème ${currentTheme.label}`,
+          code: 204
+        };
       }
     }
   };
@@ -109,7 +121,7 @@ export default function References() {
   useEffect(() => {
     window.scrollTo(0, 0);
     getReferences();
-  }, [references, sections, sectionName, themes, themeName]);
+  }, [getReferences]);
 
   useEffect(() => {
     if (references) {
@@ -120,7 +132,7 @@ export default function References() {
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
       {!references ? (
-        <Error errorCode={404} message={errorMessage()} />
+        <Error errorCode={getError().code} message={getError().message} />
       ) : references.length === 0 ? (
         <Loader />
       ) : (
