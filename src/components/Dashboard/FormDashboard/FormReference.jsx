@@ -257,10 +257,20 @@ export default function FormReference({ category, reference }) {
                 className="form-input"
                 {...register("reference_name", { required: true })}
                 defaultValue={reference.name ? reference.name : ""}
-                onChange={(e) => {
+                onBlur={(e) => {
                   const name = e.nativeEvent.target.value;
-                  (async () => setReferencesFound(await getSearchReferences(name)))();
-
+                  if (name.length >= 3) {
+                    const getReferences = async () => {
+                      setReferencesFound(await getSearchReferences(name));
+                    }
+                    getReferences();
+                  }
+                }}
+                onChange={(e) => {
+                  if (referencesFound.length > 0 && e.nativeEvent.target.value.length < 3) {
+                    setReferencesFound([]);
+                    setShowReferencesFound(false);
+                  }
                 }}
               />
               {errors.reference_name && (
