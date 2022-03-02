@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 import PropTypes from "prop-types";
+
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState, convertFromHTML } from "draft-js";
 import { convertToHTML } from "draft-convert";
-import axios from "axios";
-
 // React Draf Wysiwyg editor CSS
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
 // JS
 import switchForm from "../../../utils/switchOptions";
@@ -20,7 +21,7 @@ import { DataContext, UserContext } from "../../../App";
 
 // Get countries list from external API
 const getCountries = async () => {
-  return await axios
+  return await http()
     .get("https://restcountries.com/v3.1/all")
     .then((response) => {
       if (response.status === 200) {
@@ -35,20 +36,58 @@ const getCountries = async () => {
       }))
     );
 };
+/**
+ * Reuse of the search function of the SearchResult component to find similar references
+ * @param {string} name
+ * @return {promise<Array>} Returns an array of references
+ * */
+const getSearchReferences = async (name) => {
 
-// Requests to the API to send / update a contribution
+  return await http()
+    .get(`search/${name}`)
+    .then((result) => {
+      if (result.status === 200) {
+        return result.data;
+      }
+    })
+    .then((data) => data.search.map(reference => ({
+      id: reference.id,
+      name: reference.reference_name
+    })))
+    .catch((_) => {
+      return [];
+    });
+};
+/**
+ * Requests to the API to send a contribution
+ * @param {string} contribution.reference_id
+ * @param {string} contribution.reference_name
+ * @param {string} contribution.reference_date
+ * @param {string} contribution.reference_country_name
+ * @param {string} contribution.reference_content
+ * @param {string} contribution.reference_status
+ * @returns {promise<boolean>} Returns false (> 0 error), else true
+ */
 const postContribution = async (contribution, token) => {
   return await http(token)
     .post("references", contribution)
     .then((response) => {
       if (response.status === 202) {
-        return true;
+        return false;
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+    .catch((error) => error.response.data.error);
+}
+/**
+ * Requests to the API to update a contribution
+ * @param {string} contribution.reference_id
+ * @param {string} contribution.reference_name
+ * @param {string} contribution.reference_date
+ * @param {string} contribution.reference_country_name
+ * @param {string} contribution.reference_content
+ * @param {string} contribution.reference_status
+ * @returns {promise<boolean>} Returns false (> 0 error), else true
+ */
 const putContribution = async (contribution, token) => {
   if (Object.keys(contribution).length > 0) {
     return await http(token)
@@ -85,6 +124,10 @@ export default function FormReference({ category, reference }) {
     )
   );
   const [isSent, setIsSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [name, setName] = useState("");
+  const [referencesFound, setReferencesFound] = useState([]);
+  const [showReferencesFound, setShowReferencesFound] = useState(false);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [currentCategory, setCurrentCategory] = useState(undefined);
@@ -93,21 +136,29 @@ export default function FormReference({ category, reference }) {
     setEditorState(state);
   };
 
-  const onSubmit = ({ reference_name, reference_date }) => {
+  const onSubmit = async ({ reference_name, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
       reference_name: reference_name,
       reference_date: reference_date,
       reference_country_name: country,
       reference_content: content,
-      reference_category_id: currentCategory.id,
-    }(async () => {
-      if (Object.entries(reference).length > 0) {
-        setIsSent(await putContribution(contribution, token));
+      reference_category_id: currentCategory.id
+    }
+    
+    if (Object.entries(reference).length > 0) {
+      setIsSent(putContribution(contribution, token));
+    } else {
+      const error = await postContribution(contribution, token);
+
+      if (!error) {
+        setIsSent(true);
+        setErrorMessage(false);
       } else {
-        setIsSent(await postContribution(contribution, token));
+        setErrorMessage(error);
+        window.scrollTo(0, 500);
       }
-    })();
+    }
   };
 
   const {
@@ -128,7 +179,8 @@ export default function FormReference({ category, reference }) {
     setCurrentCategory(categories.find(({ id }) => id === parseInt(category)));
   }, [categories, category]);
 
-  //
+  // Fills the EditorState, with the content of the reference if it has been sent in props,
+  // or with the default content depending on the category sent in props
   useEffect(() => {
     if (currentCategory !== undefined) {
       if (Object.entries(reference).length > 0) {
@@ -158,103 +210,137 @@ export default function FormReference({ category, reference }) {
   // Assign the new Editor content to the setContent state, converted to HTML
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
-  }, [editorState]);
+  }, [editorState])
 
-  return isSent ? (
-    <div className="has-text-justified">
-      <p>
-        Votre contribution a bien été envoyée et sera examinée par un·e
-        modérateur·ice. Vous serez informé·e par email dès sa validation !
-      </p>
-      <p>Un grand merci pour votre participation !</p>
-    </div>
-  ) : (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="borders is-flex is-flex-direction-column is-align-items-center"
-    >
-      <h2 className="m-6">
-        Catégorie actuelle : {currentCategory && currentCategory.label}
-      </h2>
-      <fieldset className="is-flex is-flex-direction-column ">
-        <label htmlFor="reference_name" className="required">
-          Nom / Titre
-        </label>
-        <input
-          type="text"
-          className="form-input"
-          {...register("reference_name", { required: true })}
-          defaultValue={reference.name ? reference.name : ""}
-        />
-        {errors.reference_name && (
-          <span className="error">Veuillez renseigner ce champ</span>
-        )}
-      </fieldset>
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-      <fieldset className="is-flex is-flex-direction-column">
-        <label htmlFor="reference_country_name" className="required">
-          Pays d&apos;origine
-        </label>
-        <Select
-          onChange={(e) => setCountry(e.label)}
-          options={countries}
-          className="form-input"
-          defaultInputValue={
-            reference.country_name ? reference.country_name : ""
-          }
-        />
-      </fieldset>
+  return (
+    isSent
+      ? (<div className="has-text-justified">
+          <p>
+            Votre contribution a bien été envoyée et sera examinée par un.e
+            modérateur.ice. Vous serez informé.e par email dès sa validation !
+          </p>
+          <p>Un grand merci pour votre participation !</p>
+        </div>)
+      : (<form
+            onSubmit={handleSubmit(onSubmit)}
+            className="borders is-flex is-flex-direction-column is-align-items-center"
+          >
+            {!!errorMessage && (
+              <div className="has-text-danger has-text-centered">
+                <h3>Impossible d'ajouter la référence :</h3>
+                <p>{errorMessage}</p>
+              </div>
+            )}
 
-      <fieldset className="is-flex is-flex-direction-column">
-        <label htmlFor="reference_date" className="required">
-          Année
-        </label>
-        <input
-          type="text"
-          className="form-input"
-          {...register("reference_date")}
-          defaultValue={reference.date ? reference.date : ""}
-        />
-      </fieldset>
+            <h2 className="m-6">Catégorie actuelle : {currentCategory !== undefined && currentCategory.label}</h2>
 
-      <fieldset className="is-flex is-flex-direction-column ">
-        <label htmlFor="reference-content" className="required">
-          Contenu
-        </label>
+            <fieldset className="is-flex is-flex-direction-column ">
+              <label htmlFor="reference_name" className="required">
+                Nom / Titre
+                {referencesFound.length > 0 && (
+                  <>
+                    &nbsp;{showReferencesFound
+                      ? <AiOutlineUp size={12} onClick={() => setShowReferencesFound(false)} />
+                      : <AiOutlineDown size={12} onClick={() => setShowReferencesFound(true)} /> 
+                    }
+                    &nbsp;({showReferencesFound ? "cacher" : "voir"} les références similaires)
+                  </>
+                )}
+              </label>
+              
+              <input
+                type="text"
+                className="form-input"
+                {...register("reference_name", { required: true })}
+                defaultValue={reference.name ? reference.name : ""}
+                onBlur={(e) => {
+                  const name = e.nativeEvent.target.value;
+                  if (name.length >= 3) {
+                    const getReferences = async () => {
+                      setReferencesFound(await getSearchReferences(name));
+                    }
+                    getReferences();
+                  }
+                }}
+                onChange={(e) => {
+                  if (referencesFound.length > 0 && e.nativeEvent.target.value.length < 3) {
+                    setReferencesFound([]);
+                    setShowReferencesFound(false);
+                  }
+                }}
+              />
+              {errors.reference_name && (
+                <span className="error">Veuillez renseigner ce champ</span>
+              )}
+              {showReferencesFound && referencesFound.length > 0 && (
+                <div className="found-references">
+                  <h6>Références similaires ({referencesFound.length}):</h6>
+                  <ul>
+                    {referencesFound.map(reference =>
+                      <li 
+                      key={reference.id}
+                      onClick={() => { window.open(`/references/${reference.id}`, "_blank") }}
+                    >{reference.name}</li>)}
+                  </ul>
+                </div>
+              )}
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="reference_country_name" className="required">
+                Pays d&apos;origine
+              </label>
+              <Select
+                onChange={(e) => setCountry(e.label)}
+                options={countries}
+                className="form-input"
+                defaultInputValue={reference.country ? reference.country : ""}
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="reference_date" className="required">
+                Année
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                {...register("reference_date")}
+                defaultValue={reference.date ? reference.date : ""}
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column ">
+              <label htmlFor="reference-content" className="required">
+                Contenu
+              </label>
 
-        <Editor
-          editorState={editorState}
-          toolbarClassName=""
-          wrapperClassName=""
-          editorClassName="form-input"
-          onEditorStateChange={handleEditorChange}
-        />
-      </fieldset>
+              <Editor
+                editorState={editorState}
+                toolbarClassName=""
+                wrapperClassName=""
+                editorClassName="form-input"
+                onEditorStateChange={handleEditorChange}
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="reference-image">Image</label>
+              <input
+                type="file"
+                className="form-input"
+                name="reference-image"
+                id="reference-image"
+                accept="image/png, image/jpeg"
+              />
+            </fieldset>
 
-      <fieldset className="is-flex is-flex-direction-column">
-        <label htmlFor="reference-image">Image</label>
-        <input
-          type="file"
-          className="form-input"
-          name="reference-image"
-          id="reference-image"
-          accept="image/png, image/jpeg"
-        />
-      </fieldset>
-
-      <input
-        type="submit"
-        value={
-          !!reference.status === false &&
-          userCredentials.role !== roles.CONTRIBUTOR
-            ? "Valider"
-            : Object.entries(reference).length > 0
-            ? "Modifier"
-            : "Envoyer"
-        }
-        className="darkblue-bg send-btn has-text-white mt-6"
-      />
-    </form>
+            <input
+              type="submit"
+              value={!!reference.status === false && userCredentials.role !== roles.CONTRIBUTOR ? "Valider" : Object.entries(reference).length > 0 ? "Modifier" : "Envoyer"}
+              className="darkblue-bg send-btn has-text-white mt-6"
+            />
+        </form>)
   );
 }
 
@@ -262,7 +348,6 @@ FormReference.propTypes = {
   category: PropTypes.number.isRequired,
   reference: PropTypes.object,
 };
-
 FormReference.defaultProps = {
   reference: {},
 };
