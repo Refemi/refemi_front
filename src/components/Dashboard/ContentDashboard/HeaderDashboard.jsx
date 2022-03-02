@@ -27,7 +27,7 @@ const getAdminCounter = async (token) => await http(token)
       return response.data;
     }
   })
-  .then(data => data);
+  .then(({ counters }) => counters);
 /**
  * Retrieve counters for users
  * @param {string} token
@@ -105,7 +105,7 @@ useEffect(() => {
             <div className="is-flex is-flex-direction-column is-align-items-center">
               <Counter
                 label="admins"
-                value={counters.totalAdmins}
+                value={counters.totalAdministrators}
               />
               <p className="has-text-weight-bold">ADMINS</p>
             </div>
