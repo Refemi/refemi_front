@@ -145,6 +145,13 @@ export default function FormReference({ category, reference }) {
     setEditorState(state);
   };
 
+  let themesIds = [];
+  useEffect(() => {
+    selectedOptions.forEach((option) => {
+      themesIds.push(option.id);
+    });
+  }, [selectedOptions]);
+
   const onSubmit = async ({ reference_name, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
@@ -153,6 +160,7 @@ export default function FormReference({ category, reference }) {
       reference_country_name: country,
       reference_content: content,
       reference_category_id: currentCategory.id,
+      reference_theme_id: themesIds,
     };
 
     if (Object.entries(reference).length > 0) {
@@ -350,7 +358,7 @@ export default function FormReference({ category, reference }) {
         </label>
         <Select
           isMulti
-          onChange={(e) => setSelectedOptions(e.label)}
+          onChange={(e) => setSelectedOptions(e)}
           options={themesList}
           className='basic-multi-select'
           classNamePrefix='select'
