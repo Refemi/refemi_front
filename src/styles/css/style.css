@@ -61,8 +61,6 @@ label {
 /* COLORS */
 .darkblue-text {
   color: #0808a3; }
-  .darkblue-text:hover {
-    color: #4a4a4a; }
 
 .green-grey-text {
   color: #8fc5bb; }
@@ -98,22 +96,11 @@ label {
 .aqua-bg-opacity {
   background-color: #0be3af80 !important; }
 
-.grey-bg-opacity:hover,
-.darkblue-bg-opacity:hover,
-.aqua-bg-opacity:hover {
-  box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3); }
-
-.grey-bg-opacity:hover {
-  background-color: #8fc5bb !important; }
-
-.darkblue-bg-opacity:hover {
-  background-color: #0808a3 !important; }
-
-.aqua-bg-opacity:hover {
-  background-color: #0be3af !important; }
-
 .white-bg {
   background-color: white !important; }
+
+h4.clickable:hover {
+  color: white; }
 
 /* BUTTONS */
 .cat-btn,
@@ -121,6 +108,9 @@ label {
 .btn {
   background-color: transparent;
   border-color: transparent; }
+
+.box-btn:hover {
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1) !important; }
 
 .btn {
   font-size: 0.8rem; }

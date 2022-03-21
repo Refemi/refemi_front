@@ -76,7 +76,7 @@ export default function ListReferences({
               <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
                 {reference.themes.map((theme) => (
                   <h4
-                    className="ml-4 has-text-weight-bold pointer darkblue-text"
+                    className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
                     key={uuidv4()}
                     onClick={() => {
                       clearReferences();
@@ -86,7 +86,7 @@ export default function ListReferences({
                           .replace(/\s+/g, "-")
                           .normalize("NFD")
                           .replace(/[\u0300-\u036f]/g, "")}`
-                      )
+                      );
                     }}
                   >
                     {theme}

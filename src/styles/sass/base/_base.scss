@@ -41,9 +41,6 @@ label {
 /* COLORS */
 .darkblue-text {
   color: $dark-blue;
-  &:hover {
-    color: $dark-grey;
-  }
 }
 .green-grey-text {
   color: $green-grey;
@@ -79,22 +76,13 @@ label {
 .aqua-bg-opacity {
   background-color: $faded-aqua !important;
 }
-.grey-bg-opacity:hover,
-.darkblue-bg-opacity:hover,
-.aqua-bg-opacity:hover {
-  box-shadow: $medium-box-shadow;
-}
-.grey-bg-opacity:hover {
-  background-color: $green-grey !important;
-}
-.darkblue-bg-opacity:hover {
-  background-color: $dark-blue !important;
-}
-.aqua-bg-opacity:hover {
-  background-color: $aqua !important;
-}
 .white-bg {
   background-color: $white !important;
+}
+h4 {
+  &.clickable:hover {
+    color: $white;
+  }
 }
 
 /* BUTTONS */
@@ -103,6 +91,9 @@ label {
 .btn {
   background-color: transparent;
   border-color: transparent;
+}
+.box-btn:hover {
+  box-shadow: $light-box-shadow !important;
 }
 .btn {
   font-size: $font-08;
