@@ -144,7 +144,7 @@ export default function Home() {
           className='cat-btn pointer'
           onClick={() => history.push('/categories')}
         >
-          <span className='box grey-bg-opacity has-text-white is-relative'>
+          <span className='box box-btn grey-bg-opacity has-text-white is-relative'>
             <BiCategoryAlt className='position-absolute-icon' size={100} />
           </span>
 
@@ -157,7 +157,7 @@ export default function Home() {
           className='cat-btn pointer'
           onClick={() => history.push('/themes')}
         >
-          <span className='box darkblue-bg-opacity has-text-white is-relative'>
+          <span className='box box-btn darkblue-bg-opacity has-text-white is-relative'>
             <BsList className='position-absolute-icon' size={100} />
           </span>
           <h4 className='is-uppercase has-text-centered counter-value'>
@@ -169,7 +169,7 @@ export default function Home() {
           className='is-align-self-center cat-btn pointer'
           onClick={() => history.push('/auth/signin')}
         >
-          <span className='box aqua-bg-opacity has-text-white is-relative'>
+          <span className='box box-btn aqua-bg-opacity has-text-white is-relative'>
             <AiFillPlusCircle className='position-absolute-icon' size={100} />
           </span>
           <h4 className='is-uppercase has-text-centered counter-value'>
