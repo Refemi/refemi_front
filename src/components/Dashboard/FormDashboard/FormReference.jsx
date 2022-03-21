@@ -287,15 +287,6 @@ export default function FormReference({ category, reference }) {
               getReferences();
             }
           }}
-          onChange={(e) => {
-            if (
-              referencesFound.length > 0 &&
-              e.nativeEvent.target.value.length < 3
-            ) {
-              setReferencesFound([]);
-              setShowReferencesFound(false);
-            }
-          }}
         />
         {errors.reference_name && (
           <span className='error'>Veuillez renseigner ce champ</span>
