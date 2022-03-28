@@ -1,20 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
-
-import http from "../../../services/http-common";
 
 // Context
 import { DataContext } from "../../../App";
 
 /**
  * SelectReference component
- * @param {string} currentSection - current section selected
+ * @param {string} currentSection - current section selected /!\ needs to be used as number because it's an id
  * @param {function} setCurrentSection - function to set current section
  * @param {function} handleChangeForm - function to handle change form
  * @returns {JSX.Element}
  */
-export default function SelectReference({ currentSection, setCurrentSection, handleChangeForm }) {
+export default function SelectReference({
+  currentSection,
+  setCurrentSection,
+  handleChangeForm,
+}) {
   const { sections, categories } = useContext(DataContext);
+
+  const categoriesOptions = categories.filter((category) => {
+    return category.section_id === parseInt(currentSection);
+  });
 
   return (
     <form className="is-flex is-flex-direction-column is-align-items-center">
@@ -48,15 +54,11 @@ export default function SelectReference({ currentSection, setCurrentSection, han
           >
             <option value="default" disabled hidden />
 
-            {categories.map((category) =>
-              !sections.find(section => section.id === category.section_id).name === currentSection
-                ? null
-                : (
-                  <option key={category.id} value={category.id}>
-                    {category.label}
-                  </option>
-                )
-            )}
+            {categoriesOptions.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.label}
+              </option>
+            ))}
           </select>
         </fieldset>
       )}
