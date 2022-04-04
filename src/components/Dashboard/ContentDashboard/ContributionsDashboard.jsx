@@ -51,7 +51,7 @@ export default function ContributionsDashboard({ title, contributions }) {
   const history = useHistory();
 
   return (
-    <div className="margin-bottom">
+    <section className="margin-bottom">
       {sections.length > 0 && categories.length > 0 && (
         <>
           <p className="dashboard-title">{title}</p>
@@ -95,7 +95,7 @@ export default function ContributionsDashboard({ title, contributions }) {
           <hr className="m-6" />
         </>
       )}
-    </div>
+    </section>
   );
 }
 

@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 // Import Contexts
-import { DataContext } from "../../../App";
-import { DashboardContext } from "../../../views/Dashboard";
+import { DataContext } from '../../../App';
+import { DashboardContext } from '../../../views/Dashboard';
 
-import ContributionsDashboard from "./ContributionsDashboard";
-import FormReference from "../FormDashboard/FormReference";
+import ContributionsDashboard from './ContributionsDashboard';
+import FormReference from '../FormDashboard/FormReference';
 
 export const MainContext = createContext();
 
@@ -16,20 +16,20 @@ const renderDashboard = (contributions) => {
     return <p>Aucune contribution validée</p>;
   } else {
     return (
-      <div>
+      <>
         {contributions.pending.length > 0 && (
           <ContributionsDashboard
-            title="Contributions en attente"
+            title='Contributions en attente'
             contributions={contributions.pending}
           />
         )}
         {contributions.validated.length > 0 && (
           <ContributionsDashboard
-            title="Contributions validées"
+            title='Contributions validées'
             contributions={contributions.validated}
           />
         )}
-      </div>
+      </>
     );
   }
 };
@@ -48,29 +48,36 @@ export default function MainDashboard() {
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise
   return (
-    <article className="dashboard-content borders mt-6">
+    <article className='dashboard-content borders mt-6'>
       <MainContext.Provider value={{ setEditContribution }}>
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
           <>
             <button
               onClick={() => setEditContribution({})}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+              className='pointer send-btn darkblue-bg has-text-white is-align-self-flex-end'
             >
               Retour au Tableau de bord
             </button>
-            
+
             {editContribution.status && (
               <button
-                onClick={() => history.push(`/references/${editContribution.id}`)}
-                className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                onClick={() =>
+                  history.push(`/references/${editContribution.id}`)
+                }
+                className='pointer send-btn darkblue-bg has-text-white is-align-self-flex-end'
               >
                 Voir la contribution
-            </button>
+              </button>
             )}
-            <FormReference category={editContribution.category_id} reference={editContribution} />
+            <FormReference
+              category={editContribution.category_id}
+              reference={editContribution}
+            />
           </>
-        ) : renderDashboard(contributions)}
+        ) : (
+          renderDashboard(contributions)
+        )}
       </MainContext.Provider>
     </article>
   );
