@@ -23,7 +23,7 @@
     "react-paginate": "^8.1.0",
     "react-router-dom": "^5.3.0",
     "react-router-hash-link": "^2.4.3",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.0",
     "react-select": "^5.1.0",
     "sass": "^1.45.1",
     "styled-components": "^5.3.1",
@@ -35,15 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .js,.jsx . --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|json)\"",
     "sass": "node-sass src/styles/sass/main.scss src/styles/css/style.css -w"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -56,17 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^19.0.1",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.1",
-    "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.4.1"
   }
 }
