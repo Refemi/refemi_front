@@ -10,15 +10,15 @@
 
   &-btn {
     min-width: 10rem;
-    border: 1px solid white;
+    border: 1px solid $white;
     border-radius: 10px;
-    background-color: lightgray;
+    background-color: $light-grey;
     padding: 1rem;
 
     &:hover {
-      background-color: white;
-      border: 1px solid #0808a3;
-      color: #0808a3;
+      background-color: $white;
+      border: 1px solid $dark-blue;
+      color: $dark-blue;
     }
   }
 
@@ -26,9 +26,9 @@
     margin-left: 5rem;
     min-width: 3rem;
     height: 3rem;
-    border: 2px solid lightgray;
+    border: 2px solid $lightgray;
     border-radius: 10px;
-    color: darkgrey;
+    color: $dark-grey;
     font-weight: bold;
   }
 }

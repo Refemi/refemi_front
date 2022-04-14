@@ -245,7 +245,7 @@ button {
   .found-references_similar-title {
     font-size: 0.9rem; }
   .found-references_list_element:hover {
-    background-color: #fff;
+    background-color: white;
     cursor: zoom-in; }
   .found-references_list_element:hover:after {
     font-size: 0.8rem;
@@ -331,7 +331,7 @@ button {
       right: -2rem; }
     .refemi-navbar .logo-square_link {
       font-size: 3rem;
-      color: #2f3030; }
+      color: #4a4a4a; }
   .refemi-navbar .nav-center {
     margin: auto 0; }
     .refemi-navbar .nav-center .nav-toggle:hover {
@@ -586,12 +586,10 @@ button {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
     margin-bottom: 10rem; }
-  .dashboard section {
-    padding: 1rem; }
-    .dashboard section article {
-      padding-top: 1rem;
-      padding-left: 1rem;
-      background-color: #8fc5bb20; }
+  .dashboard-article {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    background-color: #8fc5bb80; }
 
 .search .search-input {
   width: 80%;
