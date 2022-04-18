@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const [dropDown, setDropDown] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [isToggled, setIsToggled] = useState(false);
+  const [toggleMenu, setToggleMenu] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
 
   const showMenu = (e) => {
@@ -25,28 +25,32 @@ const Navbar = () => {
       setIsClicked(false);
       document.removeEventListener("click", closeMenu);
     };
-    !!dropDown && document.addEventListener("click", closeMenu);
+
+    !!dropDown || !!toggleMenu  && document.addEventListener("click", closeMenu);
   }, [dropDown]);
 
   useEffect(() => {
-    const navToggle = document.querySelector(".nav-toggle");
-    const links = document.querySelector(".nav-container");
-    navToggle.addEventListener("click", () => {
-      links.classList.toggle("show-links");
-    });
-  }, [isToggled]);
+    const closeMenu = (e) => {
+      e.preventDefault();
+      setIsClicked(false);
+      document.removeEventListener("click", closeMenu);
+    };
+
+    !!toggleMenu && document.addEventListener("click", closeMenu);
+  }, [toggleMenu]);
 
   useEffect(() => {
     setDropDown(isClicked);
+    setToggleMenu(isClicked);
   }, [isClicked]);
 
   return (
-    <nav className="nav-center is-relative">
-      <button className="nav-toggle" onClick={() => setIsToggled(!isToggled)}>
+    <nav className="nav">
+      <button className={`nav-toggle ${toggleMenu && ''}`} onClick={() => setToggleMenu(!toggleMenu)}>
         <BsList size={50} />
       </button>
 
-      <ul className="nav-container">
+      <ul className={`nav-container ${toggleMenu && 'show-links'}`}>
         <li className="nav-item">
           <button
             id="dropdown"
@@ -58,7 +62,6 @@ const Navbar = () => {
           {dropDown && (
             <section
               className="dropdown-items"
-              style={{ position: "absolute" }}
             >
               <button
                 className="btn-nav pointer is-uppercase"

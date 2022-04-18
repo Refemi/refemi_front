@@ -10,10 +10,11 @@
 
   .logo {
     position: relative;
-    margin: 1em;
+    margin-top: 0.9em;
+    margin-left: 3em;
+  
     span {
       bottom: 2em;
-      right: 10px;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
@@ -36,7 +37,7 @@
     }
   }
 
-  .nav-center {
+  .nav {
     margin: auto 0;
 
     .nav-toggle:hover {
@@ -45,7 +46,9 @@
       transition: 0.5s;
     }
     .nav-toggle {
-      position: relative;
+      position: absolute;
+      top: 2em;
+      left: 1em;
       max-height: 50px;
       width: 50px;
       margin: auto;
@@ -60,27 +63,29 @@
   .nav-container {
     display: none;
     position: absolute;
-    top: 50px;
-    left: -50px;
-    border-radius: $border-radius-1;
+    top: 7em;
+    left: 0;
+    height: 100vh;
+    width: 15em;
+    padding-top: 2em;
     transition: 0.5s;
+    background-color: $white;
+    z-index: 9;
 
     &.show-links {
       display: block;
-      box-shadow: $down-box-shadow;
-    }
-
-    @include mobile {
-      position: unset;
-      top: unset;
-      left: unset;
+      box-shadow: $side-box-shadow;
     }
 
     .nav-item {
       margin: auto;
       .btn-nav {
         padding: 3vh 1vw;
-        width: 10rem;
+        width: 100%;
+
+        @include mobile {
+          width: 10em;
+        }
       }
       .btn-nav:hover,
       .dropdown-btn:hover {
@@ -90,15 +95,27 @@
       }
 
       .dropdown-items {
+        position: relative;
         display: flex;
         flex-direction: column;
-        box-shadow: $medium-box-shadow;
-        border-radius: $border-radius-1;
+        @include mobile {
+          border-radius: $border-radius-1;
+          box-shadow: $medium-box-shadow;
+          position: absolute;
+        }
       }
     }
+
     @include mobile {
       display: flex;
-    }
+      background-color: unset;
+      position: relative;
+      top: 0;
+      margin: 0;
+      padding: 0;
+      width: 30vw;
+      height: auto;
+      border-radius: $border-radius-1;    }
   }
 
   .nav-item:nth-child(1) {
