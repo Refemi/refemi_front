@@ -1,16 +1,17 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // Import Contexts
-import { DataContext } from '../../../App';
-import { DashboardContext } from '../../../views/Dashboard';
+import { DataContext } from "../../../App";
+import { DashboardContext } from "../../../views/Dashboard";
 
-import ContributionsDashboard from './ContributionsDashboard';
-import FormReference from '../FormDashboard/FormReference';
+import ContributionsDashboard from "./ContributionsDashboard";
+import FormReference from "../FormDashboard/FormReference";
 
 export const MainContext = createContext();
 
 // Rendering for a contributing member
+// TODO : refacto and take this component out of here
 const renderDashboard = (contributions) => {
   if (contributions.length === 0) {
     return <p>Aucune contribution validée</p>;
@@ -19,13 +20,13 @@ const renderDashboard = (contributions) => {
       <>
         {contributions.pending.length > 0 && (
           <ContributionsDashboard
-            title='Contributions en attente'
+            title="Contributions en attente"
             contributions={contributions.pending}
           />
         )}
         {contributions.validated.length > 0 && (
           <ContributionsDashboard
-            title='Contributions validées'
+            title="Contributions validées"
             contributions={contributions.validated}
           />
         )}
@@ -48,14 +49,14 @@ export default function MainDashboard() {
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise
   return (
-    <article className='dashboard-content borders mt-6'>
+    <article className="dashboard dashboard-content borders mt-6">
       <MainContext.Provider value={{ setEditContribution }}>
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
-          <>
+          <div>
             <button
               onClick={() => setEditContribution({})}
-              className='pointer send-btn darkblue-bg has-text-white is-align-self-flex-end'
+              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
             >
               Retour au Tableau de bord
             </button>
@@ -65,7 +66,7 @@ export default function MainDashboard() {
                 onClick={() =>
                   history.push(`/references/${editContribution.id}`)
                 }
-                className='pointer send-btn darkblue-bg has-text-white is-align-self-flex-end'
+                className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
               >
                 Voir la contribution
               </button>
@@ -74,7 +75,7 @@ export default function MainDashboard() {
               category={editContribution.category_id}
               reference={editContribution}
             />
-          </>
+          </div>
         ) : (
           renderDashboard(contributions)
         )}

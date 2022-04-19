@@ -164,28 +164,25 @@ button {
   display: flex;
   justify-content: center;
   margin: 2em; }
-  .logo-loader span {
+  .logo-loader_square {
     width: 0.5rem;
     height: 0.5rem;
     margin: 0.2rem; }
-  .logo-loader span:nth-child(1) {
+  .logo-loader_square:nth-child(1) {
     background-color: #8fc5bb;
     animation: zoom-in-out 1.8s ease 6s infinite normal;
     -moz-animation: zoom-in-out 1s ease 6s infinite normal;
     -ms-animation: zoom-in-out 1s ease 6s infinite normal; }
-  .logo-loader span:nth-child(2) {
+  .logo-loader_square:nth-child(2) {
     background-color: #0808a3;
     animation: zoom-in-out 1.8s ease 0.12s infinite normal;
     -moz-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
     -ms-animation: zoom-in-out 1.8s ease 0.12s infinite normal; }
-  .logo-loader span:nth-child(3) {
+  .logo-loader_square:nth-child(3) {
     background-color: #0be3af;
     animation: zoom-in-out 1.8s ease 0.18s infinite normal;
     -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
     -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal; }
-  .logo-loader a {
-    font-size: 3em;
-    color: #2f3030; }
 
 .counter-box {
   width: 5rem;
@@ -243,24 +240,17 @@ button {
     font-weight: bold; }
 
 .found-references {
-  margin: 1rem;
-  padding-top: 1rem;
-  padding-left: 1rem;
   background-color: lightgray;
   border-radius: 1rem; }
-  .found-references h6 {
+  .found-references_similar-title {
     font-size: 0.9rem; }
-  .found-references ul {
-    margin: 1rem; }
-    .found-references ul li {
-      padding: 0.5rem; }
-      .found-references ul li:hover {
-        background-color: #fff;
-        cursor: zoom-in; }
-      .found-references ul li:hover:after {
-        font-size: 0.8rem;
-        font-weight: bold;
-        content: " (voir la référence)"; }
+  .found-references_list_element:hover {
+    background-color: white;
+    cursor: zoom-in; }
+  .found-references_list_element:hover:after {
+    font-size: 0.8rem;
+    font-weight: bold;
+    content: " (voir la référence)"; }
 
 .reference-content {
   width: 100%;
@@ -323,25 +313,25 @@ button {
   z-index: 999; }
   .refemi-navbar .logo {
     position: relative;
-    margin: 1em; }
-    .refemi-navbar .logo span {
-      bottom: 2em;
+    margin: 1rem; }
+    .refemi-navbar .logo-square {
+      bottom: 2rem;
       right: 10px;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem; }
-    .refemi-navbar .logo span:nth-child(1) {
+    .refemi-navbar .logo-square:nth-child(1) {
       background-color: #8fc5bb;
       right: 0; }
-    .refemi-navbar .logo span:nth-child(2) {
+    .refemi-navbar .logo-square:nth-child(2) {
       background-color: #0808a3;
-      right: -1em; }
-    .refemi-navbar .logo span:nth-child(3) {
+      right: -1rem; }
+    .refemi-navbar .logo-square:nth-child(3) {
       background-color: #0be3af;
-      right: -2em; }
-    .refemi-navbar .logo a {
-      font-size: 3em;
-      color: #2f3030; }
+      right: -2rem; }
+    .refemi-navbar .logo-square_link {
+      font-size: 3rem;
+      color: #4a4a4a; }
   .refemi-navbar .nav-center {
     margin: auto 0; }
     .refemi-navbar .nav-center .nav-toggle:hover {
@@ -576,11 +566,11 @@ button {
   .dataResult .reflist-div {
     width: calc(100% / 3); } }
 
-.auth fieldset ol li {
+.auth-field-list li {
   list-style: auto;
   margin-left: 2rem; }
 
-.auth fieldset .error {
+.auth-field .error {
   padding-left: 0.5rem;
   font-size: 0.8rem;
   color: #da0027; }
@@ -596,12 +586,10 @@ button {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
     margin-bottom: 10rem; }
-  .dashboard section {
-    padding: 1rem; }
-    .dashboard section article {
-      padding-top: 1rem;
-      padding-left: 1rem;
-      background-color: #8fc5bb20; }
+  .dashboard-article {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    background-color: #8fc5bb80; }
 
 .search .search-input {
   width: 80%;

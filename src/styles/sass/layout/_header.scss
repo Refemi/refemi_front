@@ -10,29 +10,29 @@
 
   .logo {
     position: relative;
-    margin: 1em;
-    span {
-      bottom: 2em;
+    margin: 1rem;
+    &-square {
+      bottom: 2rem;
       right: 10px;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
     }
-    span:nth-child(1) {
+    &-square:nth-child(1) {
       background-color: $green-grey;
       right: 0;
     }
-    span:nth-child(2) {
+    &-square:nth-child(2) {
       background-color: $dark-blue;
-      right: -1em;
+      right: -1rem;
     }
-    span:nth-child(3) {
+    &-square:nth-child(3) {
       background-color: $aqua;
-      right: -2em;
+      right: -2rem;
     }
-    a {
-      font-size: 3em;
-      color: #2f3030;
+    &-square_link {
+      font-size: $font-30;
+      color: $dark-grey;
     }
   }
 

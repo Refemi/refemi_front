@@ -9,7 +9,7 @@ import { UserContext } from "../App";
 
 /**
  * Regex to verify mail validity
- * @param {string} email 
+ * @param {string} email
  * @return {boolean}
  */
 const isEmailValid = (email) => {
@@ -40,7 +40,7 @@ export default function Connection() {
     handleSubmit,
     watch,
     formState: { errors },
-    clearErrors
+    clearErrors,
   } = useForm();
 
   passwordInput.current = watch("password");
@@ -89,19 +89,19 @@ export default function Connection() {
         }
       })
       .then(({ accessToken, user }) => {
-        if ( accessToken === null || accessToken === undefined) {
+        if (accessToken === null || accessToken === undefined) {
           throw new Error("No token");
         }
 
         setUserCredentials(user);
         setToken(accessToken);
-        setIsLoggedIn(true)
+        setIsLoggedIn(true);
 
-        return false
+        return false;
       })
-      .catch (({ response }) => {
+      .catch(({ response }) => {
         return response.data.error;
-      })
+      });
   };
 
   // Handles the case of login
@@ -121,10 +121,10 @@ export default function Connection() {
 
     // If the return of the functions is an error or is not a Promise
     if (error !== undefined && error !== false) {
-      setError(error)
+      setError(error);
     } else {
-      setError(false)
-      clearErrors()
+      setError(false);
+      clearErrors();
       setUserCreated(true);
     }
   };
@@ -140,8 +140,8 @@ export default function Connection() {
         if (userCredentials.accessToken !== null) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
-          setUserCredentials({ name: '', mail: '', role: '' });
-          setToken(null)
+          setUserCredentials({ name: "", mail: "", role: "" });
+          setToken(null);
           setIsLoggedIn(false);
 
           history.push("/auth/signin");
@@ -173,8 +173,8 @@ export default function Connection() {
       </h2>
 
       {!!isUserCreated && (
-        <p className="has-text-success">Votre compte a bien été créé</p>)
-      }
+        <p className="has-text-success">Votre compte a bien été créé</p>
+      )}
 
       <h3>
         {sign === "signin" || isUserCreated
@@ -184,9 +184,7 @@ export default function Connection() {
           : null}
       </h3>
 
-      {error && (
-        <p className="has-text-danger">{error}</p>
-      )}
+      {error && <p className="has-text-danger">{error}</p>}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -195,12 +193,12 @@ export default function Connection() {
         {!isUserCreated && (
           <>
             {sign === "signup" && (
-              <fieldset className="is-flex is-flex-direction-column ">
+              <fieldset className="is-flex is-flex-direction-column auth-field">
                 <label>Nom</label>
                 <input
                   type="text"
                   placeholder="Francis Noname"
-                  className={`form-input ${errors.name && 'error'}`}
+                  className={`form-input ${errors.name && "error"}`}
                   {...register("name", { required: true })}
                 />
                 {errors.name && (
@@ -209,53 +207,68 @@ export default function Connection() {
               </fieldset>
             )}
 
-            <fieldset className="is-flex is-flex-direction-column ">
+            <fieldset className="is-flex is-flex-direction-column auth-field">
               <label>Courriel</label>
               <input
                 type="text"
                 placeholder="francisnoname@refemi.com"
                 name="email"
-                className={`form-input ${errors.email && 'error'}`}
-                {...register("email", { required: true, validate: isEmailValid })}
+                className={`form-input ${errors.email && "error"}`}
+                {...register("email", {
+                  required: true,
+                  validate: isEmailValid,
+                })}
               />
               {errors.email && (
                 <p className="error">Le courriel n'est pas valide</p>
               )}
             </fieldset>
 
-            <fieldset className="is-flex is-flex-direction-column ">
+            <fieldset className="is-flex is-flex-direction-column auth-field">
               <label>Mot de passe</label>
               <input
                 ref={passwordInput}
                 type="password"
                 placeholder="Mot de passe"
-                className={`form-input ${errors.password && 'error'}`}
+                className={`form-input ${errors.password && "error"}`}
                 {...register("password", { required: true })}
               />
               {errors.password && (
-                <>
-                  <p className="error">Le mot de passe n'est pas valide ; il doit comporter au moins :</p>
-                  <ol>
+                <section>
+                  <p className="error">
+                    Le mot de passe n'est pas valide ; il doit comporter au
+                    moins :
+                  </p>
+                  <ol className="auth-field-list">
                     <li className="error">Six caractères de A à z</li>
-                    <li className="error">Dont une majuscule et une minuscule</li>
+                    <li className="error">
+                      Dont une majuscule et une minuscule
+                    </li>
                     <li className="error">Un chiffre</li>
                     <li className="error">Un caractère spécial (!, %, ?, $)</li>
                   </ol>
-                </>
+                </section>
               )}
             </fieldset>
 
             {sign === "signup" && (
-              <fieldset className="is-flex is-flex-direction-column ">
+              <fieldset className="is-flex is-flex-direction-column auth-field">
                 <label>Confirmation du mot de passe</label>
                 <input
                   type="password"
                   placeholder="Confirmer le mot de passe"
                   className="form-input"
-                  {...register("confirm_password", { required: true, validate: (v) => passwordInput.current.length > 0 && v === passwordInput.current })}
+                  {...register("confirm_password", {
+                    required: true,
+                    validate: (v) =>
+                      passwordInput.current.length > 0 &&
+                      v === passwordInput.current,
+                  })}
                 />
                 {errors.confirm_password && (
-                <p className="error">Les mots de passe ne correspondent pas</p>
+                  <p className="error">
+                    Les mots de passe ne correspondent pas
+                  </p>
                 )}
               </fieldset>
             )}
@@ -263,8 +276,8 @@ export default function Connection() {
         )}
 
         <div className="columns">
-          {sign === "signup"
-            ? (<>
+          {sign === "signup" ? (
+            <>
               <button
                 className="darkblue-bg send-btn has-text-white mt-6"
                 type="button"
@@ -286,8 +299,9 @@ export default function Connection() {
                   Valider mon compte
                 </button>
               )}
-            </>)
-            : (<>
+            </>
+          ) : (
+            <>
               <button
                 className="darkblue-bg send-btn has-text-white pointer  mt-6"
                 type="submit"
@@ -299,17 +313,17 @@ export default function Connection() {
                 <button
                   className="darkblue-bg send-btn has-text-white pointer mt-6"
                   onClick={(e) => {
-                    e.preventDefault()
-                    setError(false)
-                    clearErrors()
-                    history.push("/auth/signup")
+                    e.preventDefault();
+                    setError(false);
+                    clearErrors();
+                    history.push("/auth/signup");
                   }}
                 >
                   Créer un compte
                 </button>
               )}
-            </>)
-          }
+            </>
+          )}
         </div>
       </form>
     </main>
