@@ -11,7 +11,11 @@
   .logo {
     position: relative;
     margin-top: 0.9em;
-    margin-left: 3em;
+    margin-left: 12vh;
+
+    @include mobile {
+      margin: 1em;
+    }
   
     span {
       bottom: 2em;
@@ -40,11 +44,11 @@
   .nav {
     margin: auto 0;
 
-    .nav-toggle:hover {
-      color: $dark-blue;
-      transform: rotate(90deg);
-      transition: 0.5s;
+    @include mobile {
+      display: flex;
     }
+
+    
     .nav-toggle {
       position: absolute;
       top: 2em;
@@ -54,6 +58,12 @@
       margin: auto;
       background-color: transparent;
       z-index: 99;
+      
+      &.show-toggle {
+        color: $dark-blue;
+        transform: rotate(90deg);
+        transition: 0.5s;
+      }
 
       @include mobile {
         display: none;
@@ -63,28 +73,44 @@
   .nav-container {
     display: none;
     position: absolute;
-    top: 7em;
+    top: 8em;
     left: 0;
     height: 100vh;
-    width: 15em;
+    width: 20em;
     padding-top: 2em;
     transition: 0.5s;
     background-color: $white;
     z-index: 9;
 
+    &.show-toggle {
+      display: block;
+    }
+
     &.show-links {
       display: block;
       box-shadow: $side-box-shadow;
+
+      @include mobile {
+        position: relative;
+        display: flex;
+        height: unset;
+        width: auto;
+        box-shadow: unset;
+        top: 0;
+        padding: 0;
+      }
     }
 
     .nav-item {
       margin: auto;
+
       .btn-nav {
         padding: 3vh 1vw;
         width: 100%;
 
         @include mobile {
-          width: 10em;
+          width: 12em;
+          height: 5.5em;
         }
       }
       .btn-nav:hover,
@@ -98,10 +124,13 @@
         position: relative;
         display: flex;
         flex-direction: column;
+
         @include mobile {
+          display: flex;
+          position: absolute;
+          flex-direction: column;
           border-radius: $border-radius-1;
           box-shadow: $medium-box-shadow;
-          position: absolute;
         }
       }
     }
@@ -113,9 +142,10 @@
       top: 0;
       margin: 0;
       padding: 0;
-      width: 30vw;
+      width: auto;
       height: auto;
-      border-radius: $border-radius-1;    }
+      border-radius: $border-radius-1;
+    }
   }
 
   .nav-item:nth-child(1) {

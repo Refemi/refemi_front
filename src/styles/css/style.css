@@ -324,7 +324,10 @@ button {
   .refemi-navbar .logo {
     position: relative;
     margin-top: 0.9em;
-    margin-left: 3em; }
+    margin-left: 12vh; }
+    @media (min-width: 768px) {
+      .refemi-navbar .logo {
+        margin: 1em; } }
     .refemi-navbar .logo span {
       bottom: 2em;
       position: absolute;
@@ -344,10 +347,9 @@ button {
       color: #2f3030; }
   .refemi-navbar .nav {
     margin: auto 0; }
-    .refemi-navbar .nav .nav-toggle:hover {
-      color: #0808a3;
-      transform: rotate(90deg);
-      transition: 0.5s; }
+    @media (min-width: 768px) {
+      .refemi-navbar .nav {
+        display: flex; } }
     .refemi-navbar .nav .nav-toggle {
       position: absolute;
       top: 2em;
@@ -357,23 +359,38 @@ button {
       margin: auto;
       background-color: transparent;
       z-index: 99; }
+      .refemi-navbar .nav .nav-toggle.show-toggle {
+        color: #0808a3;
+        transform: rotate(90deg);
+        transition: 0.5s; }
       @media (min-width: 768px) {
         .refemi-navbar .nav .nav-toggle {
           display: none; } }
   .refemi-navbar .nav-container {
     display: none;
     position: absolute;
-    top: 7em;
+    top: 8em;
     left: 0;
     height: 100vh;
-    width: 15em;
+    width: 20em;
     padding-top: 2em;
     transition: 0.5s;
     background-color: white;
     z-index: 9; }
+    .refemi-navbar .nav-container.show-toggle {
+      display: block; }
     .refemi-navbar .nav-container.show-links {
       display: block;
       box-shadow: 5px 15px 20px 0px rgba(0, 0, 0, 0.1); }
+      @media (min-width: 768px) {
+        .refemi-navbar .nav-container.show-links {
+          position: relative;
+          display: flex;
+          height: unset;
+          width: auto;
+          box-shadow: unset;
+          top: 0;
+          padding: 0; } }
     .refemi-navbar .nav-container .nav-item {
       margin: auto; }
       .refemi-navbar .nav-container .nav-item .btn-nav {
@@ -381,7 +398,8 @@ button {
         width: 100%; }
         @media (min-width: 768px) {
           .refemi-navbar .nav-container .nav-item .btn-nav {
-            width: 10em; } }
+            width: 12em;
+            height: 5.5em; } }
       .refemi-navbar .nav-container .nav-item .btn-nav:hover,
       .refemi-navbar .nav-container .nav-item .dropdown-btn:hover {
         color: white;
@@ -393,9 +411,11 @@ button {
         flex-direction: column; }
         @media (min-width: 768px) {
           .refemi-navbar .nav-container .nav-item .dropdown-items {
+            display: flex;
+            position: absolute;
+            flex-direction: column;
             border-radius: 1rem;
-            box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3);
-            position: absolute; } }
+            box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3); } }
     @media (min-width: 768px) {
       .refemi-navbar .nav-container {
         display: flex;
@@ -404,7 +424,7 @@ button {
         top: 0;
         margin: 0;
         padding: 0;
-        width: 30vw;
+        width: auto;
         height: auto;
         border-radius: 1rem; } }
   .refemi-navbar .nav-item:nth-child(1) .dropdown-btn:hover {
