@@ -10,43 +10,57 @@ const Navbar = () => {
   const history = useHistory();
 
   const [dropDown, setDropDown] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
 
-  const showMenu = (e) => {
-    e.preventDefault();
-    setIsClicked(true);
-  };
-
-  useEffect(() => {
+  const showDropDownMenu = () => {
     const closeMenu = (e) => {
       e.preventDefault();
-      setIsClicked(false);
+      setDropDown(false);
       document.removeEventListener("click", closeMenu);
     };
 
-    !!dropDown || !!toggleMenu  && document.addEventListener("click", closeMenu);
+    document.addEventListener("click", closeMenu)
+  }
+  const showToggleMenu = () => {
+    const closeToggle = (e) => {
+      e.preventDefault();
+      setToggleMenu(false)
+      document.removeEventListener("click", closeToggle);
+    };
+
+    document.addEventListener("click", (e) => {
+      // Do not close the panel if you click inside
+      if (!e.path.find(p => p.localName === 'header')) {
+        closeToggle(e);
+      }
+    })
+  }
+
+  const pushHistory = (location) => {
+    switch (location) {
+      // Disable dropdown when click on one of the items below
+      case 'categories':
+      case 'themes':
+        setDropDown(false)
+      default:
+        // In any case, disable the toggle if one of the elements is required
+        !!toggleMenu && setToggleMenu(false);
+        history.push(location)
+    }
+  }
+  
+  useEffect(() => {
+    !!dropDown && showDropDownMenu();
   }, [dropDown]);
-
   useEffect(() => {
-    const closeMenu = (e) => {
-      e.preventDefault();
-      setIsClicked(false);
-      document.removeEventListener("click", closeMenu);
-    };
-
-    !!toggleMenu && document.addEventListener("click", closeMenu);
+    !!toggleMenu && showToggleMenu();
   }, [toggleMenu]);
 
-  useEffect(() => {
-    setDropDown(isClicked);
-    setToggleMenu(isClicked);
-  }, [isClicked]);
 
   return (
     <nav className="nav">
-      <button className={`nav-toggle ${toggleMenu && ''}`} onClick={() => setToggleMenu(!toggleMenu)}>
+      <button className={`nav-toggle ${!!toggleMenu && 'show-toggle'}`} onClick={() => setToggleMenu(!toggleMenu)}>
         <BsList size={50} />
       </button>
 
@@ -54,7 +68,7 @@ const Navbar = () => {
         <li className="nav-item">
           <button
             id="dropdown"
-            onClick={showMenu}
+            onClick={() => setDropDown(!dropDown)}
             className="dropdown-btn btn-nav pointer is-uppercase"
           >
             Références
@@ -65,20 +79,14 @@ const Navbar = () => {
             >
               <button
                 className="btn-nav pointer is-uppercase"
-                onClick={() => {
-                  history.push("/categories");
-                  setDropDown(false);
-                }}
+                onClick={() => pushHistory('/categories')}
               >
                 Catégories
               </button>
 
               <button
                 className="btn-nav pointer is-uppercase"
-                onClick={() => {
-                  history.push("/themes");
-                  setDropDown(false);
-                }}
+                onClick={() => pushHistory('/themes')}
               >
                 Thèmes
               </button>
@@ -91,8 +99,8 @@ const Navbar = () => {
             id="connection"
             onClick={
               !isLoggedIn
-                ? () => history.push("/auth/signin")
-                : () => history.push("/dashboard")
+                ? () => pushHistory('/auth/signin')
+                : () => pushHistory('/dashboard')
             }
             className="btn-nav pointer is-uppercase"
           >
@@ -103,7 +111,7 @@ const Navbar = () => {
         <li className="nav-item">
           <button
             id="contact"
-            onClick={() => history.push("/contact")}
+            onClick={() => pushHistory('/contact') }
             className="btn-nav pointer is-uppercase"
           >
             Contact
@@ -112,7 +120,7 @@ const Navbar = () => {
         {isLoggedIn && (
           <button
             className="btn-nav pointer is-uppercase"
-            onClick={() => history.push("/auth/signout")}
+            onClick={() => pushHistory('/auth/signout')}
           >
             (Déconnexion)
           </button>
