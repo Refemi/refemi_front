@@ -1,8 +1,6 @@
 .auth {
-  fieldset {
-
-    ol {
-
+  &-field {
+    &-list {
       li {
         list-style: auto;
         margin-left: 2rem;

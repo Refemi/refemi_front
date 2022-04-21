@@ -17,27 +17,32 @@
       margin: 1em;
     }
   
-    span {
-      bottom: 2em;
+    &-square {
+      right: 10px;
+      bottom: 3em;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
+
+      @include mobile {
+        bottom: 2em;
+      }
     }
-    span:nth-child(1) {
+    &-square:nth-child(1) {
       background-color: $green-grey;
       right: 0;
     }
-    span:nth-child(2) {
+    &-square:nth-child(2) {
       background-color: $dark-blue;
-      right: -1em;
+      right: -1rem;
     }
-    span:nth-child(3) {
+    &-square:nth-child(3) {
       background-color: $aqua;
-      right: -2em;
+      right: -2rem;
     }
-    a {
-      font-size: 3em;
-      color: #2f3030;
+    &-square_link {
+      font-size: $font-30;
+      color: $dark-grey;
     }
   }
 
@@ -48,7 +53,6 @@
       display: flex;
     }
 
-    
     .nav-toggle {
       position: absolute;
       top: 2em;
@@ -88,13 +92,9 @@
       box-shadow: $side-box-shadow;
 
       @include mobile {
-        position: relative;
-        display: flex;
-        height: unset;
-        width: auto;
-        box-shadow: unset;
-        top: 0;
-        padding: 0;
+        transform: translateX(0);
+        transition: 0;
+        box-shadow: none;
       }
     }
 

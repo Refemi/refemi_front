@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function Loader() {
   return (
     <span className="logo-loader">
-      <span></span>
-      <span></span>
-      <span></span>
-      </span>
-  )
+      <span className="logo-loader_square"></span>
+      <span className="logo-loader_square"></span>
+      <span className="logo-loader_square"></span>
+    </span>
+  );
 }
