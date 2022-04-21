@@ -338,6 +338,9 @@ export default function FormReference({ category, reference }) {
           options={countries}
           className="form-input"
           defaultInputValue={reference.country ? reference.country : ""}
+          styles={{
+            menu: provided => ({ ...provided, zIndex: 2 })
+          }}
         />
       </fieldset>
       <fieldset className="is-flex is-flex-direction-column">
