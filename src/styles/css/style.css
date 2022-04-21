@@ -358,29 +358,28 @@ button {
       width: 50px;
       margin: auto;
       background-color: transparent;
-      z-index: 99; }
+      z-index: 99;
+      transition: 0.5s; }
       .refemi-navbar .nav .nav-toggle.show-toggle {
         color: #0808a3;
-        transform: rotate(90deg);
-        transition: 0.5s; }
+        transform: rotate(90deg); }
       @media (min-width: 768px) {
         .refemi-navbar .nav .nav-toggle {
           display: none; } }
   .refemi-navbar .nav-container {
-    display: none;
+    display: block;
     position: absolute;
     top: 8em;
-    left: 0;
+    left: -100%;
+    width: 100%;
     height: 100vh;
-    width: 20em;
     padding-top: 2em;
-    transition: 0.5s;
+    transition: 0.2s;
     background-color: white;
     z-index: 9; }
-    .refemi-navbar .nav-container.show-toggle {
-      display: block; }
     .refemi-navbar .nav-container.show-links {
-      display: block;
+      transform: translateX(100%);
+      transition: 0.6s;
       box-shadow: 5px 15px 20px 0px rgba(0, 0, 0, 0.1); }
       @media (min-width: 768px) {
         .refemi-navbar .nav-container.show-links {
@@ -421,7 +420,8 @@ button {
         display: flex;
         background-color: unset;
         position: relative;
-        top: 0;
+        top: unset;
+        left: unset;
         margin: 0;
         padding: 0;
         width: auto;
