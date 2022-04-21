@@ -304,13 +304,18 @@ button {
 
 .refemi-navbar {
   color: #4a4a4a;
-  position: fixed !important;
+  position: sticky !important;
   top: 0;
   width: 100%;
   height: 6rem;
   background-color: white;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+  transition: all 500ms linear;
   z-index: 999; }
+  .refemi-navbar_down {
+    color: white;
+    transform: translateY(-6rem);
+    opacity: 0; }
   .refemi-navbar .logo {
     position: relative;
     margin: 1rem; }
