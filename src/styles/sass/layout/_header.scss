@@ -174,4 +174,9 @@
       color: $white;
     }
   }
+
+  #signout:hover {
+    color: $dark-grey;
+    box-shadow: unset;
+  }
 }

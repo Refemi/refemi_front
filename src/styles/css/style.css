@@ -433,6 +433,9 @@ button {
   .refemi-navbar .nav-item:nth-child(3) .btn-nav:hover {
     background-color: #0be3af;
     color: white; }
+  .refemi-navbar #signout:hover {
+    color: #4a4a4a;
+    box-shadow: unset; }
 
 .home {
   width: 100%;

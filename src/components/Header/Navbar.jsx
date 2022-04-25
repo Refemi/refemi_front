@@ -120,6 +120,7 @@ const Navbar = () => {
         {isLoggedIn && (
           <li className="nav-item">
             <button
+              id="signout"
               className="btn-nav pointer is-uppercase"
               onClick={() => pushHistory('/auth/signout')}
             >
