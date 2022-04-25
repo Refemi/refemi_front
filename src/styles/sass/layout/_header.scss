@@ -10,11 +10,12 @@
 
   .logo {
     position: relative;
-    margin-top: 0.9em;
-    margin-left: 12vh;
+    margin: 0.9em auto 0 auto;
+    transition: 1s;
 
     @include mobile {
       margin: 1em;
+      transition: 1s;
     }
   
     &-square {

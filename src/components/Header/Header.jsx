@@ -10,7 +10,7 @@ export default function Header() {
   const history = useHistory();
 
   return (
-    <header className="refemi-navbar is-flex is-justify-content-space-around">
+    <header className="refemi-navbar is-flex is-justify-content-space-around px-6">
       <picture className="logo pointer">
         <span
           className="logo-square"

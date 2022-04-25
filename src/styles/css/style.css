@@ -313,11 +313,12 @@ button {
   z-index: 999; }
   .refemi-navbar .logo {
     position: relative;
-    margin-top: 0.9em;
-    margin-left: 12vh; }
+    margin: 0.9em auto 0 auto;
+    transition: 1s; }
     @media (min-width: 768px) {
       .refemi-navbar .logo {
-        margin: 1em; } }
+        margin: 1em;
+        transition: 1s; } }
     .refemi-navbar .logo-square {
       right: 10px;
       bottom: 3em;
