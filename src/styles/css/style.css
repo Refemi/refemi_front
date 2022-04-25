@@ -313,21 +313,21 @@ button {
   z-index: 999; }
   .refemi-navbar .logo {
     position: relative;
-    margin: 0.9em auto 0 auto;
+    margin: 0.9rem auto 0 auto;
     transition: 1s; }
     @media (min-width: 768px) {
       .refemi-navbar .logo {
-        margin: 1em;
+        margin: 1rem;
         transition: 1s; } }
     .refemi-navbar .logo-square {
       right: 10px;
-      bottom: 3em;
+      bottom: 3rem;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem; }
       @media (min-width: 768px) {
         .refemi-navbar .logo-square {
-          bottom: 2em; } }
+          bottom: 2rem; } }
     .refemi-navbar .logo-square:nth-child(1) {
       background-color: #8fc5bb;
       right: 0; }
@@ -347,8 +347,8 @@ button {
         display: flex; } }
     .refemi-navbar .nav .nav-toggle {
       position: absolute;
-      top: 2em;
-      left: 1em;
+      top: 2rem;
+      left: 1rem;
       max-height: 50px;
       width: 50px;
       margin: auto;
@@ -364,7 +364,7 @@ button {
   .refemi-navbar .nav-container {
     display: block;
     position: absolute;
-    top: 8em;
+    top: 8rem;
     left: -100%;
     width: 100%;
     height: 100vh;
@@ -388,8 +388,8 @@ button {
         width: 100%; }
         @media (min-width: 768px) {
           .refemi-navbar .nav-container .nav-item .btn-nav {
-            width: 12em;
-            height: 5.5em; } }
+            width: 12rem;
+            height: 5.5rem; } }
       .refemi-navbar .nav-container .nav-item .btn-nav:hover,
       .refemi-navbar .nav-container .nav-item .dropdown-btn:hover {
         color: white;

@@ -10,23 +10,23 @@
 
   .logo {
     position: relative;
-    margin: 0.9em auto 0 auto;
+    margin: 0.9rem auto 0 auto;
     transition: 1s;
 
     @include mobile {
-      margin: 1em;
+      margin: 1rem;
       transition: 1s;
     }
   
     &-square {
       right: 10px;
-      bottom: 3em;
+      bottom: 3rem;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
 
       @include mobile {
-        bottom: 2em;
+        bottom: 2rem;
       }
     }
     &-square:nth-child(1) {
@@ -56,8 +56,8 @@
 
     .nav-toggle {
       position: absolute;
-      top: 2em;
-      left: 1em;
+      top: 2rem;
+      left: 1rem;
       max-height: 50px;
       width: 50px;
       margin: auto;
@@ -78,7 +78,7 @@
   .nav-container {
     display: block;
     position: absolute;
-    top: 8em;
+    top: 8rem;
     left: -100%;
     width: 100%;
     height: 100vh;
@@ -107,8 +107,8 @@
         width: 100%;
 
         @include mobile {
-          width: 12em;
-          height: 5.5em;
+          width: 12rem;
+          height: 5.5rem;
         }
       }
       .btn-nav:hover,
