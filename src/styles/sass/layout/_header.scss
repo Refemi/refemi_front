@@ -81,8 +81,8 @@
     top: 8rem;
     left: -100%;
     width: 100%;
-    height: 100vh;
-    padding-top: 2em;
+    height: 50rem;
+    padding-top: 2rem;
     transition: 0.2s;
     background-color: $white;
     z-index: 9;
@@ -103,7 +103,7 @@
       margin: auto;
 
       .btn-nav {
-        padding: 3vh 1vw;
+        padding: 1.5rem;
         width: 100%;
 
         @include mobile {
