@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { VscSearch } from 'react-icons/vsc';
-import { useScrollDirection } from '../customHooks/useScrollDirection';
+import { useScrollDirection } from '../../utils/useScrollDirection';
 
 // Component
 import Navbar from './Navbar';
