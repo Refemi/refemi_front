@@ -1,18 +1,25 @@
 .refemi-navbar {
   color: $dark-grey;
-  position: fixed !important;
+  position: sticky !important;
   top: 0;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
   background-color: $white;
   box-shadow: $down-box-shadow;
+  transition: all 500ms linear;
   z-index: 999;
+
+  &_down {
+    color: $white;
+    transform: translateY(-6rem);
+    opacity: 0;
+  }
 
   .logo {
     position: relative;
     margin: 1rem;
     &-square {
-      bottom: 2rem;
+      bottom: 0;
       right: 10px;
       position: absolute;
       width: 0.5rem;

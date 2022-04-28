@@ -236,7 +236,7 @@ button {
     height: 3rem;
     border: 2px solid lightgray;
     border-radius: 10px;
-    color: darkgrey;
+    color: #4a4a4a;
     font-weight: bold; }
 
 .found-references {
@@ -304,18 +304,23 @@ button {
 
 .refemi-navbar {
   color: #4a4a4a;
-  position: fixed !important;
+  position: sticky !important;
   top: 0;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
   background-color: white;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+  transition: all 500ms linear;
   z-index: 999; }
+  .refemi-navbar_down {
+    color: white;
+    transform: translateY(-6rem);
+    opacity: 0; }
   .refemi-navbar .logo {
     position: relative;
     margin: 1rem; }
     .refemi-navbar .logo-square {
-      bottom: 2rem;
+      bottom: 0;
       right: 10px;
       position: absolute;
       width: 0.5rem;
@@ -409,26 +414,26 @@ button {
     @media (min-width: 1024px) {
       .home-text {
         margin: 1rem; } }
-    .home-text h4 {
+    .home-text_title {
       font-size: 1.2rem; }
       @media (min-width: 1024px) {
-        .home-text h4 {
+        .home-text_title {
           font-size: 1.6rem; } }
-    .home-text p {
+    .home-text_content {
       font-size: 1rem; }
       @media (min-width: 1024px) {
-        .home-text p {
+        .home-text_content {
           font-size: 1.2rem; } }
-    .home-text hr {
+    .home-text_separator {
       margin: 1rem; }
       @media (min-width: 1024px) {
-        .home-text hr {
+        .home-text_separator {
           margin: 2rem; } }
   .home .box {
     margin: auto;
     border-radius: 1rem;
     padding: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     min-width: 4.5rem;
     min-height: 4.5rem;
     max-width: 4.5rem;
