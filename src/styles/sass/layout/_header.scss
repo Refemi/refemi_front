@@ -1,12 +1,21 @@
 .refemi-navbar {
   color: $dark-grey;
-  position: fixed !important;
+  position: sticky !important;
   top: 0;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
+  padding: 0 1rem 0 2rem;
+  margin-bottom: -6rem;
   background-color: $white;
   box-shadow: $down-box-shadow;
+  transition: all 500ms linear;
   z-index: 999;
+
+  &_down {
+    color: $white;
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
 
   .logo {
     position: relative;
@@ -20,13 +29,13 @@
   
     &-square {
       right: 10px;
-      bottom: 3rem;
+      bottom: 1rem;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
 
       @include mobile {
-        bottom: 2rem;
+        bottom: 0;
       }
     }
     &-square:nth-child(1) {
@@ -78,7 +87,7 @@
   .nav-container {
     display: block;
     position: absolute;
-    top: 8rem;
+    top: 6rem;
     left: -100%;
     width: 100%;
     height: 50rem;

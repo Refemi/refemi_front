@@ -4,15 +4,15 @@ import { BsList } from "react-icons/bs";
 
 // Context
 import { UserContext } from "../../App";
+import { HeaderContext } from "./Header";
 
 // COMPONENT
 const Navbar = () => {
   const history = useHistory();
 
   const [dropDown, setDropDown] = useState(false);
-  const [toggleMenu, setToggleMenu] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
-
+  const { toggleMenu, setToggleMenu } = useContext(HeaderContext);
   const showDropDownMenu = () => {
     const closeMenu = (e) => {
       e.preventDefault();
@@ -21,20 +21,6 @@ const Navbar = () => {
     };
 
     document.addEventListener("click", closeMenu)
-  }
-  const showToggleMenu = () => {
-    const closeToggle = (e) => {
-      e.preventDefault();
-      setToggleMenu(false)
-      document.removeEventListener("click", closeToggle);
-    };
-
-    document.addEventListener("click", (e) => {
-      // Do not close the panel if you click inside
-      if (!e.path.find(p => p.localName === 'header')) {
-        closeToggle(e);
-      }
-    })
   }
 
   const pushHistory = (location) => {
@@ -53,10 +39,6 @@ const Navbar = () => {
   useEffect(() => {
     !!dropDown && showDropDownMenu();
   }, [dropDown]);
-  useEffect(() => {
-    !!toggleMenu && showToggleMenu();
-  }, [toggleMenu]);
-
 
   return (
     <nav className="nav">
