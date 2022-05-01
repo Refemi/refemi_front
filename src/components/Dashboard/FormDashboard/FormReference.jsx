@@ -29,11 +29,13 @@ const getCountries = async () => {
       }
     })
     .then((response) =>
-      response.map((countryResult) => ({
-        value: countryResult.translations.fra.common.toLowerCase(),
-        name: countryResult.translations.fra.common.toLowerCase(),
-        label: countryResult.translations.fra.common,
-      }))
+      response
+        .map((countryResult) => ({
+          value: countryResult.translations.fra.common.toLowerCase(),
+          name: countryResult.translations.fra.common.toLowerCase(),
+          label: countryResult.translations.fra.common,
+        }))
+        .sort((a, b) => a.value.localeCompare(b.value))
     );
 };
 /**
