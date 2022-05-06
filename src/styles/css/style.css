@@ -137,6 +137,10 @@ button {
   cursor: pointer; }
 
 /* GENERAL */
+.required::after {
+  content: "*";
+  color: #da0027; }
+
 .position-absolute-icon {
   position: absolute;
   transform: translateX(-50%);

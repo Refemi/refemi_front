@@ -121,6 +121,13 @@ button {
 }
 
 /* GENERAL */
+.required {
+  &::after {
+    content: "*";
+    color: $red;
+  }
+}
+
 .position-absolute-icon {
   position: absolute;
   transform: translateX(-50%);
