@@ -184,7 +184,12 @@ export default function FormReference({ category, reference }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      reference_name: reference && reference.name,
+      reference_data: reference && reference.date
+    }
+  });
 
   useEffect(() => {
     (async () => setCountries(await getCountries()))();
@@ -263,8 +268,9 @@ export default function FormReference({ category, reference }) {
       <fieldset className="is-flex is-flex-direction-column ">
         <label htmlFor="reference_name" className="required">
           Nom / Titre
-          {referencesFound.length > 0 && (
-            <div>
+        </label>
+        {referencesFound.length > 0 && (
+            <div className="toggle-found-reference">
               &nbsp;
               {showReferencesFound ? (
                 <AiOutlineUp
@@ -277,38 +283,39 @@ export default function FormReference({ category, reference }) {
                   onClick={() => setShowReferencesFound(true)}
                 />
               )}
-              &nbsp;({showReferencesFound ? "cacher" : "voir"} les références
-              similaires)
+              &nbsp;({showReferencesFound ? "cacher" : "voir"} les références similaires)
             </div>
           )}
-        </label>
 
         <input
           type="text"
           className="form-input"
-          {...register("reference_name", { required: true })}
+          {...register("reference_name", {
+            required: true,
+            onChange: (e) => {
+              if (referencesFound.length > 0 && e.nativeEvent.target.value.length < 3) {
+                setReferencesFound([]);
+                setShowReferencesFound(false);
+              }
+            },
+            onBlur: (e) => {
+              const name = e.nativeEvent.target.value;
+              if (name.length >= 3) {
+                const getReferences = async () => {
+                  setReferencesFound(await getSearchReferences(name));
+                };
+                getReferences();
+              }
+            }/* 
+              TODO: Do we need to check the date before sending it?
+            validate: (value) => {
+            }*/
+          })}
           defaultValue={reference.name ? reference.name : ""}
-          onBlur={(e) => {
-            const name = e.nativeEvent.target.value;
-            if (name.length >= 3) {
-              const getReferences = async () => {
-                setReferencesFound(await getSearchReferences(name));
-              };
-              getReferences();
-            }
-          }}
-          onChange={(e) => {
-            if (
-              referencesFound.length > 0 &&
-              e.nativeEvent.target.value.length < 3
-            ) {
-              setReferencesFound([]);
-              setShowReferencesFound(false);
-            }
-          }}
+          placeholder="Titre de la référence"
         />
         {errors.reference_name && (
-          <span className="error">Veuillez renseigner ce champ</span>
+          <span className="error">Veuillez renseigner un titre</span>
         )}
         {showReferencesFound && referencesFound.length > 0 && (
           <div className="found-references m-4 pt-4 pl-4">
@@ -349,9 +356,17 @@ export default function FormReference({ category, reference }) {
         <input
           type="text"
           className="form-input"
-          {...register("reference_date")}
+          {...register("reference_date", {
+            required: true,
+            validate: (date) => {
+              // TODO: check if the date is valid
+            }
+          })}
           defaultValue={reference.date ? reference.date : ""}
         />
+        {errors.reference_date && (
+          <span className="error">Veuillez renseigner une date</span>
+        )}
       </fieldset>
       <fieldset className="is-flex is-flex-direction-column ">
         <label htmlFor="reference-content" className="required">

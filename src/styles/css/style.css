@@ -141,6 +141,10 @@ button {
   content: "*";
   color: #da0027; }
 
+.error {
+  color: #da0027;
+  font-style: italic; }
+
 .position-absolute-icon {
   position: absolute;
   transform: translateX(-50%);
@@ -242,6 +246,10 @@ button {
     border-radius: 10px;
     color: #4a4a4a;
     font-weight: bold; }
+
+.toggle-found-reference {
+  position: absolute;
+  left: 46rem; }
 
 .found-references {
   background-color: lightgray;
