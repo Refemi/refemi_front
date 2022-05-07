@@ -128,6 +128,11 @@ button {
   }
 }
 
+.error {
+  color: $red;
+  font-style: italic;
+}
+
 .position-absolute-icon {
   position: absolute;
   transform: translateX(-50%);
