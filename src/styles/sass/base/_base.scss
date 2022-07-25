@@ -156,6 +156,10 @@ button {
   &.error {
     border-color: $red;
   }
+
+  &_countries {
+    z-index: 2;
+  }
 }
 .logo-loader {
   display: flex;

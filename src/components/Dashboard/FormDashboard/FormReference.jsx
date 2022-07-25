@@ -338,7 +338,7 @@ export default function FormReference({ category, reference }) {
         <Select
           onChange={(e) => setCountry(e.label)}
           options={countries}
-          className="form-input"
+          className="form-input_countries"
           defaultInputValue={reference.country ? reference.country : ""}
         />
       </fieldset>

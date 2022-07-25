@@ -163,6 +163,8 @@ button {
   border: lightgray 0.2px solid; }
   .form-input.error {
     border-color: #da0027; }
+  .form-input_countries {
+    z-index: 2; }
 
 .logo-loader {
   display: flex;
