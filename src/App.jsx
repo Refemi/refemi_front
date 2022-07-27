@@ -14,6 +14,7 @@ import References from "./views/References";
 import RefSheet from "./views/RefSheet";
 import Dashboard from "./views/Dashboard";
 import Search from "./views/Search";
+import LoggedOut from "./views/LoggedOut";
 
 // Components
 import Header from "./components/Header/Header";
@@ -34,7 +35,7 @@ const getSections = async () => {
     .get(`sections`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => {
-      return data.sections
+      return data.sections;
     })
     .catch((error) => {
       // TODO : display the error in a dedicated location
@@ -120,11 +121,14 @@ export default function App() {
       <Switch>
         <UserContext.Provider
           value={{
-            userCredentials, setUserCredentials,
-            token, setToken,
-            isLoggedIn, setIsLoggedIn,
+            userCredentials,
+            setUserCredentials,
+            token,
+            setToken,
+            isLoggedIn,
+            setIsLoggedIn,
           }}
-        >     
+        >
           <DataContext.Provider value={{ sections, categories, themes }}>
             <Header />
             <Route exact path="/" component={Home} />
@@ -139,7 +143,11 @@ export default function App() {
               <Redirect to="/" />
             </Route>
             <Route path="/references/:id" component={RefSheet} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route
+              exact
+              path="/dashboard"
+              component={isLoggedIn ? Dashboard : LoggedOut}
+            />
             <Route exact path="/search" component={Search} />
           </DataContext.Provider>
         </UserContext.Provider>
