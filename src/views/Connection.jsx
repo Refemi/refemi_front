@@ -191,7 +191,7 @@ export default function Connection() {
         className="borders is-flex is-flex-direction-column is-align-items-center"
       >
         {!isUserCreated && (
-          <>
+          <section classname="auth is-flex is-align-items-center">
             {sign === "signup" && (
               <fieldset className="is-flex is-flex-direction-column auth-field">
                 <label>Nom</label>
@@ -272,12 +272,12 @@ export default function Connection() {
                 )}
               </fieldset>
             )}
-          </>
+          </section>
         )}
 
         <div className="columns">
           {sign === "signup" ? (
-            <>
+            <section>
               <button
                 className="darkblue-bg send-btn has-text-white mt-6"
                 type="button"
@@ -299,9 +299,9 @@ export default function Connection() {
                   Valider mon compte
                 </button>
               )}
-            </>
+            </section>
           ) : (
-            <>
+            <section>
               <button
                 className="darkblue-bg send-btn has-text-white pointer  mt-6"
                 type="submit"
@@ -322,7 +322,7 @@ export default function Connection() {
                   Créer un compte
                 </button>
               )}
-            </>
+            </section>
           )}
         </div>
       </form>

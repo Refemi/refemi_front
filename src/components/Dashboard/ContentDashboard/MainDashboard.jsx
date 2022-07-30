@@ -17,7 +17,7 @@ const renderDashboard = (contributions) => {
     return <p>Aucune contribution validée</p>;
   } else {
     return (
-      <>
+      <section>
         {contributions.pending.length > 0 && (
           <ContributionsDashboard
             title="Contributions en attente"
@@ -30,7 +30,7 @@ const renderDashboard = (contributions) => {
             contributions={contributions.validated}
           />
         )}
-      </>
+      </section>
     );
   }
 };
