@@ -2,14 +2,12 @@
   &-box {
     width: 5rem;
     height: 5rem;
-  }
-
-  &-label {
-    margin-bottom: 1rem;
-    font-size: small;
-
+    margin: 0;
+    @include mobile {
+      margin: 1rem;
+    }
     @include tablet {
-      margin-bottom: 0;
+      margin: 2rem;
     }
   }
 
