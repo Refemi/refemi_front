@@ -10,6 +10,14 @@
     background-color: $faded-green-grey;
   }
 
+  &-counters {
+
+    @include tablet {
+      margin: 5rem;
+
+    }
+  }
+
   .counter-value {
     font-size: $font-08 !important;
   }

@@ -75,25 +75,25 @@ export default function HeaderDashboard() {
       </h2>
       <hr />
 
-      <section className="is-flex is-justify-content-space-between p-4">
-        <article className="dashboard-counter is-flex is-flex-direction-column is-align-items-center pt-4 px-4">
+      <section className="dashboard-counters is-flex is-justify-content-space-between">
+        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
           <Counter
             label="contributions validées"
             value={counters.totalApprovedContributions}
           />
-          <p className="has-text-weight-bold">VALIDÉES</p>
+          <p className="has-text-weight-bold counter-label">VALIDÉES</p>
         </article>
 
-        <article className="dashboard-counter is-flex is-flex-direction-column is-align-items-center pt-4 px-4">
+        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
           <Counter
             label="contributions en attente"
             value={counters.totalPendingContributions}
           />
-          <p className="has-text-weight-bold">EN ATTENTE</p>
+          <p className="has-text-weight-bold counter-label">EN ATTENTE</p>
         </article>
 
         {userCredentials.role === roles.ADMIN && (
-          <article className="is-flex is-flex-direction-column is-align-items-center pt-4 px-4">
+          <article className="is-flex is-flex-direction-column is-align-items-center px-4">
             <Counter label="contributeurs" value={counters.totalContributors} />
             <p className="has-text-weight-bold">CONTRIBUTEURS</p>
             <div className="is-flex is-flex-direction-column is-align-items-center">
@@ -103,11 +103,16 @@ export default function HeaderDashboard() {
           </article>
         )}
 
-        <article className="dashboard-counter box counter-box is-flex is-justify-content-center mt-4">
-          <AiFillPlusCircle
-            size={32}
-            className="pointer"
-            onClick={() => setShowNewRef(true)}
+        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
+          <Counter
+            label="addReference"
+            value={
+              <AiFillPlusCircle
+                size={32}
+                className="pointer"
+                onClick={() => setShowNewRef(true)}
+              />
+            }
           />
         </article>
       </section>
