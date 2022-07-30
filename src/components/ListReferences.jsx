@@ -26,6 +26,7 @@ export default function ListReferences({
   const [selectedPage] = useState();
   const { themes } = useContext(DataContext);
 
+  // paginate references
   const paginateReferences = () => {
     const paginated = references.slice(offset, offset + perPage);
     setCurrentReferences(paginated);
@@ -74,24 +75,30 @@ export default function ListReferences({
             </p>
             {reference.themes ? (
               <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
-                {reference.themes.map((theme) => (
-                  <h4
-                    className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
-                    key={uuidv4()}
-                    onClick={() => {
-                      clearReferences();
-                      history.push(
-                        `/themes/${theme
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .normalize("NFD")
-                          .replace(/[\u0300-\u036f]/g, "")}`
-                      );
-                    }}
-                  >
-                    {theme}
-                  </h4>
-                ))}
+                {reference.themes
+                  .reduce(
+                    (unique, item) =>
+                      unique.includes(item) ? unique : [...unique, item],
+                    []
+                  )
+                  .map((theme) => (
+                    <h4
+                      className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
+                      key={uuidv4()}
+                      onClick={() => {
+                        clearReferences();
+                        history.push(
+                          `/themes/${theme
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")}`
+                        );
+                      }}
+                    >
+                      {theme}
+                    </h4>
+                  ))}
               </span>
             ) : null}
           </article>
