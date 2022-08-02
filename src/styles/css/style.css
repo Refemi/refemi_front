@@ -264,6 +264,10 @@ button {
     font-weight: bold;
     content: " (voir la référence)"; }
 
+@-moz-document url-prefix() {
+  .select-fieldset {
+    margin-top: 8rem !important; } }
+
 .reference-content {
   width: 100%;
   margin-bottom: 20rem;

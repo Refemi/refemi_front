@@ -248,125 +248,127 @@ export default function FormReference({ category, reference }) {
       onSubmit={handleSubmit(onSubmit)}
       className="borders is-flex is-flex-direction-column is-align-items-center"
     >
-      {!!errorMessage && (
-        <div className="has-text-danger has-text-centered">
-          <h3>Impossible d'ajouter la référence :</h3>
-          <p>{errorMessage}</p>
-        </div>
-      )}
-
-      <h2 className="m-6">
-        Catégorie actuelle :{" "}
-        {currentCategory !== undefined && currentCategory.label}
-      </h2>
-
-      <fieldset className="is-flex is-flex-direction-column ">
-        <label htmlFor="reference_name" className="required">
-          Nom / Titre
-          {referencesFound.length > 0 && (
-            <div>
-              &nbsp;
-              {showReferencesFound ? (
-                <AiOutlineUp
-                  size={12}
-                  onClick={() => setShowReferencesFound(false)}
-                />
-              ) : (
-                <AiOutlineDown
-                  size={12}
-                  onClick={() => setShowReferencesFound(true)}
-                />
-              )}
-              &nbsp;({showReferencesFound ? "cacher" : "voir"} les références
-              similaires)
-            </div>
-          )}
-        </label>
-
-        <input
-          type="text"
-          className="form-input"
-          {...register("reference_name", { required: true })}
-          defaultValue={reference.name ? reference.name : ""}
-          onBlur={(e) => {
-            const name = e.nativeEvent.target.value;
-            if (name.length >= 3) {
-              const getReferences = async () => {
-                setReferencesFound(await getSearchReferences(name));
-              };
-              getReferences();
-            }
-          }}
-          onChange={(e) => {
-            if (
-              referencesFound.length > 0 &&
-              e.nativeEvent.target.value.length < 3
-            ) {
-              setReferencesFound([]);
-              setShowReferencesFound(false);
-            }
-          }}
-        />
-        {errors.reference_name && (
-          <span className="error">Veuillez renseigner ce champ</span>
-        )}
-        {showReferencesFound && referencesFound.length > 0 && (
-          <div className="found-references m-4 pt-4 pl-4">
-            <h6 className="found-references_similar-title">
-              Références similaires ({referencesFound.length}):
-            </h6>
-            <ul className="found-references_list m-4">
-              {referencesFound.map((reference) => (
-                <li
-                  key={reference.id}
-                  onClick={() => {
-                    window.open(`/references/${reference.id}`, "_blank");
-                  }}
-                  className="found-references_element p-2"
-                >
-                  {reference.name}
-                </li>
-              ))}
-            </ul>
+      <section className="is-flex is-flex-direction-column is-align-items-center">
+        {!!errorMessage && (
+          <div className="has-text-danger has-text-centered">
+            <h3>Impossible d'ajouter la référence :</h3>
+            <p>{errorMessage}</p>
           </div>
         )}
-      </fieldset>
-      <fieldset className="is-flex is-flex-direction-column">
-        <label htmlFor="reference_country_name" className="required">
-          Pays d&apos;origine
-        </label>
-        <Select
-          onChange={(e) => setCountry(e.label)}
-          options={countries}
-          className="form-input_countries"
-          defaultInputValue={reference.country ? reference.country : ""}
-        />
-      </fieldset>
-      <fieldset className="is-flex is-flex-direction-column">
-        <label htmlFor="reference_date" className="required">
-          Année
-        </label>
-        <input
-          type="text"
-          className="form-input"
-          {...register("reference_date")}
-          defaultValue={reference.date ? reference.date : ""}
-        />
-      </fieldset>
-      <fieldset className="is-flex is-flex-direction-column ">
-        <label htmlFor="reference-content" className="required">
-          Contenu
-        </label>
 
-        <Editor
-          editorState={editorState}
-          toolbarClassName=""
-          wrapperClassName=""
-          editorClassName="form-input"
-          onEditorStateChange={handleEditorChange}
-        />
-      </fieldset>
-      <fieldset className="is-flex is-flex-direction-column">
+        <h2 className="m-6">
+          Catégorie actuelle :{" "}
+          {currentCategory !== undefined && currentCategory.label}
+        </h2>
+
+        <fieldset className="is-flex is-flex-direction-column">
+          <label htmlFor="reference_name" className="required">
+            Nom / Titre
+            {referencesFound.length > 0 && (
+              <div>
+                &nbsp;
+                {showReferencesFound ? (
+                  <AiOutlineUp
+                    size={12}
+                    onClick={() => setShowReferencesFound(false)}
+                  />
+                ) : (
+                  <AiOutlineDown
+                    size={12}
+                    onClick={() => setShowReferencesFound(true)}
+                  />
+                )}
+                &nbsp;({showReferencesFound ? "cacher" : "voir"} les références
+                similaires)
+              </div>
+            )}
+          </label>
+
+          <input
+            type="text"
+            className="form-input"
+            {...register("reference_name", { required: true })}
+            defaultValue={reference.name ? reference.name : ""}
+            onBlur={(e) => {
+              const name = e.nativeEvent.target.value;
+              if (name.length >= 3) {
+                const getReferences = async () => {
+                  setReferencesFound(await getSearchReferences(name));
+                };
+                getReferences();
+              }
+            }}
+            onChange={(e) => {
+              if (
+                referencesFound.length > 0 &&
+                e.nativeEvent.target.value.length < 3
+              ) {
+                setReferencesFound([]);
+                setShowReferencesFound(false);
+              }
+            }}
+          />
+          {errors.reference_name && (
+            <span className="error">Veuillez renseigner ce champ</span>
+          )}
+          {showReferencesFound && referencesFound.length > 0 && (
+            <div className="found-references m-4 pt-4 pl-4">
+              <h6 className="found-references_similar-title">
+                Références similaires ({referencesFound.length}):
+              </h6>
+              <ul className="found-references_list m-4">
+                {referencesFound.map((reference) => (
+                  <li
+                    key={reference.id}
+                    onClick={() => {
+                      window.open(`/references/${reference.id}`, "_blank");
+                    }}
+                    className="found-references_element p-2"
+                  >
+                    {reference.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </fieldset>
+        <fieldset className="">
+          <label htmlFor="reference_country_name" className="required">
+            Pays d&apos;origine
+          </label>
+          <Select
+            onChange={(e) => setCountry(e.label)}
+            options={countries}
+            className="form-input_countries"
+            defaultInputValue={reference.country ? reference.country : ""}
+          />
+        </fieldset>
+        <fieldset className="is-flex is-flex-direction-column">
+          <label htmlFor="reference_date" className="required">
+            Année
+          </label>
+          <input
+            type="text"
+            className="form-input"
+            {...register("reference_date")}
+            defaultValue={reference.date ? reference.date : ""}
+          />
+        </fieldset>
+        <fieldset className="is-flex is-flex-direction-column ">
+          <label htmlFor="reference-content" className="required">
+            Contenu
+          </label>
+
+          <Editor
+            editorState={editorState}
+            toolbarClassName=""
+            wrapperClassName=""
+            editorClassName="form-input"
+            onEditorStateChange={handleEditorChange}
+          />
+        </fieldset>
+      </section>
+      <fieldset className="select-fieldset is-flex is-flex-direction-column">
         <label htmlFor="reference_country_name" className="required">
           Thèmes
         </label>
