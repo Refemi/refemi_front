@@ -14,8 +14,11 @@ export default function WidgetCat({ categories = [] }) {
   // TODO: Turn this into a fixed sidebar
 
   return (
-    <section className="widget borders is-flex">
-      <button className="show-btn p-3" onClick={() => setIsShown(!isShown)}>
+    <section className="widget borders is-flex mt-6">
+      <button
+        className="show-btn p-3 mt-4"
+        onClick={() => setIsShown(!isShown)}
+      >
         {isShown ? <IoIosArrowBack /> : "Voir les catégories"}
       </button>
 
