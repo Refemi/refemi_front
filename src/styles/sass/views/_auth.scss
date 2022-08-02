@@ -1,5 +1,10 @@
 .auth {
   &-field {
+    width: 300px;
+    @include tablet {
+      width: 500px;
+
+    }
     &-list {
       li {
         list-style: auto;

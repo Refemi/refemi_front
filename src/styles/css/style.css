@@ -625,14 +625,18 @@ button {
   .dataResult .reflist-div {
     width: calc(100% / 3); } }
 
-.auth-field-list li {
-  list-style: auto;
-  margin-left: 2rem; }
-
-.auth-field .error {
-  padding-left: 0.5rem;
-  font-size: 0.8rem;
-  color: #da0027; }
+.auth-field {
+  width: 300px; }
+  @media (min-width: 1024px) {
+    .auth-field {
+      width: 500px; } }
+  .auth-field-list li {
+    list-style: auto;
+    margin-left: 2rem; }
+  .auth-field .error {
+    padding-left: 0.5rem;
+    font-size: 0.8rem;
+    color: #da0027; }
 
 .dashboard {
   padding: 3rem; }
