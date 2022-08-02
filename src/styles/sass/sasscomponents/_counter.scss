@@ -1,4 +1,14 @@
 .counter {
+
+  &-double {
+    width: 50%;
+  }
+
+  &-wrapper {
+    width: 50%;
+
+  }
+
   &-box {
     width: 5rem;
     height: 5rem;

@@ -190,6 +190,12 @@ button {
     -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
     -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal; }
 
+.counter-double {
+  width: 50%; }
+
+.counter-wrapper {
+  width: 50%; }
+
 .counter-box {
   width: 5rem;
   height: 5rem; }
@@ -635,9 +641,6 @@ button {
     padding: 5vh; }
   .dashboard-header {
     background-color: #8fc5bb80; }
-  @media (min-width: 1024px) {
-    .dashboard-counters {
-      margin: 5rem; } }
   .dashboard .counter-value {
     font-size: 0.8rem !important; }
   .dashboard .form-content {
@@ -646,6 +649,8 @@ button {
     padding-top: 1rem;
     padding-left: 1rem;
     background-color: #8fc5bb80; }
+  .dashboard .add-button_wrapper {
+    width: 100%; }
 
 .search .search-input {
   width: 80%;
