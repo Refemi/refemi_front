@@ -75,47 +75,48 @@ export default function HeaderDashboard() {
       </h2>
       <hr />
 
-      <section className="dashboard-counters is-flex is-justify-content-space-between">
-        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
-          <Counter
-            label="contributions validées"
-            value={counters.totalApprovedContributions}
-          />
-          <p className="has-text-weight-bold counter-label">VALIDÉES</p>
-        </article>
+      <section className="dashboard-counters is-flex is-justify-content-center is-flex-wrap-wrap">
+        <div className="is-flex is-justify-content-space-between counter-double">
+          <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+            <Counter
+              label="contributions validées"
+              value={counters.totalApprovedContributions}
+            />
+            <p className="has-text-weight-bold counter-label">VALIDÉES</p>
+          </article>
 
-        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
-          <Counter
-            label="contributions en attente"
-            value={counters.totalPendingContributions}
-          />
-          <p className="has-text-weight-bold counter-label">EN ATTENTE</p>
-        </article>
+          <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+            <Counter
+              label="contributions en attente"
+              value={counters.totalPendingContributions}
+            />
+            <p className="has-text-weight-bold counter-label">EN ATTENTE</p>
+          </article>
+        </div>
 
         {userCredentials.role === roles.ADMIN && (
-          <article className="is-flex is-flex-direction-column is-align-items-center px-4">
-            <Counter label="contributeurs" value={counters.totalContributors} />
-            <p className="has-text-weight-bold">CONTRIBUTEURS</p>
-            <div className="is-flex is-flex-direction-column is-align-items-center">
+          <div className="is-flex is-justify-content-space-between counter-double">
+            <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+              <Counter
+                label="contributeurs"
+                value={counters.totalContributors}
+              />
+              <p className="has-text-weight-bold">CONTRIBUTEURS</p>
+            </article>
+            <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
               <Counter label="admins" value={counters.totalAdministrators} />
               <p className="has-text-weight-bold">ADMINS</p>
-            </div>
-          </article>
+            </article>
+          </div>
         )}
-
-        <article className="is-flex is-flex-direction-column is-align-items-center px-4">
-          <Counter
-            label="addReference"
-            value={
-              <AiFillPlusCircle
-                size={32}
-                className="pointer"
-                onClick={() => setShowNewRef(true)}
-              />
-            }
-          />
-        </article>
       </section>
+      <article className="is-flex is-flex-direction-column is-align-items-center px-4 add-button_wrapper pb-4">
+        <Counter
+          label="addReference"
+          onClick={() => setShowNewRef(true)}
+          value={<AiFillPlusCircle size={32} className="pointer" />}
+        />
+      </article>
     </header>
   );
 }
