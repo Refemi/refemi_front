@@ -8,7 +8,7 @@ import roles from "../utils/roles";
 import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
 import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
 import AddReference from "../components/Dashboard/FormDashboard/AddReference";
-
+import Loader from "../components/Loader";
 // Import contexts
 import { UserContext } from "../App";
 
@@ -147,16 +147,20 @@ export default function Dashboard() {
   ]);
 
   return (
-    isLoggedIn &&
-    Object.entries(contributions).length && (
-      <main className="dashboard">
-        <section className="is-flex is-justify-content-center is-flex-direction-column">
-          <DashboardContext.Provider value={{ contributions, setShowNewRef }}>
-            <HeaderDashboard />
-
-            {showNewRef ? <AddReference /> : <MainDashboard />}
-          </DashboardContext.Provider>
-        </section>
+    isLoggedIn && (
+      <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
+        {
+          Object.entries(contributions).length === 0 ? (
+            <Loader />
+          ) : (
+            <section>
+              <DashboardContext.Provider value={{ contributions, setShowNewRef }}>
+                <HeaderDashboard />
+                {showNewRef ? <AddReference /> : <MainDashboard />}
+              </DashboardContext.Provider>
+            </section>
+          )
+        }
       </main>
     )
   );

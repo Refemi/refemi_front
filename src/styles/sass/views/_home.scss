@@ -12,20 +12,20 @@
       margin: 1rem;
     }
 
-    h4 {
+    &_title {
       font-size: $font-12;
       @include tablet {
         font-size: $font-16;
       }
     }
-    p {
+    &_content {
       font-size: $font-10;
       @include tablet {
         font-size: $font-12;
       }
     }
 
-    hr {
+    &_separator {
       margin: 1rem;
       @include tablet {
         margin: 2rem;
@@ -34,9 +34,9 @@
   }
   .box {
     margin: auto;
-    border-radius: 1rem;
+    border-radius: $border-radius-1;
     padding: 0.5rem;
-    font-size: 1.5rem;
+    font-size: $font-14;
     min-width: 4.5rem;
     min-height: 4.5rem;
     max-width: 4.5rem;

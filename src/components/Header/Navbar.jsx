@@ -4,53 +4,53 @@ import { BsList } from "react-icons/bs";
 
 // Context
 import { UserContext } from "../../App";
+import { HeaderContext } from "./Header";
 
 // COMPONENT
 const Navbar = () => {
   const history = useHistory();
 
   const [dropDown, setDropDown] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  const [isToggled, setIsToggled] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
-
-  const showMenu = (e) => {
-    e.preventDefault();
-    setIsClicked(true);
-  };
-
-  useEffect(() => {
+  const { toggleMenu, setToggleMenu } = useContext(HeaderContext);
+  const showDropDownMenu = () => {
     const closeMenu = (e) => {
       e.preventDefault();
-      setIsClicked(false);
+      setDropDown(false);
       document.removeEventListener("click", closeMenu);
     };
-    !!dropDown && document.addEventListener("click", closeMenu);
+
+    document.addEventListener("click", closeMenu)
+  }
+
+  const pushHistory = (location) => {
+    switch (location) {
+      // Disable dropdown when click on one of the items below
+      case 'categories':
+      case 'themes':
+        setDropDown(false)
+      default:
+        // In any case, disable the toggle if one of the elements is required
+        !!toggleMenu && setToggleMenu(false);
+        history.push(location)
+    }
+  }
+  
+  useEffect(() => {
+    !!dropDown && showDropDownMenu();
   }, [dropDown]);
 
-  useEffect(() => {
-    const navToggle = document.querySelector(".nav-toggle");
-    const links = document.querySelector(".nav-container");
-    navToggle.addEventListener("click", () => {
-      links.classList.toggle("show-links");
-    });
-  }, [isToggled]);
-
-  useEffect(() => {
-    setDropDown(isClicked);
-  }, [isClicked]);
-
   return (
-    <nav className="nav-center is-relative">
-      <button className="nav-toggle" onClick={() => setIsToggled(!isToggled)}>
+    <nav className="nav">
+      <button className={`nav-toggle ${!!toggleMenu && 'show-toggle'}`} onClick={() => setToggleMenu(!toggleMenu)}>
         <BsList size={50} />
       </button>
 
-      <ul className="nav-container">
+      <ul className={`nav-container ${toggleMenu && 'show-links'}`}>
         <li className="nav-item">
           <button
             id="dropdown"
-            onClick={showMenu}
+            onClick={() => setDropDown(!dropDown)}
             className="dropdown-btn btn-nav pointer is-uppercase"
           >
             Références
@@ -58,24 +58,17 @@ const Navbar = () => {
           {dropDown && (
             <section
               className="dropdown-items"
-              style={{ position: "absolute" }}
             >
               <button
                 className="btn-nav pointer is-uppercase"
-                onClick={() => {
-                  history.push("/categories");
-                  setDropDown(false);
-                }}
+                onClick={() => pushHistory('/categories')}
               >
                 Catégories
               </button>
 
               <button
                 className="btn-nav pointer is-uppercase"
-                onClick={() => {
-                  history.push("/themes");
-                  setDropDown(false);
-                }}
+                onClick={() => pushHistory('/themes')}
               >
                 Thèmes
               </button>
@@ -88,8 +81,8 @@ const Navbar = () => {
             id="connection"
             onClick={
               !isLoggedIn
-                ? () => history.push("/auth/signin")
-                : () => history.push("/dashboard")
+                ? () => pushHistory('/auth/signin')
+                : () => pushHistory('/dashboard')
             }
             className="btn-nav pointer is-uppercase"
           >
@@ -100,19 +93,22 @@ const Navbar = () => {
         <li className="nav-item">
           <button
             id="contact"
-            onClick={() => history.push("/contact")}
+            onClick={() => pushHistory('/contact') }
             className="btn-nav pointer is-uppercase"
           >
             Contact
           </button>
         </li>
         {isLoggedIn && (
-          <button
-            className="btn-nav pointer is-uppercase"
-            onClick={() => history.push("/auth/signout")}
-          >
-            (Déconnexion)
-          </button>
+          <li className="nav-item">
+            <button
+              id="signout"
+              className="btn-nav pointer is-uppercase"
+              onClick={() => pushHistory('/auth/signout')}
+            >
+              (Déconnexion)
+            </button>
+          </li>
         )}
       </ul>
     </nav>

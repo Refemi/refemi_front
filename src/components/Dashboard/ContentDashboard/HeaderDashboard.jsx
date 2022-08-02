@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // Import Contexts
-import { UserContext } from '../../../App';
-import { DashboardContext } from '../../../views/Dashboard';
+import { UserContext } from "../../../App";
+import { DashboardContext } from "../../../views/Dashboard";
 
 // Import roles utils — REST-API utils
-import http from '../../../services/http-common';
-import roles from '../../../utils/roles';
+import http from "../../../services/http-common";
+import roles from "../../../utils/roles";
 
 //Import icons
-import { AiFillPlusCircle } from 'react-icons/ai';
+import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import components
-import Counter from '../../Counter';
+import Counter from "../../Counter";
 
 /**
  * Retrieve counters for administrators
@@ -22,7 +22,7 @@ import Counter from '../../Counter';
  */
 const getAdminCounter = async (token) =>
   await http(token)
-    .get('/counters/dashboard/admin/')
+    .get("/counters/dashboard/admin/")
     .then((response) => {
       if (response.status === 200) {
         return response.data;
@@ -36,7 +36,7 @@ const getAdminCounter = async (token) =>
  */
 const getUserCounter = async (token) =>
   await http(token)
-    .get('/counters/dashboard/contributor')
+    .get("/counters/dashboard/contributor")
     .then((response) => {
       if (response.status === 200) {
         return response.data;
@@ -63,59 +63,60 @@ export default function HeaderDashboard() {
   }, [userCredentials, token]);
 
   return (
-    <header className='dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders'>
-      <p className='pl-6 pt-6'>
+    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
+      <p className="pl-6 pt-6">
         Bienvenue, {userCredentials.name}&nbsp;
-        <span className='pointer' onClick={() => history.push('/auth/signout')}>
+        <span className="pointer" onClick={() => history.push("/auth/signout")}>
           (Déconnexion)
         </span>
       </p>
-      <h2 className='has-text-centered is-uppercase has-text-weight-bold'>
+      <h2 className="has-text-centered is-uppercase has-text-weight-bold">
         Tableau des contributions
       </h2>
       <hr />
 
-      <section className='is-flex is-justify-content-space-between px-6 pb-6'>
-        <article className='is-flex is-flex-direction-column is-align-items-center'>
-          <Counter
-            label='contributions validées'
-            value={counters.totalApprovedContributions}
-          />
-          <p className='has-text-weight-bold'>VALIDÉES</p>
-        </article>
+      <section className="dashboard-counters is-flex is-justify-content-center is-flex-wrap-wrap">
+        <div className="is-flex is-justify-content-space-between counter-double">
+          <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+            <Counter
+              label="contributions validées"
+              value={counters.totalApprovedContributions}
+            />
+            <p className="has-text-weight-bold counter-label">VALIDÉES</p>
+          </article>
 
-        <article className='is-flex is-flex-direction-column is-align-items-center'>
-          <Counter
-            label='contributions en attente'
-            value={counters.totalPendingContributions}
-          />
-          <p className='has-text-weight-bold'>EN ATTENTE</p>
-        </article>
+          <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+            <Counter
+              label="contributions en attente"
+              value={counters.totalPendingContributions}
+            />
+            <p className="has-text-weight-bold counter-label">EN ATTENTE</p>
+          </article>
+        </div>
 
         {userCredentials.role === roles.ADMIN && (
-          <>
-            <div className='is-flex is-flex-direction-column is-align-items-center'>
+          <div className="is-flex is-justify-content-space-between counter-double">
+            <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
               <Counter
-                label='contributeurs'
+                label="contributeurs"
                 value={counters.totalContributors}
               />
-              <p className='has-text-weight-bold'>CONTRIBUTEURS</p>
-            </div>
-            <div className='is-flex is-flex-direction-column is-align-items-center'>
-              <Counter label='admins' value={counters.totalAdministrators} />
-              <p className='has-text-weight-bold'>ADMINS</p>
-            </div>
-          </>
+              <p className="has-text-weight-bold">CONTRIBUTEURS</p>
+            </article>
+            <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
+              <Counter label="admins" value={counters.totalAdministrators} />
+              <p className="has-text-weight-bold">ADMINS</p>
+            </article>
+          </div>
         )}
-
-        <article className='box counter-box is-flex is-justify-content-center'>
-          <AiFillPlusCircle
-            size={32}
-            className='pointer'
-            onClick={() => setShowNewRef(true)}
-          />
-        </article>
       </section>
+      <article className="is-flex is-flex-direction-column is-align-items-center px-4 add-button_wrapper pb-4">
+        <Counter
+          label="addReference"
+          onClick={() => setShowNewRef(true)}
+          value={<AiFillPlusCircle size={32} className="pointer" />}
+        />
+      </article>
     </header>
   );
 }

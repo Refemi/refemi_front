@@ -1,56 +1,83 @@
 .refemi-navbar {
   color: $dark-grey;
-  position: fixed !important;
+  position: sticky !important;
   top: 0;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
+  padding: 0 1rem 0 2rem;
+  margin-bottom: -6rem;
   background-color: $white;
   box-shadow: $down-box-shadow;
+  transition: all 500ms linear;
   z-index: 999;
+
+  &_down {
+    color: $white;
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
 
   .logo {
     position: relative;
-    margin: 1em;
-    span {
-      bottom: 2em;
+    margin: 0.9rem auto 0 auto;
+    transition: 1s;
+
+    @include mobile {
+      margin: 1rem;
+      transition: 1s;
+    }
+  
+    &-square {
       right: 10px;
+      bottom: 1rem;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
+
+      @include mobile {
+        bottom: 0;
+      }
     }
-    span:nth-child(1) {
+    &-square:nth-child(1) {
       background-color: $green-grey;
       right: 0;
     }
-    span:nth-child(2) {
+    &-square:nth-child(2) {
       background-color: $dark-blue;
-      right: -1em;
+      right: -1rem;
     }
-    span:nth-child(3) {
+    &-square:nth-child(3) {
       background-color: $aqua;
-      right: -2em;
+      right: -2rem;
     }
-    a {
-      font-size: 3em;
-      color: #2f3030;
+    &-square_link {
+      font-size: $font-30;
+      color: $dark-grey;
     }
   }
 
-  .nav-center {
+  .nav {
     margin: auto 0;
 
-    .nav-toggle:hover {
-      color: $dark-blue;
-      transform: rotate(90deg);
-      transition: 0.5s;
+    @include mobile {
+      display: flex;
     }
+
     .nav-toggle {
-      position: relative;
+      position: absolute;
+      top: 2rem;
+      left: 1rem;
       max-height: 50px;
       width: 50px;
       margin: auto;
       background-color: transparent;
       z-index: 99;
+      transition: 0.5s;
+      
+      &.show-toggle {
+        color: $dark-blue;
+        transform: rotate(90deg);
+      }
 
       @include mobile {
         display: none;
@@ -58,29 +85,40 @@
     }
   }
   .nav-container {
-    display: none;
+    display: block;
     position: absolute;
-    top: 50px;
-    left: -50px;
-    border-radius: $border-radius-1;
-    transition: 0.5s;
+    top: 6rem;
+    left: -100%;
+    width: 100%;
+    height: 50rem;
+    padding-top: 2rem;
+    transition: 0.2s;
+    background-color: $white;
+    z-index: 9;
 
     &.show-links {
-      display: block;
-      box-shadow: $down-box-shadow;
-    }
+      transform: translateX(100%);
+      transition: 0.6s;
+      box-shadow: $side-box-shadow;
 
-    @include mobile {
-      position: unset;
-      top: unset;
-      left: unset;
+      @include mobile {
+        transform: translateX(0);
+        transition: 0;
+        box-shadow: none;
+      }
     }
 
     .nav-item {
       margin: auto;
+
       .btn-nav {
-        padding: 3vh 1vw;
-        width: 10rem;
+        padding: 1.5rem;
+        width: 100%;
+
+        @include mobile {
+          width: 12rem;
+          height: 5.5rem;
+        }
       }
       .btn-nav:hover,
       .dropdown-btn:hover {
@@ -90,14 +128,31 @@
       }
 
       .dropdown-items {
+        position: relative;
         display: flex;
         flex-direction: column;
-        box-shadow: $medium-box-shadow;
-        border-radius: $border-radius-1;
+
+        @include mobile {
+          display: flex;
+          position: absolute;
+          flex-direction: column;
+          border-radius: $border-radius-1;
+          box-shadow: $medium-box-shadow;
+        }
       }
     }
+
     @include mobile {
       display: flex;
+      background-color: unset;
+      position: relative;
+      top: unset;
+      left: unset;
+      margin: 0;
+      padding: 0;
+      width: auto;
+      height: auto;
+      border-radius: $border-radius-1;
     }
   }
 
@@ -127,5 +182,10 @@
       background-color: $aqua;
       color: $white;
     }
+  }
+
+  #signout:hover {
+    color: $dark-grey;
+    box-shadow: unset;
   }
 }

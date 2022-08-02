@@ -18,15 +18,14 @@
     margin-bottom: 10rem;
   }
 
-  section {
-    padding: 1rem;
-
-    article {
-      padding-top: 1rem;
-      padding-left: 1rem;
-      background-color: #8fc5bb20;
-    }
+  &-article {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    background-color: $faded-green-grey;
   }
 
+  .add-button_wrapper {
+      width: 100%;
+    }
   
 }
