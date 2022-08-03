@@ -111,11 +111,13 @@ export default function HeaderDashboard() {
         )}
       </section>
       <article className="is-flex is-flex-direction-column is-align-items-center px-4 add-button_wrapper pb-4">
-        <Counter
-          label="addReference"
-          onClick={() => setShowNewRef(true)}
-          value={<AiFillPlusCircle size={32} className="pointer" />}
-        />
+        <button className="add-button_btn">
+          <AiFillPlusCircle
+            size={32}
+            className="pointer add-button_icon"
+            onClick={() => setShowNewRef(true)}
+          />
+        </button>
       </article>
     </header>
   );
