@@ -6,7 +6,7 @@ export default function LoggedOut() {
 
   let handleClick = (e) => {
     e.preventDefault();
-    history.push("/auth/signup");
+    history.push("/auth/signin");
   };
 
   return (
