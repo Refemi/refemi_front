@@ -20,3 +20,12 @@
     }
   }
 }
+
+// this is needed for firefox, otherwise, the Select component from react-select library goes mysteriously inside the form fieldset of the other library.
+@-moz-document url-prefix() {
+  .select {
+    &-fieldset {
+      margin-top: 8rem !important;
+    }
+  }
+}
