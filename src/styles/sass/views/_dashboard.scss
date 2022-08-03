@@ -24,8 +24,23 @@
     background-color: $faded-green-grey;
   }
 
-  .add-button_wrapper {
+  .add-button {
+    &_wrapper {
       width: 100%;
+      position: relative;
     }
-  
+
+    &_btn {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 99px;
+      position: absolute;
+      transition: 1s;
+      transform: rotate(-90deg);
+    }
+    &_btn:hover {
+      transition: 1s;
+      transform: rotate(90deg);
+    }
+  }
 }
