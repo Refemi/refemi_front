@@ -45,11 +45,20 @@ export default function MainDashboard() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log(contributions);
   }, []);
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise
   return (
     <article className="dashboard dashboard-content borders mt-6">
+      {contributions.pending.length == 0 &&
+        contributions.validated.length == 0 && (
+          <p>
+            Vous n'avez pas encore contribué. Envoyez-nous votre première
+            suggestion de référence féministe en cliquant sur le bouton + !
+          </p>
+        )}
+
       <MainContext.Provider value={{ setEditContribution }}>
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
