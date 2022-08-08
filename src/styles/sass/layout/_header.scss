@@ -3,13 +3,17 @@
   position: sticky !important;
   top: 0;
   width: 100%;
-  height: 6rem;
+  height: 5rem;
   padding: 0 1rem 0 2rem;
-  margin-bottom: -6rem;
+  margin-bottom: -10rem;
   background-color: $white;
   box-shadow: $down-box-shadow;
   transition: all 500ms linear;
   z-index: 999;
+
+  @include tablet {
+    margin-bottom: -6rem;
+  }
 
   &_down {
     color: $white;
@@ -19,24 +23,20 @@
 
   .logo {
     position: relative;
-    margin: 0.9rem auto 0 auto;
+    margin: 0 auto;
     transition: 1s;
 
     @include mobile {
-      margin: 1rem;
+      margin: 0.5rem 1rem 0 0;
       transition: 1s;
     }
   
     &-square {
       right: 10px;
-      bottom: 1rem;
+      bottom: 1.2rem;
       position: absolute;
       width: 0.5rem;
       height: 0.5rem;
-
-      @include mobile {
-        bottom: 0;
-      }
     }
     &-square:nth-child(1) {
       background-color: $green-grey;
@@ -51,8 +51,12 @@
       right: -2rem;
     }
     &-square_link {
-      font-size: $font-30;
+      font-size: $font-24;
       color: $dark-grey;
+
+      @include mobile {
+        margin-left: -1rem;
+      }
     }
   }
 
@@ -65,7 +69,7 @@
 
     .nav-toggle {
       position: absolute;
-      top: 2rem;
+      top: 0.8rem;
       left: 1rem;
       max-height: 50px;
       width: 50px;
@@ -87,7 +91,6 @@
   .nav-container {
     display: block;
     position: absolute;
-    top: 6rem;
     left: -100%;
     width: 100%;
     height: 50rem;
@@ -95,6 +98,7 @@
     transition: 0.2s;
     background-color: $white;
     z-index: 9;
+    top: 5rem;
 
     &.show-links {
       transform: translateX(100%);
@@ -105,6 +109,7 @@
         transform: translateX(0);
         transition: 0;
         box-shadow: none;
+
       }
     }
 
@@ -114,11 +119,6 @@
       .btn-nav {
         padding: 1.5rem;
         width: 100%;
-
-        @include mobile {
-          width: 12rem;
-          height: 5.5rem;
-        }
       }
       .btn-nav:hover,
       .dropdown-btn:hover {
