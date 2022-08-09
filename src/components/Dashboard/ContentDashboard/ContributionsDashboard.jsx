@@ -7,7 +7,10 @@ import { DataContext, UserContext } from "../../../App";
 import { MainContext } from "./MainDashboard";
 
 // Import icons
-import { AiOutlineFundProjectionScreen, AiFillCloseCircle } from "react-icons/ai";
+import {
+  AiOutlineFundProjectionScreen,
+  AiFillCloseCircle,
+} from "react-icons/ai";
 import {
   GiInjustice,
   GiPaintBrush,
@@ -27,7 +30,7 @@ import roles from "../../../utils/roles";
 const setIcon = (sectionName) => {
   switch (sectionName) {
     case "audiovisuel":
-      return <AiOutlineFundProjectionScreen size={24} className="mr-3"/>;
+      return <AiOutlineFundProjectionScreen size={24} className="mr-3" />;
     case "juridique-militantisme":
       return <GiInjustice size={24} />;
     case "art-jeunesse":
@@ -43,7 +46,6 @@ const setIcon = (sectionName) => {
   }
 };
 
-
 export default function ContributionsDashboard({ title, contributions }) {
   const { userCredentials } = useContext(UserContext);
   const { sections, categories } = useContext(DataContext);
@@ -53,47 +55,56 @@ export default function ContributionsDashboard({ title, contributions }) {
   return (
     <section className="margin-bottom">
       {sections.length > 0 && categories.length > 0 && (
-        <>
+        <article>
           <p className="dashboard-title">{title}</p>
-          {contributions && contributions
-            .sort((a, b) => {
-              if (a.status) {
-                return a.category - b.category
-              } else {
-                return a.contributor - b.user_name;
-              }
-            })            
-            .map((contribution) => (
-              <article
-                key={contribution.id}
-                id={contribution.id}
-                className="description-center-reference borders is-flex is-justify-content-space-between line m-3 p-3"
-                onClick={() => {
-                  if (contribution.status) {
-                    if (userCredentials.role !== roles.ADMIN) {
-                      history.push(`/references/${contribution.id}`);
+          {contributions &&
+            contributions
+              .sort((a, b) => {
+                if (a.status) {
+                  return a.category - b.category;
+                } else {
+                  return a.contributor - b.user_name;
+                }
+              })
+              .map((contribution) => (
+                <article
+                  key={contribution.id}
+                  id={contribution.id}
+                  className="description-center-reference borders is-flex is-justify-content-space-between line m-3 p-3"
+                  onClick={() => {
+                    if (contribution.status) {
+                      if (userCredentials.role !== roles.ADMIN) {
+                        history.push(`/references/${contribution.id}`);
+                      } else {
+                        setEditContribution(contribution);
+                      }
                     } else {
                       setEditContribution(contribution);
                     }
-                  } else {
-                    setEditContribution(contribution);
-                  }
-                }}
-              >
-                <p className="reflist-div is-inline-flex">
-                  { // Retrieving the name of the section of the category
-                    sections.length > 0 && categories && setIcon(sections.filter((section) =>
-                      categories.find((category) => contribution.category_id === category.id).section_id === section.id
-                    )[0].name)
-                  }
-                </p>
-                <p className="reflist-div">{contribution.name}</p>
-                <p className="reflist-div">{contribution.user_name}</p>
-                
-              </article>
-            ))}
+                  }}
+                >
+                  <p className="reflist-div is-inline-flex">
+                    {
+                      // Retrieving the name of the section of the category
+                      sections.length > 0 &&
+                        categories &&
+                        setIcon(
+                          sections.filter(
+                            (section) =>
+                              categories.find(
+                                (category) =>
+                                  contribution.category_id === category.id
+                              ).section_id === section.id
+                          )[0].name
+                        )
+                    }
+                  </p>
+                  <p className="reflist-div">{contribution.name}</p>
+                  <p className="reflist-div">{contribution.user_name}</p>
+                </article>
+              ))}
           <hr className="m-6" />
-        </>
+        </article>
       )}
     </section>
   );
@@ -101,5 +112,5 @@ export default function ContributionsDashboard({ title, contributions }) {
 
 ContributionsDashboard.propTypes = {
   title: PropTypes.string.isRequired,
-  contributions: PropTypes.array.isRequired
+  contributions: PropTypes.array.isRequired,
 };
