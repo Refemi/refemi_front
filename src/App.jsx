@@ -23,6 +23,8 @@ import Footer from "./components/Footer/Footer";
 // CSS
 import "./styles/css/style.css";
 import "bulma/css/bulma.min.css";
+import AddReference from "./components/Dashboard/FormDashboard/AddReference";
+import FormReference from "./components/Dashboard/FormDashboard/FormReference";
 
 // Contexts
 export const UserContext = createContext();
@@ -149,6 +151,8 @@ export default function App() {
               component={isLoggedIn ? Dashboard : LoggedOut}
             />
             <Route exact path="/search" component={Search} />
+            <Route exact path="/addReference" component={AddReference} />
+            <Route exact path="/addReference/formReference" component={FormReference} />
           </DataContext.Provider>
         </UserContext.Provider>
       </Switch>

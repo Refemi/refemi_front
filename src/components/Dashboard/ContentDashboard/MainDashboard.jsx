@@ -45,7 +45,7 @@ export default function MainDashboard() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(contributions);
+    // console.log(contributions);
   }, []);
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise
