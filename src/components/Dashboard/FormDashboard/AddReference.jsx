@@ -12,7 +12,6 @@ export const FormContext = createContext()
  * @returns {JSX.Element}
  */
 export default function AddReference() {
-  // const { setShowNewRef } = useContext(DashboardContext);
   const [currentForm, setCurrentForm] = useState("");
   const [currentSection, setCurrentSection] = useState("");
     const history = useHistory();
@@ -40,13 +39,13 @@ export default function AddReference() {
                   setCurrentSection={setCurrentSection}
                   handleChangeForm={handleChange}
                 />
-              {!currentForm 
-                  ?(""):(<button
+              {currentForm &&
+                  <button
                         className="pointer send-btn darkblue-bg has-text-white"
                           onClick={() => history.push("/addReference/formReference")}
                         >
-                          Retour aux rubriques
-                  </button>)
+                        Valider
+                  </button>
               }
 
         </section>

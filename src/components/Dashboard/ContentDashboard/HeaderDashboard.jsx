@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 
 // Import Contexts
 import { UserContext } from "../../../App";
-// import { DashboardContext } from "../../../views/Dashboard";
 
 // Import roles utils — REST-API utils
 import http from "../../../services/http-common";
@@ -51,7 +50,6 @@ const getUserCounter = async (token) =>
 export default function HeaderDashboard() {
   const history = useHistory();
   const { userCredentials, token } = useContext(UserContext);
-  // const { setShowNewRef } = useContext(DashboardContext);
   const [counters, setCounters] = useState({});
 
   useEffect(() => {

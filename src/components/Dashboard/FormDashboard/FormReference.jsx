@@ -385,18 +385,7 @@ export default function FormReference({reference }) {
             className="basic-multi-select"
             classNamePrefix="select"
           />
-        </fieldset>
-        {/*       <fieldset className="is-flex is-flex-direction-column">
-          <label htmlFor="reference-image">Image</label>
-          <input
-            type="file"
-            className="form-input"
-            name="reference-image"
-            id="reference-image"
-            accept="image/png, image/jpeg"
-          />
-        </fieldset> */}
-
+        </fieldset>      
         <input
           type="submit"
           value={
