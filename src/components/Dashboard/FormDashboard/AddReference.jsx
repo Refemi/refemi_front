@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // Import components
-import FormReference from "./FormReference";
 import SelectReference from "./SelectReference";
-
-// Import contexts
-import { DashboardContext } from "../../../views/Dashboard";
+import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
 
 // Create contexts
 export const FormContext = createContext()
@@ -15,53 +13,42 @@ export const FormContext = createContext()
  */
 export default function AddReference() {
   const [currentForm, setCurrentForm] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [currentSection, setCurrentSection] = useState("");
-  const { setShowNewRef } = useContext(DashboardContext);
+    const history = useHistory();
 
   const handleChange = (e) => setCurrentForm(parseInt(e.nativeEvent.target.value));
 
-  // Show needed form
-  useEffect(() => {
-    currentForm !== "" ? setShowForm(true) : setShowForm(false);
-  }, [currentForm]);
-
-  useEffect(() => {
-    !showForm && setCurrentForm("");
-  }, [showForm, setCurrentForm]);
-
+      // sessionStorage used to sotre SelectReference
+     sessionStorage.setItem("SelectReference", JSON.stringify(currentForm));
 
   return (
-    <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
-      <button
-        className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-        onClick={() => setShowNewRef()}
-      >
-        Retour à mes contributions
-      </button>
+      <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
+          <HeaderDashboard />
+          <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
+              <button
+                className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                onClick={() => history.goBack()}
+              >
+                Retour à mes contributions
+              </button>
 
-      <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
+              <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
 
-      {showForm
-        ? (
-          <article className="is-flex is-flex-direction-column form-content">
-            <button
-              onClick={() => setShowForm(false)}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-            >
-              Retour aux rubriques
-            </button>
-            <FormReference category={currentForm} categories={categories.filter(category => category.section_id === currentSection)} />
-          </article>
-        ) : (
-          <SelectReference
-            currentSection={currentSection}
-            setCurrentSection={setCurrentSection}
-            handleChangeForm={handleChange}
-          />
-        )
-      }
-    </section>
+              <SelectReference
+                  currentSection={currentSection}
+                  setCurrentSection={setCurrentSection}
+                  handleChangeForm={handleChange}
+                />
+              {currentForm &&
+                  <button
+                        className="pointer send-btn darkblue-bg has-text-white"
+                          onClick={() => history.push("/addReference/formReference")}
+                        >
+                        Valider
+                  </button>
+              }
+
+        </section>
+    </main>
   );
 }
