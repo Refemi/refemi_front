@@ -4,13 +4,7 @@ import PropTypes from "prop-types";
 // Context
 import { DataContext } from "../../../App";
 
-/**
- * SelectReference component
- * @param {string} currentSection - current section selected /!\ needs to be used as number because it's an id
- * @param {function} setCurrentSection - function to set current section
- * @param {function} handleChangeForm - function to handle change form
- * @returns {JSX.Element}
- */
+// SelectReference component
 export default function SelectReference({
   currentSection,
   setCurrentSection,

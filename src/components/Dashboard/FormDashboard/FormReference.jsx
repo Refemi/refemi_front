@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 import PropTypes from "prop-types";
-
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState, convertFromHTML } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -18,7 +18,9 @@ import http from "../../../services/http-common";
 
 // Context
 import { DataContext, UserContext } from "../../../App";
+// components
 import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
+import FormSent from "../../../views/FormSent";
 
 // Get countries list from external API
 const getCountries = async () => {
@@ -39,12 +41,9 @@ const getCountries = async () => {
         .sort((a, b) => a.value.localeCompare(b.value))
     );
 };
-/**
- * Reuse of the search function of the SearchResult component to find similar references
- * @param {string} name
- * @return {promise<Array>} Returns an array of references
- * */
-const getSearchReferences = async (name) => {
+
+// Reuse of the search function of the SearchResult component to find similar references
+/* const getSearchReferences = async (name) => {
   return await http()
     .get(`search/${name}`)
     .then((result) => {
@@ -61,17 +60,9 @@ const getSearchReferences = async (name) => {
     .catch((_) => {
       return [];
     });
-};
-/**
- * Requests to the API to send a contribution
- * @param {string} contribution.reference_id
- * @param {string} contribution.reference_name
- * @param {string} contribution.reference_date
- * @param {string} contribution.reference_country_name
- * @param {string} contribution.reference_content
- * @param {string} contribution.reference_status
- * @returns {promise<boolean>} Returns false (> 0 error), else true
- */
+}; */
+
+// Requests to the API to send a contribution
 const postContribution = async (contribution, token) => {
   return await http(token)
     .post("references", contribution)
@@ -82,16 +73,8 @@ const postContribution = async (contribution, token) => {
     })
     .catch((error) => error.response.data.error);
 };
-/**
- * Requests to the API to update a contribution
- * @param {string} contribution.reference_id
- * @param {string} contribution.reference_name
- * @param {string} contribution.reference_date
- * @param {string} contribution.reference_country_name
- * @param {string} contribution.reference_content
- * @param {string} contribution.reference_status
- * @returns {promise<boolean>} Returns false (> 0 error), else true
- */
+
+// Requests to the API to update a contribution
 const putContribution = async (contribution, token) => {
   if (Object.keys(contribution).length > 0) {
     return await http(token)
@@ -112,13 +95,8 @@ const putContribution = async (contribution, token) => {
   return false;
 };
 
-/**
- * @description Displays the form for adding / modifying references
- * @param {string} sessionStorage.category
- * @param {object} props.reference
- * @return {JSX.Element}
- */
-export default function FormReference({reference }) {
+//Displays the form for adding / modifying references
+export default function FormReference({ reference }) {
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
   const [content, setContent] = useState("");
@@ -127,21 +105,20 @@ export default function FormReference({reference }) {
       ContentState.createFromBlockArray(convertFromHTML(""))
     )
   );
-  const [isSent, setIsSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [name, setName] = useState("");
   const [referencesFound, setReferencesFound] = useState([]);
   const [showReferencesFound, setShowReferencesFound] = useState(false);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState(undefined);
-  const [optionsError, setOptionsError] = useState();
+  const [currentCategory, setCurrentCategory] = useState({});
+
+  const history = useHistory();
 
   //  sessionStorage used to get category id from AddReference component
-   const category = JSON.parse(sessionStorage.getItem("SelectReference"));
+  const category = JSON.parse(sessionStorage.getItem("SelectReference"));
 
-  // We need to change de name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without
+  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without
   const themesList = themes.map(({ name: value, ...rest }) => ({
     value,
     ...rest,
@@ -156,7 +133,7 @@ export default function FormReference({reference }) {
     selectedOptions.forEach((option) => {
       themesIds.push(option.id);
     });
-  }, [selectedOptions]);
+  }, [selectedOptions, themesIds]);
 
   const onSubmit = async ({ reference_name, reference_date }) => {
     const contribution = {
@@ -165,7 +142,7 @@ export default function FormReference({reference }) {
       reference_date: reference_date,
       reference_country_name: country,
       reference_content: content,
-      reference_category_id: currentCategory.id,
+      reference_category_id: category,
       reference_theme_id: themesIds,
     };
 
@@ -182,6 +159,8 @@ export default function FormReference({reference }) {
         window.scrollTo(0, 500);
       }
     }
+
+    history.push("/addReference/formReference/formSent");
   };
 
   const {
@@ -235,19 +214,7 @@ export default function FormReference({reference }) {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return isSent ? (
-    <div className="has-text-justified">
-      <p>
-        Votre contribution a bien été envoyée et sera examinée par un.e
-        modérateur.ice. Vous serez informé.e par email dès sa validation !
-      </p>
-      <p>Un grand merci pour votre participation !</p>
-    </div>
-  ) : (
+  return (
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
       <form
@@ -255,7 +222,7 @@ export default function FormReference({reference }) {
         className="borders is-flex is-flex-direction-column is-align-items-center"
       >
         <section className="is-flex is-flex-direction-column is-align-items-center">
-          {!!errorMessage && (
+          {errorMessage && (
             <div className="has-text-danger has-text-centered">
               <h3>Impossible d'ajouter la référence :</h3>
               <p>{errorMessage}</p>
@@ -284,8 +251,8 @@ export default function FormReference({reference }) {
                       onClick={() => setShowReferencesFound(true)}
                     />
                   )}
-                  &nbsp;({showReferencesFound ? "cacher" : "voir"} les références
-                  similaires)
+                  &nbsp;({showReferencesFound ? "cacher" : "voir"} les
+                  références similaires)
                 </div>
               )}
             </label>
@@ -295,7 +262,9 @@ export default function FormReference({reference }) {
               className="form-input"
               {...register("reference_name", { required: true })}
               defaultValue={reference.name ? reference.name : ""}
-              onBlur={(e) => {
+              // following code is used for matching titles. However it causes issues in the way we send the form. Do not used onBlur for this, since it will be activated when leaving field. I think it's the reason for our problem. In waiting I'm removing it
+              // TO BE FIXED ASAP
+              /* onBlur={(e) => {
                 const name = e.nativeEvent.target.value;
                 if (name.length >= 3) {
                   const getReferences = async () => {
@@ -303,7 +272,7 @@ export default function FormReference({reference }) {
                   };
                   getReferences();
                 }
-              }}
+              }} */
               onChange={(e) => {
                 if (
                   referencesFound.length > 0 &&
@@ -314,9 +283,6 @@ export default function FormReference({reference }) {
                 }
               }}
             />
-            {errors.reference_name && (
-              <span className="error">Veuillez renseigner ce champ</span>
-            )}
             {showReferencesFound && referencesFound.length > 0 && (
               <div className="found-references m-4 pt-4 pl-4">
                 <h6 className="found-references_similar-title">
@@ -385,7 +351,7 @@ export default function FormReference({reference }) {
             className="basic-multi-select"
             classNamePrefix="select"
           />
-        </fieldset>      
+        </fieldset>
         <input
           type="submit"
           value={
@@ -394,7 +360,7 @@ export default function FormReference({reference }) {
               ? "Valider"
               : Object.entries(reference).length > 0
               ? "Modifier"
-              : "Envoyer"
+              : "Double clique pour envoyer"
           }
           className="darkblue-bg send-btn has-text-white mt-6"
         />
@@ -404,7 +370,7 @@ export default function FormReference({reference }) {
 }
 
 FormReference.propTypes = {
-  category: PropTypes.number.isRequired,
+  category: PropTypes.number,
   reference: PropTypes.object,
 };
 FormReference.defaultProps = {
