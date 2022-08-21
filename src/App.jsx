@@ -15,6 +15,7 @@ import RefSheet from "./views/RefSheet";
 import Dashboard from "./views/Dashboard";
 import Search from "./views/Search";
 import LoggedOut from "./views/LoggedOut";
+import FormSent from "./views/FormSent";
 
 // Components
 import Header from "./components/Header/Header";
@@ -152,7 +153,16 @@ export default function App() {
             />
             <Route exact path="/search" component={Search} />
             <Route exact path="/addReference" component={AddReference} />
-            <Route exact path="/addReference/formReference" component={FormReference} />
+            <Route
+              exact
+              path="/addReference/formReference"
+              component={FormReference}
+            />
+            <Route
+              exact
+              path="/addReference/formReference/formSent"
+              component={FormSent}
+            />
           </DataContext.Provider>
         </UserContext.Provider>
       </Switch>
