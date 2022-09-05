@@ -190,22 +190,17 @@ button {
     -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
     -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal; }
 
-.counter-double {
-  width: 50%; }
-
-.counter-wrapper {
-  width: 50%; }
-
 .counter-box {
   width: 5rem;
-  height: 5rem; }
+  height: 5rem;
+  margin-bottom: 1rem !important; }
 
 .counter-label {
   margin-bottom: 1rem;
   font-size: small; }
   @media (min-width: 1024px) {
     .counter-label {
-      margin-bottom: 0; } }
+      margin-bottom: 1.5rem; } }
 
 .counter-value, .counter-text {
   font-family: "Open Sans", sans-serif;
