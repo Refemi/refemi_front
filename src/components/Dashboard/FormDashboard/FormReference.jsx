@@ -147,12 +147,11 @@ export default function FormReference({ reference }) {
     };
 
     if (Object.entries(reference).length > 0) {
-      setIsSent(putContribution(contribution, token));
+      putContribution(contribution, token);
     } else {
       const error = await postContribution(contribution, token);
 
       if (!error) {
-        setIsSent(true);
         setErrorMessage(false);
       } else {
         setErrorMessage(error);
@@ -360,7 +359,7 @@ export default function FormReference({ reference }) {
               ? "Valider"
               : Object.entries(reference).length > 0
               ? "Modifier"
-              : "Double clique pour envoyer"
+              : "envoyer"
           }
           className="darkblue-bg send-btn has-text-white mt-6"
         />
