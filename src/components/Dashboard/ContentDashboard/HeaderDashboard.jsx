@@ -61,8 +61,8 @@ export default function HeaderDashboard() {
   }, [userCredentials, token]);
 
   return (
-    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders">
-      <p className="pl-6 pt-6">
+    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders p-2">
+      <p className="is-size-7 pb-2">
         Bienvenue, {userCredentials.name}&nbsp;
         <span className="pointer" onClick={() => history.push("/auth/signout")}>
           (Déconnexion)
@@ -94,16 +94,18 @@ export default function HeaderDashboard() {
 
         {userCredentials.role === roles.ADMIN && (
           <div className="is-flex is-justify-content-space-between counter-double">
-            <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
+            <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
               <Counter
                 label="contributeurs"
                 value={counters.totalContributors}
               />
-              <p className="has-text-weight-bold">CONTRIBUTEURS</p>
+              <p className="has-text-weight-bold counter-label">
+                CONTRIBUTEURS
+              </p>
             </article>
-            <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
+            <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper px-4">
               <Counter label="admins" value={counters.totalAdministrators} />
-              <p className="has-text-weight-bold">ADMINS</p>
+              <p className="has-text-weight-bold counter-label">ADMINS</p>
             </article>
           </div>
         )}

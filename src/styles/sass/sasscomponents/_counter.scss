@@ -1,17 +1,17 @@
 .counter {
 
   &-double {
-    width: 50%;
   }
 
   &-wrapper {
-    width: 50%;
 
   }
 
   &-box {
     width: 5rem;
     height: 5rem;
+    margin-bottom: 1rem !important;
+
   }
 
   &-label {
@@ -19,7 +19,7 @@
     font-size: small;
 
     @include tablet {
-      margin-bottom: 0;
+      margin-bottom: 1.5rem;
     }
   }
 
