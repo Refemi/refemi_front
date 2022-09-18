@@ -18,30 +18,34 @@ export default function SelectReference({
 
   return (
     <form className="is-flex is-flex-direction-column is-align-items-center">
-      <label className=" required" htmlFor="categories-select">
-        1. Choisir une rubrique
-      </label>
+      <fieldset className="dashboard-fieldset is-flex is-flex-direction-column">
+        <label className=" required" htmlFor="categories-select-section">
+          1. Choisir une rubrique
+        </label>
 
-      <select
-        id="categories-select"
-        defaultValue="default"
-        onChange={(event) => setCurrentSection(event.target.value)}
-        className="borders select m-3"
-      >
-        <option value="default" disabled hidden />
+        <select
+          id="categories-select-section"
+          defaultValue="default"
+          onChange={(event) => setCurrentSection(event.target.value)}
+          className="borders select m-3"
+        >
+          <option value="default" disabled hidden />
 
-        {sections.map((section) => (
-          <option key={section.id} value={section.id}>
-            {section.label}
-          </option>
-        ))}
-      </select>
+          {sections.map((section) => (
+            <option key={section.id} value={section.id}>
+              {section.label}
+            </option>
+          ))}
+        </select>
+      </fieldset>
 
       {!!currentSection && categories.length > 0 && (
-        <fieldset className="is-flex is-flex-direction-column is-align-items-center">
-          <label className="required">Choisir une catégorie</label>
+        <fieldset className="dashboard-fieldset is-flex is-flex-direction-column">
+          <label className="required" for="categories-select-category">
+            2. Choisir une catégorie
+          </label>
           <select
-            id="categories-select"
+            id="categories-select-category"
             defaultValue="default"
             onChange={handleChangeForm}
             className="borders select m-3"
@@ -49,7 +53,11 @@ export default function SelectReference({
             <option value="default" disabled hidden />
 
             {categoriesOptions.map((category) => (
-              <option key={category.id} value={category.id}>
+              <option
+                key={category.id}
+                value={category.id}
+                for="categories-select-category"
+              >
                 {category.label}
               </option>
             ))}

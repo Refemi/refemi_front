@@ -20,7 +20,7 @@ export default function AddReference() {
   return (
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
-      <section className="dashboard-content borders is-flex is-flex-direction-column is-align-items-center mt-6">
+      <section className="dashboard-content is-flex is-flex-direction-column is-align-items-center">
         <button
           className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
           onClick={() => history.goBack()}

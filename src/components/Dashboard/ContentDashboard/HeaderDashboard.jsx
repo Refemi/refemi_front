@@ -61,7 +61,7 @@ export default function HeaderDashboard() {
   }, [userCredentials, token]);
 
   return (
-    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around borders p-2">
+    <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around p-2">
       <p className="is-size-7 pb-2">
         Bienvenue, {userCredentials.name}&nbsp;
         <span className="pointer" onClick={() => history.push("/auth/signout")}>

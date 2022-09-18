@@ -7,6 +7,7 @@ import { DashboardContext } from "../../../views/Dashboard";
 
 import ContributionsDashboard from "./ContributionsDashboard";
 import FormReference from "../FormDashboard/FormReference";
+import Loader from "../../Loader";
 
 export const MainContext = createContext();
 
@@ -49,7 +50,7 @@ export default function MainDashboard() {
 
   // Render the dashboard if no contribution to validate / modify, the form otherwise
   return (
-    <article className="dashboard dashboard-content borders mt-6">
+    <article className="dashboard dashboard-content mt-6">
       {contributions.pending.length == 0 &&
         contributions.validated.length == 0 && (
           <p>
@@ -59,6 +60,7 @@ export default function MainDashboard() {
         )}
 
       <MainContext.Provider value={{ setEditContribution }}>
+        {contributions.length == 0 && <Loader />}
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
           <div>

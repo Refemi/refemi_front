@@ -1,13 +1,23 @@
 .dashboard {
-  padding: 3rem;
+  padding: 1rem 0 0 0;
+ @include tablet {
+  padding: 0;
+ }
 
-  &-content {
-    box-shadow: $light-box-shadow;
+  &-content {  
     padding: 5vh;
+  }
+
+  &-fieldset {
+    min-width: 0;
   }
 
   &-header {
     background-color: $faded-green-grey;
+
+    @include tablet {
+      margin-top: 0;
+    }
   }
 
   .counter-value {
