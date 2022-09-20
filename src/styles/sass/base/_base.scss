@@ -14,8 +14,12 @@
   scroll-behavior: smooth;
 }
 main {
-  margin-top: 8rem;
+  margin-top: 9rem;
   margin-bottom: 10rem;
+
+  @include tablet {
+    margin-top: 6rem;
+  }
 }
 a {
   text-decoration: none;

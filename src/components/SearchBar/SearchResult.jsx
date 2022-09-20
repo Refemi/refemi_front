@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import PropTypes from 'prop-types';
-import http from '../../services/http-common';
-import { v4 as uuidv4 } from 'uuid';
-import ReactPaginate from 'react-paginate';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+import PropTypes from "prop-types";
+import http from "../../services/http-common";
+import { v4 as uuidv4 } from "uuid";
+import ReactPaginate from "react-paginate";
 
-import Loader from '../Loader';
+import Loader from "../Loader";
 
 // Get what user types in searchReferences input and format it to be processed by backend
 const getSearchReferences = async (answer, setSearchReferences) => {
-  let insert = answer.split(' ');
+  let insert = answer.split(" ");
   insert =
     insert.length === 1
-      ? (insert = insert.join(''))
-      : (insert = insert.join('<->'));
+      ? (insert = insert.join(""))
+      : (insert = insert.join("<->"));
 
   return await http()
     .get(`search/?answer=${insert}`)
@@ -31,7 +31,7 @@ const getSearchReferences = async (answer, setSearchReferences) => {
  * @param {string} answer
  * @returns {JSX.Element}
  */
-export default function SearchResult({ answer = '' }) {
+export default function SearchResult({ answer = "" }) {
   const history = useHistory();
   const [searchReferences, setSearchReferences] = useState([]);
   const [searchResult, setSearchResult] = useState(false);
@@ -53,7 +53,7 @@ export default function SearchResult({ answer = '' }) {
   };
   // Waits for the input info to be processed before sending it to state
   useEffect(() => {
-    if (answer !== '') {
+    if (answer !== "") {
       if (searchResult !== false) {
         setSearchResult(false);
       }
@@ -76,52 +76,51 @@ export default function SearchResult({ answer = '' }) {
   }, [offset, searchResult, perPage, setSearchResult]);
 
   return (
-    <section className='dataResult'>
+    <section className="dataResult">
       {searchResult === false ? (
-        answer !== '' ? (
+        answer !== "" ? (
           <Loader />
         ) : null
       ) : (
         <>
-          <h2 className='mb-6 darkblue-text has-text-weight-bold'>
+          <h2 className="mb-6 darkblue-text has-text-weight-bold">
             {searchResult.length} résultats trouvés pour votre recherche "
             {answer}" :
           </h2>
-          <div className='mb-6'>
+          <div className="mb-6">
             {currentReferences.map((item) => (
               <article
                 key={uuidv4()}
                 id={item.id}
-                className='description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3'
+                className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3"
                 onClick={() => history.push(`/references/${item.id}`)}
               >
-                <h3 className='reflist-div'>{item.reference_name}</h3>
-                <p className='reflist-div is-hidden-mobile has-text-centered'>
+                <h3 className="reflist-div">{item.reference_name}</h3>
+                <p className="reflist-div is-hidden-mobile has-text-centered">
                   {item.reference_country_name}
                 </p>
-                <div className='is-align-self-flex-end reflist-div' />
+                <div className="is-align-self-flex-end reflist-div" />
               </article>
             ))}
           </div>
 
           {pageCount > 1 && (
             <ReactPaginate
-              previousLabel={'Précédente'}
-              nextLabel={'Suivante'}
-              breakLabel={'...'}
-              breakClassName={'break-me'}
+              previousLabel={"Précédente"}
+              nextLabel={"Suivante"}
+              breakLabel={"..."}
               pageCount={pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
-              previousClassName={'pagination-previous'}
-              nextClassName={'pagination-next'}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              previousClassName={"pagination-previous"}
+              nextClassName={"pagination-next"}
               forcePage={selectedPage}
-              breakClassName={'pagination-ellipsis'}
-              pageClassName={'pagination-link'}
+              breakClassName={"pagination-ellipsis"}
+              pageClassName={"pagination-link"}
               hrefAllControls={true}
             />
           )}
@@ -136,5 +135,5 @@ SearchResult.propTypes = {
 };
 
 SearchResult.defaultProps = {
-  search: '',
+  search: "",
 };
