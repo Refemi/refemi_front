@@ -659,6 +659,7 @@ button {
     height: 2rem;
     border-radius: 99px;
     position: absolute;
+    top: 5px;
     transition: 1s;
     transform: rotate(-90deg); }
   .dashboard .add-button_btn:hover {
