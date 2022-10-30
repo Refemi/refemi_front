@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
@@ -43,9 +43,9 @@ const getCountries = async () => {
 };
 
 // Reuse of the search function of the SearchResult component to find similar references
-/* const getSearchReferences = async (name) => {
+const getSearchReferences = async () => {
   return await http()
-    .get(`search/${name}`)
+    .get(`search/reference-name`)
     .then((result) => {
       if (result.status === 200) {
         return result.data;
@@ -60,7 +60,7 @@ const getCountries = async () => {
     .catch((_) => {
       return [];
     });
-}; */
+};
 
 // Requests to the API to send a contribution
 const postContribution = async (contribution, token) => {
@@ -71,7 +71,11 @@ const postContribution = async (contribution, token) => {
         return false;
       }
     })
-    .catch((error) => error.response.data.error);
+    .catch(({ response }) => {
+      console.log(response);
+      return response.data.error;
+    });
+  // .catch((error) => error.response.data.error);
 };
 
 // Requests to the API to update a contribution
@@ -105,16 +109,18 @@ export default function FormReference({ reference }) {
       ContentState.createFromBlockArray(convertFromHTML(""))
     )
   );
+  const [isSent, setIsSent] = useState(false);
+  const [suggestName, setSuggestName] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [referencesFound, setReferencesFound] = useState([]);
-  const [showReferencesFound, setShowReferencesFound] = useState(false);
+  const [referencesFound, setReferencesFound] = useState("");
+  const [referenceNameInput, setReferenceNameInput] = useState("");
+  const [matchReferenceName, setMatchReferenceName] = useState("");
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
 
   const history = useHistory();
-
   //  sessionStorage used to get category id from AddReference component
   const category = JSON.parse(sessionStorage.getItem("SelectReference"));
 
@@ -134,11 +140,10 @@ export default function FormReference({ reference }) {
       themesIds.push(option.id);
     });
   }, [selectedOptions, themesIds]);
-
   const onSubmit = async ({ reference_name, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
-      reference_name: reference_name,
+      reference_name: referencesFound,
       reference_date: reference_date,
       reference_country_name: country,
       reference_content: content,
@@ -147,21 +152,19 @@ export default function FormReference({ reference }) {
     };
 
     if (Object.entries(reference).length > 0) {
-      putContribution(contribution, token);
+      setIsSent(putContribution(contribution, token));
     } else {
       const error = await postContribution(contribution, token);
-
+      console.log("158", error);
       if (!error) {
+        setIsSent(true);
         setErrorMessage(false);
       } else {
         setErrorMessage(error);
         window.scrollTo(0, 500);
       }
     }
-
-    history.push("/addReference/formReference/formSent");
   };
-
   const {
     register,
     handleSubmit,
@@ -172,9 +175,22 @@ export default function FormReference({ reference }) {
     (async () => setCountries(await getCountries()))();
   }, []);
 
+  // get the all Reference name from  getSearchReferences function and set into suggestName state
+  useEffect(() => {
+    (async () => setSuggestName(await getSearchReferences()))();
+  }, []);
+  useEffect(() => {
+    (async () => setCountries(await getCountries()))();
+  }, []);
+
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState]);
+
+  useEffect(() => {
+    setMatchReferenceName("");
+    setReferencesFound(referenceNameInput);
+  }, [referenceNameInput]);
 
   useEffect(() => {
     setCurrentCategory(categories.find(({ id }) => id === parseInt(category)));
@@ -213,157 +229,144 @@ export default function FormReference({ reference }) {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState]);
 
+  // get value from Titre input text and set into referenceNameInput state
+  const onChangeReferenceName = (event) => {
+    setReferenceNameInput(event.target.value);
+  };
+  // get  the suggestName value and set into setMatchReferenceName state
+
+  const onSearchReferenceName = (searchTitle) => {
+    setMatchReferenceName(searchTitle);
+  };
+
   return (
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="borders is-flex is-flex-direction-column is-align-items-center"
-      >
-        <section className="is-flex is-flex-direction-column is-align-items-center">
-          {errorMessage && (
-            <div className="has-text-danger has-text-centered">
-              <h3>Impossible d'ajouter la référence :</h3>
-              <p>{errorMessage}</p>
-            </div>
-          )}
-
+      {isSent ? (
+        history.push("/addReference/formReference/formSent")
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="borders is-flex is-flex-direction-column is-align-items-center"
+        >
           <h2 className="m-6">
             Catégorie actuelle :{" "}
             {currentCategory !== undefined && currentCategory.label}
           </h2>
 
-          <fieldset className="is-flex is-flex-direction-column">
-            <label htmlFor="reference_name" className="required">
-              Nom / Titre
-              {referencesFound.length > 0 && (
-                <div>
-                  &nbsp;
-                  {showReferencesFound ? (
-                    <AiOutlineUp
-                      size={12}
-                      onClick={() => setShowReferencesFound(false)}
-                    />
-                  ) : (
-                    <AiOutlineDown
-                      size={12}
-                      onClick={() => setShowReferencesFound(true)}
-                    />
-                  )}
-                  &nbsp;({showReferencesFound ? "cacher" : "voir"} les
-                  références similaires)
-                </div>
-              )}
-            </label>
-
-            <input
-              type="text"
-              className="form-input"
-              {...register("reference_name", { required: true })}
-              defaultValue={reference.name ? reference.name : ""}
-              // following code is used for matching titles. However it causes issues in the way we send the form. Do not used onBlur for this, since it will be activated when leaving field. I think it's the reason for our problem. In waiting I'm removing it
-              // TO BE FIXED ASAP
-              /* onBlur={(e) => {
-                const name = e.nativeEvent.target.value;
-                if (name.length >= 3) {
-                  const getReferences = async () => {
-                    setReferencesFound(await getSearchReferences(name));
-                  };
-                  getReferences();
-                }
-              }} */
-              onChange={(e) => {
-                if (
-                  referencesFound.length > 0 &&
-                  e.nativeEvent.target.value.length < 3
-                ) {
-                  setReferencesFound([]);
-                  setShowReferencesFound(false);
-                }
-              }}
-            />
-            {showReferencesFound && referencesFound.length > 0 && (
-              <div className="found-references m-4 pt-4 pl-4">
-                <h6 className="found-references_similar-title">
-                  Références similaires ({referencesFound.length}):
-                </h6>
-                <ul className="found-references_list m-4">
-                  {referencesFound.map((reference) => (
-                    <li
-                      key={reference.id}
-                      onClick={() => {
-                        window.open(`/references/${reference.id}`, "_blank");
-                      }}
-                      className="found-references_element p-2"
-                    >
-                      {reference.name}
-                    </li>
-                  ))}
-                </ul>
+          <section className="is-flex is-flex-direction-column is-align-items-center">
+            {errorMessage && (
+              <div className="has-text-danger has-text-centered">
+                <h3>Impossible d'ajouter la référence :</h3>
+                <p>{errorMessage} </p>
               </div>
             )}
-          </fieldset>
-          <fieldset className="">
+
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="reference_name" className="required">
+                Nom / Titre
+              </label>
+              {matchReferenceName && (
+                <p className="has-text-danger has-text-centered">
+                  Cette référence existe déjà !
+                </p>
+              )}
+              <input
+                type="text"
+                className="form-input"
+                value={referenceNameInput}
+                onChange={onChangeReferenceName}
+                required
+              />
+              {!matchReferenceName && (
+                <div className="form-input_countries has-text-danger">
+                  {suggestName
+                    .filter((item) => {
+                      const searchTitle = referenceNameInput.toLowerCase();
+                      const suggestTitle = item.name.toLowerCase();
+
+                      return (
+                        searchTitle &&
+                        suggestTitle.startsWith(searchTitle) &&
+                        suggestTitle !== searchTitle
+                      );
+                    })
+                    .slice(0, 6)
+                    .map((item) => (
+                      <div
+                        onClick={() => onSearchReferenceName(item.name)}
+                        key={item.id}
+                      >
+                        {item.name}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </fieldset>
+            <fieldset className="">
+              <label htmlFor="reference_country_name" className="required">
+                Pays d&apos;origine
+              </label>
+              <Select
+                required
+                onChange={(e) => setCountry(e.label)}
+                options={countries}
+                className="form-input_countries"
+                defaultInputValue={reference.country ? reference.country : ""}
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="reference_date" className="required">
+                Année
+              </label>
+              <input
+                type="text"
+                className="form-input"
+                {...register("reference_date")}
+                defaultValue={reference.date ? reference.date : ""}
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column ">
+              <label htmlFor="reference-content" className="required">
+                Contenu
+              </label>
+
+              <Editor
+                editorState={editorState}
+                toolbarClassName=""
+                wrapperClassName=""
+                editorClassName="form-input"
+                onEditorStateChange={handleEditorChange}
+              />
+            </fieldset>
+          </section>
+          <fieldset className="select-fieldset is-flex is-flex-direction-column">
             <label htmlFor="reference_country_name" className="required">
-              Pays d&apos;origine
+              Thèmes
             </label>
             <Select
-              onChange={(e) => setCountry(e.label)}
-              options={countries}
-              className="form-input_countries"
-              defaultInputValue={reference.country ? reference.country : ""}
+              isMulti
+              onChange={(e) => setSelectedOptions(e)}
+              options={themesList}
+              className="basic-multi-select"
+              classNamePrefix="select"
             />
           </fieldset>
-          <fieldset className="is-flex is-flex-direction-column">
-            <label htmlFor="reference_date" className="required">
-              Année
-            </label>
-            <input
-              type="text"
-              className="form-input"
-              {...register("reference_date")}
-              defaultValue={reference.date ? reference.date : ""}
-            />
-          </fieldset>
-          <fieldset className="is-flex is-flex-direction-column ">
-            <label htmlFor="reference-content" className="required">
-              Contenu
-            </label>
-
-            <Editor
-              editorState={editorState}
-              toolbarClassName=""
-              wrapperClassName=""
-              editorClassName="form-input"
-              onEditorStateChange={handleEditorChange}
-            />
-          </fieldset>
-        </section>
-        <fieldset className="select-fieldset is-flex is-flex-direction-column">
-          <label htmlFor="reference_country_name" className="required">
-            Thèmes
-          </label>
-          <Select
-            isMulti
-            onChange={(e) => setSelectedOptions(e)}
-            options={themesList}
-            className="basic-multi-select"
-            classNamePrefix="select"
+          <input
+            type="submit"
+            value={
+              !!reference.status === false &&
+              userCredentials.role !== roles.CONTRIBUTOR
+                ? "Valider"
+                : Object.entries(reference).length > 0
+                ? "Modifier"
+                : "envoyer"
+            }
+            className="darkblue-bg send-btn has-text-white mt-6"
           />
-        </fieldset>
-        <input
-          type="submit"
-          value={
-            !!reference.status === false &&
-            userCredentials.role !== roles.CONTRIBUTOR
-              ? "Valider"
-              : Object.entries(reference).length > 0
-              ? "Modifier"
-              : "envoyer"
-          }
-          className="darkblue-bg send-btn has-text-white mt-6"
-        />
-      </form>
+        </form>
+      )}
     </main>
   );
 }
