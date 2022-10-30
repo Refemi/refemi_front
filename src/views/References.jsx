@@ -11,7 +11,7 @@ import { DataContext } from "../App";
 // Components
 import ListReferences from "../components/References/ListReferences";
 import WidgetCat from "../components/WidgetCat";
-import Button from "../components/Button/Button";
+import BlueButton from "../components/Buttons/BlueButton";
 import Loader from "../components/Loader";
 
 const getReferencesBySection = async (sectionId) => {
@@ -119,7 +119,6 @@ export default function References() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     getReferences();
   }, [getReferences]);
 
@@ -146,7 +145,7 @@ export default function References() {
               : sectionName.toUpperCase().replace(/-/g, " ")}
           </h2>
 
-          <Button
+          <BlueButton
             className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
             path={themeName ? "/themes" : "/categories"}
             label="Retour"

@@ -45,15 +45,6 @@ export default function Connection() {
 
   passwordInput.current = watch("password");
 
-  /**
-   * Register a new user
-   * @param {object} user - user data
-   * @param {string} user.name - user name
-   * @param {string} user.email - user email
-   * @param {string} user.password - user password
-   * @return {boolean} - true if the user has been created
-   * @route POST /api/v1/auth/signIn
-   */
   const signUp = async (user) => {
     return await http()
       .post(`auth/signUp`, {
@@ -161,10 +152,6 @@ export default function Connection() {
     setUserCredentials,
     setToken,
   ]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  });
 
   return (
     <main className="auth is-flex is-flex-direction-column is-align-items-center">

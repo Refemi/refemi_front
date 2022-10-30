@@ -33,10 +33,6 @@ export default function RefSheet() {
     fetchData();
   }, [id, setReference]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return !reference ? (
     <Error
       errorCode={404}

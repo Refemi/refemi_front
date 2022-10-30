@@ -2,13 +2,16 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 // COMPONENT
-export default function Button({ label, path }) {
+export default function BlueButton({ label, path }) {
   const history = useHistory();
 
   const navigationPath = (path) => {
     switch (path) {
       case "back":
         history.goBack();
+        break;
+      case "addReference":
+        history.push("/addReference/formReference");
         break;
       case "home":
         history.push("/");

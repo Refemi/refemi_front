@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import Button from './Button/Button.jsx';
+import BlueButton from "./Buttons/BlueButton.jsx";
 
 /**
  * @description Displays an error page depending on the arguments entered
@@ -11,13 +11,13 @@ import Button from './Button/Button.jsx';
  */
 export default function Error({
   errorCode = 500,
-  message = 'Une erreur est survenue',
+  message = "Une erreur est survenue",
 }) {
   return (
-    <section className='has-text-centered	is-flex is-flex-direction-column is-align-content-center'>
-      <Button label='Retour' path='back' />
-      <h2 className='refemi is-size-1'>Erreur {errorCode}</h2>
-      <p className='mb-5'>{message}</p>
+    <section className="has-text-centered	is-flex is-flex-direction-column is-align-content-center">
+      <BlueButton label="Retour" path="back" />
+      <h2 className="refemi is-size-1">Erreur {errorCode}</h2>
+      <p className="mb-5">{message}</p>
     </section>
   );
 }

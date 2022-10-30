@@ -34,8 +34,6 @@ export default function Home() {
   const history = useHistory();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     (async () => setCounters(await getHomeCounters()))();
   }, []);
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../components/Button/Button";
+import BlueButton from "../components/Buttons/BlueButton";
 
 // Context
 import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
@@ -10,7 +10,7 @@ export default function FormSent() {
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
       <section className="p-6 is-flex is-justify-content-center is-flex-direction-column ">
-        <Button
+        <BlueButton
           className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
           path={"dashboard"}
           label={"Retour à mes contributions"}

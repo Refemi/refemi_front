@@ -18,7 +18,10 @@ export default function Contact() {
 
     const response = await fetch("http://localhost:8000/contact", {
       method: "POST",
-      headers: { "Content-Type": "application/jsoncharset=utf-8" },
+      headers: {
+        "Content-Type": "application/jsoncharset=utf-8",
+        Accept: "application/jsoncharset=utf-8",
+      },
       body: JSON.stringify(details),
     });
 
@@ -29,10 +32,6 @@ export default function Contact() {
     setEmail("");
     setMessage("");
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <main className="is-flex is-flex-direction-column is-align-items-center">

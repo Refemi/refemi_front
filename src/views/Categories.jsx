@@ -41,40 +41,37 @@ export default function Categories() {
   const { sections } = useContext(DataContext);
   const history = useHistory();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    !sections
-      ? <Error errorCode={404} message="Impossible de trouver les sections" />
-      : (<main className="categories">
-          {sections.length === 0
-            ? <Loader />
-            : (<ul className="is-flex is-flex-wrap-wrap is-justify-content-center ">
-                {sections.map((category) => (
-                  <li
-                    key={uuidv4()}
-                    className="cat-box is-relative m-6 alternate-bg pointer"
-                    onClick={() => history.push(`/categories/${category.name}`)}
-                  >
-                    <span
-                      key={uuidv4()}
-                      className="position-absolute-icon category-icon has-text-white"
-                    >
-                      {setIcon(category.label)}
-                    </span>
-                    <p
-                      key={uuidv4()}
-                      className="cat-description description-center has-text-centered has-text-weight-bold"
-                      style={{ position: "absolute" }}
-                    >
-                      {category.label.toUpperCase()}
-                    </p>
-                  </li>
-                ))}
-              </ul>)
-          }
-        </main>)
+  return !sections ? (
+    <Error errorCode={404} message="Impossible de trouver les sections" />
+  ) : (
+    <main className="categories">
+      {sections.length === 0 ? (
+        <Loader />
+      ) : (
+        <ul className="is-flex is-flex-wrap-wrap is-justify-content-center ">
+          {sections.map((category) => (
+            <li
+              key={uuidv4()}
+              className="cat-box is-relative m-6 alternate-bg pointer"
+              onClick={() => history.push(`/categories/${category.name}`)}
+            >
+              <span
+                key={uuidv4()}
+                className="position-absolute-icon category-icon has-text-white"
+              >
+                {setIcon(category.label)}
+              </span>
+              <p
+                key={uuidv4()}
+                className="cat-description description-center has-text-centered has-text-weight-bold"
+                style={{ position: "absolute" }}
+              >
+                {category.label.toUpperCase()}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   );
 }
