@@ -91,12 +91,12 @@ export default function References() {
       if (currentSection === undefined) {
         return {
           message: `La section recherchée « ${sectionName} » est introuvable`,
-          code: 404
+          code: 404,
         };
       } else {
         return {
           message: `Aucune référence dans la section ${currentSection.label}`,
-          code: 204
+          code: 204,
         };
       }
     } else if (!!themeName) {
@@ -107,12 +107,12 @@ export default function References() {
       if (currentTheme === undefined) {
         return {
           message: `Le theme recherché « ${themeName} » est introuvable`,
-          code: 404
+          code: 404,
         };
       } else {
         return {
           message: `Aucune référence dans le thème ${currentTheme.label}`,
-          code: 204
+          code: 204,
         };
       }
     }
@@ -128,6 +128,8 @@ export default function References() {
       setThemeCategories(findCategoriesInThemeReferences(references));
     }
   }, [references]);
+
+  console.log(references);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
@@ -161,7 +163,9 @@ export default function References() {
                   references={references.filter(
                     (reference) => reference.category === category.name
                   )}
-                  clearReferences={() => { setReferences([])}}
+                  clearReferences={() => {
+                    setReferences([]);
+                  }}
                 />
               )
           )}

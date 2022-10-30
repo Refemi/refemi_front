@@ -26,14 +26,21 @@ const getSearchReferences = async (answer, setSearchReferences) => {
     .catch(() => false);
 };
 
-/**
- * @description SearchBar component
- * @param {string} answer
- * @returns {JSX.Element}
- */
+const findCategories = (references) => {
+  const categories = references.reduce(
+    (categories, reference) => {
+      if (!categories.includes(reference.category)) {
+        categories.push(reference.category);
+      }
+      return categories;
+    },
+    [""]
+  );
+  categories.shift();
+  return categories;
+};
 export default function SearchResult({ answer = "" }) {
   const history = useHistory();
-  const [searchReferences, setSearchReferences] = useState([]);
   const [searchResult, setSearchResult] = useState(false);
   // Following states are for pagination
   const [offset, setOffset] = useState(0);
@@ -41,16 +48,13 @@ export default function SearchResult({ answer = "" }) {
   const [pageCount, setPageCount] = useState(0);
   const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState();
-
-  // Waits for the input info to be processed before sending it to state
-  useEffect(() => {
-    (async () => setSearchReferences(await getSearchReferences(answer)))();
-  }, [answer]);
+  const [categories, setCategories] = useState([]);
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setOffset(selectedPage + 1);
   };
+
   // Waits for the input info to be processed before sending it to state
   useEffect(() => {
     if (answer !== "") {
@@ -75,6 +79,13 @@ export default function SearchResult({ answer = "" }) {
     }
   }, [offset, searchResult, perPage, setSearchResult]);
 
+  useEffect(() => {
+    if (currentReferences) {
+      setCategories(findCategories(currentReferences));
+    }
+    console.log(currentReferences);
+  }, [currentReferences]);
+
   return (
     <section className="dataResult">
       {searchResult === false ? (
@@ -84,8 +95,8 @@ export default function SearchResult({ answer = "" }) {
       ) : (
         <>
           <h2 className="mb-6 darkblue-text has-text-weight-bold">
-            {searchResult.length} résultats trouvés pour votre recherche "
-            {answer}" :
+            {searchResult != 0 && searchResult.length} résultats trouvés pour
+            votre recherche "{answer}" :
           </h2>
           <div className="mb-6">
             {currentReferences.map((item) => (
@@ -99,7 +110,35 @@ export default function SearchResult({ answer = "" }) {
                 <p className="reflist-div is-hidden-mobile has-text-centered">
                   {item.reference_country_name}
                 </p>
-                <div className="is-align-self-flex-end reflist-div" />
+                <p>{item.author}</p>
+                {item.themes ? (
+                  <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
+                    {item.themes
+                      .reduce(
+                        (unique, theme) =>
+                          unique.includes(theme) ? unique : [...unique, theme],
+                        []
+                      )
+                      .map((theme) => (
+                        <h4
+                          className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
+                          key={uuidv4()}
+                          onClick={() => {
+                            clearReferences();
+                            history.push(
+                              `/themes/${theme
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, "")}`
+                            );
+                          }}
+                        >
+                          {theme}
+                        </h4>
+                      ))}
+                  </span>
+                ) : null}
               </article>
             ))}
           </div>
