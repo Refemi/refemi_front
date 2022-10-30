@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
@@ -8,6 +7,9 @@ import ReactPaginate from "react-paginate";
 // Import components
 import Loader from "../Loader";
 import ListReferences from "../References/ListReferences";
+
+// JS + JSON
+import translationKeys from "../../utils/translationKeys.json";
 
 // Get what user types in searchReferences input and format it to be processed by backend
 const getSearchReferences = async (answer, setSearchReferences) => {
@@ -42,7 +44,7 @@ const findCategories = (references) => {
   return categories;
 };
 export default function SearchResult({ answer = "" }) {
-  const history = useHistory();
+  const frenchKeys = translationKeys[0].french;
   const [searchResult, setSearchResult] = useState(false);
   // Following states are for pagination
   const [offset, setOffset] = useState(0);
@@ -85,10 +87,7 @@ export default function SearchResult({ answer = "" }) {
     if (currentReferences) {
       setCategories(findCategories(currentReferences));
     }
-    console.log(currentReferences);
   }, [currentReferences]);
-
-  console.log(categories);
 
   return (
     <section className="dataResult">
@@ -97,10 +96,10 @@ export default function SearchResult({ answer = "" }) {
           <Loader />
         ) : null
       ) : (
-        <>
+        <article>
           <h2 className="mb-6 darkblue-text has-text-weight-bold">
-            {searchResult != 0 && searchResult.length} résultats trouvés pour
-            votre recherche "{answer}" :
+            {searchResult != 0 && searchResult.length} {frenchKeys.foundResults}{" "}
+            "{answer}" :
           </h2>
 
           {categories.map(
@@ -142,7 +141,7 @@ export default function SearchResult({ answer = "" }) {
               hrefAllControls={true}
             />
           )}
-        </>
+        </article>
       )}
     </section>
   );

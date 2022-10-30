@@ -7,8 +7,6 @@ import { switchIcon } from "../../utils/switchOptions";
 
 export default function Category(props) {
   const history = useHistory();
-  console.log(props.categoryLabel);
-  console.log(props.categoryName);
 
   return (
     <li
@@ -27,7 +25,7 @@ export default function Category(props) {
         className="cat-description description-center has-text-centered has-text-weight-bold"
         style={{ position: "absolute" }}
       >
-        {props.categoryLabel}
+        {props.categoryLabel.toUpperCase()}
       </p>
     </li>
   );

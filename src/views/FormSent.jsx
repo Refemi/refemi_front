@@ -4,8 +4,12 @@ import BlueButton from "../components/Buttons/BlueButton";
 // Context
 import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
 
+// JS + JSON
+import translationKeys from "../utils/translationKeys.json";
+
 //Displays the form for adding / modifying references
 export default function FormSent() {
+  const frenchKeys = translationKeys[0].french;
   return (
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
@@ -16,11 +20,8 @@ export default function FormSent() {
           label={"Retour à mes contributions"}
         />
 
-        <p>
-          Votre contribution a bien été envoyée et sera examinée par un.e
-          modérateur.ice. Vous serez informé.e par email dès sa validation !
-        </p>
-        <p>Un grand merci pour votre participation !</p>
+        <p>{frenchKeys.referenceHasBeenSent}</p>
+        <p>{frenchKeys.thanksForReference}</p>
       </section>
     </main>
   );

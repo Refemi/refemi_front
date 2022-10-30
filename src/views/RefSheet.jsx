@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
-import http from "../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 
+// Components
 import Error from "../components/Error";
 import Loader from "../components/Loader";
+
+// JS + JSON
+import http from "../services/http-common";
+import translationKeys from "../utils/translationKeys.json";
 
 const getReferenceById = async (id) => {
   return await http()
@@ -19,7 +23,10 @@ const getReferenceById = async (id) => {
     .catch(() => false);
 };
 
+// TODO : use a switch for translation keys so we get matching labels depending on info we're returning
+
 export default function RefSheet() {
+  const frenchKeys = translationKeys[0].french;
   const { id } = useParams();
   const history = useHistory();
   const [reference, setReference] = useState({});
@@ -34,10 +41,7 @@ export default function RefSheet() {
   }, [id, setReference]);
 
   return !reference ? (
-    <Error
-      errorCode={404}
-      message="Impossible de trouver la référence recherchée"
-    />
+    <Error errorCode={404} message={frenchKeys.referenceNotFound} />
   ) : (
     <main className="is-flex is-flex-direction-column is-align-items-center borders">
       {Object.entries(reference).length === 0 ? (
@@ -48,7 +52,7 @@ export default function RefSheet() {
             className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
             onClick={handleClick}
           >
-            Retour
+            {frenchKeys.back}
           </button>
 
           <article className="white-bg borders p-2 reference-content-header">

@@ -7,6 +7,9 @@ import http from "../services/http-common";
 // Context
 import { UserContext } from "../App";
 
+// import JS + JSON
+import translationKeys from "../utils/translationKeys.json";
+
 /**
  * Regex to verify mail validity
  * @param {string} email
@@ -21,6 +24,8 @@ const isEmailValid = (email) => {
 
 // COMPONENT
 export default function Connection() {
+  const frenchKeys = translationKeys[0].french;
+
   const {
     userCredentials,
     setUserCredentials,
@@ -156,18 +161,18 @@ export default function Connection() {
   return (
     <main className="auth is-flex is-flex-direction-column is-align-items-center">
       <h2 className="mt-6 has-text-weight-bold has-text-centered mx-3">
-        Envie de collaborer et de proposer de nouvelles références ?
+        {frenchKeys.wantToCollaborate}
       </h2>
 
       {!!isUserCreated && (
-        <p className="has-text-success">Votre compte a bien été créé</p>
+        <p className="has-text-success">{frenchKeys.accountCreated}</p>
       )}
 
       <h3>
         {sign === "signin" || isUserCreated
-          ? "Connectez-vous !"
+          ? frenchKeys.signIn
           : sign === "signup"
-          ? "Devenez contributeur·ice vous créant un compte !"
+          ? frenchKeys.signUp
           : null}
       </h3>
 
@@ -181,7 +186,7 @@ export default function Connection() {
           <section classname="auth is-flex is-align-items-center">
             {sign === "signup" && (
               <fieldset className="is-flex is-flex-direction-column auth-field">
-                <label>Nom</label>
+                <label>{frenchKeys.userName}</label>
                 <input
                   type="text"
                   placeholder="Francis Noname"
@@ -189,16 +194,16 @@ export default function Connection() {
                   {...register("name", { required: true })}
                 />
                 {errors.name && (
-                  <p className="error">Le pseudo n'est pas valide</p>
+                  <p className="error">frenchKeys.incorrectUserName</p>
                 )}
               </fieldset>
             )}
 
             <fieldset className="is-flex is-flex-direction-column auth-field">
-              <label>Courriel</label>
+              <label>{frenchKeys.userEmail}</label>
               <input
                 type="text"
-                placeholder="francisnoname@refemi.com"
+                placeholder={frenchKeys.emailPlaceHolder}
                 name="email"
                 className={`form-input ${errors.email && "error"}`}
                 {...register("email", {
@@ -207,32 +212,27 @@ export default function Connection() {
                 })}
               />
               {errors.email && (
-                <p className="error">Le courriel n'est pas valide</p>
+                <p className="error">{frenchKeys.incorrectUserEmail}</p>
               )}
             </fieldset>
 
             <fieldset className="is-flex is-flex-direction-column auth-field">
-              <label>Mot de passe</label>
+              <label>{frenchKeys.password}</label>
               <input
                 ref={passwordInput}
                 type="password"
-                placeholder="Mot de passe"
+                placeholder={frenchKeys.password}
                 className={`form-input ${errors.password && "error"}`}
                 {...register("password", { required: true })}
               />
               {errors.password && (
                 <section>
-                  <p className="error">
-                    Le mot de passe n'est pas valide ; il doit comporter au
-                    moins :
-                  </p>
+                  <p className="error">{frenchKeys.incorrectPassword}</p>
                   <ol className="auth-field-list">
                     <li className="error">Six caractères de A à z</li>
-                    <li className="error">
-                      Dont une majuscule et une minuscule
-                    </li>
-                    <li className="error">Un chiffre</li>
-                    <li className="error">Un caractère spécial (!, %, ?, $)</li>
+                    <li className="error">{frenchKeys.majAndMin}</li>
+                    <li className="error">{frenchKeys.oneNumber}</li>
+                    <li className="error">{frenchKeys.oneSpecialCharacter}</li>
                   </ol>
                 </section>
               )}
@@ -240,10 +240,10 @@ export default function Connection() {
 
             {sign === "signup" && (
               <fieldset className="is-flex is-flex-direction-column auth-field">
-                <label>Confirmation du mot de passe</label>
+                <label>{frenchKeys.confirmPassword}</label>
                 <input
                   type="password"
-                  placeholder="Confirmer le mot de passe"
+                  placeholder={frenchKeys.confirmPassword}
                   className="form-input"
                   {...register("confirm_password", {
                     required: true,
@@ -253,9 +253,7 @@ export default function Connection() {
                   })}
                 />
                 {errors.confirm_password && (
-                  <p className="error">
-                    Les mots de passe ne correspondent pas
-                  </p>
+                  <p className="error">{frenchKeys.passwordsDontMatch}</p>
                 )}
               </fieldset>
             )}
@@ -276,14 +274,14 @@ export default function Connection() {
                   history.push("/auth/signin");
                 }}
               >
-                Connexion
+                {frenchKeys.connection}
               </button>
               {!isUserCreated && (
                 <button
                   className="darkblue-bg send-btn has-text-white mt-6"
                   type="submit"
                 >
-                  Valider mon compte
+                  {frenchKeys.validateAccount}
                 </button>
               )}
             </section>
@@ -293,7 +291,7 @@ export default function Connection() {
                 className="darkblue-bg send-btn has-text-white pointer  mt-6"
                 type="submit"
               >
-                Se connecter
+                {frenchKeys.signIn}
               </button>
 
               {!isUserCreated && (
@@ -306,7 +304,7 @@ export default function Connection() {
                     history.push("/auth/signup");
                   }}
                 >
-                  Créer un compte
+                  {frenchKeys.createAccount}
                 </button>
               )}
             </section>

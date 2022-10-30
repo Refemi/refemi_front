@@ -1,12 +1,15 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
 
 // Import components
 import SelectReference from "./SelectReference";
 import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
 import BlueButton from "../../Buttons/BlueButton";
 
+// JS + JSON
+import translationKeys from "../../../utils/translationKeys.json";
+
 export default function AddReference() {
+  var frenchKeys = translationKeys[0].french;
   const [currentForm, setCurrentForm] = useState("");
   const [currentSection, setCurrentSection] = useState("");
 
@@ -27,7 +30,7 @@ export default function AddReference() {
           label="Retour à mes contributions"
         />
 
-        <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
+        <p className="m-3 refemi">{frenchKeys.suggestNewContribution}</p>
 
         <SelectReference
           currentSection={currentSection}

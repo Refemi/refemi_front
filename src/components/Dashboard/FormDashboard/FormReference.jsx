@@ -13,6 +13,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { switchForm } from "../../../utils/switchOptions";
 import roles from "../../../utils/roles";
 import http from "../../../services/http-common";
+import trnaslationKeys from "../../../utils/translationKeys.json";
 
 // Context
 import { DataContext, UserContext } from "../../../App";
@@ -69,7 +70,6 @@ const postContribution = async (contribution, token) => {
       }
     })
     .catch(({ response }) => {
-      console.log(response);
       return response.data.error;
     });
   // .catch((error) => error.response.data.error);
@@ -98,6 +98,7 @@ const putContribution = async (contribution, token) => {
 
 //Displays the form for adding / modifying references
 export default function FormReference({ reference }) {
+  const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
   const [content, setContent] = useState("");
@@ -247,25 +248,25 @@ export default function FormReference({ reference }) {
           className="borders is-flex is-flex-direction-column is-align-items-center"
         >
           <h2 className="m-6">
-            Catégorie actuelle :{" "}
+            {frenchKeys.currentCategory}
             {currentCategory !== undefined && currentCategory.label}
           </h2>
 
           <section className="is-flex is-flex-direction-column is-align-items-center">
             {errorMessage && (
               <div className="has-text-danger has-text-centered">
-                <h3>Impossible d'ajouter la référence :</h3>
+                <h3>{frenchKeys.impossibleToAddReference}</h3>
                 <p>{errorMessage} </p>
               </div>
             )}
 
             <fieldset className="is-flex is-flex-direction-column">
               <label htmlFor="reference_name" className="required">
-                Nom / Titre
+                {frenchKeys.referenceName}
               </label>
               {matchReferenceName && (
                 <p className="has-text-danger has-text-centered">
-                  Cette référence existe déjà !
+                  {frenchKeys.referenceAlreadyExists}
                 </p>
               )}
               <input
@@ -302,7 +303,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="">
               <label htmlFor="reference_country_name" className="required">
-                Pays d&apos;origine
+                {frenchKeys.country}
               </label>
               <Select
                 required
@@ -314,7 +315,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column">
               <label htmlFor="reference_date" className="required">
-                Année
+                {frenchKeys.year}
               </label>
               <input
                 type="text"
@@ -326,7 +327,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column ">
               <label htmlFor="reference-content" className="required">
-                Contenu
+                {frenchKeys.content}
               </label>
 
               <Editor
@@ -340,7 +341,7 @@ export default function FormReference({ reference }) {
           </section>
           <fieldset className="select-fieldset is-flex is-flex-direction-column">
             <label htmlFor="reference_country_name" className="required">
-              Thèmes
+              {frenchKeys.themes}
             </label>
             <Select
               isMulti

@@ -129,8 +129,6 @@ export default function References() {
     }
   }, [references]);
 
-  console.log(references);
-
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
       {!references ? (

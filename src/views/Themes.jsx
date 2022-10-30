@@ -27,11 +27,11 @@ export default function Themes() {
       {themes.length === 0 ? (
         <Loader />
       ) : (
-        <>
+        <article>
           <h2 className="has-text-centered my-6">{frenchKeys.clickOnTheme}</h2>
 
           <section className="themes-container is-flex is-flex-direction-column">
-            <BlueButton label="Retour" path="back" />
+            <BlueButton label={frenchKeys.back} path="back" />
             <ul className="mt-6 is-flex is-flex-wrap-wrap borders is-justify-content-space-between">
               {themes
                 .sort(() => (Math.random() > 0.5 ? 1 : -1))
@@ -48,7 +48,7 @@ export default function Themes() {
                 ))}
             </ul>
           </section>
-        </>
+        </article>
       )}
     </main>
   );
