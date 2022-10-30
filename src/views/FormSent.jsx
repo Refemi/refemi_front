@@ -12,10 +12,10 @@ export default function FormSent() {
       <section className="p-6 is-flex is-justify-content-center is-flex-direction-column ">
         <Button
           className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-          onClick={"dashboard"}
-        >
-          Retour à mes contributions
-        </Button>
+          path={"dashboard"}
+          label={"Retour à mes contributions"}
+        />
+
         <p>
           Votre contribution a bien été envoyée et sera examinée par un.e
           modérateur.ice. Vous serez informé.e par email dès sa validation !
