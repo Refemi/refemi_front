@@ -44,6 +44,8 @@ export default function ListReferences({
 
   const history = useHistory();
 
+  console.log(references);
+
   return (
     <section>
       <h2 className="m-6 category-title is-uppercase" id={name}>
@@ -53,6 +55,7 @@ export default function ListReferences({
 
       <article className="description-center has-text-center borders is-flex is-justify-content-space-between p-5 line white-bg m-3">
         <p className="reflist">Nom / Titre</p>
+        <p className="reflist">Auteur.ice</p>
         <p className="reflist is-hidden-mobile">Pays</p>
         <p className="reflist is-hidden-mobile">Thèmes</p>
       </article>
@@ -70,6 +73,7 @@ export default function ListReferences({
             >
               {reference.name}
             </h3>
+            <p className="reflist-div has-text-centered">{reference.author}</p>
             <p className="reflist-div is-hidden-mobile has-text-centered">
               {reference.country}
             </p>
