@@ -9,7 +9,7 @@ import Error from "../components/Error";
 import { DataContext } from "../App";
 
 // Components
-import ListReferences from "../components/ListReferences";
+import ListReferences from "../components/References/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import Button from "../components/Button/Button";
 import Loader from "../components/Loader";
