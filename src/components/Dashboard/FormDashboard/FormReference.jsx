@@ -9,10 +9,8 @@ import { convertToHTML } from "draft-convert";
 // React Draf Wysiwyg editor CSS
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
-
 // JS
-import switchForm from "../../../utils/switchOptions";
+import { switchForm } from "../../../utils/switchOptions";
 import roles from "../../../utils/roles";
 import http from "../../../services/http-common";
 
@@ -20,7 +18,6 @@ import http from "../../../services/http-common";
 import { DataContext, UserContext } from "../../../App";
 // components
 import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
-import FormSent from "../../../views/FormSent";
 
 // Get countries list from external API
 const getCountries = async () => {

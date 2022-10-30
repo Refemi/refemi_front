@@ -10,10 +10,15 @@ import Error from "../components/Error";
 // Context
 import { DataContext } from "../App";
 
+// JS + JSON
+import translationKeys from "../utils/translationKeys.json";
+
 // COMPONENT
 export default function Themes() {
   const { themes } = useContext(DataContext);
   const history = useHistory();
+
+  const frenchKeys = translationKeys[0].french;
 
   return !themes ? (
     <Error errorCode={404} message="Impossible de trouver les thèmes" />
@@ -23,9 +28,7 @@ export default function Themes() {
         <Loader />
       ) : (
         <>
-          <h2 className="has-text-centered my-6">
-            Cliquez sur un thème pour afficher les références associées
-          </h2>
+          <h2 className="has-text-centered my-6">{frenchKeys.clickOnTheme}</h2>
 
           <section className="themes-container is-flex is-flex-direction-column">
             <BlueButton label="Retour" path="back" />

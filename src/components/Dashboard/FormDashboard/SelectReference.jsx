@@ -41,7 +41,7 @@ export default function SelectReference({
 
       {!!currentSection && categories.length > 0 && (
         <fieldset className="dashboard-fieldset is-flex is-flex-direction-column">
-          <label className="required" for="categories-select-category">
+          <label className="required" htmlFor="categories-select-category">
             2. Choisir une catégorie
           </label>
           <select

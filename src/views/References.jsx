@@ -2,10 +2,11 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
+// utils
 import http from "../services/http-common";
-
 import Error from "../components/Error";
 
+// Context
 import { DataContext } from "../App";
 
 // Components
