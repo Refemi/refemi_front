@@ -8,23 +8,10 @@ import Error from "../components/Error";
 import Loader from "../components/Loader";
 
 // JS + JSON
-import http from "../services/http-common";
 import translationKeys from "../utils/translationKeys.json";
-
-const getReferenceById = async (id) => {
-  return await http()
-    .get(`/references/${id}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((data) => data.reference[0])
-    .catch(() => false);
-};
+import { getReferenceById } from "../services/getData";
 
 // TODO : use a switch for translation keys so we get matching labels depending on info we're returning
-
 export default function RefSheet() {
   const frenchKeys = translationKeys[0].french;
   const { id } = useParams();

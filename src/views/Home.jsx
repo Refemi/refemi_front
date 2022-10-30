@@ -10,26 +10,12 @@ import { AiFillPlusCircle } from "react-icons/ai";
 // Import Components
 import Counter from "../components/Counter";
 
-// Get the different counters of the homepage
-const getHomeCounters = async () => {
-  return await http()
-    .get(`counters/home`)
-    .then((response) => response.status === 200 && response.data)
-    .then((data) => data)
-    .catch(() => {
-      return {
-        totalReferences: -1,
-        totalContributors: -1,
-        monthReferences: -1,
-      };
-    });
-};
+// import JS + JSON
+import { getHomeCounters } from "../services/getData";
+import translationKeys from "../utils/translationKeys.json";
 
-/**
- * Home component
- * @returns {JSX.Element}
- */
 export default function Home() {
+  const frenchKeys = translationKeys[0].french;
   const [counters, setCounters] = useState([]);
   const history = useHistory();
 
@@ -43,21 +29,21 @@ export default function Home() {
         <h2 className="is-align-self-center counter-box box grey-bg-opacity">
           <Counter value={counters.totalReferences} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Références
+            {frenchKeys.references}
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
           <Counter value={counters.totalContributors} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Contributeurs
+            {frenchKeys.contributors}
           </p>
         </h2>
 
         <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
           <Counter value={counters.monthReferences} />
           <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Nouveautés
+            {frenchKeys.news}
           </p>
         </h2>
       </section>
@@ -147,7 +133,7 @@ export default function Home() {
           </span>
 
           <h4 className="is-uppercase has-text-centered counter-value">
-            Catégories
+            {frenchKeys.categories}
           </h4>
         </button>
 
@@ -159,7 +145,7 @@ export default function Home() {
             <BsList className="position-absolute-icon" size={100} />
           </span>
           <h4 className="is-uppercase has-text-centered counter-value">
-            Thèmes
+            {frenchKeys.themes}
           </h4>
         </button>
 
@@ -171,7 +157,7 @@ export default function Home() {
             <AiFillPlusCircle className="position-absolute-icon" size={100} />
           </span>
           <h4 className="is-uppercase has-text-centered counter-value">
-            contribuer
+            {frenchKeys.contribute}
           </h4>
         </button>
       </section>

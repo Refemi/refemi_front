@@ -1,95 +1,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
-import http from "../services/http-common";
+// JS + JSON
 import roles from "../utils/roles";
+import {
+  getAllReferences,
+  getUserReferences,
+  setLoggedOut,
+} from "../services/getData";
 
 // Import components
 import HeaderDashboard from "../components/Dashboard/ContentDashboard/HeaderDashboard";
 import MainDashboard from "../components/Dashboard/ContentDashboard/MainDashboard";
 import AddReference from "../components/Dashboard/FormDashboard/AddReference";
 import Loader from "../components/Loader";
+
 // Import contexts
 import { UserContext } from "../App";
 
 // Create contexts
 export const DashboardContext = createContext();
 
-/**
- * Disconnect the user if the connection is corrupted (expired token)
- * @param {function} setUserCredentials
- * @param {function} setToken
- * @param {function} setIsLoggedIn
- * @return void
- */
-const setLoggedOut = (setUserCredentials, setToken, setIsLoggedIn) => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-  setUserCredentials({});
-  setToken(null);
-  setIsLoggedIn(false);
-};
-/**
- * Retrieve all references
- * @param {string} token
- * @param {function} setUserCredentials
- * @param {function} setToken
- * @param {function} setIsLoggedIn
- * @returns {object} references stored in an object by status (validated or pending)
- */
-const getAllReferences = async (
-  token,
-  setUserCredentials,
-  setToken,
-  setIsLoggedIn
-) => {
-  return await http(token)
-    .get("/references")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ references }) => references)
-    .catch((error) => {
-      if (error.response.status === 498) {
-        setLoggedOut(setUserCredentials, setToken, setIsLoggedIn);
-      }
-    });
-};
-/**
- * Retrieve all user references
- * @param {string} token
- * @param {function} setUserCredentials
- * @param {function} setToken
- * @param {function} setIsLoggedIn
- * @returns {object} references stored in an object by status (validated or pending)
- */
-const getUserReferences = async (
-  token,
-  setUserCredentials,
-  setToken,
-  setIsLoggedIn
-) => {
-  return await http(token)
-    .get("/references/user")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ references }) => references)
-    .catch((error) => {
-      if (error.response.status === 498) {
-        setLoggedOut(setUserCredentials, setToken, setIsLoggedIn);
-      }
-    });
-};
-
-/**
- * Dashboard view
- * @returns {JSX.Element}
- */
 export default function Dashboard() {
   const [showNewRef, setShowNewRef] = useState(false);
   const [contributions, setContributions] = useState({});
@@ -121,14 +52,16 @@ export default function Dashboard() {
             token,
             setUserCredentials,
             setToken,
-            setIsLoggedIn
+            setIsLoggedIn,
+            setLoggedOut
           );
         } else {
           references = await getUserReferences(
             token,
             setUserCredentials,
             setToken,
-            setIsLoggedIn
+            setIsLoggedIn,
+            setLoggedOut
           );
         }
 
@@ -149,18 +82,16 @@ export default function Dashboard() {
   return (
     isLoggedIn && (
       <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
-        {
-          Object.entries(contributions).length === 0 ? (
-            <Loader />
-          ) : (
-            <section>
-              <DashboardContext.Provider value={{ contributions, setShowNewRef }}>
-                <HeaderDashboard />
-                {showNewRef ? <AddReference /> : <MainDashboard />}
-              </DashboardContext.Provider>
-            </section>
-          )
-        }
+        {Object.entries(contributions).length === 0 ? (
+          <Loader />
+        ) : (
+          <section>
+            <DashboardContext.Provider value={{ contributions, setShowNewRef }}>
+              <HeaderDashboard />
+              {showNewRef ? <AddReference /> : <MainDashboard />}
+            </DashboardContext.Provider>
+          </section>
+        )}
       </main>
     )
   );

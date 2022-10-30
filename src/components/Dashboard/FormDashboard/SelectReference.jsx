@@ -61,7 +61,7 @@ export default function SelectReference({
               <option
                 key={category.id}
                 value={category.id}
-                for="categories-select-category"
+                htmlFor="categories-select-category"
               >
                 {category.label}
               </option>

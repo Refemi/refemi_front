@@ -9,13 +9,6 @@ import ListReferencesHeader from "./ListReferencesHeader";
 // Import Contexts
 import { DataContext } from "../../App";
 
-/**
- * ListReferences component
- * @param {string} name
- * @param {string} title
- * @param {array} references
- * @returns
- */
 export default function ListReferences({
   name = "",
   title = "",

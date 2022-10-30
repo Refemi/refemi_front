@@ -183,7 +183,7 @@ export default function Connection() {
         className="borders is-flex is-flex-direction-column is-align-items-center"
       >
         {!isUserCreated && (
-          <section classname="auth is-flex is-align-items-center">
+          <section className="auth">
             {sign === "signup" && (
               <fieldset className="is-flex is-flex-direction-column auth-field">
                 <label>{frenchKeys.userName}</label>

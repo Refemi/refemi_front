@@ -10,39 +10,11 @@ import ListReferences from "../References/ListReferences";
 
 // JS + JSON
 import translationKeys from "../../utils/translationKeys.json";
+import {
+  getReferencesFromSearch,
+  findCategories,
+} from "../../services/getData";
 
-// Get what user types in searchReferences input and format it to be processed by backend
-const getSearchReferences = async (answer, setSearchReferences) => {
-  let insert = answer.split(" ");
-  insert =
-    insert.length === 1
-      ? (insert = insert.join(""))
-      : (insert = insert.join("<->"));
-
-  return await http()
-    .get(`search/?answer=${insert}`)
-    .then((result) => {
-      if (result.status === 200) {
-        return result.data;
-      }
-    })
-    .then(({ search }) => search.sort(() => (Math.random() > 0.5 ? 1 : -1)))
-    .catch(() => false);
-};
-
-const findCategories = (references) => {
-  const categories = references.reduce(
-    (categories, reference) => {
-      if (!categories.includes(reference.category)) {
-        categories.push(reference.category);
-      }
-      return categories;
-    },
-    [""]
-  );
-  categories.shift();
-  return categories;
-};
 export default function SearchResult({ answer = "" }) {
   const frenchKeys = translationKeys[0].french;
   const [searchResult, setSearchResult] = useState(false);
@@ -67,7 +39,7 @@ export default function SearchResult({ answer = "" }) {
       }
 
       (async () => {
-        const searchResult = await getSearchReferences(answer);
+        const searchResult = await getReferencesFromSearch(answer);
         setSearchResult(searchResult !== false ? searchResult : []);
       })();
     } else {

@@ -34,7 +34,7 @@
       "contributionDashboard": "Tableau des contributions",
       "validatedContributions": "VALIDÉES",
       "pendingContributions": "EN ATTENTE",
-      "contributors": "CONTRIBUTEURS",
+      "contributors": "Contributeurs",
       "administrators": "ADMINS",
       "noContribution": "Vous n'avez pas encore contribué. Envoyez-nous votre première suggestion de référence féministe en cliquant sur le bouton + !",
       "backToDashboard": "Retour au tableau de bord",
@@ -56,7 +56,11 @@
       "signInAgain": "Vous n'êtes plus connecté.e. Merci de vous identifier à nouveau pour accéder à votre tableau de bord.",
       "referenceNotFound": "Impossible de trouver la référence recherchée",
       "date": "Date :",
-      "searchSentence": "Tapez votre mot-clé pour trouver la liste des références associées"
+      "searchSentence": "Tapez votre mot-clé pour trouver la liste des références associées",
+      "references": "Références",
+      "news": "Nouveautés",
+      "categories": "Catégories",
+      "contribute": "Contribuer"
     }
   }
 ]

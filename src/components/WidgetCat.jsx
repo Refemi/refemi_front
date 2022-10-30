@@ -4,11 +4,6 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 import { IoIosArrowBack } from "react-icons/io";
 
-/**
- * WidgetCat component
- * @param {array} categories
- * @returns {JSX.Element} WigdetCat
- */
 export default function WidgetCat({ categories = [] }) {
   const [isShown, setIsShown] = useState(false);
   // TODO: Turn this into a fixed sidebar

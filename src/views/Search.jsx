@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { GiFrenchFries } from "react-icons/gi";
 import { IoIosClose } from "react-icons/io";
 
 // Components

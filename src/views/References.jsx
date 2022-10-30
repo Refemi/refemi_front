@@ -3,8 +3,12 @@ import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 // utils
-import http from "../services/http-common";
 import Error from "../components/Error";
+import {
+  getReferencesBySection,
+  getReferencesByTheme,
+  findCategories,
+} from "../services/getData";
 
 // Context
 import { DataContext } from "../App";
@@ -14,45 +18,6 @@ import ListReferences from "../components/References/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import BlueButton from "../components/Buttons/BlueButton";
 import Loader from "../components/Loader";
-
-const getReferencesBySection = async (sectionId) => {
-  // Get sections to spread in context SectionsContext
-  return await http()
-    .get(`references/section/${sectionId}`)
-    .then((response) => response.status === 200 && response.data)
-    .then(({ references }) =>
-      references.sort(() => (Math.random() > 0.5 ? 1 : -1))
-    )
-    .catch(() => {
-      return false;
-    });
-};
-const getReferencesByTheme = async (themeId) => {
-  // Get sections to spread in context SectionsContext
-  return await http()
-    .get(`references/theme/${themeId}`)
-    .then((response) => response.status === 200 && response.data)
-    .then(({ references }) => references)
-    .catch(() => {
-      return false;
-    });
-};
-
-// Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.
-// TODO: the dependency array for now has an empty string that I happen to have to shift before returning my new array. It would be best if we didn't need to do that (not urgent)
-const findCategoriesInThemeReferences = (references) => {
-  const themeCategories = references.reduce(
-    (categories, reference) => {
-      if (!categories.includes(reference.category)) {
-        categories.push(reference.category);
-      }
-      return categories;
-    },
-    [""]
-  );
-  themeCategories.shift();
-  return themeCategories;
-};
 
 // COMPONENT
 export default function References() {
@@ -125,7 +90,7 @@ export default function References() {
 
   useEffect(() => {
     if (references) {
-      setThemeCategories(findCategoriesInThemeReferences(references));
+      setThemeCategories(findCategories(references));
     }
   }, [references]);
 

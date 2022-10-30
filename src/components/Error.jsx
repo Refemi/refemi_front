@@ -2,13 +2,6 @@ import React from "react";
 
 import BlueButton from "./Buttons/BlueButton.jsx";
 
-/**
- * @description Displays an error page depending on the arguments entered
- * @param {Object} props
- * @param {number} props.errorCode - The error code
- * @param {string} props.message - The error message
- * @return {JSX.Element}
- */
 export default function Error({
   errorCode = 500,
   message = "Une erreur est survenue",

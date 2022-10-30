@@ -143,7 +143,6 @@ const switchForm = (category) => {
 
 // ********************** //
 // Show icon depending on category
-
 const switchIcon = (categoryName) => {
   switch (categoryName) {
     case "Audiovisuel":
