@@ -3,8 +3,11 @@ import { useHistory } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
+// Import Components
+import ListReferencesHeader from "./ListReferencesHeader";
+
 // Import Contexts
-import { DataContext } from "../App";
+import { DataContext } from "../../App";
 
 /**
  * ListReferences component
@@ -44,8 +47,6 @@ export default function ListReferences({
 
   const history = useHistory();
 
-  console.log(references);
-
   return (
     <section>
       <h2 className="m-6 category-title is-uppercase" id={name}>
@@ -53,12 +54,7 @@ export default function ListReferences({
         {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
       </h2>
 
-      <article className="description-center has-text-center borders is-flex is-justify-content-space-between p-5 line white-bg m-3">
-        <p className="reflist">Nom / Titre</p>
-        <p className="reflist">Auteur.ice</p>
-        <p className="reflist is-hidden-mobile">Pays</p>
-        <p className="reflist is-hidden-mobile">Thèmes</p>
-      </article>
+      <ListReferencesHeader />
 
       <section className="mb-6">
         {currentReferences.map((reference) => (

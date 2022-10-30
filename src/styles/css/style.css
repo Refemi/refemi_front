@@ -620,11 +620,11 @@ button {
   width: 100%; }
   @media (min-width: 1024px) {
     .references .reflist-div {
-      width: calc(100% / 3); } }
+      width: calc(100% / 4); } }
 
 @media (min-width: 1024px) {
   .dataResult .reflist-div {
-    width: calc(100% / 3); } }
+    width: calc(100% / 4); } }
 
 .auth-field {
   width: 300px; }

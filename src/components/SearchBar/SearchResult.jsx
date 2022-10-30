@@ -5,7 +5,9 @@ import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 
+// Import components
 import Loader from "../Loader";
+import ListReferences from "../References/ListReferences";
 
 // Get what user types in searchReferences input and format it to be processed by backend
 const getSearchReferences = async (answer, setSearchReferences) => {
@@ -86,6 +88,8 @@ export default function SearchResult({ answer = "" }) {
     console.log(currentReferences);
   }, [currentReferences]);
 
+  console.log(categories);
+
   return (
     <section className="dataResult">
       {searchResult === false ? (
@@ -98,50 +102,25 @@ export default function SearchResult({ answer = "" }) {
             {searchResult != 0 && searchResult.length} résultats trouvés pour
             votre recherche "{answer}" :
           </h2>
-          <div className="mb-6">
-            {currentReferences.map((item) => (
-              <article
-                key={uuidv4()}
-                id={item.id}
-                className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3"
-                onClick={() => history.push(`/references/${item.id}`)}
-              >
-                <h3 className="reflist-div">{item.reference_name}</h3>
-                <p className="reflist-div is-hidden-mobile has-text-centered">
-                  {item.reference_country_name}
-                </p>
-                <p>{item.author}</p>
-                {item.themes ? (
-                  <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
-                    {item.themes
-                      .reduce(
-                        (unique, theme) =>
-                          unique.includes(theme) ? unique : [...unique, theme],
-                        []
-                      )
-                      .map((theme) => (
-                        <h4
-                          className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
-                          key={uuidv4()}
-                          onClick={() => {
-                            clearReferences();
-                            history.push(
-                              `/themes/${theme
-                                .toLowerCase()
-                                .replace(/\s+/g, "-")
-                                .normalize("NFD")
-                                .replace(/[\u0300-\u036f]/g, "")}`
-                            );
-                          }}
-                        >
-                          {theme}
-                        </h4>
-                      ))}
-                  </span>
-                ) : null}
-              </article>
-            ))}
-          </div>
+
+          {categories.map(
+            (category) =>
+              currentReferences.filter(
+                (reference) => reference.category === category
+              ).length > 0 && (
+                <ListReferences
+                  key={uuidv4()}
+                  title={category.label}
+                  name={category.name}
+                  references={currentReferences.filter(
+                    (reference) => reference.category === category
+                  )}
+                  clearReferences={() => {
+                    setCurrentReferences([]);
+                  }}
+                />
+              )
+          )}
 
           {pageCount > 1 && (
             <ReactPaginate
