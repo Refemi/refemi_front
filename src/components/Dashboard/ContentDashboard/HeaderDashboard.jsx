@@ -5,9 +5,10 @@ import { useHistory } from "react-router";
 import { UserContext } from "../../../App";
 
 // Import JS + JSON
-import http from "../../../services/http-common";
 import roles from "../../../utils/roles";
 import translationKeys from "../../../utils/translationKeys.json";
+import { getAdminCounters, getUserCounters } from "../../../services/getData";
+import { switchNavigationTo } from "../../../utils/switchOptions";
 
 //Import icons
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -15,43 +16,26 @@ import { AiFillPlusCircle } from "react-icons/ai";
 // Import components
 import CounterBox from "../../Counters/CounterBox";
 
-const getAdminCounter = async (token) =>
-  await http(token)
-    .get("/counters/dashboard/admin/")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ counters }) => counters);
-/**
- * Retrieve counters for users
- * @param {string} token
- * @returns
- */
-const getUserCounter = async (token) =>
-  await http(token)
-    .get("/counters/dashboard/contributor")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ counters }) => counters);
-
 export default function HeaderDashboard() {
+  // TODO: CREATE COUNTER CONTAINER COMPONENT
   const frenchKeys = translationKeys[0].french;
   const history = useHistory();
   const { userCredentials, token } = useContext(UserContext);
   const [counters, setCounters] = useState({});
 
+  const getCounters = async () => {
+    userCredentials.role === roles.ADMIN
+      ? setCounters(await getAdminCounters(token))
+      : setCounters(await getUserCounters(token));
+  };
+
   useEffect(() => {
-    (async () => {
-      userCredentials.role === roles.ADMIN
-        ? setCounters(await getAdminCounter(token))
-        : setCounters(await getUserCounter(token));
-    })();
+    getCounters();
   }, [userCredentials, token]);
+
+  const navigateTo = (path) => {
+    history.push(path);
+  };
 
   return (
     <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around p-2">
@@ -114,7 +98,7 @@ export default function HeaderDashboard() {
           <AiFillPlusCircle
             size={32}
             className="pointer add-button_icon"
-            onClick={() => history.push("/addReference")}
+            onClick={() => switchNavigationTo("addReference", navigateTo)}
           />
         </button>
       </article>

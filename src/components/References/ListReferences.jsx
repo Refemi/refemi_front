@@ -19,6 +19,8 @@ export default function ListReferences({
   const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState();
 
+  const history = useHistory();
+
   // paginate references
   const paginateReferences = () => {
     const paginated = references.slice(offset, offset + perPage);
@@ -34,8 +36,6 @@ export default function ListReferences({
   useEffect(() => {
     paginateReferences();
   }, [offset]);
-
-  const history = useHistory();
 
   return (
     <section>

@@ -2,19 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import http from "../services/http-common";
 
 // Context
 import { UserContext } from "../App";
 
 // import JS + JSON
 import translationKeys from "../utils/translationKeys.json";
+import { signUp, signIn } from "../services/getData";
 
-/**
- * Regex to verify mail validity
- * @param {string} email
- * @return {boolean}
- */
 const isEmailValid = (email) => {
   const regex = new RegExp(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -50,54 +45,10 @@ export default function Connection() {
 
   passwordInput.current = watch("password");
 
-  const signUp = async (user) => {
-    return await http()
-      .post(`auth/signUp`, {
-        userName: user.name,
-        userEmail: user.email,
-        userPassword: user.password,
-      })
-      .then(({ status }) => {
-        if (status === 201) {
-          return false;
-        }
-      })
-      .catch(({ response }) => {
-        return response.data.error;
-      });
-  };
-  /**
-   * Login a user
-   * @param {object} user - user data
-   * @param {string} user.email - user email
-   * @param {string} user.password - user password
-   * @return {boolean}
-   */
-  const signIn = async (user) => {
-    return await http()
-      .post(`/auth/signIn`, {
-        userEmail: user.email,
-        userPassword: user.password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.data;
-        }
-      })
-      .then(({ accessToken, user }) => {
-        if (accessToken === null || accessToken === undefined) {
-          throw new Error("No token");
-        }
-
-        setUserCredentials(user);
-        setToken(accessToken);
-        setIsLoggedIn(true);
-
-        return false;
-      })
-      .catch(({ response }) => {
-        return response.data.error;
-      });
+  const setUserData = (user, accessToken, isLoggedIn) => {
+    setUserCredentials(user);
+    setToken(accessToken);
+    setIsLoggedIn(isLoggedIn);
   };
 
   // Handles the case of login
@@ -106,7 +57,7 @@ export default function Connection() {
 
     switch (sign) {
       case "signin":
-        error = await signIn(data);
+        error = await signIn(data, setUserData);
         break;
       case "signup":
         error = await signUp(data);
@@ -136,13 +87,9 @@ export default function Connection() {
         if (userCredentials.accessToken !== null) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
-          setUserCredentials({ name: "", mail: "", role: "" });
-          setToken(null);
-          setIsLoggedIn(false);
-
+          setUserData({ name: "", mail: "", role: "" }, null, false);
           history.push("/auth/signin");
         }
-
         break;
       default:
         break;
@@ -229,7 +176,7 @@ export default function Connection() {
                 <section>
                   <p className="error">{frenchKeys.incorrectPassword}</p>
                   <ol className="auth-field-list">
-                    <li className="error">Six caractères de A à z</li>
+                    <li className="error">{frenchKeys.sixCharacters}</li>
                     <li className="error">{frenchKeys.majAndMin}</li>
                     <li className="error">{frenchKeys.oneNumber}</li>
                     <li className="error">{frenchKeys.oneSpecialCharacter}</li>

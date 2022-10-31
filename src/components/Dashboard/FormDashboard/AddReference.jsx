@@ -27,7 +27,7 @@ export default function AddReference() {
         <BlueButton
           className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
           path={"back"}
-          label="Retour à mes contributions"
+          label={frenchKeys.backToContributions}
         />
 
         <p className="m-3 refemi">{frenchKeys.suggestNewContribution}</p>

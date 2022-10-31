@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router";
 
 // import components
@@ -62,27 +63,26 @@ export default function MainDashboard() {
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
           <div>
-            <button
-              onClick={() => setEditContribution({})}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-            >
-              {frenchKeys.backToDashboard}
-            </button>
-
-            {editContribution.status && (
+            <div className="is-flex is-justify-content-end ">
               <button
-                onClick={() =>
-                  history.push(`/references/${editContribution.id}`)
-                }
+                onClick={() => setEditContribution({})}
                 className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
               >
-                {frenchKeys.seeContribution}
+                {frenchKeys.backToDashboard}
               </button>
-            )}
-            <FormReference
-              category={editContribution.category_id}
-              reference={editContribution}
-            />
+
+              {editContribution.status && (
+                <button
+                  onClick={() =>
+                    history.push(`/references/:${editContribution.id}`)
+                  }
+                  className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                >
+                  {frenchKeys.seeContribution}
+                </button>
+              )}
+            </div>
+            <FormReference reference={editContribution} />
           </div>
         ) : (
           renderDashboard(contributions)
@@ -91,3 +91,7 @@ export default function MainDashboard() {
     </article>
   );
 }
+
+MainDashboard.propTypes = {
+  contributions: PropTypes.array,
+};

@@ -148,20 +148,20 @@ const switchForm = (category) => {
 
 // ********************** //
 // Show icon depending on category
-const switchIcon = (categoryName) => {
+const switchIcon = (categoryName, size) => {
   switch (categoryName) {
     case "Audiovisuel":
-      return <AiOutlineFundProjectionScreen size={100} />;
+      return <AiOutlineFundProjectionScreen size={size} />;
     case "Juridique & Militantisme":
-      return <GiInjustice size={100} />;
+      return <GiInjustice size={size} />;
     case "Art & Jeunessse":
-      return <GiPaintBrush size={100} />;
+      return <GiPaintBrush size={size} />;
     case "Portraits & Vocabulaire":
-      return <GiPerson size={100} />;
+      return <GiPerson size={size} />;
     case "Presse & Internet":
-      return <GiNewspaper size={100} />;
+      return <GiNewspaper size={size} />;
     case "Lectures":
-      return <GiBookCover size={100} />;
+      return <GiBookCover size={size} />;
     default:
       return null;
   }
@@ -180,4 +180,29 @@ const switchButtonIcon = (option) => {
   }
 };
 
-export { switchForm, switchIcon, switchButtonIcon };
+const switchNavigationTo = (path, navigateTo, target) => {
+  switch (path) {
+    case "categories":
+      return navigateTo("/categories");
+    case "themes":
+      return navigateTo("/themes");
+    case "themeName":
+      return navigateTo(`/themes/${target}`);
+    case "signIn":
+      return navigateTo("/auth/signin");
+    case "singOut":
+      return navigateTo("/auth/signout");
+    case "dashboard":
+      return navigateTo("/dashboard");
+    case "contact":
+      return navigateTo("/contact");
+    case "search":
+      return navigateTo("/search");
+    case "formSent":
+      return navigateTo("/addReference/formReference/formSent");
+    case "addReference":
+      return navigateTo("/addReference");
+  }
+};
+
+export { switchForm, switchIcon, switchButtonIcon, switchNavigationTo };

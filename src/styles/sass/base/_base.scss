@@ -163,32 +163,3 @@ button {
     z-index: 2;
   }
 }
-.logo-loader {
-  display: flex;
-  justify-content: center;
-  margin: 2em;
-
-  &_square {
-    width: 0.5rem;
-    height: 0.5rem;
-    margin: 0.2rem;
-  }
-  &_square:nth-child(1) {
-    background-color: $green-grey;
-    animation: zoom-in-out 1.8s ease 6s infinite normal;
-    -moz-animation: zoom-in-out 1s ease 6s infinite normal;
-    -ms-animation: zoom-in-out 1s ease 6s infinite normal;
-  }
-  &_square:nth-child(2) {
-    background-color: $dark-blue;
-    animation: zoom-in-out 1.8s ease 0.12s infinite normal;
-    -moz-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
-    -ms-animation: zoom-in-out 1.8s ease 0.12s infinite normal;
-  }
-  &_square:nth-child(3) {
-    background-color: $aqua;
-    animation: zoom-in-out 1.8s ease 0.18s infinite normal;
-    -moz-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
-    -ms-animation: zoom-in-out 1.8s ease 0.18s infinite normal;
-  }
-}

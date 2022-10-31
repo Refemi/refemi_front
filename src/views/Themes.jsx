@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,12 +12,17 @@ import { DataContext } from "../App";
 
 // JS + JSON
 import translationKeys from "../utils/translationKeys.json";
+import { switchNavigationTo } from "../utils/switchOptions";
 
 // COMPONENT
 export default function Themes() {
   const { themes } = useContext(DataContext);
   const frenchKeys = translationKeys[0].french;
   const history = useHistory();
+
+  const navigateTo = (path) => {
+    return history.push(path);
+  };
 
   return !themes ? (
     <Error errorCode={404} message={frenchKeys.themesNotFound} />
@@ -38,9 +43,9 @@ export default function Themes() {
                   <li
                     className="m-1 pointer theme"
                     key={uuidv4()}
-                    onClick={() => {
-                      history.push(`/themes/${theme.name}`);
-                    }}
+                    onClick={() =>
+                      switchNavigationTo("themeName", navigateTo, theme.name)
+                    }
                   >
                     <h3>{theme.label}</h3>
                   </li>

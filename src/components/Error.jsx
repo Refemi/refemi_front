@@ -1,11 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
+/// Components
 import BlueButton from "./Buttons/BlueButton.jsx";
 
-export default function Error({
-  errorCode = 500,
-  message = "Une erreur est survenue",
-}) {
+// JS + JSON
+import translationKeys from "../utils/translationKeys.json";
+const frenchKeys = translationKeys[0].french;
+
+export default function Error({ errorCode, message }) {
   return (
     <section className="has-text-centered	is-flex is-flex-direction-column is-align-content-center">
       <BlueButton label="Retour" path="back" />
@@ -14,3 +17,13 @@ export default function Error({
     </section>
   );
 }
+
+Error.defaultProps = {
+  error: 500,
+  message: frenchKeys.errorOccured,
+};
+
+Error.propTypes = {
+  errocode: PropTypes.number.isRequired,
+  message: PropTypes.string.isRequired,
+};

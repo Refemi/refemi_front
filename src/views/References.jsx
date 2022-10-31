@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 // utils
-import Error from "../components/Error";
 import {
   getReferencesBySection,
   getReferencesByTheme,
@@ -18,6 +17,7 @@ import ListReferences from "../components/References/ListReferences";
 import WidgetCat from "../components/WidgetCat";
 import BlueButton from "../components/Buttons/BlueButton";
 import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 // COMPONENT
 export default function References() {

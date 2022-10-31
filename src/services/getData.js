@@ -1,4 +1,5 @@
 import http from "./http-common";
+import handleResponse from "../utils/handleResponse";
 
 const getReferencesBySection = async (sectionId) => {
   // Get sections to spread in context SectionsContext
@@ -212,12 +213,114 @@ const putContribution = async (contribution, token) => {
   return false;
 };
 
+const signUp = async (user) => {
+  return await http()
+    .post(`auth/signUp`, {
+      userName: user.name,
+      userEmail: user.email,
+      userPassword: user.password,
+    })
+    .then(({ status }) => {
+      if (status === 201) {
+        return false;
+      }
+    })
+    .catch(({ response }) => {
+      return response.data.error;
+    });
+};
+
+const signIn = async (user, setUserData) => {
+  return await http()
+    .post(`/auth/signIn`, {
+      userEmail: user.email,
+      userPassword: user.password,
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then(({ accessToken, user }) => {
+      if (accessToken === null || accessToken === undefined) {
+        throw new Error("No token");
+      }
+      setUserData(user, accessToken, true);
+      return false;
+    })
+    .catch(({ response }) => {
+      return response.data.error;
+    });
+};
+
+const getAdminCounters = async (token) => {
+  return await http(token)
+    .get("/counters/dashboard/admin/")
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then(({ counters }) => counters);
+};
+
+const getUserCounters = async (token) => {
+  return await http(token)
+    .get("/counters/dashboard/contributor")
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then(({ counters }) => counters);
+};
+
+const getSections = async () => {
+  // Get sections to spread in context SectionsContext
+  return await http()
+    .get(`sections`)
+    .then((response) => response.status === 200 && response.data)
+    .then((data) => {
+      return data.sections;
+    })
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
+};
+
+const getCategories = async () => {
+  // Get categories to spread in context DataContext
+  return await http()
+    .get(`categories`)
+    .then((response) => response.status === 200 && response.data)
+    .then((data) => data.categories)
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
+};
+
+const getThemes = async () => {
+  // Get themes to spread in context AllThemes
+  return await http()
+    .get(`themes`)
+    .then((response) => {
+      // TODO see the behavior of this function
+      return handleResponse(response, 200);
+    })
+    .then((data) => data.themes)
+    .catch((error) => {
+      // TODO : display the error in a dedicated location
+    });
+};
+
 export {
   getReferencesBySection,
   getReferencesByTheme,
   findCategories,
   getReferenceById,
   getHomeCounters,
+  getAdminCounters,
+  getUserCounters,
   getAllReferences,
   getUserReferences,
   setLoggedOut,
@@ -226,4 +329,9 @@ export {
   getReferencesByName,
   postContribution,
   putContribution,
+  signUp,
+  signIn,
+  getSections,
+  getCategories,
+  getThemes,
 };

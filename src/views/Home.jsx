@@ -1,10 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
-
-// Import Icons
-import { BiCategoryAlt } from "react-icons/bi";
-import { BsList } from "react-icons/bs";
-import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import Components
 import CounterBox from "../components/Counters/CounterBox";
@@ -18,13 +12,14 @@ import HomeButton from "../components/Buttons/HomeButton";
 export default function Home() {
   const frenchKeys = translationKeys[0].french;
   const [counters, setCounters] = useState([]);
-  const history = useHistory();
 
   const getCounters = async () => setCounters(await getHomeCounters());
 
   useEffect(() => {
-    getCounters();
-  }, []);
+    // we load counters only the first time. No need yet for real time updates
+    // makes us gain 3 points in performance
+    if (counters.length === 0) getCounters();
+  }, [counters]);
 
   return (
     <main className="main-text-color home">

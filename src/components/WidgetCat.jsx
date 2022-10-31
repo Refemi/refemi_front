@@ -8,7 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import GreyButton from "./Buttons/GreyButton";
 
 // TODO: Turn this into a fixed sidebar
-export default function WidgetCat({ categories = [] }) {
+export default function WidgetCat({ categories }) {
   const [isShown, setIsShown] = useState(false);
 
   const showCategories = () => {
