@@ -162,4 +162,28 @@ const switchIcon = (categoryName) => {
   }
 };
 
-export { switchForm, switchIcon };
+const switchNavigationPath = (path, history) => {
+  switch (path) {
+    case "back":
+      history.goBack();
+      break;
+    case "addReference":
+      history.push("/addReference/formReference");
+      break;
+    case "home":
+      history.push("/");
+      break;
+    case "categories":
+      history.push("/categories");
+      break;
+    case "themes":
+      history.push("/themes");
+      break;
+    case "dashboard":
+      history.push("/dashboard");
+    default:
+      history.push(path);
+  }
+};
+
+export { switchForm, switchIcon, switchNavigationPath };

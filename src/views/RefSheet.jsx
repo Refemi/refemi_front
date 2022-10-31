@@ -17,7 +17,7 @@ export default function RefSheet() {
   const { id } = useParams();
   const history = useHistory();
   const [reference, setReference] = useState({});
-  const handleClick = () => history.goBack(); // TODO: we need to make sure that in all cases it does get you to the previous page. Sometimes goBack() can be tricky
+  const handleClick = () => history.goBack();
 
   useEffect(() => {
     // Get the reference that the user clicked

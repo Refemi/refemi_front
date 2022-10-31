@@ -60,7 +60,8 @@
       "references": "Références",
       "news": "Nouveautés",
       "categories": "Catégories",
-      "contribute": "Contribuer"
+      "contribute": "Contribuer",
+      "themesNotFound": "Impossible de trouver les thèmes"
     }
   }
 ]

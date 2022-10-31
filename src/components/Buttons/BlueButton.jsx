@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 // COMPONENT
 export default function BlueButton({ label, path }) {
   const history = useHistory();
 
-  const navigationPath = (path) => {
+  const navigateTo = (path) => {
     switch (path) {
       case "back":
         history.goBack();
@@ -32,9 +33,14 @@ export default function BlueButton({ label, path }) {
   return (
     <button
       className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end mr-4"
-      onClick={() => navigationPath(path)}
+      onClick={() => navigateTo(path)}
     >
       {label}
     </button>
   );
 }
+
+BlueButton.propTypes = {
+  label: PropTypes.string,
+  path: PropTypes.string,
+};

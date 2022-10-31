@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 
 // Components
-import SearchResult from "../components/SearchBar/SearchResult";
+import SearchResult from "../components/Search/SearchResult";
 
 // JS + JSON
 import translationKeys from "../utils/translationKeys.json";
@@ -12,6 +12,12 @@ export default function Search() {
   const frenchKeys = translationKeys[0].french;
   const [search, setSearch] = useState(null);
   const inputSearch = useRef(null);
+
+  const clearSearch = () => {
+    const input = inputSearch;
+    input.current.value = null;
+    return setSearch(null);
+  };
 
   return (
     <main className="search is-flex is-flex-direction-column is-align-items-center">
@@ -27,19 +33,10 @@ export default function Search() {
           onChange={(e) => setSearch(e.target.value)}
           className="borders form-input search-input my-6"
         />
-        <IoIosClose
-          className="clearBtn"
-          onClick={() => {
-            const input = inputSearch;
-            input.current.value = null;
-            setSearch(null);
-          }}
-        />
+        <IoIosClose className="clearBtn" onClick={() => clearSearch()} />
       </fieldset>
 
-      {search !== null && (
-        <SearchResult answer={search !== null && search !== "" ? search : ""} />
-      )}
+      {search !== null && <SearchResult answer={search} />}
     </main>
   );
 }

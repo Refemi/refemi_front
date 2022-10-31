@@ -67,7 +67,7 @@ export default function References() {
       }
     } else if (!!themeName) {
       const currentTheme = themes.filter(
-        (theme) => themeName === theme.name
+        (theme) => themeName === theme.label
       )[0];
 
       if (currentTheme === undefined) {

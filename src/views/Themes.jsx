@@ -16,12 +16,11 @@ import translationKeys from "../utils/translationKeys.json";
 // COMPONENT
 export default function Themes() {
   const { themes } = useContext(DataContext);
+  const frenchKeys = translationKeys[0].french;
   const history = useHistory();
 
-  const frenchKeys = translationKeys[0].french;
-
   return !themes ? (
-    <Error errorCode={404} message="Impossible de trouver les thèmes" />
+    <Error errorCode={404} message={frenchKeys.themesNotFound} />
   ) : (
     <main className="mb-6 has-text-center is-flex is-flex-direction-column themes">
       {themes.length === 0 ? (

@@ -15,7 +15,7 @@ import {
   findCategories,
 } from "../../services/getData";
 
-export default function SearchResult({ answer = "" }) {
+export default function SearchResult({ answer }) {
   const frenchKeys = translationKeys[0].french;
   const [searchResult, setSearchResult] = useState(false);
   // Following states are for pagination
@@ -32,16 +32,17 @@ export default function SearchResult({ answer = "" }) {
   };
 
   // Waits for the input info to be processed before sending it to state
+  const updateSearch = async () => {
+    const searchResult = await getReferencesFromSearch(answer);
+    return setSearchResult(searchResult !== false ? searchResult : []);
+  };
+
   useEffect(() => {
     if (answer !== "") {
       if (searchResult !== false) {
         setSearchResult(false);
       }
-
-      (async () => {
-        const searchResult = await getReferencesFromSearch(answer);
-        setSearchResult(searchResult !== false ? searchResult : []);
-      })();
+      updateSearch();
     } else {
       setSearchResult(false);
     }
@@ -120,9 +121,9 @@ export default function SearchResult({ answer = "" }) {
 }
 
 SearchResult.propTypes = {
-  search: PropTypes.string,
+  answer: PropTypes.string,
 };
 
 SearchResult.defaultProps = {
-  search: "",
+  answer: "",
 };
