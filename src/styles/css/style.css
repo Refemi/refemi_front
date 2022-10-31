@@ -410,7 +410,7 @@ button {
             position: absolute;
             flex-direction: column;
             border-radius: 1rem;
-            box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.3); } }
+            box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1); } }
     @media (min-width: 768px) {
       .refemi-navbar .nav-container {
         display: flex;

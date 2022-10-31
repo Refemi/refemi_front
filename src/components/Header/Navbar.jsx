@@ -49,11 +49,12 @@ const Navbar = () => {
 
   return (
     <nav className="nav">
-      <MenuButton
+      <button
         className={`nav-toggle ${!!toggleMenu && "show-toggle"}`}
         onClick={() => setToggleMenu(!toggleMenu)}
-        label={<BsList size={50} />}
-      />
+      >
+        <BsList size={50} />
+      </button>
 
       <ul className={`nav-container ${toggleMenu && "show-links"}`}>
         <li className="nav-item">
@@ -65,19 +66,17 @@ const Navbar = () => {
           />
           {dropDown && (
             <section className="dropdown-items">
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
                 onClick={() => pushHistory("/categories")}
-              >
-                Catégories
-              </button>
+                label={frenchKeys.categories}
+              />
 
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
                 onClick={() => pushHistory("/themes")}
-              >
-                Thèmes
-              </button>
+                label={frenchKeys.themes}
+              />
             </section>
           )}
         </li>
@@ -92,7 +91,7 @@ const Navbar = () => {
             }
             className="btn-nav pointer is-uppercase"
           >
-            Mon compte
+            Compte
           </button>
         </li>
 
