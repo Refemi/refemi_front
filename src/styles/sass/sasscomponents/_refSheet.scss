@@ -12,14 +12,6 @@
     }
   }
 
-  &-info {
-    padding: 0;
-
-    @include tablet {
-      padding-left: 3rem;
-    }
-  }
-
   &-title {
     font-size: $font-10;
 

@@ -70,7 +70,7 @@ export default function SearchResult({ answer }) {
         ) : null
       ) : (
         <article>
-          <h2 className="mb-6 darkblue-text has-text-weight-bold">
+          <h2 className="mb-6 darkblue-text has-text-centered has-text-weight-bold">
             {searchResult != 0 && searchResult.length} {frenchKeys.foundResults}{" "}
             "{answer}" :
           </h2>

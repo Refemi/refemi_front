@@ -12,20 +12,12 @@ export default function RefSheetHeader(props) {
         {reference.name}
       </h2>
       <hr />
-      <p className="my-3 reference-content-info is-size-5 has-text-centered ">
-        {reference.date}
-      </p>
+      <p className="is-size-5 has-text-centered ">{reference.date}</p>
 
-      <h3 className="my-3 reference-content-info is-size-5 has-text-centered ">
-        {reference.author}
-      </h3>
-      <p className="my-3 reference-content-info is-size-5 has-text-centered ">
-        {reference.field}
-      </p>
-      <p className="my-3 reference-content-info is-size-5 has-text-centered ">
-        {reference.country}
-      </p>
-      <div className="my-3 reference-content-info is-flex is-justify-content-center">
+      <h3 className="is-size-5 has-text-centered ">{reference.author}</h3>
+      <p className="is-size-5 has-text-centered ">{reference.field}</p>
+      <p className="is-size-5 has-text-centered ">{reference.country}</p>
+      <div className="is-flex is-justify-content-center">
         {reference.themes &&
           reference.themes
             .reduce(

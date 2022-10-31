@@ -35,8 +35,7 @@
   scroll-behavior: smooth; }
 
 main {
-  margin-top: 9rem;
-  margin-bottom: 10rem; }
+  margin-top: 9rem; }
   @media (min-width: 1024px) {
     main {
       margin-top: 6rem; } }
@@ -276,11 +275,6 @@ button {
     @media (min-width: 1024px) {
       .reference-content-header {
         margin: auto; } }
-  .reference-content-info {
-    padding: 0; }
-    @media (min-width: 1024px) {
-      .reference-content-info {
-        padding-left: 3rem; } }
   .reference-content-title {
     font-size: 1rem; }
     @media (min-width: 1024px) {
@@ -679,7 +673,8 @@ button {
   right: 12%; }
   @media (min-width: 1024px) {
     .search .clearBtn {
-      right: 10%; } }
+      right: 10%;
+      top: 5%; } }
 
 .icon-navbar:hover {
   color: #0be3af;

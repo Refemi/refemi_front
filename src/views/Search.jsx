@@ -31,7 +31,7 @@ export default function Search() {
           type="text"
           placeholder="Recherche"
           onChange={(e) => setSearch(e.target.value)}
-          className="borders form-input search-input my-6"
+          className="borders form-input search-input"
         />
         <IoIosClose className="clearBtn" onClick={() => clearSearch()} />
       </fieldset>
