@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 // COMPONENT
-export default function BlueButton({ label, path }) {
+export default function BlueButton({ label, path, spacing }) {
   const history = useHistory();
 
   const navigateTo = (path) => {
@@ -32,7 +32,7 @@ export default function BlueButton({ label, path }) {
 
   return (
     <button
-      className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end mr-4"
+      className={`${spacing} pointer send-btn darkblue-bg has-text-white is-align-self-flex-end mr-4`}
       onClick={() => navigateTo(path)}
     >
       {label}
