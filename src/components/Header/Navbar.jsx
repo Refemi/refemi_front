@@ -6,9 +6,16 @@ import { BsList } from "react-icons/bs";
 import { UserContext } from "../../App";
 import { HeaderContext } from "./Header";
 
+// Components
+import MenuButton from "../Buttons/MenuButton";
+
+// JS + JSON
+import translationKeys from "../../utils/translationKeys.json";
+
 // COMPONENT
 const Navbar = () => {
   const history = useHistory();
+  const frenchKeys = translationKeys[0].french;
 
   const [dropDown, setDropDown] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
@@ -42,22 +49,20 @@ const Navbar = () => {
 
   return (
     <nav className="nav">
-      <button
+      <MenuButton
         className={`nav-toggle ${!!toggleMenu && "show-toggle"}`}
         onClick={() => setToggleMenu(!toggleMenu)}
-      >
-        <BsList size={50} />
-      </button>
+        label={<BsList size={50} />}
+      />
 
       <ul className={`nav-container ${toggleMenu && "show-links"}`}>
         <li className="nav-item">
-          <button
+          <MenuButton
             id="dropdown"
             onClick={() => setDropDown(!dropDown)}
             className="dropdown-btn btn-nav pointer is-uppercase"
-          >
-            Références
-          </button>
+            label={frenchKeys.references}
+          />
           {dropDown && (
             <section className="dropdown-items">
               <button
