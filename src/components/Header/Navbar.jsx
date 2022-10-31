@@ -6,9 +6,16 @@ import { BsList } from "react-icons/bs";
 import { UserContext } from "../../App";
 import { HeaderContext } from "./Header";
 
+// Components
+import MenuButton from "../Buttons/MenuButton";
+
+// JS + JSON
+import translationKeys from "../../utils/translationKeys.json";
+
 // COMPONENT
 const Navbar = () => {
   const history = useHistory();
+  const frenchKeys = translationKeys[0].french;
 
   const [dropDown, setDropDown] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
@@ -42,37 +49,31 @@ const Navbar = () => {
 
   return (
     <nav className="nav">
-      <button
-        className={`nav-toggle ${!!toggleMenu && "show-toggle"}`}
-        onClick={() => setToggleMenu(!toggleMenu)}
+      <ul
+        className={`nav-container ${
+          toggleMenu && "show-links"
+        } is-flex is-justify-content-space-between`}
       >
-        <BsList size={50} />
-      </button>
-
-      <ul className={`nav-container ${toggleMenu && "show-links"}`}>
         <li className="nav-item">
-          <button
+          <MenuButton
             id="dropdown"
             onClick={() => setDropDown(!dropDown)}
             className="dropdown-btn btn-nav pointer is-uppercase"
-          >
-            Références
-          </button>
+            label={frenchKeys.references}
+          />
           {dropDown && (
             <section className="dropdown-items">
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
                 onClick={() => pushHistory("/categories")}
-              >
-                Catégories
-              </button>
+                label={frenchKeys.categories}
+              />
 
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
                 onClick={() => pushHistory("/themes")}
-              >
-                Thèmes
-              </button>
+                label={frenchKeys.themes}
+              />
             </section>
           )}
         </li>
@@ -87,7 +88,7 @@ const Navbar = () => {
             }
             className="btn-nav pointer is-uppercase"
           >
-            Mon compte
+            Compte
           </button>
         </li>
 
