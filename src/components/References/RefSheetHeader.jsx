@@ -1,13 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-export default function RefSheetHeader(props) {
+export default function RefSheetHeader({ reference }) {
   const history = useHistory();
-  const reference = props.reference;
 
   return (
-    <>
+    <article className="white-bg p-2 reference-content-header">
       <h2 className="reference-content-title has-text-weight-bold has-text-centered mb-6 px-3 has-text-weight-semibold is-size-3">
         {reference.name}
       </h2>
@@ -43,6 +43,10 @@ export default function RefSheetHeader(props) {
               </h4>
             ))}
       </div>
-    </>
+    </article>
   );
 }
+
+RefSheetHeader.propTypes = {
+  reference: PropTypes.object,
+};

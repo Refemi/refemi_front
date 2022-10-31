@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import http from "../../services/http-common";
 import { v4 as uuidv4 } from "uuid";
 import ReactPaginate from "react-paginate";
 

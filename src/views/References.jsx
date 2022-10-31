@@ -26,6 +26,7 @@ export default function References() {
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
 
+  // TODO : search by sectionID and themeID !!!!!!!
   const getReferences = useCallback(async () => {
     if (references.length === 0) {
       try {

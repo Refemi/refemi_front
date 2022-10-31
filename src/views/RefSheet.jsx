@@ -19,7 +19,6 @@ export default function RefSheet() {
   const { id } = useParams();
   const history = useHistory();
   const [reference, setReference] = useState({});
-  const handleClick = () => history.goBack();
 
   useEffect(() => {
     // Get the reference that the user clicked
@@ -39,9 +38,7 @@ export default function RefSheet() {
         <div className="is-flex is-flex-direction-column is-align-items-center reference-content">
           <BlueButton spacing="m-3" path="back" label={frenchKeys.back} />
 
-          <article className="white-bg p-2 reference-content-header">
-            <RefSheetHeader reference={reference} key={uuidv4()} />
-          </article>
+          <RefSheetHeader reference={reference} key={uuidv4()} />
 
           <article
             className="reference-content-details white-bg borders  m-6"

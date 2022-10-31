@@ -13,7 +13,7 @@ import translationKeys from "../../../utils/translationKeys.json";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import components
-import Counter from "../../Counter";
+import CounterBox from "../../Counters/CounterBox";
 
 const getAdminCounter = async (token) =>
   await http(token)
@@ -69,7 +69,7 @@ export default function HeaderDashboard() {
       <section className="dashboard-counters is-flex is-justify-content-center is-flex-wrap-wrap">
         <div className="is-flex is-justify-content-space-between counter-double">
           <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
-            <Counter
+            <CounterBox
               label="contributions validées"
               value={counters.totalApprovedContributions}
             />
@@ -79,7 +79,7 @@ export default function HeaderDashboard() {
           </article>
 
           <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
-            <Counter
+            <CounterBox
               label="contributions en attente"
               value={counters.totalPendingContributions}
             />
@@ -92,7 +92,7 @@ export default function HeaderDashboard() {
         {userCredentials.role === roles.ADMIN && (
           <div className="is-flex is-justify-content-space-between counter-double">
             <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
-              <Counter
+              <CounterBox
                 label="contributeurs"
                 value={counters.totalContributors}
               />
@@ -101,7 +101,7 @@ export default function HeaderDashboard() {
               </p>
             </article>
             <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper px-4">
-              <Counter label="admins" value={counters.totalAdministrators} />
+              <CounterBox label="admins" value={counters.totalAdministrators} />
               <p className="has-text-weight-bold counter-label">
                 {frenchKeys.administrators}
               </p>

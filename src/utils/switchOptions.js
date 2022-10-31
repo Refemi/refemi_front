@@ -1,5 +1,8 @@
 import React from "react";
-import { AiOutlineFundProjectionScreen } from "react-icons/ai";
+import {
+  AiOutlineFundProjectionScreen,
+  AiFillPlusCircle,
+} from "react-icons/ai";
 import {
   GiInjustice,
   GiPaintBrush,
@@ -7,6 +10,8 @@ import {
   GiNewspaper,
   GiBookCover,
 } from "react-icons/gi";
+import { BiCategoryAlt } from "react-icons/bi";
+import { BsList } from "react-icons/bs";
 
 // Each form to suggest a reference is different
 const switchForm = (category) => {
@@ -162,28 +167,17 @@ const switchIcon = (categoryName) => {
   }
 };
 
-const switchNavigationPath = (path, history) => {
-  switch (path) {
-    case "back":
-      history.goBack();
-      break;
-    case "addReference":
-      history.push("/addReference/formReference");
-      break;
-    case "home":
-      history.push("/");
-      break;
+const switchButtonIcon = (option) => {
+  switch (option) {
     case "categories":
-      history.push("/categories");
-      break;
+      return <BiCategoryAlt className="position-absolute-icon" size={100} />;
     case "themes":
-      history.push("/themes");
-      break;
-    case "dashboard":
-      history.push("/dashboard");
+      return <BsList className="position-absolute-icon" size={100} />;
+    case "contribute":
+      return <AiFillPlusCircle className="position-absolute-icon" size={100} />;
     default:
-      history.push(path);
+      break;
   }
 };
 
-export { switchForm, switchIcon, switchNavigationPath };
+export { switchForm, switchIcon, switchButtonIcon };
