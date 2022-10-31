@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useHistory } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 
 // Components
@@ -17,16 +16,15 @@ import { getReferenceById } from "../services/getData";
 export default function RefSheet() {
   const frenchKeys = translationKeys[0].french;
   const { id } = useParams();
-  const history = useHistory();
   const [reference, setReference] = useState({});
 
+  // Get the reference that the user clicked
+  const getReferenceContent = async () => {
+    setReference(await getReferenceById(id));
+  };
   useEffect(() => {
-    // Get the reference that the user clicked
-    const fetchData = async () => {
-      setReference(await getReferenceById(id));
-    };
-    fetchData();
-  }, [id, setReference]);
+    getReferenceContent();
+  }, []);
 
   return !reference ? (
     <Error errorCode={404} message={frenchKeys.referenceNotFound} />

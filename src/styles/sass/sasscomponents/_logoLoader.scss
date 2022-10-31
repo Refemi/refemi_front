@@ -1,0 +1,30 @@
+.logo-loader {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
+
+    &_square {
+      width: 2rem;
+      height: 2rem;
+      margin: 1rem;
+    }
+    &_square:nth-child(1) {
+      background-color: $green-grey;
+      animation: zoom-in-out 1s ease 0.06s infinite normal;
+      -moz-animation: zoom-in-out 1s ease 0.06s infinite normal;
+      -ms-animation: zoom-in-out 1s ease 0.06s infinite normal;
+    }
+    &_square:nth-child(2) {
+      background-color: $dark-blue;
+      animation: zoom-in-out 1s ease 0.12s infinite normal;
+      -moz-animation: zoom-in-out 1s ease 0.12s infinite normal;
+      -ms-animation: zoom-in-out 1s ease 0.12s infinite normal;
+    }
+    &_square:nth-child(3) {
+      background-color: $aqua;
+      animation: zoom-in-out 1s ease 0.18s infinite normal;
+      -moz-animation: zoom-in-out 1s ease 0.18s infinite normal;
+      -ms-animation: zoom-in-out 1s ease 0.18s infinite normal;
+    }
+  }
+  

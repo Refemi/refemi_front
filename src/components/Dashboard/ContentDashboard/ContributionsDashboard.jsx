@@ -6,45 +6,9 @@ import PropTypes from "prop-types";
 import { DataContext, UserContext } from "../../../App";
 import { MainContext } from "./MainDashboard";
 
-// Import icons
-import {
-  AiOutlineFundProjectionScreen,
-  AiFillCloseCircle,
-} from "react-icons/ai";
-import {
-  GiInjustice,
-  GiPaintBrush,
-  GiPerson,
-  GiNewspaper,
-  GiBookCover,
-} from "react-icons/gi";
-
 // Import globals
 import roles from "../../../utils/roles";
-
-/**
- * @description Display the icon corresponding to the contribution section
- * @param {string} sectionName
- * @returns {JSX.Element}
- */
-const setIcon = (sectionName) => {
-  switch (sectionName) {
-    case "audiovisuel":
-      return <AiOutlineFundProjectionScreen size={24} className="mr-3" />;
-    case "juridique-militantisme":
-      return <GiInjustice size={24} />;
-    case "art-jeunesse":
-      return <GiPaintBrush size={24} />;
-    case "portraits-vocabulaire":
-      return <GiPerson size={24} />;
-    case "presse-internet":
-      return <GiNewspaper size={24} />;
-    case "lectures":
-      return <GiBookCover alt="Lectures" size={24} className="mr-3" />;
-    default:
-      return <AiFillCloseCircle size={24} className="mr-3" />;
-  }
-};
+import { switchIcon } from "../../../utils/switchOptions";
 
 export default function ContributionsDashboard({ title, contributions }) {
   const { userCredentials } = useContext(UserContext);
@@ -88,14 +52,14 @@ export default function ContributionsDashboard({ title, contributions }) {
                       // Retrieving the name of the section of the category
                       sections.length > 0 &&
                         categories &&
-                        setIcon(
+                        switchIcon(
                           sections.filter(
                             (section) =>
                               categories.find(
                                 (category) =>
                                   contribution.category_id === category.id
                               ).section_id === section.id
-                          )[0].name
+                          )[0].label
                         )
                     }
                   </p>

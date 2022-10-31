@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 
 // JS + JSON
 import roles from "../utils/roles";
@@ -25,7 +24,6 @@ export default function Dashboard() {
   const [showNewRef, setShowNewRef] = useState(false);
   const [contributions, setContributions] = useState({});
 
-  const history = useHistory();
   const {
     userCredentials,
     setUserCredentials,
@@ -34,13 +32,6 @@ export default function Dashboard() {
     isLoggedIn,
     setIsLoggedIn,
   } = useContext(UserContext);
-
-  // If user is authentified, then counters are loaded depending on their role
-  useEffect(() => {
-    if (!isLoggedIn) {
-      history.push("/auth/signin");
-    }
-  }, [isLoggedIn, history]);
 
   useEffect(() => {
     if (token.length > 0 && Object.entries(contributions).length === 0) {

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router";
 
 // JS + JSON
@@ -17,3 +18,9 @@ export default function HomeButton({ path, label, icon }) {
     </button>
   );
 }
+
+HomeButton.propTypes = {
+  path: PropTypes.string,
+  label: PropTypes.string,
+  icon: PropTypes.string,
+};

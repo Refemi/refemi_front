@@ -3,8 +3,15 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
+// JS + JSON
+import { switchNavigationTo } from "../../utils/switchOptions";
+
 export default function RefSheetHeader({ reference }) {
   const history = useHistory();
+
+  const navigateTo = (path) => {
+    return history.push(path);
+  };
 
   return (
     <article className="white-bg p-2 reference-content-header">
@@ -30,12 +37,14 @@ export default function RefSheetHeader({ reference }) {
                 className="has-text-weight-bold pointer darkblue-text mx-3"
                 key={uuidv4()}
                 onClick={() =>
-                  history.push(
-                    `/themes/${theme
+                  switchNavigationTo(
+                    "themeName",
+                    navigateTo,
+                    theme
                       .toLowerCase()
                       .replace(/\s+/g, "-")
                       .normalize("NFD")
-                      .replace(/[\u0300-\u036f]/g, "")}`
+                      .replace(/[\u0300-\u036f]/g, "")
                   )
                 }
               >

@@ -11,6 +11,7 @@ import MenuButton from "../Buttons/MenuButton";
 
 // JS + JSON
 import translationKeys from "../../utils/translationKeys.json";
+import { switchNavigationTo } from "../../utils/switchOptions";
 
 // COMPONENT
 const Navbar = () => {
@@ -30,17 +31,10 @@ const Navbar = () => {
     document.addEventListener("click", closeMenu);
   };
 
-  const pushHistory = (location) => {
-    switch (location) {
-      // Disable dropdown when click on one of the items below
-      case "categories":
-      case "themes":
-        setDropDown(false);
-      default:
-        // In any case, disable the toggle if one of the elements is required
-        !!toggleMenu && setToggleMenu(false);
-        history.push(location);
-    }
+  const navigateTo = (path) => {
+    // In any case, disable the toggle if one of the elements is required
+    !!toggleMenu && setToggleMenu(false);
+    history.push(path);
   };
 
   useEffect(() => {
@@ -68,13 +62,13 @@ const Navbar = () => {
             <section className="dropdown-items">
               <MenuButton
                 className="btn-nav pointer is-uppercase"
-                onClick={() => pushHistory("/categories")}
+                onClick={() => switchNavigationTo("categories", navigateTo)}
                 label={frenchKeys.categories}
               />
 
               <MenuButton
                 className="btn-nav pointer is-uppercase"
-                onClick={() => pushHistory("/themes")}
+                onClick={() => switchNavigationTo("themes", navigateTo)}
                 label={frenchKeys.themes}
               />
             </section>
@@ -86,8 +80,8 @@ const Navbar = () => {
             id="connection"
             onClick={
               !isLoggedIn
-                ? () => pushHistory("/auth/signin")
-                : () => pushHistory("/dashboard")
+                ? () => switchNavigationTo("signIn", navigateTo)
+                : () => switchNavigationTo("dashboard", navigateTo)
             }
             className="btn-nav pointer is-uppercase"
           >
@@ -98,7 +92,7 @@ const Navbar = () => {
         <li className="nav-item">
           <button
             id="contact"
-            onClick={() => pushHistory("/contact")}
+            onClick={() => switchNavigationTo("contact", navigateTo)}
             className="btn-nav pointer is-uppercase"
           >
             Contact
@@ -109,7 +103,7 @@ const Navbar = () => {
             <button
               id="signout"
               className="btn-nav pointer is-uppercase"
-              onClick={() => pushHistory("/auth/signout")}
+              onClick={() => switchNavigationTo("signOut", navigateTo)}
             >
               (Déconnexion)
             </button>

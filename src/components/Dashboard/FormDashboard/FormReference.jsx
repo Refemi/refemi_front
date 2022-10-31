@@ -10,9 +10,8 @@ import { convertToHTML } from "draft-convert";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // JS
-import { switchForm } from "../../../utils/switchOptions";
+import { switchForm, switchNavigationTo } from "../../../utils/switchOptions";
 import roles from "../../../utils/roles";
-import http from "../../../services/http-common";
 import trnaslationKeys from "../../../utils/translationKeys.json";
 import {
   getCountries,
@@ -23,9 +22,6 @@ import {
 
 // Context
 import { DataContext, UserContext } from "../../../App";
-
-// components
-import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
 
 //Displays the form for adding / modifying references
 export default function FormReference({ reference }) {
@@ -53,7 +49,7 @@ export default function FormReference({ reference }) {
   //  sessionStorage used to get category id from AddReference component
   const category = JSON.parse(sessionStorage.getItem("SelectReference"));
 
-  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without
+  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without affectivting the other keys
   const themesList = themes.map(({ name: value, ...rest }) => ({
     value,
     ...rest,
@@ -70,7 +66,7 @@ export default function FormReference({ reference }) {
     });
   }, [selectedOptions, themesIds]);
 
-  const onSubmit = async ({ reference_name, reference_date }) => {
+  const onSubmit = async ({ _, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
       reference_name: referencesFound,
@@ -100,10 +96,6 @@ export default function FormReference({ reference }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    (async () => setCountries(await getCountries()))();
-  }, []);
 
   useEffect(() => {
     (async () => setCountries(await getCountries()))();
@@ -163,16 +155,18 @@ export default function FormReference({ reference }) {
     setReferenceNameInput(event.target.value);
   };
   // get  the suggestName value and set into setMatchReferenceName state
-
   const onSearchReferenceName = (searchTitle) => {
     setMatchReferenceName(searchTitle);
   };
 
+  const navigateTo = (path) => {
+    return history.push(path);
+  };
+
   return (
-    <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
-      <HeaderDashboard />
+    <section className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       {isSent ? (
-        history.push("/addReference/formReference/formSent")
+        switchNavigationTo("formSent", navigateTo)
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -296,12 +290,11 @@ export default function FormReference({ reference }) {
           />
         </form>
       )}
-    </main>
+    </section>
   );
 }
 
 FormReference.propTypes = {
-  category: PropTypes.number,
   reference: PropTypes.object,
 };
 FormReference.defaultProps = {

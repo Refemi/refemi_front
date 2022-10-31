@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function MenuButton({ className, onClick, label }) {
   return (
@@ -7,3 +8,9 @@ export default function MenuButton({ className, onClick, label }) {
     </button>
   );
 }
+
+MenuButton.propTypes = {
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  label: PropTypes.string,
+};
