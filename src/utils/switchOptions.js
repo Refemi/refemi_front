@@ -180,4 +180,29 @@ const switchButtonIcon = (option) => {
   }
 };
 
-export { switchForm, switchIcon, switchButtonIcon };
+const switchNavigationTo = (path, navigateTo, target) => {
+  switch (path) {
+    case "categories":
+      return navigateTo("/categories");
+    case "themes":
+      return navigateTo("/themes");
+    case "themeName":
+      return navigateTo(`/themes/${target}`);
+    case "signIn":
+      return navigateTo("/auth/signin");
+    case "signOut":
+      return navigateTo("/auth/signout");
+    case "dashboard":
+      return navigateTo("/dashboard");
+    case "contact":
+      return navigateTo("/contact");
+    case "search":
+      return navigateTo("/search");
+    case "formSent":
+      return navigateTo("/addReference/formReference/formSent");
+    case "addReference":
+      return navigateTo("/addReference");
+  }
+};
+
+export { switchForm, switchIcon, switchButtonIcon, switchNavigationTo };
