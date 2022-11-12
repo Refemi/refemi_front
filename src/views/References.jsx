@@ -2,56 +2,22 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-import http from "../services/http-common";
+// utils
+import {
+  getReferencesBySection,
+  getReferencesByTheme,
+  findCategories,
+} from "../services/getData";
 
-import Error from "../components/Error";
-
+// Context
 import { DataContext } from "../App";
 
 // Components
 import ListReferences from "../components/References/ListReferences";
 import WidgetCat from "../components/WidgetCat";
-import Button from "../components/Button/Button";
+import BlueButton from "../components/Buttons/BlueButton";
 import Loader from "../components/Loader";
-
-const getReferencesBySection = async (sectionId) => {
-  // Get sections to spread in context SectionsContext
-  return await http()
-    .get(`references/section/${sectionId}`)
-    .then((response) => response.status === 200 && response.data)
-    .then(({ references }) =>
-      references.sort(() => (Math.random() > 0.5 ? 1 : -1))
-    )
-    .catch(() => {
-      return false;
-    });
-};
-const getReferencesByTheme = async (themeId) => {
-  // Get sections to spread in context SectionsContext
-  return await http()
-    .get(`references/theme/${themeId}`)
-    .then((response) => response.status === 200 && response.data)
-    .then(({ references }) => references)
-    .catch(() => {
-      return false;
-    });
-};
-
-// Allows to get categories from each reference and send them in an array. Reduce method makes sure that you don't get any duplication.
-// TODO: the dependency array for now has an empty string that I happen to have to shift before returning my new array. It would be best if we didn't need to do that (not urgent)
-const findCategoriesInThemeReferences = (references) => {
-  const themeCategories = references.reduce(
-    (categories, reference) => {
-      if (!categories.includes(reference.category)) {
-        categories.push(reference.category);
-      }
-      return categories;
-    },
-    [""]
-  );
-  themeCategories.shift();
-  return themeCategories;
-};
+import Error from "../components/Error";
 
 // COMPONENT
 export default function References() {
@@ -60,6 +26,7 @@ export default function References() {
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
 
+  // TODO : search by sectionID and themeID !!!!!!!
   const getReferences = useCallback(async () => {
     if (references.length === 0) {
       try {
@@ -101,7 +68,7 @@ export default function References() {
       }
     } else if (!!themeName) {
       const currentTheme = themes.filter(
-        (theme) => themeName === theme.name
+        (theme) => themeName === theme.label
       )[0];
 
       if (currentTheme === undefined) {
@@ -119,17 +86,14 @@ export default function References() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     getReferences();
   }, [getReferences]);
 
   useEffect(() => {
     if (references) {
-      setThemeCategories(findCategoriesInThemeReferences(references));
+      setThemeCategories(findCategories(references));
     }
   }, [references]);
-
-  console.log(references);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
@@ -146,7 +110,7 @@ export default function References() {
               : sectionName.toUpperCase().replace(/-/g, " ")}
           </h2>
 
-          <Button
+          <BlueButton
             className="is-align-self-flex-end send-btn darkblue-bg has-text-white"
             path={themeName ? "/themes" : "/categories"}
             label="Retour"

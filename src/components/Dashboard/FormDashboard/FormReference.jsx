@@ -9,98 +9,23 @@ import { convertToHTML } from "draft-convert";
 // React Draf Wysiwyg editor CSS
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
-
 // JS
-import switchForm from "../../../utils/switchOptions";
+import { switchForm, switchNavigationTo } from "../../../utils/switchOptions";
 import roles from "../../../utils/roles";
-import http from "../../../services/http-common";
+import trnaslationKeys from "../../../utils/translationKeys.json";
+import {
+  getCountries,
+  getReferencesByName,
+  postContribution,
+  putContribution,
+} from "../../../services/getData";
 
 // Context
 import { DataContext, UserContext } from "../../../App";
-// components
-import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
-import FormSent from "../../../views/FormSent";
-
-// Get countries list from external API
-const getCountries = async () => {
-  return await http()
-    .get("https://restcountries.com/v3.1/all")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then((response) =>
-      response
-        .map((countryResult) => ({
-          value: countryResult.translations.fra.common.toLowerCase(),
-          name: countryResult.translations.fra.common.toLowerCase(),
-          label: countryResult.translations.fra.common,
-        }))
-        .sort((a, b) => a.value.localeCompare(b.value))
-    );
-};
-
-// Reuse of the search function of the SearchResult component to find similar references
-const getSearchReferences = async () => {
-  return await http()
-    .get(`search/reference-name`)
-    .then((result) => {
-      if (result.status === 200) {
-        return result.data;
-      }
-    })
-    .then((data) =>
-      data.search.map((reference) => ({
-        id: reference.id,
-        name: reference.reference_name,
-      }))
-    )
-    .catch((_) => {
-      return [];
-    });
-};
-
-// Requests to the API to send a contribution
-const postContribution = async (contribution, token) => {
-  return await http(token)
-    .post("references", contribution)
-    .then((response) => {
-      if (response.status === 202) {
-        return false;
-      }
-    })
-    .catch(({ response }) => {
-      console.log(response);
-      return response.data.error;
-    });
-  // .catch((error) => error.response.data.error);
-};
-
-// Requests to the API to update a contribution
-const putContribution = async (contribution, token) => {
-  if (Object.keys(contribution).length > 0) {
-    return await http(token)
-      .put(`references/${contribution.reference_id}`, {
-        ...contribution,
-        reference_status: 1,
-      })
-      .then((response) => {
-        if (response.status === 202) {
-          return true;
-        }
-      })
-      .catch(() => {
-        return false;
-      });
-  }
-
-  return false;
-};
 
 //Displays the form for adding / modifying references
 export default function FormReference({ reference }) {
+  const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
   const [content, setContent] = useState("");
@@ -124,7 +49,7 @@ export default function FormReference({ reference }) {
   //  sessionStorage used to get category id from AddReference component
   const category = JSON.parse(sessionStorage.getItem("SelectReference"));
 
-  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without
+  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without affectivting the other keys
   const themesList = themes.map(({ name: value, ...rest }) => ({
     value,
     ...rest,
@@ -140,7 +65,8 @@ export default function FormReference({ reference }) {
       themesIds.push(option.id);
     });
   }, [selectedOptions, themesIds]);
-  const onSubmit = async ({ reference_name, reference_date }) => {
+
+  const onSubmit = async ({ _, reference_date }) => {
     const contribution = {
       reference_id: reference ? reference.id : null,
       reference_name: referencesFound,
@@ -175,14 +101,6 @@ export default function FormReference({ reference }) {
     (async () => setCountries(await getCountries()))();
   }, []);
 
-  // get the all Reference name from  getSearchReferences function and set into suggestName state
-  useEffect(() => {
-    (async () => setSuggestName(await getSearchReferences()))();
-  }, []);
-  useEffect(() => {
-    (async () => setCountries(await getCountries()))();
-  }, []);
-
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState]);
@@ -190,6 +108,9 @@ export default function FormReference({ reference }) {
   useEffect(() => {
     setMatchReferenceName("");
     setReferencesFound(referenceNameInput);
+
+    // get the all Reference name from  getReferencesByName function and set into suggestName state
+    (async () => setSuggestName(await getReferencesByName()))();
   }, [referenceNameInput]);
 
   useEffect(() => {
@@ -234,41 +155,43 @@ export default function FormReference({ reference }) {
     setReferenceNameInput(event.target.value);
   };
   // get  the suggestName value and set into setMatchReferenceName state
-
   const onSearchReferenceName = (searchTitle) => {
     setMatchReferenceName(searchTitle);
   };
 
+  const navigateTo = (path) => {
+    return history.push(path);
+  };
+
   return (
-    <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
-      <HeaderDashboard />
+    <section className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       {isSent ? (
-        history.push("/addReference/formReference/formSent")
+        switchNavigationTo("formSent", navigateTo)
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="borders is-flex is-flex-direction-column is-align-items-center"
         >
           <h2 className="m-6">
-            Catégorie actuelle :{" "}
+            {frenchKeys.currentCategory}
             {currentCategory !== undefined && currentCategory.label}
           </h2>
 
           <section className="is-flex is-flex-direction-column is-align-items-center">
             {errorMessage && (
               <div className="has-text-danger has-text-centered">
-                <h3>Impossible d'ajouter la référence :</h3>
+                <h3>{frenchKeys.impossibleToAddReference}</h3>
                 <p>{errorMessage} </p>
               </div>
             )}
 
             <fieldset className="is-flex is-flex-direction-column">
               <label htmlFor="reference_name" className="required">
-                Nom / Titre
+                {frenchKeys.referenceName}
               </label>
               {matchReferenceName && (
                 <p className="has-text-danger has-text-centered">
-                  Cette référence existe déjà !
+                  {frenchKeys.referenceAlreadyExists}
                 </p>
               )}
               <input
@@ -305,7 +228,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="">
               <label htmlFor="reference_country_name" className="required">
-                Pays d&apos;origine
+                {frenchKeys.country}
               </label>
               <Select
                 required
@@ -317,7 +240,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column">
               <label htmlFor="reference_date" className="required">
-                Année
+                {frenchKeys.year}
               </label>
               <input
                 type="text"
@@ -329,7 +252,7 @@ export default function FormReference({ reference }) {
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column ">
               <label htmlFor="reference-content" className="required">
-                Contenu
+                {frenchKeys.content}
               </label>
 
               <Editor
@@ -343,7 +266,7 @@ export default function FormReference({ reference }) {
           </section>
           <fieldset className="select-fieldset is-flex is-flex-direction-column">
             <label htmlFor="reference_country_name" className="required">
-              Thèmes
+              {frenchKeys.themes}
             </label>
             <Select
               isMulti
@@ -367,12 +290,11 @@ export default function FormReference({ reference }) {
           />
         </form>
       )}
-    </main>
+    </section>
   );
 }
 
 FormReference.propTypes = {
-  category: PropTypes.number,
   reference: PropTypes.object,
 };
 FormReference.defaultProps = {

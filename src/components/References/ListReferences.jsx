@@ -1,33 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 
 // Import Components
 import ListReferencesHeader from "./ListReferencesHeader";
 
-// Import Contexts
-import { DataContext } from "../../App";
-
-/**
- * ListReferences component
- * @param {string} name
- * @param {string} title
- * @param {array} references
- * @returns
- */
 export default function ListReferences({
-  name = "",
-  title = "",
-  references = [],
-  clearReferences = () => {},
+  name,
+  title,
+  references,
+  clearReferences,
 }) {
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
   const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState();
-  const { themes } = useContext(DataContext);
+
+  const history = useHistory();
 
   // paginate references
   const paginateReferences = () => {
@@ -45,13 +37,10 @@ export default function ListReferences({
     paginateReferences();
   }, [offset]);
 
-  const history = useHistory();
-
   return (
     <section>
       <h2 className="m-6 category-title is-uppercase" id={name}>
-        {title.charAt(0).toUpperCase() + title.slice(1).replace(/-/g, " ")}{" "}
-        {/* Making sure that we show the correct format: in the liste references of themes it is necessary maybe to be changed if we find a better way */}
+        {title}
       </h2>
 
       <ListReferencesHeader />
@@ -61,7 +50,8 @@ export default function ListReferences({
           <article
             key={uuidv4()}
             id={reference.id}
-            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3"
+            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3 pointer"
+            onClick={() => history.push(`/references/${reference.id}`)}
           >
             <h3
               className="reflist-div pointer"
@@ -129,3 +119,10 @@ export default function ListReferences({
     </section>
   );
 }
+
+ListReferences.propTypes = {
+  name: PropTypes.string,
+  title: PropTypes.string,
+  references: PropTypes.array,
+  clearReferences: PropTypes.func,
+};

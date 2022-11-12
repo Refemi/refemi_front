@@ -2,8 +2,8 @@ import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
 
 // JS
-import http from "./services/http-common";
-import handleResponse from "./utils/handleResponse";
+import { getThemes, getSections, getCategories } from "./services/getData";
+
 // Views
 import Home from "./views/Home";
 import Contact from "./views/Contact";
@@ -20,53 +20,16 @@ import FormSent from "./views/FormSent";
 // Components
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import AddReference from "./components/Dashboard/FormDashboard/AddReference";
+import FormReference from "./components/Dashboard/FormDashboard/FormReference";
 
 // CSS
 import "./styles/css/style.css";
 import "bulma/css/bulma.min.css";
-import AddReference from "./components/Dashboard/FormDashboard/AddReference";
-import FormReference from "./components/Dashboard/FormDashboard/FormReference";
 
 // Contexts
 export const UserContext = createContext();
 export const DataContext = createContext();
-
-// Functions
-const getSections = async () => {
-  // Get sections to spread in context SectionsContext
-  return await http()
-    .get(`sections`)
-    .then((response) => response.status === 200 && response.data)
-    .then((data) => {
-      return data.sections;
-    })
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
-    });
-};
-const getCategories = async () => {
-  // Get categories to spread in context DataContext
-  return await http()
-    .get(`categories`)
-    .then((response) => response.status === 200 && response.data)
-    .then((data) => data.categories)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
-    });
-};
-const getThemes = async () => {
-  // Get themes to spread in context AllThemes
-  return await http()
-    .get(`themes`)
-    .then((response) => {
-      // TODO see the behavior of this function
-      return handleResponse(response, 200);
-    })
-    .then((data) => data.themes)
-    .catch((error) => {
-      // TODO : display the error in a dedicated location
-    });
-};
 
 // COMPONENT
 export default function App() {
@@ -77,13 +40,14 @@ export default function App() {
   const [categories, setCategories] = useState([]); // Get categories
   const [themes, setThemes] = useState([]); // Get themes
 
+  const getData = async () => {
+    setSections(await getSections());
+    setCategories(await getCategories());
+    setThemes(await getThemes());
+  };
+
   useEffect(() => {
-    // Get sections and themes from database and save them in state
-    (async () => {
-      setSections(await getSections());
-      setCategories(await getCategories());
-      setThemes(await getThemes());
-    })();
+    getData();
   }, []);
 
   useEffect(() => {
@@ -137,33 +101,32 @@ export default function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/categories" component={Categories} />
             <Route exact path="/themes" component={Themes} />
-            <Route path="/categories/:sectionName" component={References} />
-            <Route path="/themes/:themeName" component={References} />
-            <Route exact path="/contact" component={Contact} />
-            <Route path="/auth/:sign" component={Connection} />
-            {/* TO DO: give proper route name to backend */}
-            <Route exact path="/references">
-              <Redirect to="/" />
-            </Route>
-            <Route path="/references/:id" component={RefSheet} />
-            <Route
-              exact
-              path="/dashboard"
-              component={isLoggedIn ? Dashboard : LoggedOut}
-            />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/addReference" component={AddReference} />
             <Route
               exact
               path="/addReference/formReference"
               component={FormReference}
             />
+            <Route path="/categories/:sectionName" component={References} />
+            <Route path="/themes/:themeName" component={References} />
+            <Route exact path="/references">
+              <Redirect to="/" />
+            </Route>
+            <Route path="/references/:id" component={RefSheet} />
+            <Route exact path="/search" component={Search} />
+            <Route exact path="/addReference" component={AddReference} />
             <Route
               exact
-              path="/addReference/formReference/formSent"
-              component={FormSent}
+              path="/dashboard"
+              component={isLoggedIn ? Dashboard : LoggedOut}
             />
           </DataContext.Provider>
+          <Route
+            exact
+            path="/addReference/formReference/formSent"
+            component={FormSent}
+          />
+          <Route exact path="/contact" component={Contact} />
+          <Route path="/auth/:sign" component={Connection} />
         </UserContext.Provider>
       </Switch>
       <Footer />

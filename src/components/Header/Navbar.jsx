@@ -6,9 +6,17 @@ import { BsList } from "react-icons/bs";
 import { UserContext } from "../../App";
 import { HeaderContext } from "./Header";
 
+// Components
+import MenuButton from "../Buttons/MenuButton";
+
+// JS + JSON
+import translationKeys from "../../utils/translationKeys.json";
+import { switchNavigationTo } from "../../utils/switchOptions";
+
 // COMPONENT
 const Navbar = () => {
   const history = useHistory();
+  const frenchKeys = translationKeys[0].french;
 
   const [dropDown, setDropDown] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
@@ -23,17 +31,10 @@ const Navbar = () => {
     document.addEventListener("click", closeMenu);
   };
 
-  const pushHistory = (location) => {
-    switch (location) {
-      // Disable dropdown when click on one of the items below
-      case "categories":
-      case "themes":
-        setDropDown(false);
-      default:
-        // In any case, disable the toggle if one of the elements is required
-        !!toggleMenu && setToggleMenu(false);
-        history.push(location);
-    }
+  const navigateTo = (path) => {
+    // In any case, disable the toggle if one of the elements is required
+    !!toggleMenu && setToggleMenu(false);
+    history.push(path);
   };
 
   useEffect(() => {
@@ -51,28 +52,25 @@ const Navbar = () => {
 
       <ul className={`nav-container ${toggleMenu && "show-links"}`}>
         <li className="nav-item">
-          <button
+          <MenuButton
             id="dropdown"
             onClick={() => setDropDown(!dropDown)}
             className="dropdown-btn btn-nav pointer is-uppercase"
-          >
-            Références
-          </button>
+            label={frenchKeys.references}
+          />
           {dropDown && (
             <section className="dropdown-items">
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
-                onClick={() => pushHistory("/categories")}
-              >
-                Catégories
-              </button>
+                onClick={() => switchNavigationTo("categories", navigateTo)}
+                label={frenchKeys.categories}
+              />
 
-              <button
+              <MenuButton
                 className="btn-nav pointer is-uppercase"
-                onClick={() => pushHistory("/themes")}
-              >
-                Thèmes
-              </button>
+                onClick={() => switchNavigationTo("themes", navigateTo)}
+                label={frenchKeys.themes}
+              />
             </section>
           )}
         </li>
@@ -82,19 +80,19 @@ const Navbar = () => {
             id="connection"
             onClick={
               !isLoggedIn
-                ? () => pushHistory("/auth/signin")
-                : () => pushHistory("/dashboard")
+                ? () => switchNavigationTo("signIn", navigateTo)
+                : () => switchNavigationTo("dashboard", navigateTo)
             }
             className="btn-nav pointer is-uppercase"
           >
-            Mon compte
+            Compte
           </button>
         </li>
 
         <li className="nav-item">
           <button
             id="contact"
-            onClick={() => pushHistory("/contact")}
+            onClick={() => switchNavigationTo("contact", navigateTo)}
             className="btn-nav pointer is-uppercase"
           >
             Contact
@@ -105,7 +103,7 @@ const Navbar = () => {
             <button
               id="signout"
               className="btn-nav pointer is-uppercase"
-              onClick={() => pushHistory("/auth/signout")}
+              onClick={() => switchNavigationTo("signOut", navigateTo)}
             >
               (Déconnexion)
             </button>

@@ -1,14 +1,17 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
 
 // Import components
 import SelectReference from "./SelectReference";
 import HeaderDashboard from "../ContentDashboard/HeaderDashboard";
+import BlueButton from "../../Buttons/BlueButton";
+
+// JS + JSON
+import translationKeys from "../../../utils/translationKeys.json";
 
 export default function AddReference() {
+  var frenchKeys = translationKeys[0].french;
   const [currentForm, setCurrentForm] = useState("");
   const [currentSection, setCurrentSection] = useState("");
-  const history = useHistory();
 
   // we save the section selection
   const handleChange = (e) =>
@@ -21,14 +24,13 @@ export default function AddReference() {
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
       <section className="dashboard-content is-flex is-flex-direction-column is-align-items-center">
-        <button
+        <BlueButton
           className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-          onClick={() => history.goBack()}
-        >
-          Retour à mes contributions
-        </button>
+          path={"back"}
+          label={frenchKeys.backToContributions}
+        />
 
-        <p className="m-3 refemi">Soumettre une nouvelle contribution</p>
+        <p className="m-3 refemi">{frenchKeys.suggestNewContribution}</p>
 
         <SelectReference
           currentSection={currentSection}
@@ -36,12 +38,11 @@ export default function AddReference() {
           handleChangeForm={handleChange}
         />
         {currentForm && (
-          <button
+          <BlueButton
             className="pointer send-btn darkblue-bg has-text-white"
-            onClick={() => history.push("/addReference/formReference")}
-          >
-            Valider
-          </button>
+            path="addReference"
+            label="Valider"
+          />
         )}
       </section>
     </main>

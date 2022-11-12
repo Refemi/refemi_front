@@ -4,108 +4,91 @@ import { useHistory } from "react-router";
 // Import Contexts
 import { UserContext } from "../../../App";
 
-// Import roles utils — REST-API utils
-import http from "../../../services/http-common";
+// Import JS + JSON
 import roles from "../../../utils/roles";
+import translationKeys from "../../../utils/translationKeys.json";
+import { getAdminCounters, getUserCounters } from "../../../services/getData";
+import { switchNavigationTo } from "../../../utils/switchOptions";
 
 //Import icons
 import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import components
-import Counter from "../../Counter";
+import CounterBox from "../../Counters/CounterBox";
 
-/**
- * Retrieve counters for administrators
- * @param {string} token
- * @returns
- */
-const getAdminCounter = async (token) =>
-  await http(token)
-    .get("/counters/dashboard/admin/")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ counters }) => counters);
-/**
- * Retrieve counters for users
- * @param {string} token
- * @returns
- */
-const getUserCounter = async (token) =>
-  await http(token)
-    .get("/counters/dashboard/contributor")
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .then(({ counters }) => counters);
-
-/**
- * HeaderDashboard component
- * @returns
- */
 export default function HeaderDashboard() {
+  // TODO: CREATE COUNTER CONTAINER COMPONENT
+  const frenchKeys = translationKeys[0].french;
   const history = useHistory();
   const { userCredentials, token } = useContext(UserContext);
   const [counters, setCounters] = useState({});
 
+  const getCounters = async () => {
+    userCredentials.role === roles.ADMIN
+      ? setCounters(await getAdminCounters(token))
+      : setCounters(await getUserCounters(token));
+  };
+
   useEffect(() => {
-    (async () => {
-      userCredentials.role === roles.ADMIN
-        ? setCounters(await getAdminCounter(token))
-        : setCounters(await getUserCounter(token));
-    })();
+    getCounters();
   }, [userCredentials, token]);
+
+  const navigateTo = (path) => {
+    history.push(path);
+  };
 
   return (
     <header className="dashboard-header is-flex is-flex-direction-column is-justify-content-space-around p-2">
       <p className="is-size-7 pb-2">
-        Bienvenue, {userCredentials.name}&nbsp;
+        {frenchKeys.welcome}, {userCredentials.name}&nbsp;
         <span className="pointer" onClick={() => history.push("/auth/signout")}>
-          (Déconnexion)
+          ({frenchKeys.signOut})
         </span>
       </p>
       <h2 className="has-text-centered is-uppercase has-text-weight-bold">
-        Tableau des contributions
+        {frenchKeys.contributionDashboard}
       </h2>
       <hr />
 
       <section className="dashboard-counters is-flex is-justify-content-center is-flex-wrap-wrap">
         <div className="is-flex is-justify-content-space-between counter-double">
           <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
-            <Counter
+            <CounterBox
               label="contributions validées"
               value={counters.totalApprovedContributions}
             />
-            <p className="has-text-weight-bold counter-label">VALIDÉES</p>
+            <p className="has-text-weight-bold counter-label">
+              {frenchKeys.validatedContributions}
+            </p>
           </article>
 
           <article className="is-flex is-flex-direction-column is-align-items-center px-4 counter-wrapper">
-            <Counter
+            <CounterBox
               label="contributions en attente"
               value={counters.totalPendingContributions}
             />
-            <p className="has-text-weight-bold counter-label">EN ATTENTE</p>
+            <p className="has-text-weight-bold counter-label">
+              {frenchKeys.pendingContributions}
+            </p>
           </article>
         </div>
 
         {userCredentials.role === roles.ADMIN && (
           <div className="is-flex is-justify-content-space-between counter-double">
             <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper">
-              <Counter
+              <CounterBox
                 label="contributeurs"
                 value={counters.totalContributors}
               />
               <p className="has-text-weight-bold counter-label">
-                CONTRIBUTEURS
+                {frenchKeys.contributors}
               </p>
             </article>
             <article className="is-flex is-flex-direction-column is-align-items-center counter-wrapper px-4">
-              <Counter label="admins" value={counters.totalAdministrators} />
-              <p className="has-text-weight-bold counter-label">ADMINS</p>
+              <CounterBox label="admins" value={counters.totalAdministrators} />
+              <p className="has-text-weight-bold counter-label">
+                {frenchKeys.administrators}
+              </p>
             </article>
           </div>
         )}
@@ -115,7 +98,7 @@ export default function HeaderDashboard() {
           <AiFillPlusCircle
             size={32}
             className="pointer add-button_icon"
-            onClick={() => history.push("/addReference")}
+            onClick={() => switchNavigationTo("addReference", navigateTo)}
           />
         </button>
       </article>

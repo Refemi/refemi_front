@@ -1,13 +1,18 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router";
+
+// import components
+import ContributionsDashboard from "./ContributionsDashboard";
+import FormReference from "../FormDashboard/FormReference";
+import Loader from "../../Loader";
 
 // Import Contexts
 import { DataContext } from "../../../App";
 import { DashboardContext } from "../../../views/Dashboard";
 
-import ContributionsDashboard from "./ContributionsDashboard";
-import FormReference from "../FormDashboard/FormReference";
-import Loader from "../../Loader";
+// JS + JSON
+import translationKeys from "../../../utils/translationKeys.json";
 
 export const MainContext = createContext();
 
@@ -38,25 +43,19 @@ const renderDashboard = (contributions) => {
 
 // COMPONENT
 export default function MainDashboard() {
+  const frenchKeys = translationKeys[0].french;
   const [editContribution, setEditContribution] = useState({});
   const history = useHistory();
 
   const { categories } = useContext(DataContext);
   const { contributions } = useContext(DashboardContext);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // Render the dashboard if no contribution to validate / modify, the form otherwise
   return (
     <article className="dashboard dashboard-content mt-6">
       {contributions.pending.length == 0 &&
         contributions.validated.length == 0 && (
-          <p>
-            Vous n'avez pas encore contribué. Envoyez-nous votre première
-            suggestion de référence féministe en cliquant sur le bouton + !
-          </p>
+          <p>{frenchKeys.noContribution}</p>
         )}
 
       <MainContext.Provider value={{ setEditContribution }}>
@@ -64,27 +63,26 @@ export default function MainDashboard() {
         {Object.entries(editContribution).length > 0 &&
         categories.length > 0 ? (
           <div>
-            <button
-              onClick={() => setEditContribution({})}
-              className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
-            >
-              Retour au Tableau de bord
-            </button>
-
-            {editContribution.status && (
+            <div className="is-flex is-justify-content-end ">
               <button
-                onClick={() =>
-                  history.push(`/references/${editContribution.id}`)
-                }
+                onClick={() => setEditContribution({})}
                 className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
               >
-                Voir la contribution
+                {frenchKeys.backToDashboard}
               </button>
-            )}
-            <FormReference
-              category={editContribution.category_id}
-              reference={editContribution}
-            />
+
+              {editContribution.status && (
+                <button
+                  onClick={() =>
+                    history.push(`/references/:${editContribution.id}`)
+                  }
+                  className="pointer send-btn darkblue-bg has-text-white is-align-self-flex-end"
+                >
+                  {frenchKeys.seeContribution}
+                </button>
+              )}
+            </div>
+            <FormReference reference={editContribution} />
           </div>
         ) : (
           renderDashboard(contributions)
@@ -93,3 +91,7 @@ export default function MainDashboard() {
     </article>
   );
 }
+
+MainDashboard.propTypes = {
+  contributions: PropTypes.array,
+};

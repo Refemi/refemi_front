@@ -1,75 +1,51 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
-import http from "../services/http-common";
-
-// Import Icons
-import { BiCategoryAlt } from "react-icons/bi";
-import { BsList } from "react-icons/bs";
-import { AiFillPlusCircle } from "react-icons/ai";
 
 // Import Components
-import Counter from "../components/Counter";
+import CounterBox from "../components/Counters/CounterBox";
+import CounterLabel from "../components/Counters/CounterLabel";
 
-// Get the different counters of the homepage
-const getHomeCounters = async () => {
-  return await http()
-    .get(`counters/home`)
-    .then((response) => response.status === 200 && response.data)
-    .then((data) => data)
-    .catch(() => {
-      return {
-        totalReferences: -1,
-        totalContributors: -1,
-        monthReferences: -1,
-      };
-    });
-};
+// import JS + JSON
+import { getHomeCounters } from "../services/getData";
+import translationKeys from "../utils/translationKeys.json";
+import HomeButton from "../components/Buttons/HomeButton";
 
-/**
- * Home component
- * @returns {JSX.Element}
- */
 export default function Home() {
+  const frenchKeys = translationKeys[0].french;
   const [counters, setCounters] = useState([]);
-  const history = useHistory();
+
+  const getCounters = async () => setCounters(await getHomeCounters());
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
-    (async () => setCounters(await getHomeCounters()))();
-  }, []);
+    // we load counters only the first time. No need yet for real time updates
+    // makes us gain 3 points in performance
+    if (counters.length === 0) getCounters();
+  }, [counters]);
 
   return (
     <main className="main-text-color home">
       <section className="is-flex is-justify-content-space-around counters-container mb-6">
-        <h2 className="is-align-self-center counter-box box grey-bg-opacity">
-          <Counter value={counters.totalReferences} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Références
-          </p>
-        </h2>
+        <article className="is-align-self-center counter-box box grey-bg-opacity">
+          <CounterBox value={counters.totalReferences} />
+          <CounterLabel label={frenchKeys.references} />
+        </article>
 
-        <h2 className="is-align-self-center counter-box box darkblue-bg-opacity">
-          <Counter value={counters.totalContributors} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Contributeurs
-          </p>
-        </h2>
+        <article className="is-align-self-center counter-box box darkblue-bg-opacity">
+          <CounterBox value={counters.totalContributors} />
+          <CounterLabel label={frenchKeys.contributors} />
+        </article>
 
-        <h2 className="is-align-self-center counter-box box aqua-bg-opacity">
-          <Counter value={counters.monthReferences} />
-          <p className="is-align-self-center is-uppercase has-text-centered counter-text">
-            Nouveautés
-          </p>
-        </h2>
+        <article className="is-align-self-center counter-box box aqua-bg-opacity">
+          <CounterBox value={counters.monthReferences} />
+          <CounterLabel label={frenchKeys.news} />
+        </article>
       </section>
       <section className="home-text">
         <hr />
-        <h3 className="line-height is-size-4 has-text-centered m-4">
+        <h2 className="line-height is-size-4 has-text-centered m-4">
           Qu&apos;est-ce que&nbsp;
           <span className="refemi is-size-3">refemi</span> ?
-        </h3>
-        <p className="m-4  has-text-justified">
+        </h2>
+        <p className="m-4  has-text-justified is-size-5">
           Refemi est né d’une volonté de centraliser sur une plateforme des
           ressources diverses provenant de supports variés sur{" "}
           <span className="has-text-weight-semibold">
@@ -85,9 +61,9 @@ export default function Home() {
         </p>
         <hr />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="home-text_title darkblue-text refemi has-text-left m-4">
+          <h3 className="home-text_title darkblue-text has-text-left m-4 has-text-weight-semibold">
             Une plateforme collaborative :
-          </h4>
+          </h3>
           <p className="m-4 home-text_content">
             qui centralise des essais, des ouvrages théoriques, des romans, des
             documentaires, des films, des podcasts, des oeuvres d'art... pour{" "}
@@ -100,9 +76,9 @@ export default function Home() {
         </article>
         <hr className="home-text_separator" />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="home-text_title darkblue-text refemi has-text-right m-4">
+          <h3 className="home-text_title darkblue-text has-text-right m-4 has-text-weight-semibold">
             Des ressources accessibles :
-          </h4>
+          </h3>
           <p className="m-4 home-text_content">
             refemi a été conçu comme{" "}
             <span className="has-text-weight-semibold">
@@ -114,9 +90,9 @@ export default function Home() {
         </article>
         <hr className="home-text_separator" />
         <article className="has-text-justified is-size-5 paragraph-container">
-          <h4 className="home-text_title darkblue-text refemi has-text-left m-4">
+          <h3 className="home-text_title darkblue-text has-text-left m-4 has-text-weight-semibold">
             Une concept inclusif :
-          </h4>
+          </h3>
           <p className="m-4 home-text_content">
             <span className="has-text-weight-semibold">
               notre vocation est de présenter des œuvres appartenant à
@@ -140,42 +116,17 @@ export default function Home() {
         <hr className="home-text_separator" />
       </section>
       <section className="is-flex is-justify-content-space-around second-menu">
-        <button
-          className="cat-btn pointer"
-          onClick={() => history.push("/categories")}
-        >
-          <span className="box box-btn grey-bg-opacity has-text-white is-relative">
-            <BiCategoryAlt className="position-absolute-icon" size={100} />
-          </span>
-
-          <h4 className="is-uppercase has-text-centered counter-value">
-            Catégories
-          </h4>
-        </button>
-
-        <button
-          className="cat-btn pointer"
-          onClick={() => history.push("/themes")}
-        >
-          <span className="box box-btn darkblue-bg-opacity has-text-white is-relative">
-            <BsList className="position-absolute-icon" size={100} />
-          </span>
-          <h4 className="is-uppercase has-text-centered counter-value">
-            Thèmes
-          </h4>
-        </button>
-
-        <button
-          className="is-align-self-center cat-btn pointer"
-          onClick={() => history.push("/auth/signin")}
-        >
-          <span className="box box-btn aqua-bg-opacity has-text-white is-relative">
-            <AiFillPlusCircle className="position-absolute-icon" size={100} />
-          </span>
-          <h4 className="is-uppercase has-text-centered counter-value">
-            contribuer
-          </h4>
-        </button>
+        <HomeButton
+          path="/categories"
+          icon="categories"
+          label={frenchKeys.categories}
+        />
+        <HomeButton path="/themes" icon="themes" label={frenchKeys.themes} />
+        <HomeButton
+          path="/auth/signin"
+          icon="contribute"
+          label={frenchKeys.contribute}
+        />
       </section>
     </main>
   );

@@ -4,12 +4,17 @@ import PropTypes from "prop-types";
 // Context
 import { DataContext } from "../../../App";
 
+// JS + JSON
+import translationKeys from "../../../utils/translationKeys.json";
+
 // SelectReference component
 export default function SelectReference({
   currentSection,
   setCurrentSection,
   handleChangeForm,
 }) {
+  const frenchKeys = translationKeys[0].french;
+
   const { sections, categories } = useContext(DataContext);
 
   const categoriesOptions = categories.filter((category) => {
@@ -20,7 +25,7 @@ export default function SelectReference({
     <form className="is-flex is-flex-direction-column is-align-items-center">
       <fieldset className="dashboard-fieldset is-flex is-flex-direction-column">
         <label className=" required" htmlFor="categories-select-section">
-          1. Choisir une rubrique
+          {frenchKeys.chooseSection}
         </label>
 
         <select
@@ -41,8 +46,8 @@ export default function SelectReference({
 
       {!!currentSection && categories.length > 0 && (
         <fieldset className="dashboard-fieldset is-flex is-flex-direction-column">
-          <label className="required" for="categories-select-category">
-            2. Choisir une catégorie
+          <label className="required" htmlFor="categories-select-category">
+            {frenchKeys.chooseCategory}
           </label>
           <select
             id="categories-select-category"
@@ -56,7 +61,7 @@ export default function SelectReference({
               <option
                 key={category.id}
                 value={category.id}
-                for="categories-select-category"
+                htmlFor="categories-select-category"
               >
                 {category.label}
               </option>

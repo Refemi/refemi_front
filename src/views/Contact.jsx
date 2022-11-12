@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
+import translationKeys from "../utils/translationKeys.json";
 
 export default function Contact() {
+  const frenchKeys = translationKeys[0].french;
+
   const [status, setStatus] = useState("Envoyer");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +22,10 @@ export default function Contact() {
 
     const response = await fetch("http://localhost:8000/contact", {
       method: "POST",
-      headers: { "Content-Type": "application/jsoncharset=utf-8" },
+      headers: {
+        "Content-Type": "application/jsoncharset=utf-8",
+        Accept: "application/jsoncharset=utf-8",
+      },
       body: JSON.stringify(details),
     });
 
@@ -30,24 +37,20 @@ export default function Contact() {
     setMessage("");
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <main className="is-flex is-flex-direction-column is-align-items-center">
       <h2 className="mt-6 has-text-centered mx-3 has-text-weight-bold">
-        Des remarques, des suggestions d&apos;améliorations, des questions sur{" "}
+        {frenchKeys.suggestionsOrQuestions}
         <span className="refemi">refemi</span> ?
       </h2>
-      <p>Contactez-nous !</p>
+      <p>{frenchKeys.contactUs}</p>
 
       <form
         className="borders is-flex is-flex-direction-column is-align-items-center"
         onSubmit={handleSend}
       >
         <fieldset className="is-flex is-flex-direction-column">
-          <label htmlFor="username">Nom</label>
+          <label htmlFor="username">{frenchKeys.userName}</label>
           <input
             id="username"
             type="text"
@@ -59,7 +62,7 @@ export default function Contact() {
         </fieldset>
 
         <fieldset className="is-flex is-flex-direction-column">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{frenchKeys.userEmail}</label>
           <input
             id="email"
             type="email"
@@ -71,7 +74,7 @@ export default function Contact() {
         </fieldset>
 
         <fieldset className="is-flex is-flex-direction-column">
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">{frenchKeys.message}</label>
           <textarea
             id="message"
             rows="10"
