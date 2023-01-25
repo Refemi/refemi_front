@@ -1,28 +1,53 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
+import ReactPaginate from "react-paginate";
 
 // Import Contexts
 import { DataContext, UserContext } from "../../../App";
 import { MainContext } from "./MainDashboard";
 
 // Import globals
-import roles from "../../../utils/roles";
+import roles from "../../../utils/roles";   
 import { switchIcon } from "../../../utils/switchOptions";
 
 export default function ContributionsDashboard({ title, contributions }) {
+  const history = useHistory();
   const { userCredentials } = useContext(UserContext);
   const { sections, categories } = useContext(DataContext);
   const { setEditContribution } = useContext(MainContext);
-  const history = useHistory();
+  // Following states are for pagination
+  const [offset, setOffset] = useState(0);
+  const [perPage] = useState(7);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentReferences, setCurrentReferences] = useState([]);
+  const [selectedPage] = useState();
 
+   const paginateReferences = () => {
+    const paginated = contributions.slice(offset, offset + perPage);
+    setCurrentReferences(paginated);
+    setPageCount(Math.ceil(contributions.length / perPage));
+  };
+  
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    setOffset(selectedPage * perPage);
+  };
+
+  useEffect(() => {
+    paginateReferences();
+  }, [offset]);
+ 
   return (
     <section className="margin-bottom">
-      {sections.length > 0 && categories.length > 0 && (
+      {sections.length > 0 && categories.length > 0 &&  (  
+        
         <article>
-          <p className="dashboard-title">{title}</p>
-          {contributions &&
-            contributions
+         <h2 className=" is-uppercase has-text-weight-bold ">
+            {title}
+         </h2>
+          {currentReferences &&
+            currentReferences
               .sort((a, b) => {
                 if (a.status) {
                   return a.category - b.category;
@@ -38,12 +63,12 @@ export default function ContributionsDashboard({ title, contributions }) {
                   onClick={() => {
                     if (contribution.status) {
                       if (userCredentials.role !== roles.ADMIN) {
-                        history.push(`/references/${contribution.id}`);
-                      } else {
                         setEditContribution(contribution);
+                      } else {
+                        history.push(`/references/${contribution.id}`);
                       }
                     } else {
-                      setEditContribution(contribution);
+                       history.push(`/references/${contribution.id}`);;
                     }
                   }}
                 >
@@ -70,6 +95,30 @@ export default function ContributionsDashboard({ title, contributions }) {
           <hr className="m-6" />
         </article>
       )}
+      {/* paginatation */}
+       <section className="pagination-margin-bottom">
+       {pageCount > 1 ? (
+        <ReactPaginate
+          previousLabel={"Précédente"}
+          pageCount={pageCount}
+          nextLabel={"Suivante"}
+          breakLabel={"..."}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+          previousClassName={"pagination-previous"}
+          nextClassName={"pagination-next"}
+          forcePage={selectedPage}
+          breakClassName={"pagination-ellipsis"}
+          pageClassName={"pagination-link"}
+          hrefAllControls={true}
+        />
+      ) : null}
+      <hr className="m-6" />
+        </section>
     </section>
   );
 }
