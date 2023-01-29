@@ -24,6 +24,6 @@ Error.defaultProps = {
 };
 
 Error.propTypes = {
-  errocode: PropTypes.number.isRequired,
-  message: PropTypes.string.isRequired,
+  errocode: PropTypes.number,
+  message: PropTypes.string,
 };

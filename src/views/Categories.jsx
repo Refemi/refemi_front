@@ -26,6 +26,7 @@ export default function Categories() {
               key={uuidv4()}
               categoryName={category.name}
               categoryLabel={category.label}
+              categoryId={category.id}
             />
           ))}
         </ul>
