@@ -194,19 +194,18 @@ const postContribution = async (contribution, token) => {
 
 // Requests to the API to update a contribution
 const putContribution = async (id, token) => {
-     await http(token)
-      .put(`references/${id}`, {
-        reference_status: 1,
-      })
-      .then((response) => {
-        if (response.status === 202) {
-          return true;
-        }
-      })
-      .catch(() => {
-        return false;
-      });
-  
+  await http(token)
+    .put(`references/${id}`, {
+      reference_status: 1,
+    })
+    .then((response) => {
+      if (response.status === 202) {
+        return true;
+      }
+    })
+    .catch(() => {
+      return false;
+    });
 
   return false;
 };
