@@ -47,7 +47,7 @@ export default function Themes() {
                       switchNavigationTo("themeName", navigateTo, theme.name)
                     }
                   >
-                    <h3>{theme.label}</h3>
+                    <h3>{theme.name}</h3>
                   </li>
                 ))}
             </ul>
