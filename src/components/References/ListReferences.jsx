@@ -39,6 +39,8 @@ export default function ListReferences({
     paginateReferences();
   }, [offset]);
 
+  console.log("here");
+
   return (
     <section>
       <h2 className="m-6 category-title is-uppercase" id={name}>

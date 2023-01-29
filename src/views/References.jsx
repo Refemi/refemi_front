@@ -38,7 +38,7 @@ export default function References() {
         } else if (!!themeName && themes.length > 0) {
           setReferences(
             await getReferencesByTheme(
-              themes.find((theme) => theme.name === themeName).id
+              themes.find((theme) => theme.label === themeName).id
             )
           );
         }
@@ -93,6 +93,7 @@ export default function References() {
       setThemeCategories(findCategories(references));
     }
   }, [references]);
+  console.log(categories);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
@@ -115,14 +116,14 @@ export default function References() {
           {categories.map(
             (category) =>
               references.filter(
-                (reference) => reference.category === category.name
+                (reference) => reference.category_id === category.id
               ).length > 0 && (
                 <ListReferences
                   key={uuidv4()}
                   title={category.label}
                   name={category.name}
                   references={references.filter(
-                    (reference) => reference.category === category.name
+                    (reference) => reference.category_id === category.id
                   )}
                   clearReferences={() => {
                     setReferences([]);
