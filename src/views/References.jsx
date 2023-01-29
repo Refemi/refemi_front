@@ -88,12 +88,13 @@ export default function References() {
     getReferences();
   }, [getReferences]);
 
+  console.log(references);
+
   useEffect(() => {
     if (references) {
       setThemeCategories(findCategories(references));
     }
   }, [references]);
-  console.log(categories);
 
   return (
     <main className="is-flex is-flex-direction-column borders references is-relative">
@@ -116,14 +117,14 @@ export default function References() {
           {categories.map(
             (category) =>
               references.filter(
-                (reference) => reference.category_id === category.id
+                (reference) => reference.category === category.name
               ).length > 0 && (
                 <ListReferences
                   key={uuidv4()}
                   title={category.label}
                   name={category.name}
                   references={references.filter(
-                    (reference) => reference.category_id === category.id
+                    (reference) => reference.category === category.name
                   )}
                   clearReferences={() => {
                     setReferences([]);

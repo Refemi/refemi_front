@@ -56,8 +56,8 @@ const getHomeCounters = async () => {
 const findCategories = (references) => {
   const themeCategories = references.reduce(
     (categories, reference) => {
-      if (!categories.includes(reference.category)) {
-        categories.push(reference.category);
+      if (!categories.includes(reference.category_label)) {
+        categories.push(reference.category_name);
       }
       return categories;
     },
