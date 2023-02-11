@@ -88,8 +88,6 @@ export default function References() {
     getReferences();
   }, [getReferences]);
 
-  console.log(references);
-
   useEffect(() => {
     if (references) {
       setThemeCategories(findCategories(references));
