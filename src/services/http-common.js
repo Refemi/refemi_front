@@ -1,10 +1,5 @@
 import axios from "axios";
 
-/**
- *
- * @param {string} token - The token that will be sent in the x-content-data
- * @returns {AxiosInstance}
- */
 const http = (token) => {
   const headers = {
     "Content-Type": "application/json",

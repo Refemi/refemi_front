@@ -39,7 +39,7 @@ const getReferenceById = async (id) => {
 
 const getHomeCounters = async () => {
   return await http()
-    .get(`counters/home`)
+    .get(`counters/home/`)
     .then((response) => response.status === 200 && response.data)
     .then((data) => data)
     .catch(() => {
