@@ -44,10 +44,10 @@ export default function Themes() {
                     className="m-1 pointer theme"
                     key={uuidv4()}
                     onClick={() =>
-                      switchNavigationTo("themeName", navigateTo, theme.name)
+                      switchNavigationTo("themeName", navigateTo, theme.label)
                     }
                   >
-                    <h3>{theme.label}</h3>
+                    <h3>{theme.name}</h3>
                   </li>
                 ))}
             </ul>

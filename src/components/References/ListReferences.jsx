@@ -6,6 +6,8 @@ import ReactPaginate from "react-paginate";
 
 // Import Components
 import ListReferencesHeader from "./ListReferencesHeader";
+import Theme from "../Theme";
+import Author from "../Author";
 
 export default function ListReferences({
   name,
@@ -59,38 +61,11 @@ export default function ListReferences({
             >
               {reference.name}
             </h3>
-            <p className="reflist-div has-text-centered">{reference.author}</p>
+            {reference.author ? <Author authors={reference.author} /> : null}
             <p className="reflist-div is-hidden-mobile has-text-centered">
               {reference.country}
             </p>
-            {reference.themes ? (
-              <span className="reflist-div scrollbar is-hidden-mobile is-flex is-flex-wrap-wrap is-justify-content-end">
-                {reference.themes
-                  .reduce(
-                    (unique, item) =>
-                      unique.includes(item) ? unique : [...unique, item],
-                    []
-                  )
-                  .map((theme) => (
-                    <h4
-                      className="ml-4 has-text-weight-bold pointer darkblue-text clickable"
-                      key={uuidv4()}
-                      onClick={() => {
-                        clearReferences();
-                        history.push(
-                          `/themes/${theme
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")
-                            .normalize("NFD")
-                            .replace(/[\u0300-\u036f]/g, "")}`
-                        );
-                      }}
-                    >
-                      {theme}
-                    </h4>
-                  ))}
-              </span>
-            ) : null}
+            {reference.themes ? <Theme themes={reference.themes} /> : null}
           </article>
         ))}
       </section>

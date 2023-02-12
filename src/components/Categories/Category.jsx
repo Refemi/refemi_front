@@ -18,14 +18,14 @@ export default function Category(props) {
         key={uuidv4()}
         className="position-absolute-icon category-icon has-text-white"
       >
-        {switchIcon(props.categoryLabel, 100)}
+        {switchIcon(props.categoryId, 100)}
       </span>
       <p
         key={uuidv4()}
         className="cat-description description-center has-text-centered has-text-weight-bold"
         style={{ position: "absolute" }}
       >
-        {props.categoryLabel.toUpperCase()}
+        {props.categoryName.toUpperCase()}
       </p>
     </li>
   );

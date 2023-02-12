@@ -26,7 +26,6 @@ export default function References() {
   const { categories, sections, themes } = useContext(DataContext);
   const [themeCategories, setThemeCategories] = useState([]);
 
-  // TODO : search by sectionID and themeID !!!!!!!
   const getReferences = useCallback(async () => {
     if (references.length === 0) {
       try {
@@ -39,7 +38,7 @@ export default function References() {
         } else if (!!themeName && themes.length > 0) {
           setReferences(
             await getReferencesByTheme(
-              themes.find((theme) => theme.name === themeName).id
+              themes.find((theme) => theme.label === themeName).id
             )
           );
         }
@@ -102,12 +101,10 @@ export default function References() {
       ) : references.length === 0 ? (
         <Loader />
       ) : (
-        <>
+        <section>
           <WidgetCat categories={themeCategories} />
           <h2 className="has-text-centered is-size-3 has-font-weight-bold mt-6 green-grey-text">
-            {!!themeName
-              ? themeName.toUpperCase().replace(/-/g, " ")
-              : sectionName.toUpperCase().replace(/-/g, " ")}
+            {!!themeName ? themeName : sectionName}
           </h2>
 
           <BlueButton
@@ -133,7 +130,7 @@ export default function References() {
                 />
               )
           )}
-        </>
+        </section>
       )}
     </main>
   );
