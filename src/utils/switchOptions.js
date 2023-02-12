@@ -148,19 +148,19 @@ const switchForm = (category) => {
 
 // ********************** //
 // Show icon depending on category
-const switchIcon = (categoryName) => {
-  switch (categoryName) {
-    case "Audiovisuel":
+const switchIcon = (sectionId) => {
+  switch (sectionId) {
+    case "2":
       return <AiOutlineFundProjectionScreen size={100} />;
-    case "Juridique & Militantisme":
+    case "3":
       return <GiInjustice size={100} />;
-    case "Art & Jeunessse":
+    case "5":
       return <GiPaintBrush size={100} />;
-    case "Portraits & Vocabulaire":
+    case "6":
       return <GiPerson size={100} />;
-    case "Presse & Internet":
+    case "4":
       return <GiNewspaper size={100} />;
-    case "Lectures":
+    case "1":
       return <GiBookCover size={100} />;
     default:
       return null;

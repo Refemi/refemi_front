@@ -15,6 +15,8 @@ export default function WidgetCat({ categories }) {
     return setIsShown(!isShown);
   };
 
+  console.log(categories);
+
   return (
     <section className="widget borders is-flex mt-6">
       <button className="show-btn p-3" onClick={showCategories}>
@@ -27,7 +29,7 @@ export default function WidgetCat({ categories }) {
             <li key={uuidv4()}>
               <HashLink
                 key={uuidv4()}
-                to={`#${category.name ? category.name : category}`}
+                to={`#${category.label ? category.label : category}`}
                 className="widget-link"
               >
                 <GreyButton

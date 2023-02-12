@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // JS + JSON
 import { switchNavigationTo } from "../../utils/switchOptions";
+import stringClean from "../../utils/stringClean";
 
 export default function RefSheetHeader({ reference }) {
   const history = useHistory();
@@ -19,7 +20,9 @@ export default function RefSheetHeader({ reference }) {
         {reference.name}
       </h2>
       <hr />
-      <p className="is-size-5 has-text-centered ">{reference.date}</p>
+      <p className="is-size-5 has-text-centered ">
+        {stringClean(reference.date)}
+      </p>
 
       <h3 className="is-size-5 has-text-centered ">{reference.author}</h3>
       <p className="is-size-5 has-text-centered ">{reference.field}</p>
