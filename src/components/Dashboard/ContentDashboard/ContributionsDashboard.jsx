@@ -1,4 +1,4 @@
-import React, { useContext,useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
@@ -8,7 +8,7 @@ import { DataContext, UserContext } from "../../../App";
 import { MainContext } from "./MainDashboard";
 
 // Import globals
-import roles from "../../../utils/roles";   
+import roles from "../../../utils/roles";
 import { switchIcon } from "../../../utils/switchOptions";
 
 export default function ContributionsDashboard({ title, contributions }) {
@@ -23,36 +23,37 @@ export default function ContributionsDashboard({ title, contributions }) {
   const [currentReferences, setCurrentReferences] = useState([]);
   const [selectedPage] = useState();
 
-   const paginateReferences = () => {
+  const paginateReferences = () => {
     const paginated = contributions.slice(offset, offset + perPage);
     setCurrentReferences(paginated);
     setPageCount(Math.ceil(contributions.length / perPage));
   };
-  
+
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setOffset(selectedPage * perPage);
   };
 
+  console.log("cat", categories);
+  console.log("refs", currentReferences);
+  console.log("sections", sections);
+
   useEffect(() => {
     paginateReferences();
   }, [offset]);
- 
+
   return (
     <section className="margin-bottom">
-      {sections.length > 0 && categories.length > 0 &&  (  
-        
+      {sections.length > 0 && categories.length > 0 && (
         <article>
-         <h2 className=" is-uppercase has-text-weight-bold ">
-            {title}
-         </h2>
+          <h2 className=" is-uppercase has-text-weight-bold ">{title}</h2>
           {currentReferences &&
             currentReferences
               .sort((a, b) => {
-                if (a.status) {
-                  return a.category - b.category;
+                if (a.validated) {
+                  return a.category_id - b.category_id;
                 } else {
-                  return a.contributor - b.user_name;
+                  return a.contributor - b.username;
                 }
               })
               .map((contribution) => (
@@ -68,57 +69,55 @@ export default function ContributionsDashboard({ title, contributions }) {
                         history.push(`/references/${contribution.id}`);
                       }
                     } else {
-                       history.push(`/references/${contribution.id}`);;
+                      history.push(`/references/${contribution.id}`);
                     }
                   }}
                 >
                   <p className="reflist-div is-inline-flex">
                     {
                       // Retrieving the name of the section of the category
-                      sections.length > 0 &&
-                        categories &&
-                        switchIcon(
-                          sections.filter(
-                            (section) =>
-                              categories.find(
-                                (category) =>
-                                  contribution.category_id === category.id
-                              ).section_id === section.id
-                          )[0].label
-                        )
+                      switchIcon(
+                        sections.filter(
+                          (section) =>
+                            categories.find(
+                              (category) =>
+                                contribution.category_id === category.id
+                            ).section_id === section.id
+                        ).id
+                      )
                     }
                   </p>
                   <p className="reflist-div">{contribution.name}</p>
-                  <p className="reflist-div">{contribution.user_name}</p>
+                  <p className="reflist-div">{contribution.username}</p>
                 </article>
               ))}
           <hr className="m-6" />
         </article>
       )}
       {/* paginatation */}
-       <section className="pagination-margin-bottom">
-       {pageCount > 1 ? (
-        <ReactPaginate
-          previousLabel={"Précédente"}
-          pageCount={pageCount}
-          nextLabel={"Suivante"}
-          breakLabel={"..."}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-          previousClassName={"pagination-previous"}
-          nextClassName={"pagination-next"}
-          forcePage={selectedPage}
-          breakClassName={"pagination-ellipsis"}
-          pageClassName={"pagination-link"}
-          hrefAllControls={true}
-        />
-      ) : null}
-      <hr className="m-6" />
-        </section>
+      <section className="pagination-margin-bottom">
+        {pageCount > 1 ? (
+          <ReactPaginate
+            previousLabel={"Précédente"}
+            pageCount={pageCount}
+            nextLabel={"Suivante"}
+            breakLabel={"..."}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            previousClassName={"pagination-previous"}
+            nextClassName={"pagination-next"}
+            forcePage={selectedPage}
+            breakClassName={"pagination-ellipsis"}
+            pageClassName={"pagination-link"}
+            hrefAllControls={true}
+          />
+        ) : null}
+        <hr className="m-6" />
+      </section>
     </section>
   );
 }

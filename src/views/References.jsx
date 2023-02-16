@@ -112,7 +112,7 @@ export default function References() {
             path={themeName ? "/themes" : "/categories"}
             label="Retour"
           />
-          {categories.map(
+          {categories?.map(
             (category) =>
               references.filter(
                 (reference) => reference.category === category.name
