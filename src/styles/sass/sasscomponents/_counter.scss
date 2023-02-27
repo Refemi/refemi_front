@@ -1,0 +1,41 @@
+.counter {
+
+  &-box {
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 1rem !important;
+
+  }
+
+  &-label {
+    margin-bottom: 1rem;
+    font-size: small;
+
+    @include tablet {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &-value,
+  &-text {
+    font-family: $font-open-sans;
+    color: $dark-grey;
+  }
+
+  &-value {
+    font-size: $font-10;
+
+    @include tablet {
+      font-size: $font-14;
+    }
+  }
+
+  &-text {
+    margin-left: -0.5rem;
+    font-size: $font-08;
+
+    @include tablet {
+      font-size: $font-12;
+    }
+  }
+}

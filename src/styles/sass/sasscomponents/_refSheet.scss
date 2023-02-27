@@ -1,0 +1,32 @@
+.reference-content {
+  width: 100%;
+  margin-top: 0;
+  background-color: $faded-green-grey;
+
+  &-header {
+    width: 100%;
+    margin-top: 20px;
+
+    @include tablet {
+      margin: auto;
+    }
+  }
+
+  &-title {
+    font-size: $font-10;
+
+    @include tablet {
+      font-size: $font-14;
+    }
+  }
+
+  &-details {
+    width: 100%;
+    padding: 1rem;
+
+    @include tablet {
+      width: 90%;
+      padding: 3rem;
+    }
+  }
+}

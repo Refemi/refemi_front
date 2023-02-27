@@ -6,15 +6,35 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.24.0",
+    "bulma": "^0.9.3",
+    "draft-convert": "^2.1.12",
+    "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "draftjs-to-html": "^0.9.1",
+    "node": "^16.13.2",
+    "node-sass": "^7.0.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-hook-form": "^7.17.3",
+    "react-icons": "^4.3.1",
+    "react-paginate": "^8.1.0",
+    "react-router-dom": "^5.3.0",
+    "react-router-hash-link": "^2.4.3",
+    "react-scripts": "^5.0.0",
+    "react-select": "^5.1.0",
+    "sass": "^1.50.0",
+    "styled-components": "^5.3.1",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+<<<<<<< HEAD
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -22,6 +42,11 @@
       "react-app",
       "react-app/jest"
     ]
+=======
+    "eject": "react-scripts eject",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|json)\"",
+    "sass": "node-sass src/styles/sass/main.scss src/styles/css/style.css -w"
+>>>>>>> develop
   },
   "browserslist": {
     "production": [

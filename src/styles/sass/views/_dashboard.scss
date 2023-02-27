@@ -1,0 +1,57 @@
+.dashboard {
+  padding: 1rem 0 0 0;
+ @include tablet {
+  padding: 0;
+ }
+
+  &-content {  
+    padding: 5vh;
+  }
+
+  &-fieldset {
+    min-width: 0;
+  }
+
+  &-header {
+    background-color: $faded-green-grey;
+
+    @include tablet {
+      margin-top: 0;
+    }
+  }
+
+  .counter-value {
+    font-size: $font-08 !important;
+  }
+
+  .form-content {
+    margin-bottom: 10rem;
+  }
+
+  &-article {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    background-color: $faded-green-grey;
+  }
+
+  .add-button {
+    &_wrapper {
+      width: 100%;
+      position: relative;
+    }
+
+    &_btn {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 99px;
+      position: absolute;
+      top: 5px;
+      transition: 1s;
+      transform: rotate(-90deg);
+    }
+    &_btn:hover {
+      transition: 1s;
+      transform: rotate(90deg);
+    }
+  }
+}

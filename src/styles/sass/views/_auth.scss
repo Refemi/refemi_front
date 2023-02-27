@@ -1,0 +1,21 @@
+.auth {
+  &-field {
+    width: 300px;
+    @include tablet {
+      width: 500px;
+
+    }
+    &-list {
+      li {
+        list-style: auto;
+        margin-left: 2rem;
+      }
+    }
+
+    .error {
+      padding-left: 0.5rem;
+      font-size: $font-08;
+      color: $red;
+    }
+  }
+}

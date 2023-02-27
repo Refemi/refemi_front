@@ -1,0 +1,5 @@
+@include keyframes-animation(zoom-in-out) {
+    0% { -ms-transform: scale(1); transform: scale(1); background-color: $green-grey;}
+    50% { -ms-transform: scale(1.2); transform: scale(1.2); background-color: $dark-blue;}
+    100% { -ms-transform: scale(1); transform: scale(1); background-color: $aqua; }
+}

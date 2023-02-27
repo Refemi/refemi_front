@@ -1,0 +1,35 @@
+.categories {
+  margin: auto;
+  padding-top: 10rem;
+
+  .cat-box {
+    min-width: 20rem;
+    min-height: 15rem;
+    border-radius: $border-radius-1;
+  }
+
+  .cat-box:hover {
+    box-shadow: $medium-box-shadow;
+  }
+  .cat-box:nth-child(3n + 1):hover {
+    background-color: $green-grey;
+  }
+  .cat-box:nth-child(3n + 2):hover {
+    background-color: $dark-blue;
+  }
+  .cat-box:nth-child(3n + 3):hover {
+    background-color: $aqua;
+  }
+
+  .cat-description {
+    border-radius: $border-radius-1;
+    padding: 0.5rem 1rem;
+    background-color: $white;
+    width: 14rem;
+    height: 4rem;
+    box-shadow: $down-box-shadow;
+    z-index: 99;
+    bottom: -15px;
+    left: 15%;
+  }
+}
