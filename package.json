@@ -34,19 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-<<<<<<< HEAD
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-=======
     "eject": "react-scripts eject",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|json)\"",
     "sass": "node-sass src/styles/sass/main.scss src/styles/css/style.css -w"
->>>>>>> develop
   },
   "browserslist": {
     "production": [
