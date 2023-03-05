@@ -34,6 +34,9 @@
   .reflist {
     color: $light-grey;
   }
+  .reflist-div {
+    width: calc(100% / 4) !important
+  }
 
   .scrollbar {
     padding-right: 15px;

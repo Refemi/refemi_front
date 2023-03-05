@@ -41,8 +41,8 @@ export default function ListReferences({
 
   return (
     <section>
-      <h2 className="m-6 category-title is-uppercase" id={name}>
-        {title}
+      <h2 className="m-6 category-title" id={name}>
+        {name}
       </h2>
 
       <ListReferencesHeader />
@@ -52,7 +52,7 @@ export default function ListReferences({
           <article
             key={uuidv4()}
             id={reference.id}
-            className="description-center-reference has-text-center borders is-flex is-justify-content-space-between line m-3 pointer"
+            className="description-center-reference has-text-center borders is-flex line m-3 pointer"
             onClick={() => history.push(`/references/${reference.id}`)}
           >
             <h3

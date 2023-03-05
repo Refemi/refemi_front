@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function Theme(props) {
   return (
-    <span className="is-flex is-flex-wrap-wrap">
+    <span className="is-flex is-flex-wrap-wrap reflist-div is-justify-content-center">
       {props.authors.map((author, index) => (
         <h4 className="has-text-centered" key={uuidv4()}>
           {(index ? ", " : "") + author}

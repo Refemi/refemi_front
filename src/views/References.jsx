@@ -112,24 +112,27 @@ export default function References() {
             path={themeName ? "/themes" : "/categories"}
             label="Retour"
           />
-          {categories.map(
-            (category) =>
-              references.filter(
-                (reference) => reference.category === category.name
-              ).length > 0 && (
-                <ListReferences
-                  key={uuidv4()}
-                  title={category.label}
-                  name={category.name}
-                  references={references.filter(
-                    (reference) => reference.category === category.name
-                  )}
-                  clearReferences={() => {
-                    setReferences([]);
-                  }}
-                />
-              )
-          )}
+          {categories
+            .sort(() => (Math.random() > 0.5 ? 1 : -1))
+            .map(
+              (category) =>
+                references
+                  .sort(() => (Math.random() > 0.5 ? 1 : -1))
+                  .filter((reference) => reference.category === category.name)
+                  .length > 0 && (
+                  <ListReferences
+                    key={uuidv4()}
+                    title={category.label}
+                    name={category.name}
+                    references={references.filter(
+                      (reference) => reference.category === category.name
+                    )}
+                    clearReferences={() => {
+                      setReferences([]);
+                    }}
+                  />
+                )
+            )}
         </section>
       )}
     </main>
