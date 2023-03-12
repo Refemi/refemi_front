@@ -13,55 +13,31 @@ import {
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsList } from "react-icons/bs";
 
+import TheoreticalBooksAndEssays from "../components/Dashboard/FormDashboard/Forms/TheoreticalBooksAndEssays";
+import OtherBooks from "../components/Dashboard/FormDashboard/Forms/OtherBooks";
+import MoviesAndShows from "../components/Dashboard/FormDashboard/Forms/MoviesAndShows";
+import Documentaries from "../components/Dashboard/FormDashboard/Forms/Documentaries";
+import Podcasts from "../components/Dashboard/FormDashboard/Forms/Podcasts";
+import SocialNetworks from "../components/Dashboard/FormDashboard/Forms/SocialNetworks";
+
 // Each form to suggest a reference is different
 const switchForm = (category) => {
   switch (category) {
     case "livres-theoriques":
     case "essais":
-      return `<p>Titre original (si applicable) :</p>
-      <p>Extraits et citations :</p>
-      <p>Quatrième de couverture / Résumé :</p>
-      <p>Contexte :</p>
-      <p>Structure :</p>
-      <p>Analyse :</p>
-      <p>À propos de l'auteur.ice :</p>
-      <p>Sources :</p>
-      <p>Pour aller plus loin :</p>`;
-    case "romans-autobiographiques":
-    case "autobiographies":
-    case "romans":
-    case "bandes-dessinees":
-      return `<p>Titre original (si applicable) :</p>
-      <p>Extraits et citations :</p>
-      <p>Quatrième de couverture / Résumé :</p>
-      <p>Contexte et analyse :</p>
-      <p>À propos de l'auteur.ice :</p>
-      <p>Sources :</p>
-      <p>Pour aller plus loin :</p>`;
-    case "films":
-    case "courts-metrages":
-    case "series":
-      return `<p>Titre original (si applicable) :</p>
-      <p>Acteur.ices principaux/principales :</p>
-      <p>Synopsis :</p>
-      <p>Contexte :</p>
-      <p>À propos du/des réalisateur.ices :</p>
-      <p>Pour aller plus loin :</p>`;
+      return <TheoreticalBooksAndEssays />;
+    case "roman-autobiographique":
+    case "autobiographie":
+    case "roman":
+    case "bande-dessinee":
+      return <OtherBooks />;
+    case "film-court-metrage":
+    case "serie":
+      return <MoviesAndShows />;
     case "documentaires":
-      return `<p>Titre original (si applicable) :</p>
-      <p>Épisodes (si applicable) :</p>
-      <p>Synopsis :</p>
-      <p>Lien / Voir extrait :</p>
-      <p>À propos du documentaire :</p>
-      <p>À propos du/des réalisateur.ices :</p>
-      <p>Pour aller plus loin :</p>`;
+      return <Documentaries />;
     case "podcasts":
-      return `
-      <p>À propos de(s) l'auteur.ice(s) :</p>
-      <p>À propos du podcast: </p>
-      <p>Épisodes :</p>
-      <p>Lien du podcast : </p>
-      <p>Pour aller plus loin :</p>`;
+      return <Podcasts />;
     case "medias":
       return `<p>À propos du média :</p>
       <p>Lien :</p>
@@ -72,9 +48,7 @@ const switchForm = (category) => {
       <p>Lien :</p>
       <p>Pour aller plus loin :</p>`;
     case "reseaux-sociaux":
-      return `<p>À propos :</p>
-      <p>Lien :</p>
-      <p>Pour aller plus loin :</p>`;
+      return <SocialNetworks />;
     case "articles":
     case "tribunes":
     case "papiers":

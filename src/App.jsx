@@ -21,6 +21,7 @@ import FormSent from "./views/FormSent";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AddReference from "./components/Dashboard/FormDashboard/AddReference";
+import FormWrapper from "./components/Dashboard/FormDashboard/FormWrapper";
 import FormReference from "./components/Dashboard/FormDashboard/FormReference";
 
 // CSS
@@ -104,7 +105,7 @@ export default function App() {
             <Route
               exact
               path="/addReference/formReference"
-              component={FormReference}
+              component={FormWrapper}
             />
             <Route path="/categories/:sectionName" component={References} />
             <Route path="/themes/:themeName" component={References} />

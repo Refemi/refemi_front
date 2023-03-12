@@ -170,7 +170,7 @@ const getReferencesByName = async () => {
     .then((data) =>
       data.search.map((reference) => ({
         id: reference.id,
-        name: reference.reference_name,
+        name: reference.title,
       }))
     )
     .catch((_) => {
@@ -196,7 +196,7 @@ const postContribution = async (contribution, token) => {
 const putContribution = async (id, token) => {
   await http(token)
     .put(`references/${id}`, {
-      reference_status: 1,
+      is_active: true,
     })
     .then((response) => {
       if (response.status === 202) {
@@ -281,7 +281,7 @@ const getSections = async () => {
       return data.sections;
     })
     .catch((error) => {
-      // TODO : display the error in a dedicated location
+      return error;
     });
 };
 
@@ -292,7 +292,7 @@ const getCategories = async () => {
     .then((response) => response.status === 200 && response.data)
     .then((data) => data.categories)
     .catch((error) => {
-      // TODO : display the error in a dedicated location
+      return error;
     });
 };
 
@@ -306,7 +306,20 @@ const getThemes = async () => {
     })
     .then((data) => data.themes)
     .catch((error) => {
-      // TODO : display the error in a dedicated location
+      return error;
+    });
+};
+
+const getFields = async () => {
+  // Get fields to display in form
+  return await http()
+    .get(`fields`)
+    .then((response) => {
+      return handleResponse(response, 200);
+    })
+    .then((data) => data.fields)
+    .catch((error) => {
+      return error;
     });
 };
 
@@ -331,4 +344,5 @@ export {
   getSections,
   getCategories,
   getThemes,
+  getFields,
 };

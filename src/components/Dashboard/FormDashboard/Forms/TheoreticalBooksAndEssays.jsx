@@ -10,22 +10,25 @@ import { convertToHTML } from "draft-convert";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // JS
-import { switchForm, switchNavigationTo } from "../../../utils/switchOptions";
-import roles from "../../../utils/roles";
-import trnaslationKeys from "../../../utils/translationKeys.json";
+import {
+  switchForm,
+  switchNavigationTo,
+} from "../../../../utils/switchOptions";
+import roles from "../../../../utils/roles";
+import trnaslationKeys from "../../../../utils/translationKeys.json";
 import {
   getCountries,
   getFields,
   getReferencesByName,
   postContribution,
   putContribution,
-} from "../../../services/getData";
+} from "../../../../services/getData";
 
 // Context
-import { DataContext, UserContext } from "../../../App";
+import { DataContext, UserContext } from "../../../../App";
 
 //Displays the form for adding / modifying references
-export default function FormReference({ reference }) {
+export default function TheoreticalBooksAndEssays({ reference }) {
   const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
@@ -106,14 +109,6 @@ export default function FormReference({ reference }) {
     (async () => setCountries(await getCountries()))();
     (async () => setFields(await getFields()))();
   }, []);
-
-  let fieldsList;
-  useEffect(() => {
-    fieldsList = fields.map(({ name: value, ...rest }) => ({
-      value,
-      ...rest,
-    }));
-  }, [fields, fieldsList]);
 
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
@@ -287,7 +282,7 @@ export default function FormReference({ reference }) {
                 isMulti
                 required
                 onChange={(f) => setField(f.value)}
-                options={fieldsList}
+                options={fields}
                 className="form-input_fields"
                 defaultInputValue={reference.field ? reference.field : ""}
               />
@@ -332,9 +327,9 @@ export default function FormReference({ reference }) {
   );
 }
 
-FormReference.propTypes = {
+TheoreticalBooksAndEssays.propTypes = {
   reference: PropTypes.object,
 };
-FormReference.defaultProps = {
+TheoreticalBooksAndEssays.defaultProps = {
   reference: {},
 };

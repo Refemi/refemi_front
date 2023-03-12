@@ -38,7 +38,7 @@ export default function SelectReference({
 
           {sections.map((section) => (
             <option key={section.id} value={section.id}>
-              {section.label}
+              {section.name}
             </option>
           ))}
         </select>
@@ -63,7 +63,7 @@ export default function SelectReference({
                 value={category.id}
                 htmlFor="categories-select-category"
               >
-                {category.label}
+                {category.name}
               </option>
             ))}
           </select>

@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 
 // import components
 import ContributionsDashboard from "./ContributionsDashboard";
-import FormReference from "../FormDashboard/FormReference";
+import FormWrapper from "../FormDashboard/FormWrapper";
 import Loader from "../../Loader";
 
 // Import Contexts
@@ -82,7 +82,7 @@ export default function MainDashboard() {
                 </button>
               )}
             </div>
-            <FormReference reference={editContribution} />
+            <FormWrapper reference={editContribution} />
           </div>
         ) : (
           renderDashboard(contributions)

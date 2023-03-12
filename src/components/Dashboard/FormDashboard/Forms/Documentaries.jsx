@@ -10,22 +10,25 @@ import { convertToHTML } from "draft-convert";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // JS
-import { switchForm, switchNavigationTo } from "../../../utils/switchOptions";
-import roles from "../../../utils/roles";
-import trnaslationKeys from "../../../utils/translationKeys.json";
+import {
+  switchForm,
+  switchNavigationTo,
+} from "../../../../utils/switchOptions";
+import roles from "../../../../utils/roles";
+import trnaslationKeys from "../../../../utils/translationKeys.json";
 import {
   getCountries,
   getFields,
   getReferencesByName,
   postContribution,
   putContribution,
-} from "../../../services/getData";
+} from "../../../../services/getData";
 
 // Context
-import { DataContext, UserContext } from "../../../App";
+import { DataContext, UserContext } from "../../../../App";
 
 //Displays the form for adding / modifying references
-export default function FormReference({ reference }) {
+export default function Documentaries({ reference }) {
   const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
@@ -332,9 +335,9 @@ export default function FormReference({ reference }) {
   );
 }
 
-FormReference.propTypes = {
+Documentaries.propTypes = {
   reference: PropTypes.object,
 };
-FormReference.defaultProps = {
+Documentaries.defaultProps = {
   reference: {},
 };
