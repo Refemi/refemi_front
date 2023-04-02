@@ -30,6 +30,7 @@ const switchForm = (category) => {
     case "autobiographie":
     case "roman":
     case "bande-dessinee":
+    case "poesie":
       return <OtherBooks />;
     case "film-court-metrage":
     case "serie":

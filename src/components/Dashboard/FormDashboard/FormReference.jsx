@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
@@ -15,7 +15,6 @@ import roles from "../../../utils/roles";
 import trnaslationKeys from "../../../utils/translationKeys.json";
 import {
   getCountries,
-  getFields,
   getReferencesByName,
   postContribution,
   putContribution,
@@ -29,7 +28,8 @@ export default function FormReference({ reference }) {
   const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState({});
+  const [description, setDescription] = useState({});
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray(convertFromHTML(""))
@@ -42,17 +42,15 @@ export default function FormReference({ reference }) {
   const [referenceNameInput, setReferenceNameInput] = useState("");
   const [matchReferenceName, setMatchReferenceName] = useState("");
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState("");
-  const [selectedThemes, setSelectedThemes] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
-  const [fields, setFields] = useState([]);
-  const [_, setField] = useState("");
 
   const history = useHistory();
   //  sessionStorage used to get category id from AddReference component
   const category = JSON.parse(sessionStorage.getItem("SelectReference"));
 
-  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without affecting the other keys
+  // We need to change the name key into value key for the multi select to be able to detect properly the items. The rest method in map allows to change the key of an object without affectivting the other keys
   const themesList = themes.map(({ name: value, ...rest }) => ({
     value,
     ...rest,
@@ -64,56 +62,61 @@ export default function FormReference({ reference }) {
 
   let themesIds = [];
   useEffect(() => {
-    selectedThemes.forEach((option) => {
+    selectedOptions.forEach((option) => {
       themesIds.push(option.id);
     });
-  }, [selectedThemes, themesIds]);
+  }, [selectedOptions, themesIds]);
 
   const onSubmit = async ({ _, reference_date }) => {
     const contribution = {
-      reference_id: reference ? reference.id : null,
-      title: referencesFound,
-      reference_date: reference_date,
-      ccountries_names: country,
-      authors_names: authorsNames,
-      fields_ids: fieldsIds,
-      content: content,
-      category_id: category,
-      themes_ids: themesIds,
+      descrption: {
+        //reference_id: reference ? reference.id : null,
+        title: referencesFound,
+        date: reference_date,
+        categoryId: category,
+        fieldIds: [],
+        themeIds: themesIds,
+        authorIds: [],
+        countryIds: selectedCountries,
+      },
+      content: {
+        reference_content: content,
+        context: "context",
+        extractAndQuotes: "extract",
+        backCover: "backcoer",
+        bookStructure: "structure",
+        analysis: "analysis",
+        aboutAuthor: "aboutAuthor",
+        sources: "sources",
+        toGoFurther: "toGoFurther",
+        synopsis: "synopsis",
+        aboutReference: "aboutReference",
+        actors: "actors",
+        episodes: "episodes",
+        links: "links",
+      },
     };
 
-    if (Object.entries(reference).length > 0) {
-      setIsSent(putContribution(contribution, token));
-    } else {
-      const error = await postContribution(contribution, token);
-      console.log("158", error);
-      if (!error) {
-        setIsSent(true);
-        setErrorMessage(false);
-      } else {
-        setErrorMessage(error);
-        window.scrollTo(0, 500);
-      }
-    }
+    // if (Object.entries(reference).length > 0) {
+    //   setIsSent(putContribution(contribution, token));
+    // } else {
+    //   const error = await postContribution(contribution, token);
+    //   console.log("158", error);
+    //   if (!error) {
+    //     setIsSent(true);
+    //     setErrorMessage(false);
+    //   } else {
+    //     setErrorMessage(error);
+    //     window.scrollTo(0, 500);
+    //   }
+    // }
   };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     (async () => setCountries(await getCountries()))();
-    (async () => setFields(await getFields()))();
   }, []);
-
-  let fieldsList;
-  useEffect(() => {
-    fieldsList = fields.map(({ name: value, ...rest }) => ({
-      value,
-      ...rest,
-    }));
-  }, [fields, fieldsList]);
 
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
@@ -122,7 +125,6 @@ export default function FormReference({ reference }) {
   useEffect(() => {
     setMatchReferenceName("");
     setReferencesFound(referenceNameInput);
-
     // get the all Reference name from  getReferencesByName function and set into suggestName state
     (async () => setSuggestName(await getReferencesByName()))();
   }, [referenceNameInput]);
@@ -188,7 +190,7 @@ export default function FormReference({ reference }) {
         >
           <h2 className="m-6">
             {frenchKeys.currentCategory}
-            {currentCategory !== undefined && currentCategory.name}
+            {currentCategory !== undefined && currentCategory.label}
           </h2>
 
           <section className="is-flex is-flex-direction-column is-align-items-center">
@@ -214,6 +216,7 @@ export default function FormReference({ reference }) {
                 value={referenceNameInput}
                 onChange={onChangeReferenceName}
                 required
+                {...register("title")}
               />
               {!matchReferenceName && (
                 <div className="form-input_countries has-text-danger">
@@ -240,59 +243,37 @@ export default function FormReference({ reference }) {
                 </div>
               )}
             </fieldset>
-            <fieldset className="">
-              <label htmlFor="reference_country_name" className="required">
+            <fieldset className="is-flex is-flex-direction-column">
+              <label htmlFor="countryIds" className="required">
                 {frenchKeys.country}
               </label>
               <Select
-                isMulti
                 required
-                onChange={(c) => setCountry(c.name)}
+                onChange={(e) => setSelectedCountries(e.name)}
                 options={countries}
                 className="form-input_countries"
-                defaultInputValue={reference.country ? reference.country : ""}
+                defaultInputValue={
+                  reference.countries ? reference.countries : ""
+                }
               />
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column">
-              <label htmlFor="reference_date" className="required">
+              <label htmlFor="date" className="required">
                 {frenchKeys.year}
               </label>
               <input
                 type="text"
                 className="form-input"
-                {...register("reference_date")}
+                {...register("date")}
                 defaultValue={reference.date ? reference.date : ""}
                 required
               />
             </fieldset>
-            <fieldset className="is-flex is-flex-direction-column">
-              <label htmlFor="reference_authors" className="required">
-                Créateur.ice.s (séparer les noms par des virgules)
-              </label>
-              <input
-                type="text"
-                className="form-input"
-                {...register("reference_authors")}
-                defaultValue={
-                  reference.authorsNames ? reference.authorsNames : ""
-                }
-                required
-              />
-            </fieldset>
-            <fieldset className="is-flex is-flex-direction-column">
-              <label htmlFor="reference_field">
-                Discipline (si applicable)
-              </label>
-              <Select
-                isMulti
-                required
-                onChange={(f) => setField(f.value)}
-                options={fieldsList}
-                className="form-input_fields"
-                defaultInputValue={reference.field ? reference.field : ""}
-              />
-            </fieldset>
             <fieldset className="is-flex is-flex-direction-column ">
+              <label htmlFor="reference-content" className="required">
+                {frenchKeys.content}
+              </label>
+
               <Editor
                 editorState={editorState}
                 toolbarClassName=""
@@ -303,12 +284,12 @@ export default function FormReference({ reference }) {
             </fieldset>
           </section>
           <fieldset className="select-fieldset is-flex is-flex-direction-column">
-            <label htmlFor="reference_country_name" className="required">
+            <label htmlFor="themeIds" className="required">
               {frenchKeys.themes}
             </label>
             <Select
               isMulti
-              onChange={(e) => setSelectedThemes(e)}
+              onChange={(e) => setSelectedOptions(e)}
               options={themesList}
               className="basic-multi-select"
               classNamePrefix="select"

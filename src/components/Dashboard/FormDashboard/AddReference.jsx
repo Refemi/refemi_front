@@ -20,6 +20,8 @@ export default function AddReference() {
   // sessionStorage used to store selected section
   sessionStorage.setItem("SelectReference", JSON.stringify(currentForm));
 
+  console.log(currentSection);
+
   return (
     <main className="is-flex is-justify-content-center is-flex-direction-column dashboard">
       <HeaderDashboard />
@@ -34,6 +36,7 @@ export default function AddReference() {
 
         <SelectReference
           currentSection={currentSection}
+          currentForm={currentForm}
           setCurrentSection={setCurrentSection}
           handleChangeForm={handleChange}
         />

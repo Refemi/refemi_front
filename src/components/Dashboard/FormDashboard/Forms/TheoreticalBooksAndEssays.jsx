@@ -28,7 +28,7 @@ import {
 import { DataContext, UserContext } from "../../../../App";
 
 //Displays the form for adding / modifying references
-export default function TheoreticalBooksAndEssays({ reference }) {
+export default function MoviesAndShows({ reference }) {
   const frenchKeys = trnaslationKeys[0].french;
   const { token, userCredentials } = useContext(UserContext);
   const { categories, themes } = useContext(DataContext);
@@ -110,6 +110,14 @@ export default function TheoreticalBooksAndEssays({ reference }) {
     (async () => setFields(await getFields()))();
   }, []);
 
+  let fieldsList;
+  useEffect(() => {
+    fieldsList = fields.map(({ name: value, ...rest }) => ({
+      value,
+      ...rest,
+    }));
+  }, [fields, fieldsList]);
+
   useEffect(() => {
     setContent(convertToHTML(editorState.getCurrentContent()));
   }, [editorState]);
@@ -173,13 +181,13 @@ export default function TheoreticalBooksAndEssays({ reference }) {
   };
 
   return (
-    <section className="is-flex is-justify-content-center is-flex-direction-column dashboard">
+    <section className="mt-6 is-flex is-justify-content-center is-flex-direction-column dashboard">
       {isSent ? (
         switchNavigationTo("formSent", navigateTo)
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="borders is-flex is-flex-direction-column is-align-items-center"
+          className="mt-6 borders is-flex is-flex-direction-column is-align-items-center"
         >
           <h2 className="m-6">
             {frenchKeys.currentCategory}
@@ -275,25 +283,79 @@ export default function TheoreticalBooksAndEssays({ reference }) {
               />
             </fieldset>
             <fieldset className="is-flex is-flex-direction-column">
-              <label htmlFor="reference_field">
-                Discipline (si applicable)
-              </label>
-              <Select
-                isMulti
+              <label>Extraits et citations</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={
+                  reference.extractAndQuotes ? reference.extractAndQuotes : ""
+                }
                 required
-                onChange={(f) => setField(f.value)}
-                options={fields}
-                className="form-input_fields"
-                defaultInputValue={reference.field ? reference.field : ""}
               />
             </fieldset>
-            <fieldset className="is-flex is-flex-direction-column ">
-              <Editor
-                editorState={editorState}
-                toolbarClassName=""
-                wrapperClassName=""
-                editorClassName="form-input"
-                onEditorStateChange={handleEditorChange}
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>Contexte</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={reference.context ? reference.context : ""}
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>Structure</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={reference.structure ? reference.structure : ""}
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>Analyse</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={reference.analysis ? reference.analysis : ""}
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>À propos de/de la créateur.ice</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={
+                  reference.aboutAuthor ? reference.aboutAuthor : ""
+                }
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>Sources</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={reference.sources ? reference.sources : ""}
+                required
+              />
+            </fieldset>
+            <fieldset className="is-flex is-flex-direction-column">
+              <label>Pour aller plus loin</label>
+              <textarea
+                type="text"
+                className="form-input"
+                {...register("reference_authors")}
+                defaultValue={
+                  reference.toGoFurther ? reference.toGoFurther : ""
+                }
+                required
               />
             </fieldset>
           </section>
@@ -327,9 +389,9 @@ export default function TheoreticalBooksAndEssays({ reference }) {
   );
 }
 
-TheoreticalBooksAndEssays.propTypes = {
+MoviesAndShows.propTypes = {
   reference: PropTypes.object,
 };
-TheoreticalBooksAndEssays.defaultProps = {
+MoviesAndShows.defaultProps = {
   reference: {},
 };

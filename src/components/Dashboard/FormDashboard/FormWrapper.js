@@ -5,6 +5,7 @@ import { switchForm } from "../../../utils/switchOptions";
 
 // Context
 import { DataContext } from "../../../App";
+import FormReference from "./FormReference";
 
 //Displays the form for adding / modifying references
 export default function FormWrapper() {
@@ -22,7 +23,8 @@ export default function FormWrapper() {
 
   return (
     <section className="is-flex is-justify-content-center is-flex-direction-column dashboard">
-      {currentCategory ? switchForm(currentCategory.label) : null}
+      {/*currentCategory ? switchForm(currentCategory.label) : null*/}
+      <FormReference />
     </section>
   );
 }
