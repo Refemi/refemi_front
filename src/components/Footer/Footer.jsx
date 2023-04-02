@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
+import {
+  AiFillFacebook,
+  AiFillInstagram,
+  AiFillLinkedin,
+} from "react-icons/ai";
 
 const FACEBOOK_PROFILE =
   "https://www.facebook.com/profile.php?id=100090276189643";
 const INSTAGRAM_PROFILE = "https://www.instagram.com/refemi__/";
+const LINKEDIN_PROFILE = "https://www.linkedin.com/company/refemi/";
 
 // COMPONENT
 export default function Footer() {
@@ -30,6 +35,9 @@ export default function Footer() {
             </a>
             <a href={INSTAGRAM_PROFILE} target="_blank">
               <AiFillInstagram size={48} className="green-grey-text" />
+            </a>
+            <a href={LINKEDIN_PROFILE} target="_blank">
+              <AiFillLinkedin size={48} className="green-grey-text" />
             </a>
           </div>
         </article>
