@@ -15,8 +15,6 @@ export default function WidgetCat({ categories }) {
     return setIsShown(!isShown);
   };
 
-  console.log(categories);
-
   return (
     <section className="widget borders is-flex mt-6">
       <button className="show-btn p-3" onClick={showCategories}>
