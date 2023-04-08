@@ -20,9 +20,7 @@ export default function RefSheetHeader({ reference }) {
         {reference.name}
       </h2>
       <hr />
-      <p className="is-size-5 has-text-centered ">
-        {stringClean(reference.date)}
-      </p>
+      <p className="is-size-5 has-text-centered ">{reference.date}</p>
 
       <h3 className="is-size-5 has-text-centered ">{reference.author}</h3>
       <p className="is-size-5 has-text-centered ">{reference.field}</p>
